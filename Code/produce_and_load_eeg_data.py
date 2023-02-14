@@ -99,8 +99,6 @@ def return_dipole_area(num_samples: int, radii_range: int = 5):
         for idx in pos_idx:
             nyhead.set_dipole_pos(nyhead.cortex[:,idx])
             eeg_i += calculate_eeg(nyhead).T
-            print(np.shape(eeg_i))
-            input()
         eeg[i, :] = eeg_i
 
         if i < 6:

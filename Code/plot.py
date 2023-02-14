@@ -8,6 +8,8 @@ plt.style.use('seaborn')
 plt.rc('text', usetex=True)
 plt.rc('text.latex', preamble=r'\usepackage{amsmath}')
 
+big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
+
 def plot_MSE_NN(train_loss, test_loss, NN, act_func, batch_size, num_epochs, name = "NN"):
     fig = plt.figure()
     ax = fig.add_subplot()
@@ -114,7 +116,7 @@ def plot_active_region(eeg, activity_center, activity_radius, active_idxs, numbr
 
     num_active_vertexes = len(active_idxs)
 
-    nyhead_file = os.path.join("sa_nyhead.mat")
+    nyhead_file = os.path.join(big_data_path, "sa_nyhead.mat")
     head_data = h5py.File(nyhead_file, 'r')["sa"]
     cortex = np.array(head_data["cortex75K"]["vc"]) # Locations of every vertex in cortex
     elecs = np.array(head_data["locs_3D"]) # 3D locations of electrodes
