@@ -1,0 +1,6 @@
+Samples: 30000, Batch size: 30, Epochs: 500, Noise: 15 %
+
+Eeg Data: data/multiple_dipoles_eeg_30000_2.npy
+Location Data: data/multiple_dipoles_locations_30000_2.npy
+Mean and std Data: data/multiple_dipoles_2_eeg_mean_std_30000.npy
+--------------------------------------------------------------
