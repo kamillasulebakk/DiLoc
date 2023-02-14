@@ -41,13 +41,13 @@ def return_single_dipole_data(num_samples:int):
     # plotting the data without and with (different amount of) noise
     plot_dipoles(nyhead, "single_dipole", eeg[0], dipole_locations[:,0], 0)
 
-    noise_pct = [0.1, 0.5, 1, 10, 50]
-    for i in range(len(noise_list)):
+    noise_pcts = [0.1, 0.5, 1, 10, 50]
+    for i, noise_pct in enumerate(noise_pcts):
 
         mu, std = load_mean_std(num_samples, name)
-        eeg_noise = eeg[0] + np.random.normal(0, std * noise_pct[i]/100, eeg[0].shape) # add noice
+        eeg_noise = eeg[0] + np.random.normal(0, std * noise_pct/100, eeg[0].shape) # add noice
 
-        plot_dipoles(nyhead, "single_dipole", eeg_noise, dipole_locations[:,0], noise_pct[i])
+        plot_dipoles(nyhead, "single_dipole", eeg_noise, dipole_locations[:,0], noise_pct)
 
     return eeg, dipole_locations
 
