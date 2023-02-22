@@ -21,7 +21,7 @@ def plot_MSE_NN(train_loss, test_loss, NN, act_func, batch_size, num_epochs, nam
     ax.plot(np.log(test_loss), label='Test')
     ax.legend(fontsize=18)
     # fig.savefig(f'plots/{name}/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
-    fig.savefig(f'plots/07.feb/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
+    fig.savefig(f'plots/finals/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
 
 
 def plot_MSE_CNN(train_loss, test_loss, NN, act_func, batch_size, num_epochs):
@@ -35,18 +35,6 @@ def plot_MSE_CNN(train_loss, test_loss, NN, act_func, batch_size, num_epochs):
     ax.plot(np.log(test_loss), label='Test')
     ax.legend(fontsize=18)
     fig.savefig(f'plots/07.feb/MSE_CNN_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
-
-# def plot_MSE_pos_radii(train_loss, test_loss, NN, type, act_func, batch_size, num_epochs):
-#     fig = plt.figure()
-#     ax = fig.add_subplot()
-#     ax.set_title(f'MSE for train and test data of {type} using {act_func} with {batch_size} batches', fontsize=20)
-#     ax.set_xlabel('Number of epochs', fontsize=18)
-#     ax.set_ylabel('ln(MSE) [mm]', fontsize=18)
-#     ax.tick_params(axis='both', which='major', labelsize=18)
-#     ax.plot(np.log(train_loss), label='Train')
-#     ax.plot(np.log(test_loss), label='Test')
-#     ax.legend(fontsize=18)
-#     fig.savefig(f'plots/dipole_area/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}')
 
 
 def plot_interpolated_eeg_data(nyhead, eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i):

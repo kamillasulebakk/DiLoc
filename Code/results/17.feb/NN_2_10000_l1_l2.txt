@@ -1,0 +1,2266 @@
+Samples: 10000, Batch size: 30, Epochs: 2000, Noise: 15 %
+
+Eeg Data: data/multiple_dipoles_eeg_10000_2.npy
+Location Data: data/multiple_dipoles_locations_10000_2.npy
+Mean and std Data: data/multiple_dipoles_2_eeg_mean_std_10000.npy
+--------------------------------------------------------------
+Epoch    0/1999 | Train: 1500.611 | Test: 1531.191 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-0.1404, -0.3856,  0.2005, -0.2282, -0.1238,  0.0748],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([-0.1285, -0.6193,  0.5473, -0.0187, -0.3093, -0.0446],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([-0.2233, -0.5780,  0.4864, -0.0734, -0.0166, -0.0835],
+       grad_fn=<SelectBackward0>) 
+
+Epoch    1/1999 | Train: 1491.080 | Test: 1515.877 
+Epoch    2/1999 | Train: 1469.932 | Test: 1484.710 
+Epoch    3/1999 | Train: 1439.987 | Test: 1451.771 
+Epoch    4/1999 | Train: 1410.995 | Test: 1424.282 
+Epoch    5/1999 | Train: 1389.671 | Test: 1401.894 
+Epoch    6/1999 | Train: 1375.224 | Test: 1385.300 
+Epoch    7/1999 | Train: 1364.656 | Test: 1375.145 
+Epoch    8/1999 | Train: 1353.056 | Test: 1362.953 
+Epoch    9/1999 | Train: 1337.394 | Test: 1347.534 
+Epoch   10/1999 | Train: 1317.884 | Test: 1325.183 
+Epoch   11/1999 | Train: 1297.332 | Test: 1306.679 
+Epoch   12/1999 | Train: 1274.207 | Test: 1282.443 
+Epoch   13/1999 | Train: 1254.066 | Test: 1265.561 
+Epoch   14/1999 | Train: 1236.667 | Test: 1250.010 
+Epoch   15/1999 | Train: 1225.351 | Test: 1239.144 
+Epoch   16/1999 | Train: 1212.986 | Test: 1236.610 
+Epoch   17/1999 | Train: 1205.451 | Test: 1226.557 
+Epoch   18/1999 | Train: 1199.347 | Test: 1215.201 
+Epoch   19/1999 | Train: 1191.481 | Test: 1209.557 
+Epoch   20/1999 | Train: 1187.436 | Test: 1204.853 
+Epoch   21/1999 | Train: 1179.607 | Test: 1203.279 
+Epoch   22/1999 | Train: 1176.598 | Test: 1190.692 
+Epoch   23/1999 | Train: 1172.403 | Test: 1186.624 
+Epoch   24/1999 | Train: 1168.312 | Test: 1181.630 
+Epoch   25/1999 | Train: 1162.454 | Test: 1178.266 
+Epoch   26/1999 | Train: 1159.954 | Test: 1171.599 
+Epoch   27/1999 | Train: 1156.814 | Test: 1168.534 
+Epoch   28/1999 | Train: 1153.197 | Test: 1164.716 
+Epoch   29/1999 | Train: 1148.251 | Test: 1161.935 
+Epoch   30/1999 | Train: 1146.395 | Test: 1157.236 
+Epoch   31/1999 | Train: 1144.111 | Test: 1159.807 
+Epoch   32/1999 | Train: 1140.748 | Test: 1152.016 
+Epoch   33/1999 | Train: 1136.272 | Test: 1146.295 
+Epoch   34/1999 | Train: 1137.721 | Test: 1148.149 
+Epoch   35/1999 | Train: 1131.723 | Test: 1152.310 
+Epoch   36/1999 | Train: 1130.313 | Test: 1145.884 
+Epoch   37/1999 | Train: 1128.994 | Test: 1142.432 
+Epoch   38/1999 | Train: 1127.452 | Test: 1137.914 
+Epoch   39/1999 | Train: 1127.133 | Test: 1138.023 
+Epoch   40/1999 | Train: 1127.089 | Test: 1134.926 
+Epoch   41/1999 | Train: 1122.150 | Test: 1133.663 
+Epoch   42/1999 | Train: 1121.807 | Test: 1137.479 
+Epoch   43/1999 | Train: 1118.739 | Test: 1129.982 
+Epoch   44/1999 | Train: 1117.349 | Test: 1128.539 
+Epoch   45/1999 | Train: 1116.953 | Test: 1126.522 
+Epoch   46/1999 | Train: 1115.739 | Test: 1127.103 
+Epoch   47/1999 | Train: 1115.541 | Test: 1130.098 
+Epoch   48/1999 | Train: 1113.122 | Test: 1124.325 
+Epoch   49/1999 | Train: 1114.023 | Test: 1125.203 
+Epoch   50/1999 | Train: 1111.607 | Test: 1122.010 
+Epoch   51/1999 | Train: 1111.822 | Test: 1120.591 
+Epoch   52/1999 | Train: 1109.701 | Test: 1121.352 
+Epoch   53/1999 | Train: 1108.714 | Test: 1121.828 
+Epoch   54/1999 | Train: 1107.094 | Test: 1125.101 
+Epoch   55/1999 | Train: 1106.682 | Test: 1114.658 
+Epoch   56/1999 | Train: 1106.984 | Test: 1118.790 
+Epoch   57/1999 | Train: 1106.118 | Test: 1116.868 
+Epoch   58/1999 | Train: 1101.973 | Test: 1111.310 
+Epoch   59/1999 | Train: 1098.853 | Test: 1114.791 
+Epoch   60/1999 | Train: 1098.986 | Test: 1110.622 
+Epoch   61/1999 | Train: 1098.323 | Test: 1107.130 
+Epoch   62/1999 | Train: 1094.674 | Test: 1106.893 
+Epoch   63/1999 | Train: 1097.283 | Test: 1106.735 
+Epoch   64/1999 | Train: 1093.869 | Test: 1108.617 
+Epoch   65/1999 | Train: 1091.479 | Test: 1103.825 
+Epoch   66/1999 | Train: 1089.604 | Test: 1107.401 
+Epoch   67/1999 | Train: 1087.419 | Test: 1100.537 
+Epoch   68/1999 | Train: 1088.143 | Test: 1104.802 
+Epoch   69/1999 | Train: 1086.089 | Test: 1101.019 
+Epoch   70/1999 | Train: 1083.544 | Test: 1097.776 
+Epoch   71/1999 | Train: 1083.185 | Test: 1096.109 
+Epoch   72/1999 | Train: 1081.278 | Test: 1097.151 
+Epoch   73/1999 | Train: 1080.033 | Test: 1095.894 
+Epoch   74/1999 | Train: 1077.313 | Test: 1088.870 
+Epoch   75/1999 | Train: 1076.426 | Test: 1087.684 
+Epoch   76/1999 | Train: 1073.559 | Test: 1090.125 
+Epoch   77/1999 | Train: 1073.916 | Test: 1089.167 
+Epoch   78/1999 | Train: 1072.052 | Test: 1085.369 
+Epoch   79/1999 | Train: 1067.803 | Test: 1076.580 
+Epoch   80/1999 | Train: 1069.010 | Test: 1080.722 
+Epoch   81/1999 | Train: 1066.858 | Test: 1079.715 
+Epoch   82/1999 | Train: 1067.312 | Test: 1085.879 
+Epoch   83/1999 | Train: 1063.622 | Test: 1082.946 
+Epoch   84/1999 | Train: 1062.472 | Test: 1076.893 
+Epoch   85/1999 | Train: 1060.534 | Test: 1077.991 
+Epoch   86/1999 | Train: 1058.323 | Test: 1074.826 
+Epoch   87/1999 | Train: 1059.272 | Test: 1067.859 
+Epoch   88/1999 | Train: 1056.247 | Test: 1068.156 
+Epoch   89/1999 | Train: 1054.141 | Test: 1067.906 
+Epoch   90/1999 | Train: 1052.085 | Test: 1068.970 
+Epoch   91/1999 | Train: 1052.138 | Test: 1064.413 
+Epoch   92/1999 | Train: 1049.916 | Test: 1062.439 
+Epoch   93/1999 | Train: 1050.825 | Test: 1063.472 
+Epoch   94/1999 | Train: 1048.453 | Test: 1062.410 
+Epoch   95/1999 | Train: 1047.308 | Test: 1058.036 
+Epoch   96/1999 | Train: 1048.518 | Test: 1062.041 
+Epoch   97/1999 | Train: 1044.023 | Test: 1055.507 
+Epoch   98/1999 | Train: 1043.861 | Test: 1060.672 
+Epoch   99/1999 | Train: 1043.606 | Test: 1052.071 
+Epoch  100/1999 | Train: 1040.313 | Test: 1055.285 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([ -2.8540, -47.9884,  15.8289,  -2.0017, -47.7463,  15.7998],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ -7.3456, -26.9731, -10.1462,  -6.6270, -27.2895,  -9.8890],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ -2.8606, -32.1038,   9.0548,  -2.8551, -32.3799,   9.2990],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  101/1999 | Train: 1041.080 | Test: 1050.060 
+Epoch  102/1999 | Train: 1041.649 | Test: 1056.903 
+Epoch  103/1999 | Train: 1037.462 | Test: 1049.842 
+Epoch  104/1999 | Train: 1035.606 | Test: 1054.644 
+Epoch  105/1999 | Train: 1036.682 | Test: 1053.030 
+Epoch  106/1999 | Train: 1036.581 | Test: 1056.249 
+Epoch  107/1999 | Train: 1034.653 | Test: 1049.725 
+Epoch  108/1999 | Train: 1035.271 | Test: 1046.093 
+Epoch  109/1999 | Train: 1032.385 | Test: 1040.864 
+Epoch  110/1999 | Train: 1030.833 | Test: 1048.594 
+Epoch  111/1999 | Train: 1033.024 | Test: 1050.437 
+Epoch  112/1999 | Train: 1031.159 | Test: 1047.100 
+Epoch  113/1999 | Train: 1033.105 | Test: 1041.393 
+Epoch  114/1999 | Train: 1027.925 | Test: 1042.818 
+Epoch  115/1999 | Train: 1030.920 | Test: 1043.567 
+Epoch  116/1999 | Train: 1024.658 | Test: 1042.785 
+Epoch  117/1999 | Train: 1028.002 | Test: 1038.838 
+Epoch  118/1999 | Train: 1024.095 | Test: 1042.458 
+Epoch  119/1999 | Train: 1026.296 | Test: 1037.080 
+Epoch  120/1999 | Train: 1024.825 | Test: 1041.143 
+Epoch  121/1999 | Train: 1026.266 | Test: 1036.766 
+Epoch  122/1999 | Train: 1021.999 | Test: 1033.559 
+Epoch  123/1999 | Train: 1022.565 | Test: 1040.871 
+Epoch  124/1999 | Train: 1021.577 | Test: 1035.354 
+Epoch  125/1999 | Train: 1022.296 | Test: 1038.641 
+Epoch  126/1999 | Train: 1022.131 | Test: 1040.281 
+Epoch  127/1999 | Train: 1018.366 | Test: 1030.389 
+Epoch  128/1999 | Train: 1019.413 | Test: 1031.763 
+Epoch  129/1999 | Train: 1014.099 | Test: 1031.358 
+Epoch  130/1999 | Train: 1017.676 | Test: 1031.940 
+Epoch  131/1999 | Train: 1016.124 | Test: 1032.754 
+Epoch  132/1999 | Train: 1014.568 | Test: 1028.074 
+Epoch  133/1999 | Train: 1013.998 | Test: 1032.272 
+Epoch  134/1999 | Train: 1014.183 | Test: 1030.350 
+Epoch  135/1999 | Train: 1013.590 | Test: 1031.482 
+Epoch  136/1999 | Train: 1011.452 | Test: 1022.132 
+Epoch  137/1999 | Train: 1011.753 | Test: 1022.880 
+Epoch  138/1999 | Train: 1013.614 | Test: 1026.597 
+Epoch  139/1999 | Train: 1010.711 | Test: 1033.038 
+Epoch  140/1999 | Train: 1011.567 | Test: 1023.040 
+Epoch  141/1999 | Train: 1006.882 | Test: 1028.850 
+Epoch  142/1999 | Train: 1010.908 | Test: 1025.672 
+Epoch  143/1999 | Train: 1009.848 | Test: 1019.535 
+Epoch  144/1999 | Train: 1004.332 | Test: 1023.875 
+Epoch  145/1999 | Train: 1007.165 | Test: 1021.295 
+Epoch  146/1999 | Train: 1007.470 | Test: 1019.279 
+Epoch  147/1999 | Train: 1002.869 | Test: 1018.007 
+Epoch  148/1999 | Train: 1001.477 | Test: 1019.290 
+Epoch  149/1999 | Train: 1000.841 | Test: 1019.187 
+Epoch  150/1999 | Train: 1001.675 | Test: 1018.013 
+Epoch  151/1999 | Train: 1001.934 | Test: 1021.754 
+Epoch  152/1999 | Train: 997.774 | Test: 1017.406 
+Epoch  153/1999 | Train: 998.330 | Test: 1012.395 
+Epoch  154/1999 | Train: 998.864 | Test: 1019.317 
+Epoch  155/1999 | Train: 997.081 | Test: 1007.454 
+Epoch  156/1999 | Train: 995.080 | Test: 1014.781 
+Epoch  157/1999 | Train: 991.043 | Test: 1006.863 
+Epoch  158/1999 | Train: 992.199 | Test: 1007.284 
+Epoch  159/1999 | Train: 992.076 | Test: 1011.030 
+Epoch  160/1999 | Train: 988.691 | Test: 1003.980 
+Epoch  161/1999 | Train: 988.039 | Test: 1005.678 
+Epoch  162/1999 | Train: 985.263 | Test: 998.672 
+Epoch  163/1999 | Train: 986.004 | Test: 1001.840 
+Epoch  164/1999 | Train: 982.789 | Test: 1001.269 
+Epoch  165/1999 | Train: 981.155 | Test: 1004.843 
+Epoch  166/1999 | Train: 977.792 | Test: 993.578 
+Epoch  167/1999 | Train: 977.032 | Test: 995.096 
+Epoch  168/1999 | Train: 976.409 | Test: 998.412 
+Epoch  169/1999 | Train: 973.964 | Test: 984.894 
+Epoch  170/1999 | Train: 973.015 | Test: 982.514 
+Epoch  171/1999 | Train: 970.550 | Test: 990.815 
+Epoch  172/1999 | Train: 966.637 | Test: 985.276 
+Epoch  173/1999 | Train: 967.041 | Test: 983.309 
+Epoch  174/1999 | Train: 962.874 | Test: 982.439 
+Epoch  175/1999 | Train: 961.369 | Test: 975.436 
+Epoch  176/1999 | Train: 956.848 | Test: 974.991 
+Epoch  177/1999 | Train: 954.744 | Test: 972.261 
+Epoch  178/1999 | Train: 955.747 | Test: 968.519 
+Epoch  179/1999 | Train: 950.947 | Test: 968.412 
+Epoch  180/1999 | Train: 950.329 | Test: 978.044 
+Epoch  181/1999 | Train: 948.425 | Test: 972.702 
+Epoch  182/1999 | Train: 950.318 | Test: 962.385 
+Epoch  183/1999 | Train: 948.163 | Test: 964.643 
+Epoch  184/1999 | Train: 946.384 | Test: 963.637 
+Epoch  185/1999 | Train: 941.444 | Test: 955.544 
+Epoch  186/1999 | Train: 943.103 | Test: 957.265 
+Epoch  187/1999 | Train: 940.481 | Test: 956.863 
+Epoch  188/1999 | Train: 939.660 | Test: 961.351 
+Epoch  189/1999 | Train: 939.257 | Test: 952.533 
+Epoch  190/1999 | Train: 937.461 | Test: 951.035 
+Epoch  191/1999 | Train: 936.101 | Test: 948.258 
+Epoch  192/1999 | Train: 933.691 | Test: 951.546 
+Epoch  193/1999 | Train: 931.131 | Test: 947.395 
+Epoch  194/1999 | Train: 929.062 | Test: 946.689 
+Epoch  195/1999 | Train: 927.210 | Test: 952.158 
+Epoch  196/1999 | Train: 929.787 | Test: 943.007 
+Epoch  197/1999 | Train: 929.764 | Test: 948.386 
+Epoch  198/1999 | Train: 926.224 | Test: 937.127 
+Epoch  199/1999 | Train: 926.523 | Test: 944.715 
+Epoch  200/1999 | Train: 923.651 | Test: 945.537 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-15.0898, -32.5669,   2.9740, -14.5110, -33.4364,   3.1001],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([  9.8176, -22.7548,   8.6341,   9.4481, -22.8133,   8.7821],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 25.1185, -24.6665,  18.3576,  24.3941, -24.0319,  18.5839],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  201/1999 | Train: 923.957 | Test: 938.863 
+Epoch  202/1999 | Train: 927.266 | Test: 943.970 
+Epoch  203/1999 | Train: 922.483 | Test: 938.451 
+Epoch  204/1999 | Train: 918.298 | Test: 935.882 
+Epoch  205/1999 | Train: 920.028 | Test: 933.554 
+Epoch  206/1999 | Train: 917.406 | Test: 930.765 
+Epoch  207/1999 | Train: 915.459 | Test: 935.201 
+Epoch  208/1999 | Train: 916.240 | Test: 939.083 
+Epoch  209/1999 | Train: 914.801 | Test: 927.139 
+Epoch  210/1999 | Train: 917.697 | Test: 934.756 
+Epoch  211/1999 | Train: 913.140 | Test: 930.126 
+Epoch  212/1999 | Train: 913.643 | Test: 923.850 
+Epoch  213/1999 | Train: 912.528 | Test: 932.917 
+Epoch  214/1999 | Train: 910.301 | Test: 934.164 
+Epoch  215/1999 | Train: 911.347 | Test: 939.002 
+Epoch  216/1999 | Train: 909.666 | Test: 933.105 
+Epoch  217/1999 | Train: 914.255 | Test: 927.501 
+Epoch  218/1999 | Train: 909.544 | Test: 922.436 
+Epoch  219/1999 | Train: 909.528 | Test: 926.483 
+Epoch  220/1999 | Train: 906.822 | Test: 924.573 
+Epoch  221/1999 | Train: 908.613 | Test: 933.909 
+Epoch  222/1999 | Train: 907.980 | Test: 928.329 
+Epoch  223/1999 | Train: 904.255 | Test: 914.399 
+Epoch  224/1999 | Train: 905.291 | Test: 923.370 
+Epoch  225/1999 | Train: 907.642 | Test: 920.522 
+Epoch  226/1999 | Train: 905.245 | Test: 912.312 
+Epoch  227/1999 | Train: 908.977 | Test: 921.208 
+Epoch  228/1999 | Train: 905.544 | Test: 922.751 
+Epoch  229/1999 | Train: 905.713 | Test: 921.531 
+Epoch  230/1999 | Train: 902.971 | Test: 923.513 
+Epoch  231/1999 | Train: 903.221 | Test: 917.488 
+Epoch  232/1999 | Train: 904.124 | Test: 925.432 
+Epoch  233/1999 | Train: 902.378 | Test: 919.391 
+Epoch  234/1999 | Train: 902.959 | Test: 923.078 
+Epoch  235/1999 | Train: 900.141 | Test: 916.571 
+Epoch  236/1999 | Train: 901.034 | Test: 923.892 
+Epoch  237/1999 | Train: 899.219 | Test: 916.394 
+Epoch  238/1999 | Train: 900.906 | Test: 917.595 
+Epoch  239/1999 | Train: 900.310 | Test: 920.081 
+Epoch  240/1999 | Train: 899.628 | Test: 918.564 
+Epoch  241/1999 | Train: 902.753 | Test: 921.437 
+Epoch  242/1999 | Train: 899.658 | Test: 916.776 
+Epoch  243/1999 | Train: 901.034 | Test: 912.560 
+Epoch  244/1999 | Train: 897.164 | Test: 917.651 
+Epoch  245/1999 | Train: 899.344 | Test: 913.767 
+Epoch  246/1999 | Train: 896.120 | Test: 920.132 
+Epoch  247/1999 | Train: 896.151 | Test: 909.409 
+Epoch  248/1999 | Train: 897.045 | Test: 911.286 
+Epoch  249/1999 | Train: 896.363 | Test: 907.343 
+Epoch  250/1999 | Train: 894.468 | Test: 913.841 
+Epoch  251/1999 | Train: 898.027 | Test: 910.347 
+Epoch  252/1999 | Train: 895.218 | Test: 917.323 
+Epoch  253/1999 | Train: 893.477 | Test: 907.146 
+Epoch  254/1999 | Train: 894.310 | Test: 914.610 
+Epoch  255/1999 | Train: 896.624 | Test: 916.013 
+Epoch  256/1999 | Train: 893.377 | Test: 910.853 
+Epoch  257/1999 | Train: 896.086 | Test: 905.129 
+Epoch  258/1999 | Train: 895.237 | Test: 910.241 
+Epoch  259/1999 | Train: 894.038 | Test: 915.660 
+Epoch  260/1999 | Train: 894.327 | Test: 912.184 
+Epoch  261/1999 | Train: 894.980 | Test: 913.562 
+Epoch  262/1999 | Train: 895.310 | Test: 912.022 
+Epoch  263/1999 | Train: 892.219 | Test: 908.919 
+Epoch  264/1999 | Train: 893.884 | Test: 903.962 
+Epoch  265/1999 | Train: 891.594 | Test: 909.206 
+Epoch  266/1999 | Train: 890.824 | Test: 906.119 
+Epoch  267/1999 | Train: 894.628 | Test: 913.161 
+Epoch  268/1999 | Train: 893.636 | Test: 904.189 
+Epoch  269/1999 | Train: 891.179 | Test: 905.088 
+Epoch  270/1999 | Train: 888.930 | Test: 907.842 
+Epoch  271/1999 | Train: 890.652 | Test: 898.049 
+Epoch  272/1999 | Train: 889.567 | Test: 907.710 
+Epoch  273/1999 | Train: 890.343 | Test: 908.381 
+Epoch  274/1999 | Train: 885.508 | Test: 902.802 
+Epoch  275/1999 | Train: 888.762 | Test: 899.164 
+Epoch  276/1999 | Train: 889.926 | Test: 906.629 
+Epoch  277/1999 | Train: 888.539 | Test: 909.955 
+Epoch  278/1999 | Train: 889.205 | Test: 906.690 
+Epoch  279/1999 | Train: 886.655 | Test: 902.154 
+Epoch  280/1999 | Train: 884.616 | Test: 902.760 
+Epoch  281/1999 | Train: 887.487 | Test: 909.693 
+Epoch  282/1999 | Train: 886.395 | Test: 904.693 
+Epoch  283/1999 | Train: 886.048 | Test: 905.636 
+Epoch  284/1999 | Train: 887.691 | Test: 904.477 
+Epoch  285/1999 | Train: 887.978 | Test: 899.152 
+Epoch  286/1999 | Train: 888.891 | Test: 904.182 
+Epoch  287/1999 | Train: 888.279 | Test: 901.739 
+Epoch  288/1999 | Train: 886.660 | Test: 908.885 
+Epoch  289/1999 | Train: 882.277 | Test: 904.125 
+Epoch  290/1999 | Train: 886.472 | Test: 899.585 
+Epoch  291/1999 | Train: 887.703 | Test: 902.499 
+Epoch  292/1999 | Train: 886.112 | Test: 902.723 
+Epoch  293/1999 | Train: 885.662 | Test: 904.261 
+Epoch  294/1999 | Train: 884.788 | Test: 902.263 
+Epoch  295/1999 | Train: 884.133 | Test: 895.978 
+Epoch  296/1999 | Train: 884.369 | Test: 892.107 
+Epoch  297/1999 | Train: 882.397 | Test: 903.803 
+Epoch  298/1999 | Train: 886.935 | Test: 895.859 
+Epoch  299/1999 | Train: 882.753 | Test: 901.152 
+Epoch  300/1999 | Train: 884.982 | Test: 900.888 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([ -6.0412, -42.0198,  15.9074,  -5.7099, -42.0778,  15.8094],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 26.2125, -26.3034,  -6.4228,  25.9239, -26.6474,  -5.4994],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 30.8267, -29.8010,   8.1230,  30.9476, -29.3470,   8.6925],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  301/1999 | Train: 886.429 | Test: 905.013 
+Epoch  302/1999 | Train: 882.995 | Test: 901.863 
+Epoch  303/1999 | Train: 878.581 | Test: 896.531 
+Epoch  304/1999 | Train: 880.991 | Test: 905.639 
+Epoch  305/1999 | Train: 882.526 | Test: 908.051 
+Epoch  306/1999 | Train: 882.107 | Test: 899.796 
+Epoch  307/1999 | Train: 880.846 | Test: 893.669 
+Epoch  308/1999 | Train: 882.333 | Test: 903.963 
+Epoch  309/1999 | Train: 880.173 | Test: 893.016 
+Epoch  310/1999 | Train: 881.890 | Test: 894.696 
+Epoch  311/1999 | Train: 884.638 | Test: 895.693 
+Epoch  312/1999 | Train: 883.692 | Test: 904.948 
+Epoch  313/1999 | Train: 883.120 | Test: 905.884 
+Epoch  314/1999 | Train: 879.636 | Test: 900.834 
+Epoch  315/1999 | Train: 882.187 | Test: 898.912 
+Epoch  316/1999 | Train: 881.367 | Test: 895.254 
+Epoch  317/1999 | Train: 879.456 | Test: 897.593 
+Epoch  318/1999 | Train: 878.326 | Test: 897.219 
+Epoch  319/1999 | Train: 877.690 | Test: 898.047 
+Epoch  320/1999 | Train: 880.447 | Test: 891.377 
+Epoch  321/1999 | Train: 880.205 | Test: 894.001 
+Epoch  322/1999 | Train: 880.499 | Test: 895.074 
+Epoch  323/1999 | Train: 881.102 | Test: 899.798 
+Epoch  324/1999 | Train: 879.310 | Test: 896.239 
+Epoch  325/1999 | Train: 878.125 | Test: 899.308 
+Epoch  326/1999 | Train: 878.695 | Test: 896.844 
+Epoch  327/1999 | Train: 878.902 | Test: 901.524 
+Epoch  328/1999 | Train: 880.237 | Test: 898.918 
+Epoch  329/1999 | Train: 880.226 | Test: 894.954 
+Epoch  330/1999 | Train: 879.142 | Test: 893.236 
+Epoch  331/1999 | Train: 879.382 | Test: 894.610 
+Epoch  332/1999 | Train: 876.077 | Test: 897.145 
+Epoch  333/1999 | Train: 876.213 | Test: 895.525 
+Epoch  334/1999 | Train: 874.360 | Test: 892.402 
+Epoch  335/1999 | Train: 872.600 | Test: 895.422 
+Epoch  336/1999 | Train: 873.228 | Test: 889.840 
+Epoch  337/1999 | Train: 877.665 | Test: 895.297 
+Epoch  338/1999 | Train: 877.470 | Test: 893.916 
+Epoch  339/1999 | Train: 876.655 | Test: 899.069 
+Epoch  340/1999 | Train: 880.811 | Test: 898.987 
+Epoch  341/1999 | Train: 881.201 | Test: 892.257 
+Epoch  342/1999 | Train: 878.971 | Test: 893.895 
+Epoch  343/1999 | Train: 874.630 | Test: 890.558 
+Epoch  344/1999 | Train: 879.372 | Test: 893.692 
+Epoch  345/1999 | Train: 876.065 | Test: 891.183 
+Epoch  346/1999 | Train: 876.257 | Test: 890.539 
+Epoch  347/1999 | Train: 878.389 | Test: 897.852 
+Epoch  348/1999 | Train: 877.831 | Test: 884.925 
+Epoch  349/1999 | Train: 878.321 | Test: 890.725 
+Epoch  350/1999 | Train: 873.434 | Test: 898.026 
+Epoch  351/1999 | Train: 875.084 | Test: 895.709 
+Epoch  352/1999 | Train: 877.841 | Test: 890.971 
+Epoch  353/1999 | Train: 874.193 | Test: 897.341 
+Epoch  354/1999 | Train: 875.975 | Test: 885.645 
+Epoch  355/1999 | Train: 875.229 | Test: 890.176 
+Epoch  356/1999 | Train: 874.461 | Test: 895.259 
+Epoch  357/1999 | Train: 878.040 | Test: 893.248 
+Epoch  358/1999 | Train: 875.096 | Test: 891.856 
+Epoch  359/1999 | Train: 873.937 | Test: 891.225 
+Epoch  360/1999 | Train: 875.771 | Test: 894.180 
+Epoch  361/1999 | Train: 874.251 | Test: 893.755 
+Epoch  362/1999 | Train: 876.161 | Test: 891.985 
+Epoch  363/1999 | Train: 874.681 | Test: 891.215 
+Epoch  364/1999 | Train: 870.876 | Test: 888.323 
+Epoch  365/1999 | Train: 874.832 | Test: 892.401 
+Epoch  366/1999 | Train: 874.114 | Test: 894.885 
+Epoch  367/1999 | Train: 875.115 | Test: 892.295 
+Epoch  368/1999 | Train: 876.351 | Test: 890.188 
+Epoch  369/1999 | Train: 873.121 | Test: 889.170 
+Epoch  370/1999 | Train: 873.939 | Test: 886.489 
+Epoch  371/1999 | Train: 874.115 | Test: 888.826 
+Epoch  372/1999 | Train: 871.723 | Test: 889.478 
+Epoch  373/1999 | Train: 875.984 | Test: 897.579 
+Epoch  374/1999 | Train: 873.397 | Test: 884.423 
+Epoch  375/1999 | Train: 874.097 | Test: 891.778 
+Epoch  376/1999 | Train: 875.779 | Test: 886.620 
+Epoch  377/1999 | Train: 875.948 | Test: 888.479 
+Epoch  378/1999 | Train: 869.881 | Test: 897.085 
+Epoch  379/1999 | Train: 872.999 | Test: 892.232 
+Epoch  380/1999 | Train: 872.383 | Test: 891.134 
+Epoch  381/1999 | Train: 875.091 | Test: 890.984 
+Epoch  382/1999 | Train: 873.232 | Test: 888.002 
+Epoch  383/1999 | Train: 874.772 | Test: 887.830 
+Epoch  384/1999 | Train: 871.606 | Test: 888.496 
+Epoch  385/1999 | Train: 869.973 | Test: 887.694 
+Epoch  386/1999 | Train: 875.255 | Test: 888.814 
+Epoch  387/1999 | Train: 872.285 | Test: 887.887 
+Epoch  388/1999 | Train: 873.618 | Test: 885.908 
+Epoch  389/1999 | Train: 871.721 | Test: 884.351 
+Epoch  390/1999 | Train: 872.763 | Test: 885.136 
+Epoch  391/1999 | Train: 873.659 | Test: 888.154 
+Epoch  392/1999 | Train: 873.569 | Test: 883.503 
+Epoch  393/1999 | Train: 869.061 | Test: 885.880 
+Epoch  394/1999 | Train: 872.785 | Test: 881.772 
+Epoch  395/1999 | Train: 875.315 | Test: 887.246 
+Epoch  396/1999 | Train: 870.728 | Test: 887.562 
+Epoch  397/1999 | Train: 871.233 | Test: 887.039 
+Epoch  398/1999 | Train: 868.367 | Test: 883.779 
+Epoch  399/1999 | Train: 872.764 | Test: 893.117 
+Epoch  400/1999 | Train: 869.378 | Test: 883.911 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-13.6300, -37.4254,  19.7515, -13.6859, -37.7178,  19.4703],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([21.1158, -1.0108, -4.4803, 21.0519, -0.8677, -3.7408],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 25.3556, -29.7096,  12.7318,  24.9977, -28.9839,  13.0249],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  401/1999 | Train: 870.795 | Test: 885.129 
+Epoch  402/1999 | Train: 871.187 | Test: 880.732 
+Epoch  403/1999 | Train: 868.452 | Test: 885.603 
+Epoch  404/1999 | Train: 870.492 | Test: 893.684 
+Epoch  405/1999 | Train: 872.141 | Test: 884.755 
+Epoch  406/1999 | Train: 871.970 | Test: 887.976 
+Epoch  407/1999 | Train: 870.659 | Test: 886.776 
+Epoch  408/1999 | Train: 870.215 | Test: 888.708 
+Epoch  409/1999 | Train: 870.107 | Test: 887.937 
+Epoch  410/1999 | Train: 868.902 | Test: 879.167 
+Epoch  411/1999 | Train: 870.662 | Test: 883.418 
+Epoch  412/1999 | Train: 868.299 | Test: 883.067 
+Epoch  413/1999 | Train: 869.169 | Test: 888.252 
+Epoch  414/1999 | Train: 869.572 | Test: 885.957 
+Epoch  415/1999 | Train: 871.883 | Test: 889.798 
+Epoch  416/1999 | Train: 869.576 | Test: 888.575 
+Epoch  417/1999 | Train: 867.597 | Test: 887.740 
+Epoch  418/1999 | Train: 869.675 | Test: 883.275 
+Epoch  419/1999 | Train: 868.123 | Test: 881.986 
+Epoch  420/1999 | Train: 871.202 | Test: 894.255 
+Epoch  421/1999 | Train: 869.006 | Test: 884.750 
+Epoch  422/1999 | Train: 871.024 | Test: 889.389 
+Epoch  423/1999 | Train: 869.876 | Test: 888.211 
+Epoch  424/1999 | Train: 868.943 | Test: 890.817 
+Epoch  425/1999 | Train: 868.379 | Test: 885.174 
+Epoch  426/1999 | Train: 872.531 | Test: 886.442 
+Epoch  427/1999 | Train: 871.674 | Test: 891.109 
+Epoch  428/1999 | Train: 865.682 | Test: 884.370 
+Epoch  429/1999 | Train: 869.424 | Test: 885.900 
+Epoch  430/1999 | Train: 871.437 | Test: 886.319 
+Epoch  431/1999 | Train: 871.795 | Test: 884.947 
+Epoch  432/1999 | Train: 867.264 | Test: 890.212 
+Epoch  433/1999 | Train: 869.130 | Test: 882.616 
+Epoch  434/1999 | Train: 865.770 | Test: 885.909 
+Epoch  435/1999 | Train: 869.242 | Test: 882.008 
+Epoch  436/1999 | Train: 867.563 | Test: 896.568 
+Epoch  437/1999 | Train: 871.817 | Test: 885.816 
+Epoch  438/1999 | Train: 868.385 | Test: 883.783 
+Epoch  439/1999 | Train: 870.053 | Test: 884.941 
+Epoch  440/1999 | Train: 872.685 | Test: 884.230 
+Epoch  441/1999 | Train: 865.766 | Test: 886.727 
+Epoch  442/1999 | Train: 867.958 | Test: 881.480 
+Epoch  443/1999 | Train: 867.214 | Test: 883.683 
+Epoch  444/1999 | Train: 863.288 | Test: 892.982 
+Epoch  445/1999 | Train: 867.228 | Test: 885.190 
+Epoch  446/1999 | Train: 868.213 | Test: 881.301 
+Epoch  447/1999 | Train: 868.118 | Test: 884.111 
+Epoch  448/1999 | Train: 866.763 | Test: 884.646 
+Epoch  449/1999 | Train: 863.648 | Test: 888.778 
+Epoch  450/1999 | Train: 869.152 | Test: 886.412 
+Epoch  451/1999 | Train: 866.010 | Test: 883.092 
+Epoch  452/1999 | Train: 866.602 | Test: 889.127 
+Epoch  453/1999 | Train: 867.053 | Test: 885.861 
+Epoch  454/1999 | Train: 866.660 | Test: 885.840 
+Epoch  455/1999 | Train: 867.524 | Test: 882.029 
+Epoch  456/1999 | Train: 871.212 | Test: 885.912 
+Epoch  457/1999 | Train: 868.873 | Test: 880.363 
+Epoch  458/1999 | Train: 863.845 | Test: 877.076 
+Epoch  459/1999 | Train: 867.336 | Test: 885.625 
+Epoch  460/1999 | Train: 868.024 | Test: 887.308 
+Epoch  461/1999 | Train: 865.459 | Test: 883.258 
+Epoch  462/1999 | Train: 865.451 | Test: 882.657 
+Epoch  463/1999 | Train: 866.502 | Test: 884.274 
+Epoch  464/1999 | Train: 865.645 | Test: 882.816 
+Epoch  465/1999 | Train: 868.591 | Test: 885.507 
+Epoch  466/1999 | Train: 865.476 | Test: 885.034 
+Epoch  467/1999 | Train: 865.815 | Test: 883.436 
+Epoch  468/1999 | Train: 865.764 | Test: 885.460 
+Epoch  469/1999 | Train: 866.414 | Test: 876.582 
+Epoch  470/1999 | Train: 864.826 | Test: 882.804 
+Epoch  471/1999 | Train: 862.896 | Test: 877.653 
+Epoch  472/1999 | Train: 868.532 | Test: 881.964 
+Epoch  473/1999 | Train: 862.972 | Test: 876.158 
+Epoch  474/1999 | Train: 868.267 | Test: 885.093 
+Epoch  475/1999 | Train: 866.549 | Test: 883.590 
+Epoch  476/1999 | Train: 867.155 | Test: 884.507 
+Epoch  477/1999 | Train: 865.826 | Test: 885.962 
+Epoch  478/1999 | Train: 867.600 | Test: 883.786 
+Epoch  479/1999 | Train: 866.262 | Test: 883.573 
+Epoch  480/1999 | Train: 865.075 | Test: 885.764 
+Epoch  481/1999 | Train: 863.655 | Test: 880.335 
+Epoch  482/1999 | Train: 861.047 | Test: 883.020 
+Epoch  483/1999 | Train: 863.537 | Test: 884.455 
+Epoch  484/1999 | Train: 866.711 | Test: 884.670 
+Epoch  485/1999 | Train: 865.913 | Test: 886.487 
+Epoch  486/1999 | Train: 864.036 | Test: 882.563 
+Epoch  487/1999 | Train: 864.125 | Test: 882.879 
+Epoch  488/1999 | Train: 864.674 | Test: 883.466 
+Epoch  489/1999 | Train: 862.813 | Test: 881.360 
+Epoch  490/1999 | Train: 865.562 | Test: 878.517 
+Epoch  491/1999 | Train: 859.688 | Test: 877.440 
+Epoch  492/1999 | Train: 864.443 | Test: 881.851 
+Epoch  493/1999 | Train: 864.351 | Test: 883.219 
+Epoch  494/1999 | Train: 867.223 | Test: 886.195 
+Epoch  495/1999 | Train: 865.864 | Test: 883.760 
+Epoch  496/1999 | Train: 864.319 | Test: 871.792 
+Epoch  497/1999 | Train: 865.019 | Test: 877.146 
+Epoch  498/1999 | Train: 864.852 | Test: 879.024 
+Epoch  499/1999 | Train: 865.433 | Test: 880.331 
+Epoch  500/1999 | Train: 865.244 | Test: 883.316 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-23.9417, -20.8213,   6.8016, -23.3899, -21.4036,   6.6941],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 14.4836,  -2.4842, -15.7127,  14.9693,  -2.4826, -14.8799],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 42.5312, -32.3650,   4.5540,  42.1194, -32.1053,   5.3148],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  501/1999 | Train: 863.922 | Test: 883.492 
+Epoch  502/1999 | Train: 863.772 | Test: 878.697 
+Epoch  503/1999 | Train: 864.770 | Test: 881.382 
+Epoch  504/1999 | Train: 867.791 | Test: 879.520 
+Epoch  505/1999 | Train: 865.310 | Test: 884.653 
+Epoch  506/1999 | Train: 862.990 | Test: 874.321 
+Epoch  507/1999 | Train: 862.907 | Test: 878.981 
+Epoch  508/1999 | Train: 861.628 | Test: 881.390 
+Epoch  509/1999 | Train: 860.101 | Test: 872.097 
+Epoch  510/1999 | Train: 862.800 | Test: 878.732 
+Epoch  511/1999 | Train: 867.932 | Test: 885.840 
+Epoch  512/1999 | Train: 865.842 | Test: 877.102 
+Epoch  513/1999 | Train: 865.669 | Test: 875.209 
+Epoch  514/1999 | Train: 864.619 | Test: 883.190 
+Epoch  515/1999 | Train: 865.935 | Test: 882.520 
+Epoch  516/1999 | Train: 865.052 | Test: 882.955 
+Epoch  517/1999 | Train: 865.974 | Test: 883.750 
+Epoch  518/1999 | Train: 864.476 | Test: 880.178 
+Epoch  519/1999 | Train: 862.443 | Test: 876.623 
+Epoch  520/1999 | Train: 864.045 | Test: 876.888 
+Epoch  521/1999 | Train: 862.374 | Test: 881.985 
+Epoch  522/1999 | Train: 864.418 | Test: 888.836 
+Epoch  523/1999 | Train: 863.422 | Test: 884.394 
+Epoch  524/1999 | Train: 865.429 | Test: 879.611 
+Epoch  525/1999 | Train: 865.280 | Test: 879.910 
+Epoch  526/1999 | Train: 863.353 | Test: 875.877 
+Epoch  527/1999 | Train: 862.230 | Test: 878.406 
+Epoch  528/1999 | Train: 863.896 | Test: 878.742 
+Epoch  529/1999 | Train: 861.747 | Test: 879.689 
+Epoch  530/1999 | Train: 863.113 | Test: 878.337 
+Epoch  531/1999 | Train: 862.619 | Test: 882.270 
+Epoch  532/1999 | Train: 861.766 | Test: 876.733 
+Epoch  533/1999 | Train: 863.562 | Test: 871.997 
+Epoch  534/1999 | Train: 865.850 | Test: 884.892 
+Epoch  535/1999 | Train: 862.656 | Test: 877.142 
+Epoch  536/1999 | Train: 863.568 | Test: 878.423 
+Epoch  537/1999 | Train: 864.897 | Test: 884.427 
+Epoch  538/1999 | Train: 864.055 | Test: 879.814 
+Epoch  539/1999 | Train: 865.444 | Test: 876.997 
+Epoch  540/1999 | Train: 863.590 | Test: 882.234 
+Epoch  541/1999 | Train: 860.192 | Test: 880.813 
+Epoch  542/1999 | Train: 864.575 | Test: 878.759 
+Epoch  543/1999 | Train: 862.334 | Test: 876.325 
+Epoch  544/1999 | Train: 861.525 | Test: 876.088 
+Epoch  545/1999 | Train: 862.941 | Test: 883.030 
+Epoch  546/1999 | Train: 863.266 | Test: 881.193 
+Epoch  547/1999 | Train: 860.631 | Test: 877.864 
+Epoch  548/1999 | Train: 863.959 | Test: 881.996 
+Epoch  549/1999 | Train: 859.115 | Test: 884.482 
+Epoch  550/1999 | Train: 864.670 | Test: 880.459 
+Epoch  551/1999 | Train: 861.010 | Test: 875.868 
+Epoch  552/1999 | Train: 865.251 | Test: 882.542 
+Epoch  553/1999 | Train: 863.949 | Test: 882.490 
+Epoch  554/1999 | Train: 862.208 | Test: 874.561 
+Epoch  555/1999 | Train: 863.542 | Test: 883.222 
+Epoch  556/1999 | Train: 862.604 | Test: 882.027 
+Epoch  557/1999 | Train: 861.838 | Test: 874.432 
+Epoch  558/1999 | Train: 863.291 | Test: 884.421 
+Epoch  559/1999 | Train: 863.258 | Test: 875.821 
+Epoch  560/1999 | Train: 863.685 | Test: 880.343 
+Epoch  561/1999 | Train: 860.466 | Test: 879.065 
+Epoch  562/1999 | Train: 862.033 | Test: 881.942 
+Epoch  563/1999 | Train: 860.298 | Test: 876.355 
+Epoch  564/1999 | Train: 862.077 | Test: 884.259 
+Epoch  565/1999 | Train: 863.139 | Test: 879.096 
+Epoch  566/1999 | Train: 861.901 | Test: 884.528 
+Epoch  567/1999 | Train: 864.120 | Test: 873.013 
+Epoch  568/1999 | Train: 862.210 | Test: 879.292 
+Epoch  569/1999 | Train: 861.394 | Test: 876.127 
+Epoch  570/1999 | Train: 860.498 | Test: 877.194 
+Epoch  571/1999 | Train: 862.052 | Test: 876.409 
+Epoch  572/1999 | Train: 863.107 | Test: 879.906 
+Epoch  573/1999 | Train: 861.301 | Test: 872.789 
+Epoch  574/1999 | Train: 861.861 | Test: 874.833 
+Epoch  575/1999 | Train: 861.975 | Test: 879.393 
+Epoch  576/1999 | Train: 859.762 | Test: 873.635 
+Epoch  577/1999 | Train: 860.663 | Test: 875.013 
+Epoch  578/1999 | Train: 860.570 | Test: 872.850 
+Epoch  579/1999 | Train: 864.411 | Test: 878.016 
+Epoch  580/1999 | Train: 862.110 | Test: 869.848 
+Epoch  581/1999 | Train: 859.685 | Test: 880.070 
+Epoch  582/1999 | Train: 859.281 | Test: 880.831 
+Epoch  583/1999 | Train: 860.121 | Test: 883.015 
+Epoch  584/1999 | Train: 859.735 | Test: 877.570 
+Epoch  585/1999 | Train: 862.506 | Test: 876.780 
+Epoch  586/1999 | Train: 860.880 | Test: 883.421 
+Epoch  587/1999 | Train: 860.541 | Test: 875.234 
+Epoch  588/1999 | Train: 861.143 | Test: 877.528 
+Epoch  589/1999 | Train: 863.014 | Test: 881.027 
+Epoch  590/1999 | Train: 859.237 | Test: 874.117 
+Epoch  591/1999 | Train: 859.078 | Test: 873.720 
+Epoch  592/1999 | Train: 860.089 | Test: 879.880 
+Epoch  593/1999 | Train: 859.290 | Test: 879.151 
+Epoch  594/1999 | Train: 862.588 | Test: 878.729 
+Epoch  595/1999 | Train: 862.304 | Test: 878.767 
+Epoch  596/1999 | Train: 861.752 | Test: 874.980 
+Epoch  597/1999 | Train: 860.502 | Test: 875.050 
+Epoch  598/1999 | Train: 865.071 | Test: 878.860 
+Epoch  599/1999 | Train: 862.903 | Test: 875.716 
+Epoch  600/1999 | Train: 860.558 | Test: 878.859 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-28.9357, -30.4889,  15.1072, -28.3011, -30.1464,  14.9890],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 22.4061, -13.0719,   3.4237,  22.3473, -12.7370,   3.5801],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 22.8720, -26.1618,  11.3230,  23.1170, -25.2620,  11.8860],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  601/1999 | Train: 861.285 | Test: 874.802 
+Epoch  602/1999 | Train: 860.385 | Test: 878.900 
+Epoch  603/1999 | Train: 861.228 | Test: 881.646 
+Epoch  604/1999 | Train: 856.763 | Test: 873.514 
+Epoch  605/1999 | Train: 860.687 | Test: 878.945 
+Epoch  606/1999 | Train: 858.427 | Test: 873.515 
+Epoch  607/1999 | Train: 860.014 | Test: 882.551 
+Epoch  608/1999 | Train: 862.613 | Test: 878.587 
+Epoch  609/1999 | Train: 861.579 | Test: 871.896 
+Epoch  610/1999 | Train: 861.722 | Test: 876.798 
+Epoch  611/1999 | Train: 857.194 | Test: 874.789 
+Epoch  612/1999 | Train: 861.883 | Test: 877.245 
+Epoch  613/1999 | Train: 861.192 | Test: 879.537 
+Epoch  614/1999 | Train: 861.200 | Test: 877.226 
+Epoch  615/1999 | Train: 860.984 | Test: 868.146 
+Epoch  616/1999 | Train: 862.626 | Test: 874.462 
+Epoch  617/1999 | Train: 860.652 | Test: 878.111 
+Epoch  618/1999 | Train: 863.514 | Test: 879.164 
+Epoch  619/1999 | Train: 857.226 | Test: 877.429 
+Epoch  620/1999 | Train: 860.215 | Test: 874.514 
+Epoch  621/1999 | Train: 861.440 | Test: 879.737 
+Epoch  622/1999 | Train: 862.722 | Test: 871.385 
+Epoch  623/1999 | Train: 861.506 | Test: 876.952 
+Epoch  624/1999 | Train: 862.869 | Test: 875.145 
+Epoch  625/1999 | Train: 857.818 | Test: 879.550 
+Epoch  626/1999 | Train: 858.921 | Test: 873.632 
+Epoch  627/1999 | Train: 859.613 | Test: 884.391 
+Epoch  628/1999 | Train: 858.444 | Test: 875.835 
+Epoch  629/1999 | Train: 859.149 | Test: 877.396 
+Epoch  630/1999 | Train: 861.775 | Test: 877.498 
+Epoch  631/1999 | Train: 860.515 | Test: 872.075 
+Epoch  632/1999 | Train: 860.000 | Test: 882.800 
+Epoch  633/1999 | Train: 863.139 | Test: 878.358 
+Epoch  634/1999 | Train: 864.444 | Test: 875.701 
+Epoch  635/1999 | Train: 860.761 | Test: 879.963 
+Epoch  636/1999 | Train: 861.191 | Test: 874.358 
+Epoch  637/1999 | Train: 857.418 | Test: 874.790 
+Epoch  638/1999 | Train: 860.635 | Test: 876.169 
+Epoch  639/1999 | Train: 861.930 | Test: 873.815 
+Epoch  640/1999 | Train: 861.610 | Test: 875.626 
+Epoch  641/1999 | Train: 856.678 | Test: 872.904 
+Epoch  642/1999 | Train: 861.617 | Test: 877.150 
+Epoch  643/1999 | Train: 858.822 | Test: 883.748 
+Epoch  644/1999 | Train: 856.996 | Test: 877.840 
+Epoch  645/1999 | Train: 860.157 | Test: 876.828 
+Epoch  646/1999 | Train: 860.403 | Test: 877.961 
+Epoch  647/1999 | Train: 859.367 | Test: 877.886 
+Epoch  648/1999 | Train: 860.852 | Test: 873.130 
+Epoch  649/1999 | Train: 860.970 | Test: 879.996 
+Epoch  650/1999 | Train: 858.098 | Test: 877.054 
+Epoch  651/1999 | Train: 857.672 | Test: 874.730 
+Epoch  652/1999 | Train: 858.876 | Test: 878.329 
+Epoch  653/1999 | Train: 860.646 | Test: 875.289 
+Epoch  654/1999 | Train: 858.923 | Test: 867.324 
+Epoch  655/1999 | Train: 860.528 | Test: 874.819 
+Epoch  656/1999 | Train: 859.125 | Test: 870.394 
+Epoch  657/1999 | Train: 861.301 | Test: 875.246 
+Epoch  658/1999 | Train: 855.989 | Test: 882.986 
+Epoch  659/1999 | Train: 857.379 | Test: 882.544 
+Epoch  660/1999 | Train: 858.849 | Test: 864.405 
+Epoch  661/1999 | Train: 857.792 | Test: 874.128 
+Epoch  662/1999 | Train: 860.076 | Test: 876.829 
+Epoch  663/1999 | Train: 859.406 | Test: 876.282 
+Epoch  664/1999 | Train: 861.024 | Test: 868.944 
+Epoch  665/1999 | Train: 859.626 | Test: 879.693 
+Epoch  666/1999 | Train: 860.363 | Test: 872.403 
+Epoch  667/1999 | Train: 854.135 | Test: 876.837 
+Epoch  668/1999 | Train: 856.932 | Test: 877.831 
+Epoch  669/1999 | Train: 860.510 | Test: 877.031 
+Epoch  670/1999 | Train: 857.287 | Test: 880.427 
+Epoch  671/1999 | Train: 857.390 | Test: 872.830 
+Epoch  672/1999 | Train: 858.734 | Test: 872.085 
+Epoch  673/1999 | Train: 857.502 | Test: 876.063 
+Epoch  674/1999 | Train: 860.728 | Test: 882.994 
+Epoch  675/1999 | Train: 860.732 | Test: 880.666 
+Epoch  676/1999 | Train: 859.314 | Test: 873.212 
+Epoch  677/1999 | Train: 858.590 | Test: 868.832 
+Epoch  678/1999 | Train: 854.400 | Test: 874.994 
+Epoch  679/1999 | Train: 856.791 | Test: 872.476 
+Epoch  680/1999 | Train: 855.316 | Test: 866.766 
+Epoch  681/1999 | Train: 856.280 | Test: 878.552 
+Epoch  682/1999 | Train: 862.258 | Test: 874.907 
+Epoch  683/1999 | Train: 859.229 | Test: 875.719 
+Epoch  684/1999 | Train: 859.367 | Test: 876.702 
+Epoch  685/1999 | Train: 862.558 | Test: 874.970 
+Epoch  686/1999 | Train: 861.103 | Test: 872.446 
+Epoch  687/1999 | Train: 859.647 | Test: 871.328 
+Epoch  688/1999 | Train: 856.964 | Test: 872.822 
+Epoch  689/1999 | Train: 855.239 | Test: 879.505 
+Epoch  690/1999 | Train: 861.553 | Test: 871.362 
+Epoch  691/1999 | Train: 858.980 | Test: 875.332 
+Epoch  692/1999 | Train: 857.448 | Test: 881.949 
+Epoch  693/1999 | Train: 861.255 | Test: 879.827 
+Epoch  694/1999 | Train: 856.877 | Test: 877.016 
+Epoch  695/1999 | Train: 860.065 | Test: 879.217 
+Epoch  696/1999 | Train: 856.092 | Test: 867.307 
+Epoch  697/1999 | Train: 859.941 | Test: 872.710 
+Epoch  698/1999 | Train: 859.805 | Test: 874.354 
+Epoch  699/1999 | Train: 858.684 | Test: 877.278 
+Epoch  700/1999 | Train: 856.590 | Test: 870.253 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-27.4302, -45.3196,  13.5794, -27.0649, -45.7934,  13.4833],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 28.5865, -24.5833,  -9.6228,  28.5900, -24.7567,  -8.5463],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 32.0684, -27.2530,  14.3816,  31.7946, -26.3407,  14.3525],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  701/1999 | Train: 858.405 | Test: 874.166 
+Epoch  702/1999 | Train: 860.890 | Test: 872.510 
+Epoch  703/1999 | Train: 856.794 | Test: 876.302 
+Epoch  704/1999 | Train: 858.277 | Test: 871.077 
+Epoch  705/1999 | Train: 855.547 | Test: 869.776 
+Epoch  706/1999 | Train: 860.879 | Test: 876.225 
+Epoch  707/1999 | Train: 859.101 | Test: 873.494 
+Epoch  708/1999 | Train: 856.599 | Test: 871.191 
+Epoch  709/1999 | Train: 857.766 | Test: 875.975 
+Epoch  710/1999 | Train: 857.042 | Test: 872.875 
+Epoch  711/1999 | Train: 855.585 | Test: 872.396 
+Epoch  712/1999 | Train: 860.470 | Test: 874.807 
+Epoch  713/1999 | Train: 857.867 | Test: 876.647 
+Epoch  714/1999 | Train: 857.579 | Test: 876.912 
+Epoch  715/1999 | Train: 855.842 | Test: 871.447 
+Epoch  716/1999 | Train: 859.346 | Test: 873.994 
+Epoch  717/1999 | Train: 857.231 | Test: 870.173 
+Epoch  718/1999 | Train: 859.253 | Test: 868.518 
+Epoch  719/1999 | Train: 858.522 | Test: 879.274 
+Epoch  720/1999 | Train: 859.685 | Test: 869.949 
+Epoch  721/1999 | Train: 856.823 | Test: 872.744 
+Epoch  722/1999 | Train: 857.944 | Test: 881.711 
+Epoch  723/1999 | Train: 856.522 | Test: 872.753 
+Epoch  724/1999 | Train: 859.153 | Test: 874.047 
+Epoch  725/1999 | Train: 855.360 | Test: 871.307 
+Epoch  726/1999 | Train: 858.112 | Test: 872.990 
+Epoch  727/1999 | Train: 859.375 | Test: 874.959 
+Epoch  728/1999 | Train: 858.230 | Test: 874.841 
+Epoch  729/1999 | Train: 855.901 | Test: 874.051 
+Epoch  730/1999 | Train: 856.891 | Test: 873.303 
+Epoch  731/1999 | Train: 856.375 | Test: 869.253 
+Epoch  732/1999 | Train: 857.600 | Test: 870.462 
+Epoch  733/1999 | Train: 856.762 | Test: 873.019 
+Epoch  734/1999 | Train: 856.761 | Test: 873.473 
+Epoch  735/1999 | Train: 860.282 | Test: 876.603 
+Epoch  736/1999 | Train: 859.809 | Test: 878.270 
+Epoch  737/1999 | Train: 856.926 | Test: 871.063 
+Epoch  738/1999 | Train: 860.188 | Test: 878.044 
+Epoch  739/1999 | Train: 857.153 | Test: 877.625 
+Epoch  740/1999 | Train: 858.993 | Test: 871.780 
+Epoch  741/1999 | Train: 857.078 | Test: 877.298 
+Epoch  742/1999 | Train: 856.889 | Test: 879.632 
+Epoch  743/1999 | Train: 859.959 | Test: 874.315 
+Epoch  744/1999 | Train: 857.579 | Test: 873.006 
+Epoch  745/1999 | Train: 856.213 | Test: 872.159 
+Epoch  746/1999 | Train: 858.977 | Test: 879.076 
+Epoch  747/1999 | Train: 858.060 | Test: 867.168 
+Epoch  748/1999 | Train: 858.039 | Test: 876.319 
+Epoch  749/1999 | Train: 856.792 | Test: 875.499 
+Epoch  750/1999 | Train: 857.362 | Test: 876.405 
+Epoch  751/1999 | Train: 856.869 | Test: 870.658 
+Epoch  752/1999 | Train: 856.470 | Test: 873.702 
+Epoch  753/1999 | Train: 858.888 | Test: 870.704 
+Epoch  754/1999 | Train: 857.017 | Test: 878.115 
+Epoch  755/1999 | Train: 858.298 | Test: 875.452 
+Epoch  756/1999 | Train: 856.537 | Test: 876.161 
+Epoch  757/1999 | Train: 857.574 | Test: 874.239 
+Epoch  758/1999 | Train: 856.479 | Test: 879.907 
+Epoch  759/1999 | Train: 858.691 | Test: 869.521 
+Epoch  760/1999 | Train: 857.457 | Test: 872.485 
+Epoch  761/1999 | Train: 856.472 | Test: 871.046 
+Epoch  762/1999 | Train: 854.022 | Test: 871.862 
+Epoch  763/1999 | Train: 856.716 | Test: 873.340 
+Epoch  764/1999 | Train: 859.551 | Test: 869.222 
+Epoch  765/1999 | Train: 858.732 | Test: 869.115 
+Epoch  766/1999 | Train: 858.387 | Test: 877.699 
+Epoch  767/1999 | Train: 856.984 | Test: 871.132 
+Epoch  768/1999 | Train: 856.157 | Test: 871.280 
+Epoch  769/1999 | Train: 856.408 | Test: 872.271 
+Epoch  770/1999 | Train: 856.111 | Test: 873.140 
+Epoch  771/1999 | Train: 855.285 | Test: 869.010 
+Epoch  772/1999 | Train: 860.331 | Test: 876.675 
+Epoch  773/1999 | Train: 855.570 | Test: 873.053 
+Epoch  774/1999 | Train: 857.362 | Test: 871.548 
+Epoch  775/1999 | Train: 855.959 | Test: 874.493 
+Epoch  776/1999 | Train: 856.859 | Test: 877.976 
+Epoch  777/1999 | Train: 856.732 | Test: 874.437 
+Epoch  778/1999 | Train: 856.425 | Test: 873.962 
+Epoch  779/1999 | Train: 856.033 | Test: 871.632 
+Epoch  780/1999 | Train: 856.879 | Test: 876.306 
+Epoch  781/1999 | Train: 855.421 | Test: 874.176 
+Epoch  782/1999 | Train: 857.425 | Test: 868.825 
+Epoch  783/1999 | Train: 858.361 | Test: 875.472 
+Epoch  784/1999 | Train: 855.580 | Test: 872.908 
+Epoch  785/1999 | Train: 853.726 | Test: 875.941 
+Epoch  786/1999 | Train: 857.124 | Test: 875.499 
+Epoch  787/1999 | Train: 859.077 | Test: 858.151 
+Epoch  788/1999 | Train: 857.508 | Test: 868.218 
+Epoch  789/1999 | Train: 858.425 | Test: 872.498 
+Epoch  790/1999 | Train: 855.566 | Test: 872.680 
+Epoch  791/1999 | Train: 856.634 | Test: 868.412 
+Epoch  792/1999 | Train: 855.134 | Test: 870.853 
+Epoch  793/1999 | Train: 853.667 | Test: 874.805 
+Epoch  794/1999 | Train: 854.408 | Test: 872.621 
+Epoch  795/1999 | Train: 855.695 | Test: 873.822 
+Epoch  796/1999 | Train: 856.972 | Test: 870.126 
+Epoch  797/1999 | Train: 858.088 | Test: 871.849 
+Epoch  798/1999 | Train: 859.689 | Test: 865.348 
+Epoch  799/1999 | Train: 855.381 | Test: 874.388 
+Epoch  800/1999 | Train: 856.521 | Test: 871.819 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-28.0120, -40.2925,  -1.9871, -27.1835, -41.5861,  -1.8268],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([  7.7117,  -4.6399, -12.1695,   8.0011,  -5.3749, -11.6547],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 31.4886, -37.6088,   8.8588,  31.3557, -36.8580,   9.3634],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  801/1999 | Train: 855.874 | Test: 875.484 
+Epoch  802/1999 | Train: 856.946 | Test: 867.749 
+Epoch  803/1999 | Train: 856.472 | Test: 871.198 
+Epoch  804/1999 | Train: 855.571 | Test: 871.259 
+Epoch  805/1999 | Train: 857.314 | Test: 876.336 
+Epoch  806/1999 | Train: 853.738 | Test: 872.431 
+Epoch  807/1999 | Train: 855.289 | Test: 868.197 
+Epoch  808/1999 | Train: 856.694 | Test: 877.171 
+Epoch  809/1999 | Train: 855.058 | Test: 866.829 
+Epoch  810/1999 | Train: 856.548 | Test: 872.811 
+Epoch  811/1999 | Train: 856.253 | Test: 868.380 
+Epoch  812/1999 | Train: 859.181 | Test: 872.560 
+Epoch  813/1999 | Train: 855.248 | Test: 869.773 
+Epoch  814/1999 | Train: 857.875 | Test: 877.553 
+Epoch  815/1999 | Train: 856.058 | Test: 878.437 
+Epoch  816/1999 | Train: 854.872 | Test: 880.758 
+Epoch  817/1999 | Train: 856.020 | Test: 876.507 
+Epoch  818/1999 | Train: 853.840 | Test: 873.529 
+Epoch  819/1999 | Train: 855.057 | Test: 867.830 
+Epoch  820/1999 | Train: 854.394 | Test: 877.868 
+Epoch  821/1999 | Train: 854.531 | Test: 868.827 
+Epoch  822/1999 | Train: 851.531 | Test: 875.990 
+Epoch  823/1999 | Train: 855.994 | Test: 872.083 
+Epoch  824/1999 | Train: 858.301 | Test: 870.902 
+Epoch  825/1999 | Train: 858.536 | Test: 873.031 
+Epoch  826/1999 | Train: 857.886 | Test: 874.566 
+Epoch  827/1999 | Train: 857.918 | Test: 869.155 
+Epoch  828/1999 | Train: 855.904 | Test: 872.403 
+Epoch  829/1999 | Train: 853.446 | Test: 870.891 
+Epoch  830/1999 | Train: 856.558 | Test: 868.327 
+Epoch  831/1999 | Train: 854.242 | Test: 870.662 
+Epoch  832/1999 | Train: 853.951 | Test: 872.958 
+Epoch  833/1999 | Train: 856.950 | Test: 872.255 
+Epoch  834/1999 | Train: 855.989 | Test: 872.786 
+Epoch  835/1999 | Train: 856.096 | Test: 869.097 
+Epoch  836/1999 | Train: 856.988 | Test: 871.541 
+Epoch  837/1999 | Train: 856.391 | Test: 871.693 
+Epoch  838/1999 | Train: 856.527 | Test: 872.911 
+Epoch  839/1999 | Train: 856.121 | Test: 871.339 
+Epoch  840/1999 | Train: 856.156 | Test: 874.930 
+Epoch  841/1999 | Train: 856.767 | Test: 867.866 
+Epoch  842/1999 | Train: 858.302 | Test: 876.070 
+Epoch  843/1999 | Train: 857.843 | Test: 869.339 
+Epoch  844/1999 | Train: 857.658 | Test: 876.609 
+Epoch  845/1999 | Train: 855.954 | Test: 873.548 
+Epoch  846/1999 | Train: 854.434 | Test: 870.134 
+Epoch  847/1999 | Train: 854.765 | Test: 871.601 
+Epoch  848/1999 | Train: 853.659 | Test: 873.494 
+Epoch  849/1999 | Train: 856.756 | Test: 870.924 
+Epoch  850/1999 | Train: 855.143 | Test: 874.015 
+Epoch  851/1999 | Train: 856.141 | Test: 869.998 
+Epoch  852/1999 | Train: 857.357 | Test: 874.576 
+Epoch  853/1999 | Train: 853.922 | Test: 868.287 
+Epoch  854/1999 | Train: 855.685 | Test: 867.402 
+Epoch  855/1999 | Train: 857.136 | Test: 879.022 
+Epoch  856/1999 | Train: 857.234 | Test: 873.215 
+Epoch  857/1999 | Train: 852.484 | Test: 874.255 
+Epoch  858/1999 | Train: 856.844 | Test: 869.570 
+Epoch  859/1999 | Train: 857.384 | Test: 869.328 
+Epoch  860/1999 | Train: 854.339 | Test: 872.244 
+Epoch  861/1999 | Train: 855.320 | Test: 867.596 
+Epoch  862/1999 | Train: 858.624 | Test: 871.564 
+Epoch  863/1999 | Train: 857.632 | Test: 871.604 
+Epoch  864/1999 | Train: 855.540 | Test: 871.678 
+Epoch  865/1999 | Train: 858.116 | Test: 870.089 
+Epoch  866/1999 | Train: 857.806 | Test: 864.311 
+Epoch  867/1999 | Train: 858.989 | Test: 868.194 
+Epoch  868/1999 | Train: 855.287 | Test: 872.967 
+Epoch  869/1999 | Train: 855.462 | Test: 877.788 
+Epoch  870/1999 | Train: 858.013 | Test: 873.359 
+Epoch  871/1999 | Train: 855.145 | Test: 877.365 
+Epoch  872/1999 | Train: 857.084 | Test: 868.782 
+Epoch  873/1999 | Train: 856.150 | Test: 867.591 
+Epoch  874/1999 | Train: 854.504 | Test: 873.386 
+Epoch  875/1999 | Train: 854.514 | Test: 877.417 
+Epoch  876/1999 | Train: 857.429 | Test: 872.730 
+Epoch  877/1999 | Train: 854.103 | Test: 865.254 
+Epoch  878/1999 | Train: 854.228 | Test: 872.409 
+Epoch  879/1999 | Train: 854.404 | Test: 875.557 
+Epoch  880/1999 | Train: 853.013 | Test: 872.313 
+Epoch  881/1999 | Train: 854.984 | Test: 871.019 
+Epoch  882/1999 | Train: 856.563 | Test: 875.562 
+Epoch  883/1999 | Train: 851.065 | Test: 871.988 
+Epoch  884/1999 | Train: 856.791 | Test: 870.240 
+Epoch  885/1999 | Train: 853.644 | Test: 863.011 
+Epoch  886/1999 | Train: 854.368 | Test: 868.332 
+Epoch  887/1999 | Train: 856.464 | Test: 873.591 
+Epoch  888/1999 | Train: 855.727 | Test: 868.993 
+Epoch  889/1999 | Train: 854.274 | Test: 875.758 
+Epoch  890/1999 | Train: 856.424 | Test: 872.002 
+Epoch  891/1999 | Train: 853.218 | Test: 870.713 
+Epoch  892/1999 | Train: 854.025 | Test: 873.766 
+Epoch  893/1999 | Train: 855.750 | Test: 868.955 
+Epoch  894/1999 | Train: 856.760 | Test: 868.831 
+Epoch  895/1999 | Train: 855.780 | Test: 873.242 
+Epoch  896/1999 | Train: 854.615 | Test: 873.762 
+Epoch  897/1999 | Train: 855.990 | Test: 869.683 
+Epoch  898/1999 | Train: 856.906 | Test: 875.060 
+Epoch  899/1999 | Train: 852.939 | Test: 867.131 
+Epoch  900/1999 | Train: 856.012 | Test: 874.978 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([ -0.5888, -52.9546,  19.0055,  -0.5096, -52.5684,  18.9487],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([  8.0487, -27.4558,   2.4122,   8.1616, -27.3167,   2.7747],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 40.2303, -23.6538,  13.0997,  40.0095, -22.3649,  13.4458],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  901/1999 | Train: 853.726 | Test: 869.770 
+Epoch  902/1999 | Train: 851.905 | Test: 872.120 
+Epoch  903/1999 | Train: 855.217 | Test: 872.644 
+Epoch  904/1999 | Train: 853.543 | Test: 870.297 
+Epoch  905/1999 | Train: 855.344 | Test: 864.611 
+Epoch  906/1999 | Train: 853.671 | Test: 865.829 
+Epoch  907/1999 | Train: 855.862 | Test: 868.993 
+Epoch  908/1999 | Train: 857.018 | Test: 874.581 
+Epoch  909/1999 | Train: 853.365 | Test: 868.631 
+Epoch  910/1999 | Train: 854.618 | Test: 870.964 
+Epoch  911/1999 | Train: 853.889 | Test: 873.812 
+Epoch  912/1999 | Train: 853.580 | Test: 872.707 
+Epoch  913/1999 | Train: 855.282 | Test: 871.698 
+Epoch  914/1999 | Train: 856.258 | Test: 872.630 
+Epoch  915/1999 | Train: 853.100 | Test: 875.225 
+Epoch  916/1999 | Train: 851.626 | Test: 871.562 
+Epoch  917/1999 | Train: 854.916 | Test: 871.363 
+Epoch  918/1999 | Train: 853.785 | Test: 868.710 
+Epoch  919/1999 | Train: 858.037 | Test: 872.380 
+Epoch  920/1999 | Train: 857.405 | Test: 871.186 
+Epoch  921/1999 | Train: 856.855 | Test: 874.491 
+Epoch  922/1999 | Train: 858.456 | Test: 876.338 
+Epoch  923/1999 | Train: 854.393 | Test: 871.868 
+Epoch  924/1999 | Train: 851.703 | Test: 875.443 
+Epoch  925/1999 | Train: 854.419 | Test: 871.897 
+Epoch  926/1999 | Train: 854.254 | Test: 868.694 
+Epoch  927/1999 | Train: 852.799 | Test: 872.361 
+Epoch  928/1999 | Train: 857.212 | Test: 869.645 
+Epoch  929/1999 | Train: 852.828 | Test: 874.005 
+Epoch  930/1999 | Train: 857.728 | Test: 867.865 
+Epoch  931/1999 | Train: 852.373 | Test: 867.868 
+Epoch  932/1999 | Train: 856.797 | Test: 875.526 
+Epoch  933/1999 | Train: 853.989 | Test: 869.693 
+Epoch  934/1999 | Train: 851.673 | Test: 874.829 
+Epoch  935/1999 | Train: 853.435 | Test: 875.635 
+Epoch  936/1999 | Train: 856.351 | Test: 876.899 
+Epoch  937/1999 | Train: 854.163 | Test: 872.232 
+Epoch  938/1999 | Train: 855.130 | Test: 868.371 
+Epoch  939/1999 | Train: 854.135 | Test: 863.438 
+Epoch  940/1999 | Train: 855.418 | Test: 866.986 
+Epoch  941/1999 | Train: 854.774 | Test: 877.841 
+Epoch  942/1999 | Train: 852.315 | Test: 862.220 
+Epoch  943/1999 | Train: 856.128 | Test: 868.120 
+Epoch  944/1999 | Train: 855.518 | Test: 873.831 
+Epoch  945/1999 | Train: 854.413 | Test: 874.971 
+Epoch  946/1999 | Train: 851.492 | Test: 871.387 
+Epoch  947/1999 | Train: 854.280 | Test: 872.911 
+Epoch  948/1999 | Train: 855.878 | Test: 877.535 
+Epoch  949/1999 | Train: 852.437 | Test: 872.058 
+Epoch  950/1999 | Train: 853.260 | Test: 861.621 
+Epoch  951/1999 | Train: 855.080 | Test: 867.716 
+Epoch  952/1999 | Train: 853.526 | Test: 870.063 
+Epoch  953/1999 | Train: 860.493 | Test: 865.209 
+Epoch  954/1999 | Train: 852.005 | Test: 874.586 
+Epoch  955/1999 | Train: 855.059 | Test: 873.590 
+Epoch  956/1999 | Train: 855.462 | Test: 871.389 
+Epoch  957/1999 | Train: 853.788 | Test: 870.027 
+Epoch  958/1999 | Train: 855.347 | Test: 872.857 
+Epoch  959/1999 | Train: 855.648 | Test: 871.245 
+Epoch  960/1999 | Train: 853.415 | Test: 868.991 
+Epoch  961/1999 | Train: 854.040 | Test: 866.647 
+Epoch  962/1999 | Train: 849.888 | Test: 877.310 
+Epoch  963/1999 | Train: 854.219 | Test: 872.978 
+Epoch  964/1999 | Train: 857.119 | Test: 874.359 
+Epoch  965/1999 | Train: 855.779 | Test: 868.042 
+Epoch  966/1999 | Train: 853.728 | Test: 873.074 
+Epoch  967/1999 | Train: 857.513 | Test: 874.129 
+Epoch  968/1999 | Train: 851.620 | Test: 874.421 
+Epoch  969/1999 | Train: 858.430 | Test: 871.913 
+Epoch  970/1999 | Train: 853.761 | Test: 869.660 
+Epoch  971/1999 | Train: 855.875 | Test: 869.568 
+Epoch  972/1999 | Train: 853.850 | Test: 865.382 
+Epoch  973/1999 | Train: 856.626 | Test: 867.536 
+Epoch  974/1999 | Train: 855.269 | Test: 866.669 
+Epoch  975/1999 | Train: 855.647 | Test: 866.460 
+Epoch  976/1999 | Train: 854.014 | Test: 874.590 
+Epoch  977/1999 | Train: 852.202 | Test: 876.339 
+Epoch  978/1999 | Train: 854.569 | Test: 871.379 
+Epoch  979/1999 | Train: 855.776 | Test: 873.162 
+Epoch  980/1999 | Train: 855.959 | Test: 868.186 
+Epoch  981/1999 | Train: 856.483 | Test: 872.074 
+Epoch  982/1999 | Train: 851.436 | Test: 865.388 
+Epoch  983/1999 | Train: 854.522 | Test: 864.705 
+Epoch  984/1999 | Train: 852.734 | Test: 877.458 
+Epoch  985/1999 | Train: 853.680 | Test: 867.620 
+Epoch  986/1999 | Train: 851.252 | Test: 869.511 
+Epoch  987/1999 | Train: 855.832 | Test: 869.961 
+Epoch  988/1999 | Train: 857.628 | Test: 872.200 
+Epoch  989/1999 | Train: 851.459 | Test: 873.254 
+Epoch  990/1999 | Train: 856.386 | Test: 874.969 
+Epoch  991/1999 | Train: 849.741 | Test: 870.442 
+Epoch  992/1999 | Train: 855.879 | Test: 872.537 
+Epoch  993/1999 | Train: 855.052 | Test: 864.827 
+Epoch  994/1999 | Train: 855.552 | Test: 875.023 
+Epoch  995/1999 | Train: 854.513 | Test: 864.174 
+Epoch  996/1999 | Train: 855.211 | Test: 868.678 
+Epoch  997/1999 | Train: 856.214 | Test: 871.192 
+Epoch  998/1999 | Train: 853.485 | Test: 875.161 
+Epoch  999/1999 | Train: 853.503 | Test: 866.905 
+Epoch 1000/1999 | Train: 855.080 | Test: 866.321 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-30.0084, -31.0015,  18.2367, -29.8324, -31.2333,  17.7130],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 15.7002,   4.4545, -17.6771,  16.2238,   4.0015, -16.8233],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 41.2613, -23.4404,  17.1358,  41.0206, -22.5092,  17.1528],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1001/1999 | Train: 853.353 | Test: 870.921 
+Epoch 1002/1999 | Train: 852.264 | Test: 869.706 
+Epoch 1003/1999 | Train: 853.659 | Test: 876.337 
+Epoch 1004/1999 | Train: 853.621 | Test: 877.854 
+Epoch 1005/1999 | Train: 852.667 | Test: 878.164 
+Epoch 1006/1999 | Train: 854.883 | Test: 867.754 
+Epoch 1007/1999 | Train: 855.226 | Test: 869.926 
+Epoch 1008/1999 | Train: 857.899 | Test: 864.953 
+Epoch 1009/1999 | Train: 853.210 | Test: 873.810 
+Epoch 1010/1999 | Train: 853.756 | Test: 869.485 
+Epoch 1011/1999 | Train: 854.919 | Test: 871.605 
+Epoch 1012/1999 | Train: 853.471 | Test: 870.546 
+Epoch 1013/1999 | Train: 852.732 | Test: 871.852 
+Epoch 1014/1999 | Train: 851.108 | Test: 869.448 
+Epoch 1015/1999 | Train: 852.620 | Test: 875.444 
+Epoch 1016/1999 | Train: 854.774 | Test: 872.607 
+Epoch 1017/1999 | Train: 854.137 | Test: 873.447 
+Epoch 1018/1999 | Train: 852.615 | Test: 866.115 
+Epoch 1019/1999 | Train: 852.603 | Test: 871.099 
+Epoch 1020/1999 | Train: 852.524 | Test: 867.368 
+Epoch 1021/1999 | Train: 853.161 | Test: 871.697 
+Epoch 1022/1999 | Train: 856.984 | Test: 868.707 
+Epoch 1023/1999 | Train: 854.267 | Test: 868.806 
+Epoch 1024/1999 | Train: 853.636 | Test: 874.817 
+Epoch 1025/1999 | Train: 852.391 | Test: 876.016 
+Epoch 1026/1999 | Train: 853.372 | Test: 864.874 
+Epoch 1027/1999 | Train: 854.011 | Test: 872.347 
+Epoch 1028/1999 | Train: 854.287 | Test: 873.327 
+Epoch 1029/1999 | Train: 855.062 | Test: 877.505 
+Epoch 1030/1999 | Train: 855.470 | Test: 870.854 
+Epoch 1031/1999 | Train: 852.854 | Test: 868.695 
+Epoch 1032/1999 | Train: 855.151 | Test: 869.635 
+Epoch 1033/1999 | Train: 851.721 | Test: 870.127 
+Epoch 1034/1999 | Train: 852.841 | Test: 874.597 
+Epoch 1035/1999 | Train: 853.007 | Test: 869.345 
+Epoch 1036/1999 | Train: 852.094 | Test: 871.264 
+Epoch 1037/1999 | Train: 853.558 | Test: 878.813 
+Epoch 1038/1999 | Train: 854.525 | Test: 870.291 
+Epoch 1039/1999 | Train: 851.206 | Test: 865.265 
+Epoch 1040/1999 | Train: 853.637 | Test: 878.132 
+Epoch 1041/1999 | Train: 856.410 | Test: 871.257 
+Epoch 1042/1999 | Train: 852.366 | Test: 868.596 
+Epoch 1043/1999 | Train: 854.844 | Test: 871.153 
+Epoch 1044/1999 | Train: 853.798 | Test: 867.938 
+Epoch 1045/1999 | Train: 855.300 | Test: 866.856 
+Epoch 1046/1999 | Train: 854.219 | Test: 867.401 
+Epoch 1047/1999 | Train: 853.715 | Test: 867.454 
+Epoch 1048/1999 | Train: 857.032 | Test: 871.529 
+Epoch 1049/1999 | Train: 853.292 | Test: 869.371 
+Epoch 1050/1999 | Train: 855.037 | Test: 868.311 
+Epoch 1051/1999 | Train: 853.543 | Test: 871.660 
+Epoch 1052/1999 | Train: 852.996 | Test: 871.235 
+Epoch 1053/1999 | Train: 852.850 | Test: 869.851 
+Epoch 1054/1999 | Train: 850.431 | Test: 866.375 
+Epoch 1055/1999 | Train: 853.022 | Test: 874.414 
+Epoch 1056/1999 | Train: 851.746 | Test: 873.314 
+Epoch 1057/1999 | Train: 853.462 | Test: 872.510 
+Epoch 1058/1999 | Train: 853.685 | Test: 864.073 
+Epoch 1059/1999 | Train: 853.563 | Test: 878.436 
+Epoch 1060/1999 | Train: 853.702 | Test: 869.153 
+Epoch 1061/1999 | Train: 852.263 | Test: 869.166 
+Epoch 1062/1999 | Train: 856.452 | Test: 867.337 
+Epoch 1063/1999 | Train: 853.634 | Test: 874.324 
+Epoch 1064/1999 | Train: 851.999 | Test: 870.166 
+Epoch 1065/1999 | Train: 853.391 | Test: 866.649 
+Epoch 1066/1999 | Train: 853.054 | Test: 868.220 
+Epoch 1067/1999 | Train: 851.406 | Test: 868.843 
+Epoch 1068/1999 | Train: 851.793 | Test: 870.221 
+Epoch 1069/1999 | Train: 853.596 | Test: 867.257 
+Epoch 1070/1999 | Train: 853.402 | Test: 864.880 
+Epoch 1071/1999 | Train: 851.080 | Test: 870.661 
+Epoch 1072/1999 | Train: 849.856 | Test: 867.543 
+Epoch 1073/1999 | Train: 852.490 | Test: 870.967 
+Epoch 1074/1999 | Train: 855.025 | Test: 869.207 
+Epoch 1075/1999 | Train: 856.185 | Test: 874.827 
+Epoch 1076/1999 | Train: 852.342 | Test: 870.842 
+Epoch 1077/1999 | Train: 853.110 | Test: 863.396 
+Epoch 1078/1999 | Train: 853.626 | Test: 872.467 
+Epoch 1079/1999 | Train: 851.169 | Test: 867.568 
+Epoch 1080/1999 | Train: 853.660 | Test: 871.827 
+Epoch 1081/1999 | Train: 849.692 | Test: 872.081 
+Epoch 1082/1999 | Train: 849.930 | Test: 872.173 
+Epoch 1083/1999 | Train: 853.613 | Test: 868.603 
+Epoch 1084/1999 | Train: 851.154 | Test: 872.673 
+Epoch 1085/1999 | Train: 853.959 | Test: 872.076 
+Epoch 1086/1999 | Train: 851.765 | Test: 874.665 
+Epoch 1087/1999 | Train: 851.339 | Test: 864.462 
+Epoch 1088/1999 | Train: 852.703 | Test: 871.508 
+Epoch 1089/1999 | Train: 853.766 | Test: 866.609 
+Epoch 1090/1999 | Train: 851.417 | Test: 870.561 
+Epoch 1091/1999 | Train: 854.654 | Test: 871.709 
+Epoch 1092/1999 | Train: 850.196 | Test: 865.132 
+Epoch 1093/1999 | Train: 852.971 | Test: 870.045 
+Epoch 1094/1999 | Train: 855.489 | Test: 869.283 
+Epoch 1095/1999 | Train: 851.236 | Test: 864.856 
+Epoch 1096/1999 | Train: 854.426 | Test: 877.033 
+Epoch 1097/1999 | Train: 850.289 | Test: 867.598 
+Epoch 1098/1999 | Train: 855.933 | Test: 873.117 
+Epoch 1099/1999 | Train: 852.530 | Test: 874.518 
+Epoch 1100/1999 | Train: 852.990 | Test: 869.639 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-24.6369, -54.7619,  10.1400, -24.3975, -55.7979,  10.1168],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 21.3832, -12.0353,  -3.6293,  21.5022, -12.2057,  -3.1612],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 44.9444, -15.1412,   6.2571,  44.8736, -13.5631,   6.8375],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1101/1999 | Train: 853.917 | Test: 866.574 
+Epoch 1102/1999 | Train: 854.944 | Test: 870.549 
+Epoch 1103/1999 | Train: 855.366 | Test: 872.747 
+Epoch 1104/1999 | Train: 852.470 | Test: 869.807 
+Epoch 1105/1999 | Train: 853.149 | Test: 872.314 
+Epoch 1106/1999 | Train: 854.185 | Test: 867.952 
+Epoch 1107/1999 | Train: 854.384 | Test: 875.974 
+Epoch 1108/1999 | Train: 854.584 | Test: 871.767 
+Epoch 1109/1999 | Train: 857.199 | Test: 867.378 
+Epoch 1110/1999 | Train: 851.843 | Test: 873.526 
+Epoch 1111/1999 | Train: 850.908 | Test: 869.401 
+Epoch 1112/1999 | Train: 849.581 | Test: 867.485 
+Epoch 1113/1999 | Train: 855.006 | Test: 868.790 
+Epoch 1114/1999 | Train: 854.888 | Test: 873.933 
+Epoch 1115/1999 | Train: 852.627 | Test: 871.784 
+Epoch 1116/1999 | Train: 853.830 | Test: 874.508 
+Epoch 1117/1999 | Train: 853.976 | Test: 871.073 
+Epoch 1118/1999 | Train: 852.679 | Test: 867.498 
+Epoch 1119/1999 | Train: 854.228 | Test: 875.816 
+Epoch 1120/1999 | Train: 853.234 | Test: 873.662 
+Epoch 1121/1999 | Train: 854.882 | Test: 868.399 
+Epoch 1122/1999 | Train: 855.076 | Test: 867.185 
+Epoch 1123/1999 | Train: 852.663 | Test: 870.284 
+Epoch 1124/1999 | Train: 854.209 | Test: 873.788 
+Epoch 1125/1999 | Train: 852.445 | Test: 871.216 
+Epoch 1126/1999 | Train: 852.364 | Test: 866.411 
+Epoch 1127/1999 | Train: 851.774 | Test: 866.176 
+Epoch 1128/1999 | Train: 851.213 | Test: 870.718 
+Epoch 1129/1999 | Train: 852.551 | Test: 872.569 
+Epoch 1130/1999 | Train: 855.686 | Test: 866.737 
+Epoch 1131/1999 | Train: 852.334 | Test: 872.884 
+Epoch 1132/1999 | Train: 851.439 | Test: 866.334 
+Epoch 1133/1999 | Train: 851.845 | Test: 866.207 
+Epoch 1134/1999 | Train: 851.296 | Test: 874.933 
+Epoch 1135/1999 | Train: 852.590 | Test: 864.334 
+Epoch 1136/1999 | Train: 853.889 | Test: 872.049 
+Epoch 1137/1999 | Train: 854.263 | Test: 860.903 
+Epoch 1138/1999 | Train: 854.095 | Test: 870.609 
+Epoch 1139/1999 | Train: 851.222 | Test: 874.556 
+Epoch 1140/1999 | Train: 852.379 | Test: 868.639 
+Epoch 1141/1999 | Train: 853.521 | Test: 865.571 
+Epoch 1142/1999 | Train: 855.397 | Test: 869.963 
+Epoch 1143/1999 | Train: 853.028 | Test: 867.436 
+Epoch 1144/1999 | Train: 850.288 | Test: 870.675 
+Epoch 1145/1999 | Train: 852.197 | Test: 868.099 
+Epoch 1146/1999 | Train: 852.397 | Test: 866.867 
+Epoch 1147/1999 | Train: 850.621 | Test: 870.491 
+Epoch 1148/1999 | Train: 852.202 | Test: 867.505 
+Epoch 1149/1999 | Train: 854.744 | Test: 865.777 
+Epoch 1150/1999 | Train: 851.773 | Test: 870.519 
+Epoch 1151/1999 | Train: 850.996 | Test: 874.843 
+Epoch 1152/1999 | Train: 854.153 | Test: 865.709 
+Epoch 1153/1999 | Train: 853.752 | Test: 873.198 
+Epoch 1154/1999 | Train: 854.218 | Test: 869.480 
+Epoch 1155/1999 | Train: 851.409 | Test: 872.728 
+Epoch 1156/1999 | Train: 851.891 | Test: 866.528 
+Epoch 1157/1999 | Train: 853.187 | Test: 865.084 
+Epoch 1158/1999 | Train: 849.468 | Test: 864.119 
+Epoch 1159/1999 | Train: 851.137 | Test: 866.084 
+Epoch 1160/1999 | Train: 852.121 | Test: 869.730 
+Epoch 1161/1999 | Train: 851.465 | Test: 873.302 
+Epoch 1162/1999 | Train: 850.752 | Test: 871.317 
+Epoch 1163/1999 | Train: 851.542 | Test: 874.706 
+Epoch 1164/1999 | Train: 852.666 | Test: 870.273 
+Epoch 1165/1999 | Train: 852.112 | Test: 869.345 
+Epoch 1166/1999 | Train: 850.592 | Test: 866.668 
+Epoch 1167/1999 | Train: 850.695 | Test: 866.250 
+Epoch 1168/1999 | Train: 849.737 | Test: 864.067 
+Epoch 1169/1999 | Train: 851.875 | Test: 870.534 
+Epoch 1170/1999 | Train: 849.467 | Test: 868.547 
+Epoch 1171/1999 | Train: 853.484 | Test: 870.529 
+Epoch 1172/1999 | Train: 854.221 | Test: 866.330 
+Epoch 1173/1999 | Train: 850.275 | Test: 861.637 
+Epoch 1174/1999 | Train: 852.784 | Test: 864.230 
+Epoch 1175/1999 | Train: 851.598 | Test: 869.945 
+Epoch 1176/1999 | Train: 855.330 | Test: 864.923 
+Epoch 1177/1999 | Train: 852.905 | Test: 868.012 
+Epoch 1178/1999 | Train: 853.154 | Test: 864.066 
+Epoch 1179/1999 | Train: 855.148 | Test: 866.822 
+Epoch 1180/1999 | Train: 852.274 | Test: 872.627 
+Epoch 1181/1999 | Train: 850.247 | Test: 869.060 
+Epoch 1182/1999 | Train: 852.197 | Test: 867.495 
+Epoch 1183/1999 | Train: 851.752 | Test: 862.751 
+Epoch 1184/1999 | Train: 852.295 | Test: 868.755 
+Epoch 1185/1999 | Train: 853.538 | Test: 863.879 
+Epoch 1186/1999 | Train: 854.669 | Test: 872.496 
+Epoch 1187/1999 | Train: 851.986 | Test: 874.676 
+Epoch 1188/1999 | Train: 855.850 | Test: 867.146 
+Epoch 1189/1999 | Train: 854.278 | Test: 870.611 
+Epoch 1190/1999 | Train: 852.512 | Test: 866.019 
+Epoch 1191/1999 | Train: 851.717 | Test: 868.483 
+Epoch 1192/1999 | Train: 854.366 | Test: 866.759 
+Epoch 1193/1999 | Train: 852.150 | Test: 865.360 
+Epoch 1194/1999 | Train: 851.334 | Test: 868.166 
+Epoch 1195/1999 | Train: 851.925 | Test: 871.531 
+Epoch 1196/1999 | Train: 848.774 | Test: 874.346 
+Epoch 1197/1999 | Train: 850.998 | Test: 873.909 
+Epoch 1198/1999 | Train: 848.810 | Test: 866.152 
+Epoch 1199/1999 | Train: 853.779 | Test: 869.614 
+Epoch 1200/1999 | Train: 853.728 | Test: 862.826 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-23.2610, -19.1521,   7.2322, -22.7425, -19.6541,   7.1074],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([  2.5830, -10.1041,  -6.1692,   2.8624, -11.1587,  -5.8565],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 29.9783, -31.5349,  15.8843,  29.9876, -30.5487,  16.1373],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1201/1999 | Train: 852.567 | Test: 870.964 
+Epoch 1202/1999 | Train: 851.964 | Test: 866.860 
+Epoch 1203/1999 | Train: 853.059 | Test: 862.606 
+Epoch 1204/1999 | Train: 853.132 | Test: 871.427 
+Epoch 1205/1999 | Train: 852.462 | Test: 869.580 
+Epoch 1206/1999 | Train: 853.756 | Test: 874.421 
+Epoch 1207/1999 | Train: 849.706 | Test: 871.143 
+Epoch 1208/1999 | Train: 852.581 | Test: 871.518 
+Epoch 1209/1999 | Train: 851.012 | Test: 871.156 
+Epoch 1210/1999 | Train: 853.520 | Test: 872.160 
+Epoch 1211/1999 | Train: 850.892 | Test: 866.567 
+Epoch 1212/1999 | Train: 852.536 | Test: 865.969 
+Epoch 1213/1999 | Train: 852.386 | Test: 865.326 
+Epoch 1214/1999 | Train: 850.381 | Test: 867.244 
+Epoch 1215/1999 | Train: 852.223 | Test: 865.234 
+Epoch 1216/1999 | Train: 851.333 | Test: 874.503 
+Epoch 1217/1999 | Train: 851.782 | Test: 864.162 
+Epoch 1218/1999 | Train: 851.461 | Test: 870.555 
+Epoch 1219/1999 | Train: 853.419 | Test: 863.053 
+Epoch 1220/1999 | Train: 850.595 | Test: 862.890 
+Epoch 1221/1999 | Train: 850.890 | Test: 868.379 
+Epoch 1222/1999 | Train: 850.558 | Test: 870.902 
+Epoch 1223/1999 | Train: 851.287 | Test: 869.680 
+Epoch 1224/1999 | Train: 855.153 | Test: 862.219 
+Epoch 1225/1999 | Train: 846.955 | Test: 871.885 
+Epoch 1226/1999 | Train: 849.109 | Test: 866.279 
+Epoch 1227/1999 | Train: 852.866 | Test: 866.536 
+Epoch 1228/1999 | Train: 854.570 | Test: 866.626 
+Epoch 1229/1999 | Train: 850.777 | Test: 871.284 
+Epoch 1230/1999 | Train: 851.136 | Test: 868.954 
+Epoch 1231/1999 | Train: 851.270 | Test: 871.348 
+Epoch 1232/1999 | Train: 851.925 | Test: 869.617 
+Epoch 1233/1999 | Train: 851.909 | Test: 870.441 
+Epoch 1234/1999 | Train: 853.450 | Test: 869.881 
+Epoch 1235/1999 | Train: 854.997 | Test: 872.166 
+Epoch 1236/1999 | Train: 849.208 | Test: 866.393 
+Epoch 1237/1999 | Train: 850.839 | Test: 863.377 
+Epoch 1238/1999 | Train: 849.516 | Test: 861.875 
+Epoch 1239/1999 | Train: 853.183 | Test: 866.055 
+Epoch 1240/1999 | Train: 849.321 | Test: 870.215 
+Epoch 1241/1999 | Train: 853.517 | Test: 877.504 
+Epoch 1242/1999 | Train: 852.478 | Test: 868.533 
+Epoch 1243/1999 | Train: 852.831 | Test: 857.740 
+Epoch 1244/1999 | Train: 850.394 | Test: 866.834 
+Epoch 1245/1999 | Train: 855.065 | Test: 869.375 
+Epoch 1246/1999 | Train: 853.880 | Test: 868.295 
+Epoch 1247/1999 | Train: 851.288 | Test: 869.155 
+Epoch 1248/1999 | Train: 854.297 | Test: 870.124 
+Epoch 1249/1999 | Train: 854.440 | Test: 866.229 
+Epoch 1250/1999 | Train: 851.991 | Test: 872.118 
+Epoch 1251/1999 | Train: 850.728 | Test: 865.408 
+Epoch 1252/1999 | Train: 850.511 | Test: 871.112 
+Epoch 1253/1999 | Train: 850.612 | Test: 869.336 
+Epoch 1254/1999 | Train: 850.842 | Test: 865.488 
+Epoch 1255/1999 | Train: 850.362 | Test: 867.369 
+Epoch 1256/1999 | Train: 849.913 | Test: 868.775 
+Epoch 1257/1999 | Train: 853.519 | Test: 867.586 
+Epoch 1258/1999 | Train: 851.913 | Test: 866.534 
+Epoch 1259/1999 | Train: 854.846 | Test: 874.841 
+Epoch 1260/1999 | Train: 847.731 | Test: 872.072 
+Epoch 1261/1999 | Train: 855.038 | Test: 868.585 
+Epoch 1262/1999 | Train: 853.625 | Test: 872.746 
+Epoch 1263/1999 | Train: 854.975 | Test: 864.804 
+Epoch 1264/1999 | Train: 851.790 | Test: 867.731 
+Epoch 1265/1999 | Train: 852.890 | Test: 859.314 
+Epoch 1266/1999 | Train: 850.321 | Test: 865.359 
+Epoch 1267/1999 | Train: 852.560 | Test: 869.155 
+Epoch 1268/1999 | Train: 851.086 | Test: 866.813 
+Epoch 1269/1999 | Train: 851.013 | Test: 865.400 
+Epoch 1270/1999 | Train: 852.754 | Test: 867.933 
+Epoch 1271/1999 | Train: 849.804 | Test: 865.103 
+Epoch 1272/1999 | Train: 854.489 | Test: 873.818 
+Epoch 1273/1999 | Train: 852.178 | Test: 866.177 
+Epoch 1274/1999 | Train: 852.215 | Test: 868.366 
+Epoch 1275/1999 | Train: 854.784 | Test: 865.567 
+Epoch 1276/1999 | Train: 853.600 | Test: 868.445 
+Epoch 1277/1999 | Train: 852.714 | Test: 868.702 
+Epoch 1278/1999 | Train: 850.471 | Test: 869.384 
+Epoch 1279/1999 | Train: 852.434 | Test: 864.035 
+Epoch 1280/1999 | Train: 850.277 | Test: 864.639 
+Epoch 1281/1999 | Train: 851.772 | Test: 866.185 
+Epoch 1282/1999 | Train: 849.972 | Test: 870.599 
+Epoch 1283/1999 | Train: 849.982 | Test: 870.393 
+Epoch 1284/1999 | Train: 853.146 | Test: 867.334 
+Epoch 1285/1999 | Train: 852.797 | Test: 873.855 
+Epoch 1286/1999 | Train: 853.837 | Test: 870.555 
+Epoch 1287/1999 | Train: 851.249 | Test: 869.000 
+Epoch 1288/1999 | Train: 852.474 | Test: 869.059 
+Epoch 1289/1999 | Train: 849.733 | Test: 864.720 
+Epoch 1290/1999 | Train: 852.290 | Test: 868.323 
+Epoch 1291/1999 | Train: 851.374 | Test: 866.408 
+Epoch 1292/1999 | Train: 850.103 | Test: 867.252 
+Epoch 1293/1999 | Train: 849.226 | Test: 860.436 
+Epoch 1294/1999 | Train: 846.194 | Test: 871.612 
+Epoch 1295/1999 | Train: 852.966 | Test: 866.398 
+Epoch 1296/1999 | Train: 853.539 | Test: 867.519 
+Epoch 1297/1999 | Train: 850.213 | Test: 869.294 
+Epoch 1298/1999 | Train: 850.922 | Test: 870.318 
+Epoch 1299/1999 | Train: 851.835 | Test: 865.870 
+Epoch 1300/1999 | Train: 852.799 | Test: 866.289 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-28.1396, -36.5642,  11.9745, -27.9775, -37.3991,  11.6507],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 28.0627, -27.5038, -25.8423,  28.5222, -28.8158, -24.2859],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 34.4598, -14.9154,  10.1913,  34.2955, -13.2916,  10.4314],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1301/1999 | Train: 854.301 | Test: 869.973 
+Epoch 1302/1999 | Train: 850.181 | Test: 869.702 
+Epoch 1303/1999 | Train: 851.813 | Test: 859.813 
+Epoch 1304/1999 | Train: 852.203 | Test: 869.760 
+Epoch 1305/1999 | Train: 849.513 | Test: 877.290 
+Epoch 1306/1999 | Train: 853.287 | Test: 864.724 
+Epoch 1307/1999 | Train: 849.576 | Test: 867.912 
+Epoch 1308/1999 | Train: 857.095 | Test: 868.234 
+Epoch 1309/1999 | Train: 851.515 | Test: 867.505 
+Epoch 1310/1999 | Train: 849.938 | Test: 869.141 
+Epoch 1311/1999 | Train: 851.632 | Test: 874.141 
+Epoch 1312/1999 | Train: 851.355 | Test: 862.441 
+Epoch 1313/1999 | Train: 855.015 | Test: 872.571 
+Epoch 1314/1999 | Train: 852.372 | Test: 864.770 
+Epoch 1315/1999 | Train: 854.491 | Test: 870.284 
+Epoch 1316/1999 | Train: 849.022 | Test: 865.122 
+Epoch 1317/1999 | Train: 852.464 | Test: 867.298 
+Epoch 1318/1999 | Train: 846.731 | Test: 862.952 
+Epoch 1319/1999 | Train: 851.461 | Test: 870.305 
+Epoch 1320/1999 | Train: 851.189 | Test: 863.861 
+Epoch 1321/1999 | Train: 853.493 | Test: 874.497 
+Epoch 1322/1999 | Train: 851.087 | Test: 868.138 
+Epoch 1323/1999 | Train: 851.630 | Test: 867.512 
+Epoch 1324/1999 | Train: 850.456 | Test: 867.166 
+Epoch 1325/1999 | Train: 853.543 | Test: 867.409 
+Epoch 1326/1999 | Train: 852.079 | Test: 870.671 
+Epoch 1327/1999 | Train: 848.662 | Test: 865.052 
+Epoch 1328/1999 | Train: 852.629 | Test: 874.297 
+Epoch 1329/1999 | Train: 852.526 | Test: 870.827 
+Epoch 1330/1999 | Train: 851.947 | Test: 867.989 
+Epoch 1331/1999 | Train: 854.613 | Test: 866.694 
+Epoch 1332/1999 | Train: 853.457 | Test: 869.887 
+Epoch 1333/1999 | Train: 848.703 | Test: 863.002 
+Epoch 1334/1999 | Train: 851.443 | Test: 872.862 
+Epoch 1335/1999 | Train: 849.472 | Test: 869.026 
+Epoch 1336/1999 | Train: 852.539 | Test: 865.169 
+Epoch 1337/1999 | Train: 850.769 | Test: 867.063 
+Epoch 1338/1999 | Train: 854.575 | Test: 870.188 
+Epoch 1339/1999 | Train: 851.302 | Test: 865.209 
+Epoch 1340/1999 | Train: 850.873 | Test: 871.207 
+Epoch 1341/1999 | Train: 849.936 | Test: 866.569 
+Epoch 1342/1999 | Train: 850.413 | Test: 873.427 
+Epoch 1343/1999 | Train: 850.880 | Test: 869.441 
+Epoch 1344/1999 | Train: 850.598 | Test: 869.656 
+Epoch 1345/1999 | Train: 852.957 | Test: 868.063 
+Epoch 1346/1999 | Train: 850.435 | Test: 865.506 
+Epoch 1347/1999 | Train: 848.978 | Test: 865.063 
+Epoch 1348/1999 | Train: 851.695 | Test: 871.279 
+Epoch 1349/1999 | Train: 852.362 | Test: 871.160 
+Epoch 1350/1999 | Train: 852.351 | Test: 875.770 
+Epoch 1351/1999 | Train: 852.038 | Test: 868.120 
+Epoch 1352/1999 | Train: 851.046 | Test: 868.969 
+Epoch 1353/1999 | Train: 849.209 | Test: 866.253 
+Epoch 1354/1999 | Train: 848.471 | Test: 868.623 
+Epoch 1355/1999 | Train: 850.379 | Test: 862.472 
+Epoch 1356/1999 | Train: 852.067 | Test: 871.570 
+Epoch 1357/1999 | Train: 851.398 | Test: 866.479 
+Epoch 1358/1999 | Train: 851.860 | Test: 868.944 
+Epoch 1359/1999 | Train: 852.229 | Test: 877.523 
+Epoch 1360/1999 | Train: 849.536 | Test: 868.425 
+Epoch 1361/1999 | Train: 852.424 | Test: 866.050 
+Epoch 1362/1999 | Train: 852.543 | Test: 868.470 
+Epoch 1363/1999 | Train: 853.546 | Test: 867.273 
+Epoch 1364/1999 | Train: 850.156 | Test: 866.626 
+Epoch 1365/1999 | Train: 853.551 | Test: 865.374 
+Epoch 1366/1999 | Train: 852.144 | Test: 865.516 
+Epoch 1367/1999 | Train: 850.228 | Test: 868.903 
+Epoch 1368/1999 | Train: 851.456 | Test: 862.883 
+Epoch 1369/1999 | Train: 854.898 | Test: 868.618 
+Epoch 1370/1999 | Train: 851.182 | Test: 872.232 
+Epoch 1371/1999 | Train: 849.842 | Test: 867.835 
+Epoch 1372/1999 | Train: 853.285 | Test: 867.617 
+Epoch 1373/1999 | Train: 853.052 | Test: 867.098 
+Epoch 1374/1999 | Train: 851.540 | Test: 863.567 
+Epoch 1375/1999 | Train: 850.133 | Test: 874.029 
+Epoch 1376/1999 | Train: 852.304 | Test: 865.977 
+Epoch 1377/1999 | Train: 852.701 | Test: 869.511 
+Epoch 1378/1999 | Train: 849.805 | Test: 872.873 
+Epoch 1379/1999 | Train: 850.981 | Test: 867.673 
+Epoch 1380/1999 | Train: 850.927 | Test: 870.217 
+Epoch 1381/1999 | Train: 846.803 | Test: 871.005 
+Epoch 1382/1999 | Train: 853.885 | Test: 866.591 
+Epoch 1383/1999 | Train: 851.090 | Test: 872.235 
+Epoch 1384/1999 | Train: 853.439 | Test: 870.072 
+Epoch 1385/1999 | Train: 852.590 | Test: 867.394 
+Epoch 1386/1999 | Train: 850.029 | Test: 869.216 
+Epoch 1387/1999 | Train: 851.329 | Test: 866.842 
+Epoch 1388/1999 | Train: 849.544 | Test: 866.518 
+Epoch 1389/1999 | Train: 851.539 | Test: 869.539 
+Epoch 1390/1999 | Train: 850.464 | Test: 868.422 
+Epoch 1391/1999 | Train: 848.997 | Test: 863.046 
+Epoch 1392/1999 | Train: 849.278 | Test: 871.667 
+Epoch 1393/1999 | Train: 850.739 | Test: 871.334 
+Epoch 1394/1999 | Train: 850.828 | Test: 865.484 
+Epoch 1395/1999 | Train: 853.189 | Test: 872.202 
+Epoch 1396/1999 | Train: 851.381 | Test: 874.729 
+Epoch 1397/1999 | Train: 852.514 | Test: 866.881 
+Epoch 1398/1999 | Train: 853.646 | Test: 874.428 
+Epoch 1399/1999 | Train: 850.916 | Test: 861.080 
+Epoch 1400/1999 | Train: 852.645 | Test: 871.423 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-18.8920, -30.9924,   9.5730, -18.4768, -31.3996,   9.6278],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([  5.2256, -19.7145,  -0.4217,   5.7306, -19.9316,   0.0596],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([38.0475, -5.5991, 13.8867, 37.9304, -3.9417, 13.9170],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1401/1999 | Train: 851.981 | Test: 877.453 
+Epoch 1402/1999 | Train: 849.443 | Test: 864.717 
+Epoch 1403/1999 | Train: 852.211 | Test: 870.854 
+Epoch 1404/1999 | Train: 851.845 | Test: 866.882 
+Epoch 1405/1999 | Train: 851.288 | Test: 863.176 
+Epoch 1406/1999 | Train: 851.273 | Test: 870.508 
+Epoch 1407/1999 | Train: 851.669 | Test: 869.376 
+Epoch 1408/1999 | Train: 849.109 | Test: 866.572 
+Epoch 1409/1999 | Train: 851.999 | Test: 874.562 
+Epoch 1410/1999 | Train: 852.327 | Test: 868.863 
+Epoch 1411/1999 | Train: 852.112 | Test: 870.973 
+Epoch 1412/1999 | Train: 851.043 | Test: 866.164 
+Epoch 1413/1999 | Train: 849.674 | Test: 869.026 
+Epoch 1414/1999 | Train: 852.032 | Test: 865.439 
+Epoch 1415/1999 | Train: 852.017 | Test: 868.849 
+Epoch 1416/1999 | Train: 850.245 | Test: 865.686 
+Epoch 1417/1999 | Train: 846.680 | Test: 873.287 
+Epoch 1418/1999 | Train: 852.073 | Test: 867.806 
+Epoch 1419/1999 | Train: 851.126 | Test: 872.621 
+Epoch 1420/1999 | Train: 849.721 | Test: 867.987 
+Epoch 1421/1999 | Train: 848.306 | Test: 861.883 
+Epoch 1422/1999 | Train: 850.519 | Test: 868.160 
+Epoch 1423/1999 | Train: 850.434 | Test: 869.659 
+Epoch 1424/1999 | Train: 848.016 | Test: 869.044 
+Epoch 1425/1999 | Train: 849.201 | Test: 864.981 
+Epoch 1426/1999 | Train: 853.329 | Test: 868.811 
+Epoch 1427/1999 | Train: 850.850 | Test: 865.053 
+Epoch 1428/1999 | Train: 852.490 | Test: 873.487 
+Epoch 1429/1999 | Train: 853.034 | Test: 863.567 
+Epoch 1430/1999 | Train: 849.610 | Test: 872.575 
+Epoch 1431/1999 | Train: 851.491 | Test: 871.487 
+Epoch 1432/1999 | Train: 848.128 | Test: 865.933 
+Epoch 1433/1999 | Train: 850.611 | Test: 875.327 
+Epoch 1434/1999 | Train: 851.047 | Test: 863.957 
+Epoch 1435/1999 | Train: 849.480 | Test: 872.046 
+Epoch 1436/1999 | Train: 850.829 | Test: 868.170 
+Epoch 1437/1999 | Train: 853.170 | Test: 867.185 
+Epoch 1438/1999 | Train: 853.174 | Test: 866.187 
+Epoch 1439/1999 | Train: 854.126 | Test: 864.880 
+Epoch 1440/1999 | Train: 854.744 | Test: 868.831 
+Epoch 1441/1999 | Train: 851.392 | Test: 865.848 
+Epoch 1442/1999 | Train: 853.101 | Test: 862.683 
+Epoch 1443/1999 | Train: 850.437 | Test: 867.883 
+Epoch 1444/1999 | Train: 851.258 | Test: 870.012 
+Epoch 1445/1999 | Train: 850.245 | Test: 863.452 
+Epoch 1446/1999 | Train: 851.047 | Test: 875.379 
+Epoch 1447/1999 | Train: 849.665 | Test: 864.935 
+Epoch 1448/1999 | Train: 850.731 | Test: 873.769 
+Epoch 1449/1999 | Train: 853.428 | Test: 870.363 
+Epoch 1450/1999 | Train: 854.164 | Test: 868.654 
+Epoch 1451/1999 | Train: 850.155 | Test: 864.403 
+Epoch 1452/1999 | Train: 850.609 | Test: 865.926 
+Epoch 1453/1999 | Train: 850.920 | Test: 864.926 
+Epoch 1454/1999 | Train: 850.895 | Test: 867.202 
+Epoch 1455/1999 | Train: 849.880 | Test: 868.257 
+Epoch 1456/1999 | Train: 847.948 | Test: 868.153 
+Epoch 1457/1999 | Train: 853.625 | Test: 871.853 
+Epoch 1458/1999 | Train: 852.576 | Test: 870.900 
+Epoch 1459/1999 | Train: 852.298 | Test: 862.667 
+Epoch 1460/1999 | Train: 849.599 | Test: 865.951 
+Epoch 1461/1999 | Train: 851.098 | Test: 872.454 
+Epoch 1462/1999 | Train: 850.773 | Test: 865.930 
+Epoch 1463/1999 | Train: 851.777 | Test: 866.720 
+Epoch 1464/1999 | Train: 851.028 | Test: 872.659 
+Epoch 1465/1999 | Train: 849.603 | Test: 868.059 
+Epoch 1466/1999 | Train: 848.469 | Test: 873.615 
+Epoch 1467/1999 | Train: 849.579 | Test: 862.178 
+Epoch 1468/1999 | Train: 849.650 | Test: 866.278 
+Epoch 1469/1999 | Train: 850.889 | Test: 869.512 
+Epoch 1470/1999 | Train: 850.781 | Test: 869.648 
+Epoch 1471/1999 | Train: 850.986 | Test: 868.717 
+Epoch 1472/1999 | Train: 850.800 | Test: 867.645 
+Epoch 1473/1999 | Train: 852.105 | Test: 866.331 
+Epoch 1474/1999 | Train: 852.695 | Test: 864.949 
+Epoch 1475/1999 | Train: 852.844 | Test: 870.808 
+Epoch 1476/1999 | Train: 851.936 | Test: 869.981 
+Epoch 1477/1999 | Train: 851.983 | Test: 864.508 
+Epoch 1478/1999 | Train: 850.141 | Test: 865.165 
+Epoch 1479/1999 | Train: 852.124 | Test: 871.020 
+Epoch 1480/1999 | Train: 848.538 | Test: 873.866 
+Epoch 1481/1999 | Train: 850.122 | Test: 866.076 
+Epoch 1482/1999 | Train: 850.478 | Test: 868.347 
+Epoch 1483/1999 | Train: 851.456 | Test: 868.947 
+Epoch 1484/1999 | Train: 853.437 | Test: 862.975 
+Epoch 1485/1999 | Train: 849.717 | Test: 870.446 
+Epoch 1486/1999 | Train: 849.922 | Test: 866.851 
+Epoch 1487/1999 | Train: 847.292 | Test: 870.473 
+Epoch 1488/1999 | Train: 850.037 | Test: 867.365 
+Epoch 1489/1999 | Train: 850.369 | Test: 866.418 
+Epoch 1490/1999 | Train: 852.338 | Test: 866.937 
+Epoch 1491/1999 | Train: 852.559 | Test: 867.196 
+Epoch 1492/1999 | Train: 854.198 | Test: 868.936 
+Epoch 1493/1999 | Train: 849.439 | Test: 871.351 
+Epoch 1494/1999 | Train: 851.256 | Test: 869.811 
+Epoch 1495/1999 | Train: 851.211 | Test: 863.749 
+Epoch 1496/1999 | Train: 851.379 | Test: 869.272 
+Epoch 1497/1999 | Train: 851.504 | Test: 875.655 
+Epoch 1498/1999 | Train: 851.929 | Test: 866.099 
+Epoch 1499/1999 | Train: 852.210 | Test: 870.281 
+Epoch 1500/1999 | Train: 849.762 | Test: 861.648 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-22.7138, -35.7704,  26.4224, -23.0093, -35.4417,  25.7566],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 12.5552, -10.8878,   0.6031,  12.5597, -11.1702,   0.7217],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 40.8069, -35.0904,  10.7175,  40.7478, -33.6596,  11.5059],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1501/1999 | Train: 849.322 | Test: 866.582 
+Epoch 1502/1999 | Train: 850.080 | Test: 865.693 
+Epoch 1503/1999 | Train: 849.477 | Test: 869.312 
+Epoch 1504/1999 | Train: 850.315 | Test: 864.560 
+Epoch 1505/1999 | Train: 851.747 | Test: 864.707 
+Epoch 1506/1999 | Train: 854.705 | Test: 862.923 
+Epoch 1507/1999 | Train: 847.832 | Test: 870.473 
+Epoch 1508/1999 | Train: 850.571 | Test: 872.593 
+Epoch 1509/1999 | Train: 848.222 | Test: 870.380 
+Epoch 1510/1999 | Train: 851.397 | Test: 867.152 
+Epoch 1511/1999 | Train: 849.058 | Test: 867.119 
+Epoch 1512/1999 | Train: 848.381 | Test: 867.493 
+Epoch 1513/1999 | Train: 852.300 | Test: 865.887 
+Epoch 1514/1999 | Train: 849.934 | Test: 869.151 
+Epoch 1515/1999 | Train: 849.718 | Test: 867.520 
+Epoch 1516/1999 | Train: 851.510 | Test: 861.834 
+Epoch 1517/1999 | Train: 849.669 | Test: 868.645 
+Epoch 1518/1999 | Train: 851.976 | Test: 865.599 
+Epoch 1519/1999 | Train: 850.262 | Test: 870.244 
+Epoch 1520/1999 | Train: 851.924 | Test: 869.328 
+Epoch 1521/1999 | Train: 850.070 | Test: 868.356 
+Epoch 1522/1999 | Train: 851.661 | Test: 866.110 
+Epoch 1523/1999 | Train: 852.750 | Test: 868.115 
+Epoch 1524/1999 | Train: 852.923 | Test: 872.753 
+Epoch 1525/1999 | Train: 851.286 | Test: 863.716 
+Epoch 1526/1999 | Train: 847.653 | Test: 865.683 
+Epoch 1527/1999 | Train: 850.027 | Test: 868.230 
+Epoch 1528/1999 | Train: 848.335 | Test: 862.245 
+Epoch 1529/1999 | Train: 849.902 | Test: 863.316 
+Epoch 1530/1999 | Train: 849.933 | Test: 870.291 
+Epoch 1531/1999 | Train: 854.053 | Test: 869.426 
+Epoch 1532/1999 | Train: 850.821 | Test: 872.618 
+Epoch 1533/1999 | Train: 852.609 | Test: 868.738 
+Epoch 1534/1999 | Train: 850.195 | Test: 862.445 
+Epoch 1535/1999 | Train: 849.570 | Test: 869.347 
+Epoch 1536/1999 | Train: 850.961 | Test: 868.499 
+Epoch 1537/1999 | Train: 849.230 | Test: 868.806 
+Epoch 1538/1999 | Train: 851.601 | Test: 869.483 
+Epoch 1539/1999 | Train: 852.183 | Test: 868.378 
+Epoch 1540/1999 | Train: 850.627 | Test: 870.158 
+Epoch 1541/1999 | Train: 852.320 | Test: 871.549 
+Epoch 1542/1999 | Train: 848.823 | Test: 872.791 
+Epoch 1543/1999 | Train: 852.171 | Test: 874.906 
+Epoch 1544/1999 | Train: 848.041 | Test: 871.524 
+Epoch 1545/1999 | Train: 849.310 | Test: 868.312 
+Epoch 1546/1999 | Train: 848.467 | Test: 857.458 
+Epoch 1547/1999 | Train: 854.424 | Test: 864.915 
+Epoch 1548/1999 | Train: 849.588 | Test: 870.621 
+Epoch 1549/1999 | Train: 847.627 | Test: 867.992 
+Epoch 1550/1999 | Train: 851.189 | Test: 871.945 
+Epoch 1551/1999 | Train: 850.587 | Test: 869.950 
+Epoch 1552/1999 | Train: 850.917 | Test: 871.128 
+Epoch 1553/1999 | Train: 849.367 | Test: 867.356 
+Epoch 1554/1999 | Train: 850.591 | Test: 867.988 
+Epoch 1555/1999 | Train: 851.247 | Test: 864.982 
+Epoch 1556/1999 | Train: 851.318 | Test: 874.223 
+Epoch 1557/1999 | Train: 850.566 | Test: 867.938 
+Epoch 1558/1999 | Train: 850.902 | Test: 870.442 
+Epoch 1559/1999 | Train: 851.277 | Test: 866.070 
+Epoch 1560/1999 | Train: 846.765 | Test: 868.910 
+Epoch 1561/1999 | Train: 850.165 | Test: 867.197 
+Epoch 1562/1999 | Train: 850.618 | Test: 864.801 
+Epoch 1563/1999 | Train: 849.529 | Test: 868.937 
+Epoch 1564/1999 | Train: 852.045 | Test: 869.602 
+Epoch 1565/1999 | Train: 849.701 | Test: 872.697 
+Epoch 1566/1999 | Train: 848.298 | Test: 867.680 
+Epoch 1567/1999 | Train: 849.749 | Test: 864.235 
+Epoch 1568/1999 | Train: 847.406 | Test: 866.879 
+Epoch 1569/1999 | Train: 848.281 | Test: 873.482 
+Epoch 1570/1999 | Train: 851.841 | Test: 865.537 
+Epoch 1571/1999 | Train: 852.155 | Test: 869.153 
+Epoch 1572/1999 | Train: 850.802 | Test: 874.250 
+Epoch 1573/1999 | Train: 849.230 | Test: 867.383 
+Epoch 1574/1999 | Train: 851.484 | Test: 857.147 
+Epoch 1575/1999 | Train: 848.863 | Test: 867.115 
+Epoch 1576/1999 | Train: 849.548 | Test: 866.174 
+Epoch 1577/1999 | Train: 848.456 | Test: 869.268 
+Epoch 1578/1999 | Train: 848.606 | Test: 866.768 
+Epoch 1579/1999 | Train: 851.905 | Test: 863.518 
+Epoch 1580/1999 | Train: 850.290 | Test: 865.298 
+Epoch 1581/1999 | Train: 848.098 | Test: 873.582 
+Epoch 1582/1999 | Train: 850.604 | Test: 869.863 
+Epoch 1583/1999 | Train: 853.372 | Test: 865.587 
+Epoch 1584/1999 | Train: 849.695 | Test: 866.690 
+Epoch 1585/1999 | Train: 849.646 | Test: 869.454 
+Epoch 1586/1999 | Train: 850.681 | Test: 874.738 
+Epoch 1587/1999 | Train: 849.421 | Test: 863.115 
+Epoch 1588/1999 | Train: 853.091 | Test: 869.355 
+Epoch 1589/1999 | Train: 849.582 | Test: 866.799 
+Epoch 1590/1999 | Train: 847.004 | Test: 865.415 
+Epoch 1591/1999 | Train: 852.453 | Test: 871.590 
+Epoch 1592/1999 | Train: 850.315 | Test: 862.949 
+Epoch 1593/1999 | Train: 850.087 | Test: 871.341 
+Epoch 1594/1999 | Train: 850.735 | Test: 871.667 
+Epoch 1595/1999 | Train: 850.976 | Test: 868.946 
+Epoch 1596/1999 | Train: 852.052 | Test: 865.047 
+Epoch 1597/1999 | Train: 854.507 | Test: 870.991 
+Epoch 1598/1999 | Train: 848.138 | Test: 867.213 
+Epoch 1599/1999 | Train: 849.546 | Test: 865.443 
+Epoch 1600/1999 | Train: 850.954 | Test: 859.849 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([ -8.6647, -35.5622,  13.5234,  -8.4303, -35.5307,  13.7132],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([29.5384, -4.9073, -9.6632, 29.8336, -4.7113, -8.9124],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 24.6145, -28.1943,  14.8781,  24.5129, -27.0551,  14.8919],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1601/1999 | Train: 848.416 | Test: 866.258 
+Epoch 1602/1999 | Train: 849.132 | Test: 873.566 
+Epoch 1603/1999 | Train: 851.271 | Test: 866.074 
+Epoch 1604/1999 | Train: 851.479 | Test: 866.727 
+Epoch 1605/1999 | Train: 851.007 | Test: 866.881 
+Epoch 1606/1999 | Train: 848.971 | Test: 866.785 
+Epoch 1607/1999 | Train: 850.121 | Test: 866.648 
+Epoch 1608/1999 | Train: 850.063 | Test: 864.420 
+Epoch 1609/1999 | Train: 850.260 | Test: 867.702 
+Epoch 1610/1999 | Train: 850.570 | Test: 866.348 
+Epoch 1611/1999 | Train: 849.474 | Test: 867.288 
+Epoch 1612/1999 | Train: 853.902 | Test: 869.426 
+Epoch 1613/1999 | Train: 851.045 | Test: 874.006 
+Epoch 1614/1999 | Train: 850.439 | Test: 866.396 
+Epoch 1615/1999 | Train: 850.855 | Test: 863.837 
+Epoch 1616/1999 | Train: 848.022 | Test: 868.740 
+Epoch 1617/1999 | Train: 850.604 | Test: 866.749 
+Epoch 1618/1999 | Train: 850.040 | Test: 864.056 
+Epoch 1619/1999 | Train: 849.877 | Test: 864.795 
+Epoch 1620/1999 | Train: 853.639 | Test: 868.350 
+Epoch 1621/1999 | Train: 847.315 | Test: 864.565 
+Epoch 1622/1999 | Train: 848.898 | Test: 861.567 
+Epoch 1623/1999 | Train: 846.898 | Test: 866.588 
+Epoch 1624/1999 | Train: 846.194 | Test: 871.989 
+Epoch 1625/1999 | Train: 850.696 | Test: 867.351 
+Epoch 1626/1999 | Train: 849.586 | Test: 864.348 
+Epoch 1627/1999 | Train: 852.333 | Test: 869.597 
+Epoch 1628/1999 | Train: 850.946 | Test: 864.544 
+Epoch 1629/1999 | Train: 850.195 | Test: 865.190 
+Epoch 1630/1999 | Train: 852.176 | Test: 871.088 
+Epoch 1631/1999 | Train: 850.185 | Test: 866.038 
+Epoch 1632/1999 | Train: 848.989 | Test: 860.668 
+Epoch 1633/1999 | Train: 850.922 | Test: 870.322 
+Epoch 1634/1999 | Train: 849.547 | Test: 867.860 
+Epoch 1635/1999 | Train: 849.409 | Test: 868.678 
+Epoch 1636/1999 | Train: 849.546 | Test: 863.158 
+Epoch 1637/1999 | Train: 851.234 | Test: 868.646 
+Epoch 1638/1999 | Train: 851.203 | Test: 868.304 
+Epoch 1639/1999 | Train: 847.912 | Test: 867.488 
+Epoch 1640/1999 | Train: 847.601 | Test: 863.056 
+Epoch 1641/1999 | Train: 848.662 | Test: 860.640 
+Epoch 1642/1999 | Train: 848.789 | Test: 865.739 
+Epoch 1643/1999 | Train: 852.734 | Test: 867.506 
+Epoch 1644/1999 | Train: 850.754 | Test: 868.847 
+Epoch 1645/1999 | Train: 851.533 | Test: 868.419 
+Epoch 1646/1999 | Train: 850.914 | Test: 872.286 
+Epoch 1647/1999 | Train: 850.996 | Test: 876.279 
+Epoch 1648/1999 | Train: 848.017 | Test: 866.190 
+Epoch 1649/1999 | Train: 848.047 | Test: 871.549 
+Epoch 1650/1999 | Train: 848.720 | Test: 859.210 
+Epoch 1651/1999 | Train: 849.452 | Test: 866.786 
+Epoch 1652/1999 | Train: 847.917 | Test: 862.565 
+Epoch 1653/1999 | Train: 849.307 | Test: 869.602 
+Epoch 1654/1999 | Train: 848.257 | Test: 865.485 
+Epoch 1655/1999 | Train: 849.433 | Test: 863.791 
+Epoch 1656/1999 | Train: 849.875 | Test: 871.948 
+Epoch 1657/1999 | Train: 848.259 | Test: 873.275 
+Epoch 1658/1999 | Train: 851.067 | Test: 866.785 
+Epoch 1659/1999 | Train: 849.776 | Test: 867.990 
+Epoch 1660/1999 | Train: 846.945 | Test: 871.061 
+Epoch 1661/1999 | Train: 851.791 | Test: 866.657 
+Epoch 1662/1999 | Train: 848.622 | Test: 867.982 
+Epoch 1663/1999 | Train: 849.936 | Test: 865.608 
+Epoch 1664/1999 | Train: 850.989 | Test: 870.259 
+Epoch 1665/1999 | Train: 851.023 | Test: 865.583 
+Epoch 1666/1999 | Train: 849.823 | Test: 863.130 
+Epoch 1667/1999 | Train: 850.016 | Test: 867.359 
+Epoch 1668/1999 | Train: 851.574 | Test: 862.372 
+Epoch 1669/1999 | Train: 851.570 | Test: 872.817 
+Epoch 1670/1999 | Train: 850.502 | Test: 859.349 
+Epoch 1671/1999 | Train: 850.348 | Test: 870.748 
+Epoch 1672/1999 | Train: 853.379 | Test: 863.160 
+Epoch 1673/1999 | Train: 848.581 | Test: 869.286 
+Epoch 1674/1999 | Train: 850.397 | Test: 867.218 
+Epoch 1675/1999 | Train: 850.331 | Test: 863.845 
+Epoch 1676/1999 | Train: 850.636 | Test: 872.926 
+Epoch 1677/1999 | Train: 851.557 | Test: 863.884 
+Epoch 1678/1999 | Train: 850.298 | Test: 868.863 
+Epoch 1679/1999 | Train: 849.515 | Test: 862.143 
+Epoch 1680/1999 | Train: 854.432 | Test: 864.381 
+Epoch 1681/1999 | Train: 850.344 | Test: 866.102 
+Epoch 1682/1999 | Train: 850.314 | Test: 867.391 
+Epoch 1683/1999 | Train: 850.642 | Test: 864.905 
+Epoch 1684/1999 | Train: 850.501 | Test: 863.523 
+Epoch 1685/1999 | Train: 851.340 | Test: 866.536 
+Epoch 1686/1999 | Train: 851.175 | Test: 868.742 
+Epoch 1687/1999 | Train: 850.653 | Test: 866.386 
+Epoch 1688/1999 | Train: 847.569 | Test: 870.385 
+Epoch 1689/1999 | Train: 849.454 | Test: 868.648 
+Epoch 1690/1999 | Train: 853.164 | Test: 867.535 
+Epoch 1691/1999 | Train: 850.764 | Test: 862.732 
+Epoch 1692/1999 | Train: 849.086 | Test: 863.560 
+Epoch 1693/1999 | Train: 849.852 | Test: 866.809 
+Epoch 1694/1999 | Train: 850.696 | Test: 871.599 
+Epoch 1695/1999 | Train: 851.004 | Test: 864.451 
+Epoch 1696/1999 | Train: 852.560 | Test: 864.871 
+Epoch 1697/1999 | Train: 850.924 | Test: 866.242 
+Epoch 1698/1999 | Train: 848.976 | Test: 867.572 
+Epoch 1699/1999 | Train: 847.309 | Test: 864.717 
+Epoch 1700/1999 | Train: 847.421 | Test: 864.831 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-24.5767, -39.5498,  26.3046, -24.7074, -39.5807,  25.6084],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 13.9130, -22.1192,   0.5072,  13.9392, -22.0255,   0.9054],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 21.8354, -40.8557,  13.7772,  21.5497, -40.2461,  13.9333],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1701/1999 | Train: 847.969 | Test: 870.792 
+Epoch 1702/1999 | Train: 852.459 | Test: 865.540 
+Epoch 1703/1999 | Train: 850.536 | Test: 866.009 
+Epoch 1704/1999 | Train: 848.497 | Test: 869.078 
+Epoch 1705/1999 | Train: 849.636 | Test: 863.211 
+Epoch 1706/1999 | Train: 851.403 | Test: 866.689 
+Epoch 1707/1999 | Train: 849.266 | Test: 870.611 
+Epoch 1708/1999 | Train: 851.213 | Test: 866.544 
+Epoch 1709/1999 | Train: 849.663 | Test: 868.761 
+Epoch 1710/1999 | Train: 850.472 | Test: 873.138 
+Epoch 1711/1999 | Train: 848.001 | Test: 868.407 
+Epoch 1712/1999 | Train: 849.610 | Test: 863.446 
+Epoch 1713/1999 | Train: 852.425 | Test: 861.374 
+Epoch 1714/1999 | Train: 847.571 | Test: 873.140 
+Epoch 1715/1999 | Train: 847.405 | Test: 864.891 
+Epoch 1716/1999 | Train: 848.682 | Test: 872.940 
+Epoch 1717/1999 | Train: 850.367 | Test: 870.000 
+Epoch 1718/1999 | Train: 850.218 | Test: 871.586 
+Epoch 1719/1999 | Train: 848.069 | Test: 866.109 
+Epoch 1720/1999 | Train: 851.852 | Test: 869.238 
+Epoch 1721/1999 | Train: 850.262 | Test: 864.146 
+Epoch 1722/1999 | Train: 851.919 | Test: 864.798 
+Epoch 1723/1999 | Train: 850.901 | Test: 870.172 
+Epoch 1724/1999 | Train: 852.591 | Test: 874.515 
+Epoch 1725/1999 | Train: 851.662 | Test: 867.296 
+Epoch 1726/1999 | Train: 851.905 | Test: 867.363 
+Epoch 1727/1999 | Train: 850.850 | Test: 868.310 
+Epoch 1728/1999 | Train: 849.561 | Test: 867.176 
+Epoch 1729/1999 | Train: 848.996 | Test: 863.633 
+Epoch 1730/1999 | Train: 848.331 | Test: 867.764 
+Epoch 1731/1999 | Train: 849.670 | Test: 868.871 
+Epoch 1732/1999 | Train: 851.325 | Test: 872.166 
+Epoch 1733/1999 | Train: 850.932 | Test: 868.742 
+Epoch 1734/1999 | Train: 849.969 | Test: 865.904 
+Epoch 1735/1999 | Train: 850.524 | Test: 864.897 
+Epoch 1736/1999 | Train: 847.982 | Test: 866.923 
+Epoch 1737/1999 | Train: 850.762 | Test: 867.843 
+Epoch 1738/1999 | Train: 848.705 | Test: 861.961 
+Epoch 1739/1999 | Train: 848.604 | Test: 871.689 
+Epoch 1740/1999 | Train: 850.356 | Test: 863.564 
+Epoch 1741/1999 | Train: 850.542 | Test: 865.298 
+Epoch 1742/1999 | Train: 850.876 | Test: 863.843 
+Epoch 1743/1999 | Train: 850.082 | Test: 861.037 
+Epoch 1744/1999 | Train: 848.221 | Test: 878.617 
+Epoch 1745/1999 | Train: 850.416 | Test: 861.344 
+Epoch 1746/1999 | Train: 846.818 | Test: 873.348 
+Epoch 1747/1999 | Train: 849.756 | Test: 869.050 
+Epoch 1748/1999 | Train: 848.882 | Test: 863.104 
+Epoch 1749/1999 | Train: 850.616 | Test: 871.382 
+Epoch 1750/1999 | Train: 850.620 | Test: 865.379 
+Epoch 1751/1999 | Train: 851.927 | Test: 863.520 
+Epoch 1752/1999 | Train: 849.504 | Test: 862.654 
+Epoch 1753/1999 | Train: 850.787 | Test: 863.745 
+Epoch 1754/1999 | Train: 846.654 | Test: 864.838 
+Epoch 1755/1999 | Train: 852.826 | Test: 868.915 
+Epoch 1756/1999 | Train: 850.278 | Test: 865.214 
+Epoch 1757/1999 | Train: 849.367 | Test: 870.894 
+Epoch 1758/1999 | Train: 848.630 | Test: 871.399 
+Epoch 1759/1999 | Train: 851.104 | Test: 867.427 
+Epoch 1760/1999 | Train: 848.914 | Test: 868.602 
+Epoch 1761/1999 | Train: 852.085 | Test: 868.300 
+Epoch 1762/1999 | Train: 846.487 | Test: 866.842 
+Epoch 1763/1999 | Train: 852.093 | Test: 866.937 
+Epoch 1764/1999 | Train: 847.706 | Test: 867.963 
+Epoch 1765/1999 | Train: 850.191 | Test: 865.988 
+Epoch 1766/1999 | Train: 850.259 | Test: 872.456 
+Epoch 1767/1999 | Train: 847.069 | Test: 865.960 
+Epoch 1768/1999 | Train: 851.672 | Test: 864.985 
+Epoch 1769/1999 | Train: 847.535 | Test: 864.516 
+Epoch 1770/1999 | Train: 849.314 | Test: 865.783 
+Epoch 1771/1999 | Train: 848.388 | Test: 860.848 
+Epoch 1772/1999 | Train: 849.829 | Test: 864.542 
+Epoch 1773/1999 | Train: 848.505 | Test: 867.452 
+Epoch 1774/1999 | Train: 846.414 | Test: 864.024 
+Epoch 1775/1999 | Train: 850.484 | Test: 873.125 
+Epoch 1776/1999 | Train: 854.510 | Test: 867.624 
+Epoch 1777/1999 | Train: 848.107 | Test: 861.636 
+Epoch 1778/1999 | Train: 850.238 | Test: 867.641 
+Epoch 1779/1999 | Train: 848.265 | Test: 867.697 
+Epoch 1780/1999 | Train: 849.776 | Test: 871.013 
+Epoch 1781/1999 | Train: 850.196 | Test: 868.099 
+Epoch 1782/1999 | Train: 850.099 | Test: 860.501 
+Epoch 1783/1999 | Train: 847.790 | Test: 863.784 
+Epoch 1784/1999 | Train: 847.330 | Test: 870.164 
+Epoch 1785/1999 | Train: 850.425 | Test: 873.222 
+Epoch 1786/1999 | Train: 849.811 | Test: 866.503 
+Epoch 1787/1999 | Train: 851.656 | Test: 872.557 
+Epoch 1788/1999 | Train: 851.388 | Test: 863.229 
+Epoch 1789/1999 | Train: 850.076 | Test: 867.698 
+Epoch 1790/1999 | Train: 848.822 | Test: 864.087 
+Epoch 1791/1999 | Train: 852.348 | Test: 859.163 
+Epoch 1792/1999 | Train: 850.202 | Test: 867.591 
+Epoch 1793/1999 | Train: 852.420 | Test: 867.919 
+Epoch 1794/1999 | Train: 846.972 | Test: 863.382 
+Epoch 1795/1999 | Train: 849.998 | Test: 864.983 
+Epoch 1796/1999 | Train: 848.051 | Test: 862.337 
+Epoch 1797/1999 | Train: 847.189 | Test: 863.079 
+Epoch 1798/1999 | Train: 850.522 | Test: 863.098 
+Epoch 1799/1999 | Train: 851.814 | Test: 869.532 
+Epoch 1800/1999 | Train: 850.787 | Test: 872.479 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-20.3916, -39.6587,   4.7066, -19.9825, -41.0467,   4.7898],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([ 14.7935, -11.2845,   1.2808,  15.1651, -11.0993,   1.5663],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 27.9380, -41.4373,   1.2856,  28.0250, -41.3454,   1.9993],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1801/1999 | Train: 851.452 | Test: 872.579 
+Epoch 1802/1999 | Train: 848.430 | Test: 867.842 
+Epoch 1803/1999 | Train: 850.863 | Test: 871.342 
+Epoch 1804/1999 | Train: 852.080 | Test: 874.214 
+Epoch 1805/1999 | Train: 848.359 | Test: 870.535 
+Epoch 1806/1999 | Train: 845.995 | Test: 862.724 
+Epoch 1807/1999 | Train: 847.958 | Test: 860.618 
+Epoch 1808/1999 | Train: 851.053 | Test: 867.288 
+Epoch 1809/1999 | Train: 851.890 | Test: 864.747 
+Epoch 1810/1999 | Train: 849.538 | Test: 857.280 
+Epoch 1811/1999 | Train: 851.352 | Test: 867.640 
+Epoch 1812/1999 | Train: 849.793 | Test: 861.743 
+Epoch 1813/1999 | Train: 847.164 | Test: 865.444 
+Epoch 1814/1999 | Train: 845.665 | Test: 866.752 
+Epoch 1815/1999 | Train: 849.328 | Test: 865.014 
+Epoch 1816/1999 | Train: 851.786 | Test: 867.813 
+Epoch 1817/1999 | Train: 850.147 | Test: 865.673 
+Epoch 1818/1999 | Train: 848.701 | Test: 865.809 
+Epoch 1819/1999 | Train: 849.996 | Test: 873.387 
+Epoch 1820/1999 | Train: 850.898 | Test: 872.529 
+Epoch 1821/1999 | Train: 849.935 | Test: 862.204 
+Epoch 1822/1999 | Train: 849.318 | Test: 873.629 
+Epoch 1823/1999 | Train: 849.024 | Test: 865.480 
+Epoch 1824/1999 | Train: 849.772 | Test: 869.226 
+Epoch 1825/1999 | Train: 852.271 | Test: 870.357 
+Epoch 1826/1999 | Train: 848.400 | Test: 868.518 
+Epoch 1827/1999 | Train: 847.616 | Test: 865.977 
+Epoch 1828/1999 | Train: 848.417 | Test: 866.389 
+Epoch 1829/1999 | Train: 847.732 | Test: 865.171 
+Epoch 1830/1999 | Train: 848.894 | Test: 865.750 
+Epoch 1831/1999 | Train: 851.287 | Test: 870.924 
+Epoch 1832/1999 | Train: 848.832 | Test: 864.003 
+Epoch 1833/1999 | Train: 849.618 | Test: 861.167 
+Epoch 1834/1999 | Train: 851.278 | Test: 869.720 
+Epoch 1835/1999 | Train: 849.899 | Test: 859.465 
+Epoch 1836/1999 | Train: 848.040 | Test: 858.954 
+Epoch 1837/1999 | Train: 847.389 | Test: 863.933 
+Epoch 1838/1999 | Train: 850.504 | Test: 871.461 
+Epoch 1839/1999 | Train: 851.475 | Test: 870.533 
+Epoch 1840/1999 | Train: 849.604 | Test: 870.390 
+Epoch 1841/1999 | Train: 850.986 | Test: 872.236 
+Epoch 1842/1999 | Train: 848.232 | Test: 867.047 
+Epoch 1843/1999 | Train: 848.690 | Test: 862.114 
+Epoch 1844/1999 | Train: 845.264 | Test: 861.059 
+Epoch 1845/1999 | Train: 848.644 | Test: 872.433 
+Epoch 1846/1999 | Train: 851.709 | Test: 861.741 
+Epoch 1847/1999 | Train: 848.493 | Test: 866.953 
+Epoch 1848/1999 | Train: 847.048 | Test: 867.599 
+Epoch 1849/1999 | Train: 849.627 | Test: 865.974 
+Epoch 1850/1999 | Train: 850.270 | Test: 871.434 
+Epoch 1851/1999 | Train: 850.305 | Test: 859.730 
+Epoch 1852/1999 | Train: 850.009 | Test: 861.852 
+Epoch 1853/1999 | Train: 849.043 | Test: 875.341 
+Epoch 1854/1999 | Train: 849.137 | Test: 862.437 
+Epoch 1855/1999 | Train: 851.087 | Test: 867.590 
+Epoch 1856/1999 | Train: 853.565 | Test: 867.207 
+Epoch 1857/1999 | Train: 845.663 | Test: 865.401 
+Epoch 1858/1999 | Train: 851.483 | Test: 869.973 
+Epoch 1859/1999 | Train: 849.823 | Test: 868.589 
+Epoch 1860/1999 | Train: 850.851 | Test: 857.574 
+Epoch 1861/1999 | Train: 850.488 | Test: 873.710 
+Epoch 1862/1999 | Train: 851.925 | Test: 868.221 
+Epoch 1863/1999 | Train: 847.761 | Test: 867.866 
+Epoch 1864/1999 | Train: 851.784 | Test: 860.141 
+Epoch 1865/1999 | Train: 849.573 | Test: 867.759 
+Epoch 1866/1999 | Train: 847.350 | Test: 865.552 
+Epoch 1867/1999 | Train: 846.385 | Test: 866.717 
+Epoch 1868/1999 | Train: 849.150 | Test: 873.033 
+Epoch 1869/1999 | Train: 851.688 | Test: 868.598 
+Epoch 1870/1999 | Train: 848.826 | Test: 865.771 
+Epoch 1871/1999 | Train: 848.229 | Test: 871.686 
+Epoch 1872/1999 | Train: 848.173 | Test: 863.792 
+Epoch 1873/1999 | Train: 847.444 | Test: 867.858 
+Epoch 1874/1999 | Train: 848.222 | Test: 866.009 
+Epoch 1875/1999 | Train: 849.028 | Test: 867.796 
+Epoch 1876/1999 | Train: 851.007 | Test: 866.279 
+Epoch 1877/1999 | Train: 850.490 | Test: 868.303 
+Epoch 1878/1999 | Train: 849.976 | Test: 868.612 
+Epoch 1879/1999 | Train: 850.741 | Test: 868.443 
+Epoch 1880/1999 | Train: 847.347 | Test: 865.090 
+Epoch 1881/1999 | Train: 851.099 | Test: 865.301 
+Epoch 1882/1999 | Train: 850.256 | Test: 864.434 
+Epoch 1883/1999 | Train: 849.962 | Test: 866.303 
+Epoch 1884/1999 | Train: 847.598 | Test: 869.004 
+Epoch 1885/1999 | Train: 850.827 | Test: 866.274 
+Epoch 1886/1999 | Train: 847.085 | Test: 862.152 
+Epoch 1887/1999 | Train: 853.951 | Test: 865.470 
+Epoch 1888/1999 | Train: 848.722 | Test: 869.147 
+Epoch 1889/1999 | Train: 849.737 | Test: 867.563 
+Epoch 1890/1999 | Train: 850.937 | Test: 870.725 
+Epoch 1891/1999 | Train: 852.515 | Test: 868.746 
+Epoch 1892/1999 | Train: 851.870 | Test: 865.548 
+Epoch 1893/1999 | Train: 849.702 | Test: 869.852 
+Epoch 1894/1999 | Train: 849.574 | Test: 864.541 
+Epoch 1895/1999 | Train: 848.384 | Test: 868.289 
+Epoch 1896/1999 | Train: 846.339 | Test: 864.038 
+Epoch 1897/1999 | Train: 850.678 | Test: 863.915 
+Epoch 1898/1999 | Train: 849.051 | Test: 863.068 
+Epoch 1899/1999 | Train: 848.169 | Test: 868.579 
+Epoch 1900/1999 | Train: 848.772 | Test: 867.527 
+
+ Target: tensor([ -9.5747, -63.6199,   8.5427, -39.5538, -31.9017,  19.2675]) 
+Predicted: tensor([-37.2903, -49.8648,   8.7143, -36.7095, -51.2231,   8.8373],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 53.7797, -72.3914, -10.2976,  -3.1408,  15.0755, -24.9823]) 
+Predicted: tensor([  4.3080, -17.8495,  -4.5822,   4.4833, -18.4934,  -4.1621],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 40.1002,  -4.2682,  -9.7414,  55.2453, -63.3742,  28.2688]) 
+Predicted: tensor([ 28.6219, -33.1609,  20.6069,  28.4246, -31.8037,  20.6746],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1901/1999 | Train: 847.997 | Test: 871.882 
+Epoch 1902/1999 | Train: 846.450 | Test: 874.054 
+Epoch 1903/1999 | Train: 848.120 | Test: 869.195 
+Epoch 1904/1999 | Train: 851.363 | Test: 864.705 
+Epoch 1905/1999 | Train: 850.546 | Test: 863.575 
+Epoch 1906/1999 | Train: 848.382 | Test: 864.743 
+Epoch 1907/1999 | Train: 847.350 | Test: 863.922 
+Epoch 1908/1999 | Train: 849.559 | Test: 861.159 
+Epoch 1909/1999 | Train: 850.344 | Test: 865.516 
+Epoch 1910/1999 | Train: 848.236 | Test: 866.903 
+Epoch 1911/1999 | Train: 847.929 | Test: 867.544 
+Epoch 1912/1999 | Train: 850.224 | Test: 864.608 
+Epoch 1913/1999 | Train: 847.581 | Test: 869.797 
+Epoch 1914/1999 | Train: 849.000 | Test: 866.552 
+Epoch 1915/1999 | Train: 847.703 | Test: 876.962 
+Epoch 1916/1999 | Train: 850.305 | Test: 869.314 
+Epoch 1917/1999 | Train: 849.201 | Test: 862.949 
+Epoch 1918/1999 | Train: 847.167 | Test: 864.790 
+Epoch 1919/1999 | Train: 851.456 | Test: 868.920 
+Epoch 1920/1999 | Train: 850.754 | Test: 869.716 
+Epoch 1921/1999 | Train: 852.558 | Test: 868.753 
+Epoch 1922/1999 | Train: 850.075 | Test: 865.477 
+Epoch 1923/1999 | Train: 852.715 | Test: 869.127 
+Epoch 1924/1999 | Train: 846.777 | Test: 866.507 
+Epoch 1925/1999 | Train: 850.046 | Test: 866.959 
+Epoch 1926/1999 | Train: 848.745 | Test: 864.782 
+Epoch 1927/1999 | Train: 853.689 | Test: 872.253 
+Epoch 1928/1999 | Train: 848.116 | Test: 868.979 
+Epoch 1929/1999 | Train: 850.202 | Test: 866.666 
+Epoch 1930/1999 | Train: 852.160 | Test: 871.418 
+Epoch 1931/1999 | Train: 847.990 | Test: 860.415 
+Epoch 1932/1999 | Train: 850.980 | Test: 861.743 
+Epoch 1933/1999 | Train: 850.752 | Test: 865.366 
+Epoch 1934/1999 | Train: 851.298 | Test: 864.461 
+Epoch 1935/1999 | Train: 849.135 | Test: 865.130 
+Epoch 1936/1999 | Train: 849.081 | Test: 867.364 
+Epoch 1937/1999 | Train: 847.829 | Test: 872.878 
+Epoch 1938/1999 | Train: 849.744 | Test: 865.399 
+Epoch 1939/1999 | Train: 849.285 | Test: 868.867 
+Epoch 1940/1999 | Train: 849.197 | Test: 864.708 
+Epoch 1941/1999 | Train: 850.221 | Test: 861.589 
+Epoch 1942/1999 | Train: 850.294 | Test: 869.203 
+Epoch 1943/1999 | Train: 848.795 | Test: 862.746 
+Epoch 1944/1999 | Train: 851.322 | Test: 868.654 
+Epoch 1945/1999 | Train: 850.829 | Test: 865.176 
+Epoch 1946/1999 | Train: 850.233 | Test: 864.045 
+Epoch 1947/1999 | Train: 848.191 | Test: 866.415 
+Epoch 1948/1999 | Train: 849.328 | Test: 858.377 
+Epoch 1949/1999 | Train: 852.249 | Test: 868.349 
+Epoch 1950/1999 | Train: 849.388 | Test: 863.939 
+Epoch 1951/1999 | Train: 847.191 | Test: 870.163 
+Epoch 1952/1999 | Train: 849.413 | Test: 866.072 
+Epoch 1953/1999 | Train: 849.347 | Test: 865.211 
+Epoch 1954/1999 | Train: 847.874 | Test: 870.285 
+Epoch 1955/1999 | Train: 853.356 | Test: 861.488 
+Epoch 1956/1999 | Train: 849.706 | Test: 871.080 
+Epoch 1957/1999 | Train: 847.820 | Test: 864.289 
+Epoch 1958/1999 | Train: 847.110 | Test: 865.106 
+Epoch 1959/1999 | Train: 849.843 | Test: 868.997 
+Epoch 1960/1999 | Train: 847.800 | Test: 866.616 
+Epoch 1961/1999 | Train: 852.278 | Test: 865.457 
+Epoch 1962/1999 | Train: 850.133 | Test: 861.589 
+Epoch 1963/1999 | Train: 846.055 | Test: 866.787 
+Epoch 1964/1999 | Train: 850.589 | Test: 874.208 
+Epoch 1965/1999 | Train: 849.715 | Test: 867.281 
+Epoch 1966/1999 | Train: 847.943 | Test: 862.324 
+Epoch 1967/1999 | Train: 850.710 | Test: 866.610 
+Epoch 1968/1999 | Train: 848.374 | Test: 871.764 
+Epoch 1969/1999 | Train: 849.795 | Test: 863.418 
+Epoch 1970/1999 | Train: 851.138 | Test: 862.367 
+Epoch 1971/1999 | Train: 850.410 | Test: 862.428 
+Epoch 1972/1999 | Train: 849.415 | Test: 866.282 
+Epoch 1973/1999 | Train: 849.487 | Test: 864.688 
+Epoch 1974/1999 | Train: 849.179 | Test: 868.134 
+Epoch 1975/1999 | Train: 847.922 | Test: 868.052 
+Epoch 1976/1999 | Train: 847.119 | Test: 865.334 
+Epoch 1977/1999 | Train: 847.271 | Test: 864.586 
+Epoch 1978/1999 | Train: 849.433 | Test: 868.742 
+Epoch 1979/1999 | Train: 846.393 | Test: 874.008 
+Epoch 1980/1999 | Train: 849.011 | Test: 867.129 
+Epoch 1981/1999 | Train: 850.381 | Test: 866.836 
+Epoch 1982/1999 | Train: 848.247 | Test: 868.120 
+Epoch 1983/1999 | Train: 846.829 | Test: 862.423 
+Epoch 1984/1999 | Train: 848.547 | Test: 868.842 
+Epoch 1985/1999 | Train: 850.506 | Test: 866.979 
+Epoch 1986/1999 | Train: 848.416 | Test: 868.567 
+Epoch 1987/1999 | Train: 846.336 | Test: 867.958 
+Epoch 1988/1999 | Train: 849.385 | Test: 869.732 
+Epoch 1989/1999 | Train: 849.954 | Test: 868.640 
+Epoch 1990/1999 | Train: 848.087 | Test: 865.714 
+Epoch 1991/1999 | Train: 849.249 | Test: 867.051 
+Epoch 1992/1999 | Train: 852.556 | Test: 866.003 
+Epoch 1993/1999 | Train: 850.992 | Test: 869.260 
+Epoch 1994/1999 | Train: 850.654 | Test: 864.935 
+Epoch 1995/1999 | Train: 852.477 | Test: 868.985 
+Epoch 1996/1999 | Train: 850.360 | Test: 864.971 
+Epoch 1997/1999 | Train: 849.899 | Test: 869.196 
+Epoch 1998/1999 | Train: 850.437 | Test: 866.202 
+Epoch 1999/1999 | Train: 848.514 | Test: 868.089 

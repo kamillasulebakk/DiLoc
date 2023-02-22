@@ -13,7 +13,9 @@ from utils import numpy_to_torch
 
 class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False):
+        self.determine_area = determine_area
         super().__init__()
+        # self.dropout = nn.Dropout(p=0.5)
         self.fc1 = nn.Linear(231, 180)
         self.fc2 = nn.Linear(180, 120)
         self.fc3 = nn.Linear(120, 84)
@@ -29,6 +31,7 @@ class Net(nn.Module):
         x = torch.tanh(self.fc3(x))
         x = torch.tanh(self.fc4(x))
         x = self.fc5(x)
+
         return x
 
 
@@ -39,10 +42,13 @@ class EEGDataset(torch.utils.data.Dataset):
 
         if determine_area:
             name = 'dipole_area'
-        elif N_dipoles > 1:
-            name = 'multiple_dipoles'
+        # elif N_dipoles > 1:
+        #     name = 'multiple_dipoles'
+        # else:
+        #     name = 'single_dipole'
         else:
-            name = 'single_dipole'
+            name = 'multiple_dipoles'
+
         eeg, pos_list = load_data(N_samples, name, num_dipoles=N_dipoles)
 
         # TODO: clean up this normalization stuff
@@ -77,6 +83,8 @@ class EEGDataset(torch.utils.data.Dataset):
             eeg_train += noise
             return eeg_train, pos_list_train
         if train_test == 'test':
+            noise = torch.normal(0, torch.std(eeg_test) * noise_pct/10/100, size=eeg_test.shape)
+            eeg_test += noise
             return eeg_test, pos_list_test
 
     def __getitem__(self, idx):
@@ -124,7 +132,7 @@ def main(
     determine_area: bool = False,
     N_epochs: int = 2000,
     noise_pct: int = 10,
-    log_dir: str = 'results'
+    log_dir: str = 'finals'
 ):
     msg = f'Training network with {N_samples} samples'
     if determine_area:
@@ -152,16 +160,17 @@ def main(
 
     criterion = nn.MSELoss()
 
-    # optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6)
+    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6)
 
     # weight_decay > 0 --> l2/ridge penalty
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay=1e-5)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay=1e-5)
     # optimizer = torch.optim.Adam(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay = 1e-5)
 
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_l2_5mm'
+    save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_20mm'
+    # save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_l2'
     log_file_name = os.path.join(log_dir, save_file_name + '.txt')
 
     with open(log_file_name, 'w') as f:
@@ -172,7 +181,7 @@ def main(
         f.write('\n--------------------------------------------------------------\n')
 
     # Train the model
-    status_line = 'Epoch {:4d}/{:4d} | Train: {:6.3f} | Test: {:6.3f}'
+    status_line = 'Epoch {:4d}/{:4d} | Train: {:6.3f} | Test: {:6.3f} \n'
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(
             data_loader_train, optimizer, net, criterion)
@@ -190,12 +199,15 @@ def main(
         if epoch % 100 == 0:
             for i, (signal, position) in enumerate(data_loader_test):
                 pred = net(signal)
-                print('Target:')
-                print(position[0])
-                print('Predicted:')
-                print(pred[0])
-                # input()
+                line = f'\n Target: {position[0]} \n'
+                line += f'Predicted: {pred[0]} \n'
+                print(line)
+                with open(log_file_name, 'a') as f:
+                    f.write(line)
+
                 if i == 2:
+                    with open(log_file_name, 'a') as f:
+                        f.write('\n')
                     break
 
     plot_MSE_NN(
@@ -207,15 +219,15 @@ def main(
         N_epochs,
     )
 
-    torch.save(net, f'trained_models/{save_file_name}.pt')
+    torch.save(net, f'trained_models/finals/{save_file_name}.pt')
 
 
 if __name__ == '__main__':
     main(
         N_samples=10_000,
         N_dipoles=1,
-        determine_area=True,
-        N_epochs=1001,
-        noise_pct=15,
-        log_dir='results/14.feb'
+        determine_area=False,
+        N_epochs=3000,
+        noise_pct=10,
+        log_dir='results/17.feb'
     )

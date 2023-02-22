@@ -52,7 +52,7 @@ def return_single_dipole_data(num_samples:int):
     return eeg, dipole_locations
 
 
-def return_dipole_area(num_samples: int, radii_range: int = 5):
+def return_dipole_area(num_samples: int, radii_range: int = 20):
     """
     Produce eeg data from population of dipoles for num_samples
     and provides plots of the 10 first samples
@@ -76,12 +76,11 @@ def return_dipole_area(num_samples: int, radii_range: int = 5):
     """
     nyhead = NYHeadModel()
 
-    # TODO: Remeber make sure that a location cannot be picked twice??
     rng = np.random.default_rng(seed=36)
     # Center of dipoles
     centers = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
-    radii = rng.choice(radii_range, size=num_samples, axis=1) # [mm]
-
+    # radii = rng.uniform(low=1, high=radii_range, size=num_samples, axis=1) # [mm]
+    radii = rng.uniform(low=1, high=radii_range, size=num_samples) # [mm]
     eeg = np.zeros((num_samples, 231))
     dipole_locations_and_radii = np.zeros((4, num_samples))
 
@@ -93,6 +92,11 @@ def return_dipole_area(num_samples: int, radii_range: int = 5):
         dipole_locations_and_radii[3,i] = radii[i]
         # pos index consist of multiple dipoles within a defined radius
         pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
+
+        # TODO: Remeber make sure that a location cannot be picked twice??
+        while len(pos_idx) < 1:
+            radii[i] += 1
+            pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
 
         eeg_i = np.zeros((1,231))
 
@@ -246,8 +250,8 @@ def prepare_and_save_data(num_samples, name, num_dipoles : int = 1):
 
     elif name == 'dipole_area':
         eeg, dipole_info = return_dipole_area(num_samples)
-        np.save(f'data/{name}_eeg_{num_samples}_5mm', eeg)
-        np.save(f'data/{name}_locations_{num_samples}_5mm', dipole_info)
+        np.save(f'data/{name}_eeg_{num_samples}_20mm', eeg)
+        np.save(f'data/{name}_locations_{num_samples}_20mm', dipole_info)
 
     elif name == 'multiple_dipoles':
         eeg, dipole_info = return_multiple_dipoles(num_samples, num_dipoles)
@@ -272,7 +276,7 @@ def save_mean_std(eeg, name: str):
     num_samples = eeg.shape[0]
     eeg_mean = np.mean(eeg)
     eeg_std = np.std(eeg)
-    with open(f'data/{name}_eeg_mean_std_{num_samples}_5mm.csv', 'w') as f:
+    with open(f'data/{name}_eeg_mean_std_{num_samples}_20mm.csv', 'w') as f:
         f.write(f'{eeg_mean},{eeg_std}')
 
 
@@ -295,8 +299,8 @@ def load_data(num_samples: int, name: str, shape: str = "1d", num_dipoles: int =
             pos_list = np.load(f'data/{name}_locations_{num_samples}_{num_dipoles}.npy').T
 
         else:
-            eeg = np.load(f'data/{name}_eeg_{num_samples}_5mm.npy')
-            pos_list = np.load(f'data/{name}_locations_{num_samples}_5mm.npy').T
+            eeg = np.load(f'data/{name}_eeg_{num_samples}_20mm.npy')
+            pos_list = np.load(f'data/{name}_locations_{num_samples}_20mm.npy').T
 
 
     except FileNotFoundError as e:
@@ -314,10 +318,17 @@ def load_data(num_samples: int, name: str, shape: str = "1d", num_dipoles: int =
 
 
 def load_mean_std(num_samples, name: str):
-    with open(f'data/{name}_eeg_mean_std_{num_samples}_5mm.csv', 'r') as f:
-        mean, std = (float(e) for e in f.readline().split(','))
+    if name == 'dipole_area':
+        with open(f'data/{name}_eeg_mean_std_{num_samples}_20mm.csv', 'r') as f:
+            mean, std = (float(e) for e in f.readline().split(','))
 
-    filename = f'data/{name}_eeg_mean_std_{num_samples}_5mm.csv'
+        filename = f'data/{name}_eeg_mean_std_{num_samples}_20mm.csv'
+    else:
+        with open(f'data/{name}_eeg_mean_std_{num_samples}.csv', 'r') as f:
+            mean, std = (float(e) for e in f.readline().split(','))
+
+        filename = f'data/{name}_eeg_mean_std_{num_samples}.csv'
+
     return mean, std
 
 

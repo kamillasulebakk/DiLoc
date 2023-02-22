@@ -1,0 +1,1435 @@
+Samples: 30000, Batch size: 30, Epochs: 3000, Noise: 10 %
+
+Eeg Data: data/multiple_dipoles_eeg_30000_2.npy
+Location Data: data/multiple_dipoles_locations_30000_2.npy
+Mean and std Data: data/multiple_dipoles_2_eeg_mean_std_30000.npy
+--------------------------------------------------------------
+Epoch    0/2999 | Train: 1502.391 | Test: 1461.572 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([ 0.3030, -2.8954,  1.7670, -0.2559, -1.8421,  1.9107],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 0.2722, -2.4829,  1.6127, -0.1919, -1.6134,  1.7479],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([ 0.2663, -2.4352,  1.5520, -0.1860, -1.6222,  1.6820],
+       grad_fn=<SelectBackward0>) 
+
+Epoch    1/2999 | Train: 1426.123 | Test: 1376.413 
+Epoch    2/2999 | Train: 1366.485 | Test: 1340.404 
+Epoch    3/2999 | Train: 1342.158 | Test: 1325.914 
+Epoch    4/2999 | Train: 1330.702 | Test: 1305.368 
+Epoch    5/2999 | Train: 1281.939 | Test: 1219.201 
+Epoch    6/2999 | Train: 1201.461 | Test: 1174.174 
+Epoch    7/2999 | Train: 1167.159 | Test: 1148.646 
+Epoch    8/2999 | Train: 1141.425 | Test: 1125.151 
+Epoch    9/2999 | Train: 1121.066 | Test: 1107.423 
+Epoch   10/2999 | Train: 1105.338 | Test: 1095.739 
+Epoch   11/2999 | Train: 1092.964 | Test: 1083.470 
+Epoch   12/2999 | Train: 1083.181 | Test: 1075.082 
+Epoch   13/2999 | Train: 1075.033 | Test: 1067.540 
+Epoch   14/2999 | Train: 1068.081 | Test: 1061.022 
+Epoch   15/2999 | Train: 1061.830 | Test: 1056.339 
+Epoch   16/2999 | Train: 1053.938 | Test: 1045.341 
+Epoch   17/2999 | Train: 1039.363 | Test: 1028.537 
+Epoch   18/2999 | Train: 1018.613 | Test: 1006.755 
+Epoch   19/2999 | Train: 992.847 | Test: 976.434 
+Epoch   20/2999 | Train: 964.683 | Test: 951.493 
+Epoch   21/2999 | Train: 938.721 | Test: 924.840 
+Epoch   22/2999 | Train: 914.729 | Test: 904.680 
+Epoch   23/2999 | Train: 893.284 | Test: 886.072 
+Epoch   24/2999 | Train: 874.478 | Test: 866.122 
+Epoch   25/2999 | Train: 857.866 | Test: 850.888 
+Epoch   26/2999 | Train: 843.445 | Test: 837.592 
+Epoch   27/2999 | Train: 830.525 | Test: 826.781 
+Epoch   28/2999 | Train: 819.569 | Test: 814.546 
+Epoch   29/2999 | Train: 809.418 | Test: 808.048 
+Epoch   30/2999 | Train: 800.434 | Test: 797.364 
+Epoch   31/2999 | Train: 792.211 | Test: 792.392 
+Epoch   32/2999 | Train: 784.730 | Test: 784.047 
+Epoch   33/2999 | Train: 777.938 | Test: 777.621 
+Epoch   34/2999 | Train: 771.651 | Test: 771.577 
+Epoch   35/2999 | Train: 765.926 | Test: 766.177 
+Epoch   36/2999 | Train: 760.636 | Test: 762.478 
+Epoch   37/2999 | Train: 755.728 | Test: 756.806 
+Epoch   38/2999 | Train: 751.333 | Test: 752.171 
+Epoch   39/2999 | Train: 747.246 | Test: 748.980 
+Epoch   40/2999 | Train: 743.438 | Test: 745.038 
+Epoch   41/2999 | Train: 740.013 | Test: 741.448 
+Epoch   42/2999 | Train: 736.920 | Test: 738.612 
+Epoch   43/2999 | Train: 733.964 | Test: 736.701 
+Epoch   44/2999 | Train: 731.334 | Test: 733.663 
+Epoch   45/2999 | Train: 728.798 | Test: 730.475 
+Epoch   46/2999 | Train: 726.423 | Test: 730.065 
+Epoch   47/2999 | Train: 724.316 | Test: 727.623 
+Epoch   48/2999 | Train: 722.417 | Test: 727.084 
+Epoch   49/2999 | Train: 720.460 | Test: 723.936 
+Epoch   50/2999 | Train: 718.713 | Test: 723.666 
+Epoch   51/2999 | Train: 717.030 | Test: 720.493 
+Epoch   52/2999 | Train: 715.324 | Test: 719.784 
+Epoch   53/2999 | Train: 714.051 | Test: 718.307 
+Epoch   54/2999 | Train: 712.516 | Test: 716.452 
+Epoch   55/2999 | Train: 711.162 | Test: 715.550 
+Epoch   56/2999 | Train: 710.102 | Test: 714.429 
+Epoch   57/2999 | Train: 708.896 | Test: 714.536 
+Epoch   58/2999 | Train: 707.607 | Test: 712.386 
+Epoch   59/2999 | Train: 706.648 | Test: 713.157 
+Epoch   60/2999 | Train: 705.540 | Test: 711.474 
+Epoch   61/2999 | Train: 704.728 | Test: 710.117 
+Epoch   62/2999 | Train: 703.778 | Test: 709.987 
+Epoch   63/2999 | Train: 702.919 | Test: 711.231 
+Epoch   64/2999 | Train: 702.138 | Test: 708.689 
+Epoch   65/2999 | Train: 701.265 | Test: 709.424 
+Epoch   66/2999 | Train: 700.511 | Test: 706.786 
+Epoch   67/2999 | Train: 699.762 | Test: 708.274 
+Epoch   68/2999 | Train: 699.268 | Test: 705.305 
+Epoch   69/2999 | Train: 698.550 | Test: 705.155 
+Epoch   70/2999 | Train: 697.868 | Test: 704.871 
+Epoch   71/2999 | Train: 697.362 | Test: 704.381 
+Epoch   72/2999 | Train: 696.571 | Test: 703.843 
+Epoch   73/2999 | Train: 696.139 | Test: 703.312 
+Epoch   74/2999 | Train: 695.611 | Test: 703.565 
+Epoch   75/2999 | Train: 695.029 | Test: 702.491 
+Epoch   76/2999 | Train: 694.578 | Test: 703.085 
+Epoch   77/2999 | Train: 694.096 | Test: 701.171 
+Epoch   78/2999 | Train: 693.665 | Test: 701.221 
+Epoch   79/2999 | Train: 693.167 | Test: 701.218 
+Epoch   80/2999 | Train: 692.846 | Test: 701.336 
+Epoch   81/2999 | Train: 692.355 | Test: 700.302 
+Epoch   82/2999 | Train: 691.954 | Test: 700.948 
+Epoch   83/2999 | Train: 691.578 | Test: 700.179 
+Epoch   84/2999 | Train: 691.249 | Test: 699.866 
+Epoch   85/2999 | Train: 690.888 | Test: 699.737 
+Epoch   86/2999 | Train: 690.490 | Test: 699.082 
+Epoch   87/2999 | Train: 690.140 | Test: 698.480 
+Epoch   88/2999 | Train: 689.769 | Test: 698.894 
+Epoch   89/2999 | Train: 689.531 | Test: 698.933 
+Epoch   90/2999 | Train: 689.199 | Test: 697.901 
+Epoch   91/2999 | Train: 688.823 | Test: 697.958 
+Epoch   92/2999 | Train: 688.552 | Test: 698.315 
+Epoch   93/2999 | Train: 688.280 | Test: 697.150 
+Epoch   94/2999 | Train: 687.979 | Test: 696.911 
+Epoch   95/2999 | Train: 687.645 | Test: 696.951 
+Epoch   96/2999 | Train: 687.445 | Test: 696.918 
+Epoch   97/2999 | Train: 687.114 | Test: 697.427 
+Epoch   98/2999 | Train: 687.007 | Test: 696.560 
+Epoch   99/2999 | Train: 686.710 | Test: 697.176 
+Epoch  100/2999 | Train: 686.450 | Test: 696.372 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-1.7615, 18.2840, 11.5520, -1.8263, 19.3173, 11.7071],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 8.2699, 58.0101,  0.9573,  9.5575, 58.5952,  1.3623],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-3.5233, 48.8972,  8.2073, -2.2648, 49.6063,  8.6097],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  101/2999 | Train: 686.288 | Test: 696.722 
+Epoch  102/2999 | Train: 685.982 | Test: 696.045 
+Epoch  103/2999 | Train: 685.739 | Test: 696.498 
+Epoch  104/2999 | Train: 685.490 | Test: 695.743 
+Epoch  105/2999 | Train: 685.307 | Test: 695.935 
+Epoch  106/2999 | Train: 685.100 | Test: 697.065 
+Epoch  107/2999 | Train: 684.856 | Test: 696.203 
+Epoch  108/2999 | Train: 684.773 | Test: 695.646 
+Epoch  109/2999 | Train: 684.501 | Test: 695.234 
+Epoch  110/2999 | Train: 684.238 | Test: 695.919 
+Epoch  111/2999 | Train: 684.109 | Test: 694.944 
+Epoch  112/2999 | Train: 683.846 | Test: 694.494 
+Epoch  113/2999 | Train: 683.738 | Test: 694.435 
+Epoch  114/2999 | Train: 683.558 | Test: 694.382 
+Epoch  115/2999 | Train: 683.471 | Test: 694.284 
+Epoch  116/2999 | Train: 683.131 | Test: 694.969 
+Epoch  117/2999 | Train: 683.033 | Test: 694.726 
+Epoch  118/2999 | Train: 682.951 | Test: 695.455 
+Epoch  119/2999 | Train: 682.697 | Test: 693.972 
+Epoch  120/2999 | Train: 682.470 | Test: 694.282 
+Epoch  121/2999 | Train: 682.322 | Test: 694.578 
+Epoch  122/2999 | Train: 682.123 | Test: 693.751 
+Epoch  123/2999 | Train: 682.089 | Test: 694.410 
+Epoch  124/2999 | Train: 681.921 | Test: 694.156 
+Epoch  125/2999 | Train: 681.702 | Test: 694.557 
+Epoch  126/2999 | Train: 681.570 | Test: 693.585 
+Epoch  127/2999 | Train: 681.407 | Test: 694.001 
+Epoch  128/2999 | Train: 681.244 | Test: 694.732 
+Epoch  129/2999 | Train: 681.185 | Test: 693.137 
+Epoch  130/2999 | Train: 681.045 | Test: 692.634 
+Epoch  131/2999 | Train: 680.844 | Test: 693.118 
+Epoch  132/2999 | Train: 680.759 | Test: 693.502 
+Epoch  133/2999 | Train: 680.649 | Test: 694.081 
+Epoch  134/2999 | Train: 680.444 | Test: 694.282 
+Epoch  135/2999 | Train: 680.370 | Test: 693.256 
+Epoch  136/2999 | Train: 680.283 | Test: 693.967 
+Epoch  137/2999 | Train: 680.216 | Test: 692.376 
+Epoch  138/2999 | Train: 679.999 | Test: 693.064 
+Epoch  139/2999 | Train: 679.949 | Test: 692.389 
+Epoch  140/2999 | Train: 679.718 | Test: 692.820 
+Epoch  141/2999 | Train: 679.659 | Test: 692.953 
+Epoch  142/2999 | Train: 679.508 | Test: 693.062 
+Epoch  143/2999 | Train: 679.352 | Test: 692.799 
+Epoch  144/2999 | Train: 679.389 | Test: 692.937 
+Epoch  145/2999 | Train: 679.253 | Test: 691.984 
+Epoch  146/2999 | Train: 679.128 | Test: 693.234 
+Epoch  147/2999 | Train: 678.989 | Test: 693.682 
+Epoch  148/2999 | Train: 678.993 | Test: 694.180 
+Epoch  149/2999 | Train: 678.812 | Test: 692.232 
+Epoch  150/2999 | Train: 678.676 | Test: 692.067 
+Epoch  151/2999 | Train: 678.620 | Test: 692.093 
+Epoch  152/2999 | Train: 678.453 | Test: 692.348 
+Epoch  153/2999 | Train: 678.377 | Test: 693.002 
+Epoch  154/2999 | Train: 678.299 | Test: 691.646 
+Epoch  155/2999 | Train: 678.187 | Test: 692.463 
+Epoch  156/2999 | Train: 678.113 | Test: 691.840 
+Epoch  157/2999 | Train: 677.915 | Test: 693.373 
+Epoch  158/2999 | Train: 677.930 | Test: 692.477 
+Epoch  159/2999 | Train: 677.866 | Test: 692.940 
+Epoch  160/2999 | Train: 677.693 | Test: 692.023 
+Epoch  161/2999 | Train: 677.696 | Test: 691.738 
+Epoch  162/2999 | Train: 677.506 | Test: 692.868 
+Epoch  163/2999 | Train: 677.494 | Test: 691.587 
+Epoch  164/2999 | Train: 677.290 | Test: 691.444 
+Epoch  165/2999 | Train: 677.328 | Test: 692.103 
+Epoch  166/2999 | Train: 677.138 | Test: 691.225 
+Epoch  167/2999 | Train: 677.018 | Test: 691.790 
+Epoch  168/2999 | Train: 676.985 | Test: 692.255 
+Epoch  169/2999 | Train: 676.940 | Test: 691.475 
+Epoch  170/2999 | Train: 676.881 | Test: 691.782 
+Epoch  171/2999 | Train: 676.741 | Test: 691.626 
+Epoch  172/2999 | Train: 676.721 | Test: 691.509 
+Epoch  173/2999 | Train: 676.635 | Test: 692.043 
+Epoch  174/2999 | Train: 676.506 | Test: 692.056 
+Epoch  175/2999 | Train: 676.440 | Test: 691.609 
+Epoch  176/2999 | Train: 676.433 | Test: 691.925 
+Epoch  177/2999 | Train: 676.277 | Test: 691.825 
+Epoch  178/2999 | Train: 676.210 | Test: 692.295 
+Epoch  179/2999 | Train: 676.155 | Test: 691.295 
+Epoch  180/2999 | Train: 676.107 | Test: 691.381 
+Epoch  181/2999 | Train: 675.987 | Test: 691.397 
+Epoch  182/2999 | Train: 675.939 | Test: 691.569 
+Epoch  183/2999 | Train: 675.813 | Test: 691.808 
+Epoch  184/2999 | Train: 675.732 | Test: 691.696 
+Epoch  185/2999 | Train: 675.677 | Test: 691.578 
+Epoch  186/2999 | Train: 675.646 | Test: 691.681 
+Epoch  187/2999 | Train: 675.601 | Test: 692.125 
+Epoch  188/2999 | Train: 675.445 | Test: 691.593 
+Epoch  189/2999 | Train: 675.401 | Test: 691.978 
+Epoch  190/2999 | Train: 675.358 | Test: 691.704 
+Epoch  191/2999 | Train: 675.261 | Test: 691.520 
+Epoch  192/2999 | Train: 675.115 | Test: 692.417 
+Epoch  193/2999 | Train: 675.075 | Test: 691.503 
+Epoch  194/2999 | Train: 675.071 | Test: 691.643 
+Epoch  195/2999 | Train: 674.919 | Test: 692.168 
+Epoch  196/2999 | Train: 674.889 | Test: 691.577 
+Epoch  197/2999 | Train: 674.805 | Test: 691.709 
+Epoch  198/2999 | Train: 674.725 | Test: 690.489 
+Epoch  199/2999 | Train: 674.629 | Test: 690.824 
+Epoch  200/2999 | Train: 674.600 | Test: 691.561 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-5.3410, 24.8579, 11.0540, -5.1080, 26.5990, 11.2571],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 5.4583, 56.9068,  3.4823,  6.6891, 57.7231,  3.9765],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-4.3706, 50.1153,  8.4583, -2.8317, 50.9955,  8.9025],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  201/2999 | Train: 674.475 | Test: 691.263 
+Epoch  202/2999 | Train: 674.486 | Test: 691.062 
+Epoch  203/2999 | Train: 674.405 | Test: 691.607 
+Epoch  204/2999 | Train: 674.322 | Test: 690.841 
+Epoch  205/2999 | Train: 674.241 | Test: 693.396 
+Epoch  206/2999 | Train: 674.227 | Test: 691.460 
+Epoch  207/2999 | Train: 674.086 | Test: 691.912 
+Epoch  208/2999 | Train: 674.040 | Test: 691.480 
+Epoch  209/2999 | Train: 673.887 | Test: 692.510 
+Epoch  210/2999 | Train: 673.844 | Test: 692.422 
+Epoch  211/2999 | Train: 673.727 | Test: 691.196 
+Epoch  212/2999 | Train: 673.730 | Test: 691.445 
+Epoch  213/2999 | Train: 673.582 | Test: 692.489 
+Epoch  214/2999 | Train: 673.506 | Test: 691.194 
+Epoch  215/2999 | Train: 673.507 | Test: 692.544 
+Epoch  216/2999 | Train: 673.402 | Test: 691.911 
+Epoch  217/2999 | Train: 673.313 | Test: 690.925 
+Epoch  218/2999 | Train: 673.181 | Test: 691.336 
+Epoch  219/2999 | Train: 673.127 | Test: 692.397 
+Epoch  220/2999 | Train: 672.960 | Test: 691.693 
+Epoch  221/2999 | Train: 672.881 | Test: 692.058 
+Epoch  222/2999 | Train: 672.831 | Test: 692.277 
+Epoch  223/2999 | Train: 672.579 | Test: 691.961 
+Epoch  224/2999 | Train: 672.518 | Test: 691.814 
+Epoch  225/2999 | Train: 672.495 | Test: 692.143 
+Epoch  226/2999 | Train: 672.265 | Test: 692.389 
+Epoch  227/2999 | Train: 672.175 | Test: 692.660 
+Epoch  228/2999 | Train: 672.051 | Test: 692.864 
+Epoch  229/2999 | Train: 671.870 | Test: 694.242 
+Epoch  230/2999 | Train: 671.830 | Test: 693.149 
+Epoch  231/2999 | Train: 671.513 | Test: 692.177 
+Epoch  232/2999 | Train: 671.445 | Test: 692.382 
+Epoch  233/2999 | Train: 671.176 | Test: 693.400 
+Epoch  234/2999 | Train: 670.993 | Test: 692.822 
+Epoch  235/2999 | Train: 670.992 | Test: 693.543 
+Epoch  236/2999 | Train: 670.633 | Test: 692.679 
+Epoch  237/2999 | Train: 670.452 | Test: 692.997 
+Epoch  238/2999 | Train: 670.148 | Test: 693.704 
+Epoch  239/2999 | Train: 669.922 | Test: 693.359 
+Epoch  240/2999 | Train: 669.574 | Test: 693.361 
+Epoch  241/2999 | Train: 669.342 | Test: 694.073 
+Epoch  242/2999 | Train: 669.001 | Test: 695.526 
+Epoch  243/2999 | Train: 668.633 | Test: 694.037 
+Epoch  244/2999 | Train: 668.220 | Test: 694.801 
+Epoch  245/2999 | Train: 667.919 | Test: 694.500 
+Epoch  246/2999 | Train: 667.446 | Test: 695.133 
+Epoch  247/2999 | Train: 667.071 | Test: 695.144 
+Epoch  248/2999 | Train: 666.467 | Test: 696.842 
+Epoch  249/2999 | Train: 666.313 | Test: 698.492 
+Epoch  250/2999 | Train: 664.901 | Test: 698.341 
+Epoch  251/2999 | Train: 664.479 | Test: 698.524 
+Epoch  252/2999 | Train: 664.050 | Test: 699.701 
+Epoch  253/2999 | Train: 663.016 | Test: 700.292 
+Epoch  254/2999 | Train: 662.441 | Test: 701.831 
+Epoch  255/2999 | Train: 661.620 | Test: 701.429 
+Epoch  256/2999 | Train: 660.098 | Test: 702.493 
+Epoch  257/2999 | Train: 659.563 | Test: 701.008 
+Epoch  258/2999 | Train: 658.415 | Test: 708.209 
+Epoch  259/2999 | Train: 657.253 | Test: 704.930 
+Epoch  260/2999 | Train: 655.811 | Test: 706.518 
+Epoch  261/2999 | Train: 653.712 | Test: 704.788 
+Epoch  262/2999 | Train: 652.753 | Test: 709.641 
+Epoch  263/2999 | Train: 651.960 | Test: 710.541 
+Epoch  264/2999 | Train: 650.654 | Test: 710.580 
+Epoch  265/2999 | Train: 648.231 | Test: 715.808 
+Epoch  266/2999 | Train: 646.822 | Test: 717.558 
+Epoch  267/2999 | Train: 644.193 | Test: 721.001 
+Epoch  268/2999 | Train: 643.867 | Test: 717.311 
+Epoch  269/2999 | Train: 640.703 | Test: 722.748 
+Epoch  270/2999 | Train: 638.331 | Test: 726.652 
+Epoch  271/2999 | Train: 636.649 | Test: 730.104 
+Epoch  272/2999 | Train: 635.236 | Test: 725.132 
+Epoch  273/2999 | Train: 633.065 | Test: 732.797 
+Epoch  274/2999 | Train: 630.028 | Test: 725.332 
+Epoch  275/2999 | Train: 626.893 | Test: 735.323 
+Epoch  276/2999 | Train: 626.024 | Test: 740.586 
+Epoch  277/2999 | Train: 623.090 | Test: 731.579 
+Epoch  278/2999 | Train: 621.282 | Test: 735.239 
+Epoch  279/2999 | Train: 618.308 | Test: 736.335 
+Epoch  280/2999 | Train: 614.447 | Test: 744.034 
+Epoch  281/2999 | Train: 612.528 | Test: 743.698 
+Epoch  282/2999 | Train: 611.732 | Test: 741.858 
+Epoch  283/2999 | Train: 609.152 | Test: 739.612 
+Epoch  284/2999 | Train: 607.353 | Test: 746.398 
+Epoch  285/2999 | Train: 608.389 | Test: 750.470 
+Epoch  286/2999 | Train: 600.957 | Test: 748.958 
+Epoch  287/2999 | Train: 598.519 | Test: 750.301 
+Epoch  288/2999 | Train: 599.070 | Test: 751.794 
+Epoch  289/2999 | Train: 595.696 | Test: 746.002 
+Epoch  290/2999 | Train: 592.431 | Test: 765.146 
+Epoch  291/2999 | Train: 595.287 | Test: 768.239 
+Epoch  292/2999 | Train: 589.911 | Test: 776.297 
+Epoch  293/2999 | Train: 590.459 | Test: 771.332 
+Epoch  294/2999 | Train: 584.522 | Test: 780.005 
+Epoch  295/2999 | Train: 585.616 | Test: 780.981 
+Epoch  296/2999 | Train: 577.976 | Test: 789.572 
+Epoch  297/2999 | Train: 574.474 | Test: 795.571 
+Epoch  298/2999 | Train: 582.450 | Test: 791.679 
+Epoch  299/2999 | Train: 577.964 | Test: 791.166 
+Epoch  300/2999 | Train: 578.957 | Test: 780.938 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-3.6293, 19.7172, 14.2931, -3.8395, 24.6380, 14.1491],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 5.1928, 51.8020,  3.5316,  5.8885, 54.3314,  3.6298],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-4.8361, 48.6896, 13.8283, -2.6717, 48.9823, 14.1042],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  301/2999 | Train: 571.242 | Test: 792.069 
+Epoch  302/2999 | Train: 573.985 | Test: 784.597 
+Epoch  303/2999 | Train: 574.370 | Test: 783.480 
+Epoch  304/2999 | Train: 566.098 | Test: 797.176 
+Epoch  305/2999 | Train: 575.133 | Test: 786.379 
+Epoch  306/2999 | Train: 570.443 | Test: 797.688 
+Epoch  307/2999 | Train: 566.251 | Test: 790.239 
+Epoch  308/2999 | Train: 563.654 | Test: 792.406 
+Epoch  309/2999 | Train: 563.421 | Test: 798.773 
+Epoch  310/2999 | Train: 564.948 | Test: 799.891 
+Epoch  311/2999 | Train: 562.086 | Test: 818.331 
+Epoch  312/2999 | Train: 558.968 | Test: 796.447 
+Epoch  313/2999 | Train: 559.398 | Test: 804.110 
+Epoch  314/2999 | Train: 541.763 | Test: 812.122 
+Epoch  315/2999 | Train: 542.826 | Test: 803.784 
+Epoch  316/2999 | Train: 540.349 | Test: 800.599 
+Epoch  317/2999 | Train: 538.012 | Test: 822.295 
+Epoch  318/2999 | Train: 551.351 | Test: 818.135 
+Epoch  319/2999 | Train: 547.644 | Test: 821.892 
+Epoch  320/2999 | Train: 538.936 | Test: 820.955 
+Epoch  321/2999 | Train: 536.652 | Test: 826.356 
+Epoch  322/2999 | Train: 537.053 | Test: 825.576 
+Epoch  323/2999 | Train: 550.082 | Test: 817.323 
+Epoch  324/2999 | Train: 554.694 | Test: 825.076 
+Epoch  325/2999 | Train: 537.704 | Test: 824.350 
+Epoch  326/2999 | Train: 535.503 | Test: 827.679 
+Epoch  327/2999 | Train: 537.638 | Test: 833.737 
+Epoch  328/2999 | Train: 539.655 | Test: 830.294 
+Epoch  329/2999 | Train: 538.057 | Test: 816.641 
+Epoch  330/2999 | Train: 517.081 | Test: 825.828 
+Epoch  331/2999 | Train: 511.395 | Test: 831.682 
+Epoch  332/2999 | Train: 520.215 | Test: 830.613 
+Epoch  333/2999 | Train: 520.261 | Test: 835.041 
+Epoch  334/2999 | Train: 513.400 | Test: 832.531 
+Epoch  335/2999 | Train: 520.250 | Test: 836.397 
+Epoch  336/2999 | Train: 510.563 | Test: 842.927 
+Epoch  337/2999 | Train: 510.782 | Test: 830.654 
+Epoch  338/2999 | Train: 513.597 | Test: 842.015 
+Epoch  339/2999 | Train: 505.847 | Test: 843.229 
+Epoch  340/2999 | Train: 516.905 | Test: 846.834 
+Epoch  341/2999 | Train: 510.911 | Test: 845.503 
+Epoch  342/2999 | Train: 498.022 | Test: 848.856 
+Epoch  343/2999 | Train: 498.567 | Test: 843.699 
+Epoch  344/2999 | Train: 491.306 | Test: 847.894 
+Epoch  345/2999 | Train: 503.920 | Test: 860.972 
+Epoch  346/2999 | Train: 495.594 | Test: 843.414 
+Epoch  347/2999 | Train: 486.455 | Test: 852.332 
+Epoch  348/2999 | Train: 508.660 | Test: 832.582 
+Epoch  349/2999 | Train: 520.214 | Test: 853.019 
+Epoch  350/2999 | Train: 503.027 | Test: 869.238 
+Epoch  351/2999 | Train: 495.943 | Test: 863.009 
+Epoch  352/2999 | Train: 486.100 | Test: 857.706 
+Epoch  353/2999 | Train: 473.357 | Test: 852.789 
+Epoch  354/2999 | Train: 468.814 | Test: 852.191 
+Epoch  355/2999 | Train: 457.725 | Test: 854.683 
+Epoch  356/2999 | Train: 452.351 | Test: 860.906 
+Epoch  357/2999 | Train: 447.569 | Test: 867.094 
+Epoch  358/2999 | Train: 444.159 | Test: 876.481 
+Epoch  359/2999 | Train: 440.256 | Test: 865.813 
+Epoch  360/2999 | Train: 435.817 | Test: 861.973 
+Epoch  361/2999 | Train: 439.144 | Test: 870.755 
+Epoch  362/2999 | Train: 438.310 | Test: 873.418 
+Epoch  363/2999 | Train: 444.738 | Test: 878.025 
+Epoch  364/2999 | Train: 433.997 | Test: 877.404 
+Epoch  365/2999 | Train: 427.984 | Test: 868.949 
+Epoch  366/2999 | Train: 445.117 | Test: 868.905 
+Epoch  367/2999 | Train: 503.499 | Test: 868.912 
+Epoch  368/2999 | Train: 525.219 | Test: 860.997 
+Epoch  369/2999 | Train: 522.658 | Test: 864.568 
+Epoch  370/2999 | Train: 497.333 | Test: 879.771 
+Epoch  371/2999 | Train: 499.841 | Test: 878.607 
+Epoch  372/2999 | Train: 504.195 | Test: 886.657 
+Epoch  373/2999 | Train: 488.822 | Test: 874.971 
+Epoch  374/2999 | Train: 484.813 | Test: 879.783 
+Epoch  375/2999 | Train: 487.908 | Test: 868.731 
+Epoch  376/2999 | Train: 477.866 | Test: 863.370 
+Epoch  377/2999 | Train: 473.514 | Test: 873.554 
+Epoch  378/2999 | Train: 461.467 | Test: 900.241 
+Epoch  379/2999 | Train: 464.411 | Test: 883.115 
+Epoch  380/2999 | Train: 478.874 | Test: 873.826 
+Epoch  381/2999 | Train: 483.654 | Test: 856.136 
+Epoch  382/2999 | Train: 498.198 | Test: 893.253 
+Epoch  383/2999 | Train: 462.375 | Test: 885.835 
+Epoch  384/2999 | Train: 459.282 | Test: 890.823 
+Epoch  385/2999 | Train: 448.418 | Test: 881.619 
+Epoch  386/2999 | Train: 433.878 | Test: 885.669 
+Epoch  387/2999 | Train: 419.590 | Test: 899.128 
+Epoch  388/2999 | Train: 415.319 | Test: 897.821 
+Epoch  389/2999 | Train: 413.599 | Test: 906.490 
+Epoch  390/2999 | Train: 417.686 | Test: 898.839 
+Epoch  391/2999 | Train: 418.589 | Test: 899.753 
+Epoch  392/2999 | Train: 427.815 | Test: 891.652 
+Epoch  393/2999 | Train: 450.574 | Test: 899.584 
+Epoch  394/2999 | Train: 480.544 | Test: 895.555 
+Epoch  395/2999 | Train: 472.454 | Test: 906.518 
+Epoch  396/2999 | Train: 454.075 | Test: 938.133 
+Epoch  397/2999 | Train: 468.977 | Test: 904.666 
+Epoch  398/2999 | Train: 479.787 | Test: 910.262 
+Epoch  399/2999 | Train: 483.897 | Test: 906.435 
+Epoch  400/2999 | Train: 472.163 | Test: 892.702 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-10.8558,  40.1615,  15.7825,  -8.8753,  15.0688,  19.9725],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 5.5433, 45.2447, 12.7282,  1.0745, 43.7813, 12.8834],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-8.5507, 62.1035, 10.6519, -9.5708, 38.1956, 15.2650],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  401/2999 | Train: 471.718 | Test: 878.602 
+Epoch  402/2999 | Train: 490.253 | Test: 891.761 
+Epoch  403/2999 | Train: 472.386 | Test: 904.108 
+Epoch  404/2999 | Train: 451.312 | Test: 907.524 
+Epoch  405/2999 | Train: 466.849 | Test: 893.658 
+Epoch  406/2999 | Train: 452.248 | Test: 903.937 
+Epoch  407/2999 | Train: 473.345 | Test: 887.248 
+Epoch  408/2999 | Train: 475.315 | Test: 904.572 
+Epoch  409/2999 | Train: 452.226 | Test: 902.014 
+Epoch  410/2999 | Train: 451.638 | Test: 912.788 
+Epoch  411/2999 | Train: 449.075 | Test: 914.200 
+Epoch  412/2999 | Train: 454.467 | Test: 918.003 
+Epoch  413/2999 | Train: 448.648 | Test: 915.570 
+Epoch  414/2999 | Train: 462.498 | Test: 894.016 
+Epoch  415/2999 | Train: 447.597 | Test: 908.852 
+Epoch  416/2999 | Train: 447.528 | Test: 900.739 
+Epoch  417/2999 | Train: 467.612 | Test: 914.413 
+Epoch  418/2999 | Train: 461.771 | Test: 893.262 
+Epoch  419/2999 | Train: 455.504 | Test: 916.093 
+Epoch  420/2999 | Train: 467.594 | Test: 918.005 
+Epoch  421/2999 | Train: 467.200 | Test: 916.937 
+Epoch  422/2999 | Train: 447.250 | Test: 900.997 
+Epoch  423/2999 | Train: 428.615 | Test: 913.986 
+Epoch  424/2999 | Train: 418.910 | Test: 935.128 
+Epoch  425/2999 | Train: 425.288 | Test: 930.542 
+Epoch  426/2999 | Train: 417.593 | Test: 941.298 
+Epoch  427/2999 | Train: 435.944 | Test: 905.240 
+Epoch  428/2999 | Train: 436.055 | Test: 919.758 
+Epoch  429/2999 | Train: 426.510 | Test: 920.631 
+Epoch  430/2999 | Train: 436.425 | Test: 933.667 
+Epoch  431/2999 | Train: 422.164 | Test: 928.703 
+Epoch  432/2999 | Train: 457.559 | Test: 925.038 
+Epoch  433/2999 | Train: 445.310 | Test: 914.865 
+Epoch  434/2999 | Train: 448.407 | Test: 928.872 
+Epoch  435/2999 | Train: 437.210 | Test: 911.417 
+Epoch  436/2999 | Train: 437.867 | Test: 931.964 
+Epoch  437/2999 | Train: 425.076 | Test: 920.923 
+Epoch  438/2999 | Train: 415.298 | Test: 921.250 
+Epoch  439/2999 | Train: 409.508 | Test: 943.157 
+Epoch  440/2999 | Train: 424.002 | Test: 949.125 
+Epoch  441/2999 | Train: 416.983 | Test: 941.165 
+Epoch  442/2999 | Train: 407.305 | Test: 934.447 
+Epoch  443/2999 | Train: 400.889 | Test: 934.358 
+Epoch  444/2999 | Train: 394.689 | Test: 936.732 
+Epoch  445/2999 | Train: 393.750 | Test: 941.936 
+Epoch  446/2999 | Train: 380.852 | Test: 946.460 
+Epoch  447/2999 | Train: 389.255 | Test: 945.482 
+Epoch  448/2999 | Train: 386.652 | Test: 956.699 
+Epoch  449/2999 | Train: 386.270 | Test: 954.903 
+Epoch  450/2999 | Train: 386.912 | Test: 937.883 
+Epoch  451/2999 | Train: 374.307 | Test: 947.344 
+Epoch  452/2999 | Train: 367.583 | Test: 966.672 
+Epoch  453/2999 | Train: 370.928 | Test: 961.275 
+Epoch  454/2999 | Train: 367.097 | Test: 972.025 
+Epoch  455/2999 | Train: 377.603 | Test: 963.753 
+Epoch  456/2999 | Train: 372.745 | Test: 970.632 
+Epoch  457/2999 | Train: 369.230 | Test: 979.123 
+Epoch  458/2999 | Train: 387.064 | Test: 956.198 
+Epoch  459/2999 | Train: 414.138 | Test: 956.066 
+Epoch  460/2999 | Train: 422.286 | Test: 974.375 
+Epoch  461/2999 | Train: 415.858 | Test: 962.129 
+Epoch  462/2999 | Train: 396.554 | Test: 946.742 
+Epoch  463/2999 | Train: 422.433 | Test: 949.333 
+Epoch  464/2999 | Train: 450.707 | Test: 944.997 
+Epoch  465/2999 | Train: 454.850 | Test: 930.090 
+Epoch  466/2999 | Train: 435.304 | Test: 941.415 
+Epoch  467/2999 | Train: 417.897 | Test: 951.325 
+Epoch  468/2999 | Train: 421.907 | Test: 942.901 
+Epoch  469/2999 | Train: 422.744 | Test: 961.154 
+Epoch  470/2999 | Train: 417.844 | Test: 935.366 
+Epoch  471/2999 | Train: 439.794 | Test: 940.651 
+Epoch  472/2999 | Train: 427.674 | Test: 955.067 
+Epoch  473/2999 | Train: 437.222 | Test: 954.779 
+Epoch  474/2999 | Train: 422.294 | Test: 959.880 
+Epoch  475/2999 | Train: 441.043 | Test: 947.537 
+Epoch  476/2999 | Train: 422.002 | Test: 970.165 
+Epoch  477/2999 | Train: 414.689 | Test: 958.406 
+Epoch  478/2999 | Train: 403.723 | Test: 961.790 
+Epoch  479/2999 | Train: 398.260 | Test: 967.143 
+Epoch  480/2999 | Train: 389.614 | Test: 947.546 
+Epoch  481/2999 | Train: 384.166 | Test: 959.121 
+Epoch  482/2999 | Train: 375.982 | Test: 971.985 
+Epoch  483/2999 | Train: 379.194 | Test: 983.885 
+Epoch  484/2999 | Train: 385.775 | Test: 977.874 
+Epoch  485/2999 | Train: 387.391 | Test: 978.250 
+Epoch  486/2999 | Train: 412.162 | Test: 955.929 
+Epoch  487/2999 | Train: 418.634 | Test: 949.367 
+Epoch  488/2999 | Train: 424.643 | Test: 950.284 
+Epoch  489/2999 | Train: 404.808 | Test: 967.084 
+Epoch  490/2999 | Train: 417.841 | Test: 953.776 
+Epoch  491/2999 | Train: 414.511 | Test: 978.770 
+Epoch  492/2999 | Train: 422.864 | Test: 972.198 
+Epoch  493/2999 | Train: 428.388 | Test: 966.860 
+Epoch  494/2999 | Train: 431.931 | Test: 962.686 
+Epoch  495/2999 | Train: 427.074 | Test: 968.570 
+Epoch  496/2999 | Train: 398.557 | Test: 970.678 
+Epoch  497/2999 | Train: 395.361 | Test: 976.298 
+Epoch  498/2999 | Train: 396.949 | Test: 976.093 
+Epoch  499/2999 | Train: 390.815 | Test: 972.424 
+Epoch  500/2999 | Train: 402.053 | Test: 968.086 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-5.3643,  6.5785, 11.6313, -8.4217, 35.3626,  8.3587],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([-1.9912, 48.7678,  2.4264, -0.1220, 37.8694,  6.7759],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-6.6718, 44.2480,  7.9446, -8.1718, 40.7345,  9.7956],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  501/2999 | Train: 379.915 | Test: 958.036 
+Epoch  502/2999 | Train: 393.107 | Test: 985.042 
+Epoch  503/2999 | Train: 391.933 | Test: 972.022 
+Epoch  504/2999 | Train: 381.846 | Test: 980.956 
+Epoch  505/2999 | Train: 374.527 | Test: 961.285 
+Epoch  506/2999 | Train: 370.864 | Test: 978.557 
+Epoch  507/2999 | Train: 382.917 | Test: 975.670 
+Epoch  508/2999 | Train: 389.825 | Test: 969.495 
+Epoch  509/2999 | Train: 409.846 | Test: 959.761 
+Epoch  510/2999 | Train: 398.567 | Test: 991.185 
+Epoch  511/2999 | Train: 407.843 | Test: 975.076 
+Epoch  512/2999 | Train: 405.969 | Test: 976.868 
+Epoch  513/2999 | Train: 407.637 | Test: 988.697 
+Epoch  514/2999 | Train: 400.570 | Test: 973.030 
+Epoch  515/2999 | Train: 394.853 | Test: 968.690 
+Epoch  516/2999 | Train: 386.913 | Test: 984.539 
+Epoch  517/2999 | Train: 393.056 | Test: 970.832 
+Epoch  518/2999 | Train: 401.238 | Test: 973.915 
+Epoch  519/2999 | Train: 366.912 | Test: 986.338 
+Epoch  520/2999 | Train: 363.841 | Test: 989.005 
+Epoch  521/2999 | Train: 381.729 | Test: 997.779 
+Epoch  522/2999 | Train: 370.948 | Test: 982.825 
+Epoch  523/2999 | Train: 353.347 | Test: 992.576 
+Epoch  524/2999 | Train: 353.936 | Test: 989.143 
+Epoch  525/2999 | Train: 347.900 | Test: 991.800 
+Epoch  526/2999 | Train: 344.644 | Test: 1011.436 
+Epoch  527/2999 | Train: 331.754 | Test: 991.654 
+Epoch  528/2999 | Train: 328.806 | Test: 1011.457 
+Epoch  529/2999 | Train: 328.593 | Test: 1004.710 
+Epoch  530/2999 | Train: 331.877 | Test: 985.272 
+Epoch  531/2999 | Train: 332.525 | Test: 1006.333 
+Epoch  532/2999 | Train: 337.578 | Test: 1007.183 
+Epoch  533/2999 | Train: 328.211 | Test: 999.919 
+Epoch  534/2999 | Train: 317.676 | Test: 1011.669 
+Epoch  535/2999 | Train: 317.019 | Test: 997.882 
+Epoch  536/2999 | Train: 313.000 | Test: 1000.193 
+Epoch  537/2999 | Train: 327.304 | Test: 1002.345 
+Epoch  538/2999 | Train: 321.281 | Test: 1003.462 
+Epoch  539/2999 | Train: 310.868 | Test: 997.112 
+Epoch  540/2999 | Train: 307.465 | Test: 994.333 
+Epoch  541/2999 | Train: 307.411 | Test: 1024.976 
+Epoch  542/2999 | Train: 303.750 | Test: 1013.771 
+Epoch  543/2999 | Train: 310.068 | Test: 1012.045 
+Epoch  544/2999 | Train: 303.722 | Test: 1018.493 
+Epoch  545/2999 | Train: 297.279 | Test: 1013.960 
+Epoch  546/2999 | Train: 302.647 | Test: 1003.232 
+Epoch  547/2999 | Train: 293.792 | Test: 1028.078 
+Epoch  548/2999 | Train: 286.369 | Test: 1015.804 
+Epoch  549/2999 | Train: 281.538 | Test: 1015.196 
+Epoch  550/2999 | Train: 282.873 | Test: 1021.733 
+Epoch  551/2999 | Train: 282.945 | Test: 1016.796 
+Epoch  552/2999 | Train: 276.416 | Test: 1020.537 
+Epoch  553/2999 | Train: 269.040 | Test: 1030.009 
+Epoch  554/2999 | Train: 263.260 | Test: 1023.733 
+Epoch  555/2999 | Train: 263.575 | Test: 1026.234 
+Epoch  556/2999 | Train: 261.303 | Test: 1024.123 
+Epoch  557/2999 | Train: 256.571 | Test: 1021.820 
+Epoch  558/2999 | Train: 256.217 | Test: 1031.481 
+Epoch  559/2999 | Train: 254.279 | Test: 1044.285 
+Epoch  560/2999 | Train: 252.383 | Test: 1039.243 
+Epoch  561/2999 | Train: 256.068 | Test: 1033.407 
+Epoch  562/2999 | Train: 253.775 | Test: 1030.048 
+Epoch  563/2999 | Train: 247.492 | Test: 1043.410 
+Epoch  564/2999 | Train: 244.572 | Test: 1043.022 
+Epoch  565/2999 | Train: 244.739 | Test: 1045.500 
+Epoch  566/2999 | Train: 242.920 | Test: 1050.622 
+Epoch  567/2999 | Train: 239.698 | Test: 1038.820 
+Epoch  568/2999 | Train: 236.323 | Test: 1051.133 
+Epoch  569/2999 | Train: 234.277 | Test: 1044.712 
+Epoch  570/2999 | Train: 234.046 | Test: 1058.660 
+Epoch  571/2999 | Train: 229.646 | Test: 1053.611 
+Epoch  572/2999 | Train: 228.926 | Test: 1052.814 
+Epoch  573/2999 | Train: 231.638 | Test: 1057.623 
+Epoch  574/2999 | Train: 231.579 | Test: 1058.645 
+Epoch  575/2999 | Train: 228.559 | Test: 1048.419 
+Epoch  576/2999 | Train: 225.692 | Test: 1048.629 
+Epoch  577/2999 | Train: 224.958 | Test: 1057.008 
+Epoch  578/2999 | Train: 222.282 | Test: 1048.169 
+Epoch  579/2999 | Train: 221.456 | Test: 1049.269 
+Epoch  580/2999 | Train: 218.725 | Test: 1058.505 
+Epoch  581/2999 | Train: 217.750 | Test: 1061.475 
+Epoch  582/2999 | Train: 218.169 | Test: 1062.586 
+Epoch  583/2999 | Train: 216.357 | Test: 1065.337 
+Epoch  584/2999 | Train: 218.751 | Test: 1065.515 
+Epoch  585/2999 | Train: 218.760 | Test: 1073.504 
+Epoch  586/2999 | Train: 212.717 | Test: 1068.082 
+Epoch  587/2999 | Train: 213.882 | Test: 1068.183 
+Epoch  588/2999 | Train: 212.135 | Test: 1068.236 
+Epoch  589/2999 | Train: 211.800 | Test: 1079.453 
+Epoch  590/2999 | Train: 216.663 | Test: 1066.082 
+Epoch  591/2999 | Train: 222.342 | Test: 1077.825 
+Epoch  592/2999 | Train: 223.104 | Test: 1076.921 
+Epoch  593/2999 | Train: 249.881 | Test: 1073.568 
+Epoch  594/2999 | Train: 353.728 | Test: 1008.354 
+Epoch  595/2999 | Train: 424.178 | Test: 996.172 
+Epoch  596/2999 | Train: 432.081 | Test: 1025.332 
+Epoch  597/2999 | Train: 458.982 | Test: 986.271 
+Epoch  598/2999 | Train: 455.803 | Test: 972.728 
+Epoch  599/2999 | Train: 451.467 | Test: 979.383 
+Epoch  600/2999 | Train: 425.611 | Test: 968.110 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-10.4551,  16.0384,  13.8487,  -7.2560,  25.6548,  19.5835],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([-6.7486, 50.9166,  2.4892,  4.3315, 48.7561,  3.2520],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-7.6596, 64.7249, 11.6288, -8.6085, 27.3352, 30.3335],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  601/2999 | Train: 419.075 | Test: 987.515 
+Epoch  602/2999 | Train: 433.613 | Test: 985.098 
+Epoch  603/2999 | Train: 437.393 | Test: 972.609 
+Epoch  604/2999 | Train: 454.576 | Test: 982.171 
+Epoch  605/2999 | Train: 445.408 | Test: 984.823 
+Epoch  606/2999 | Train: 425.413 | Test: 988.780 
+Epoch  607/2999 | Train: 422.651 | Test: 972.822 
+Epoch  608/2999 | Train: 417.211 | Test: 973.126 
+Epoch  609/2999 | Train: 421.867 | Test: 981.861 
+Epoch  610/2999 | Train: 424.320 | Test: 970.810 
+Epoch  611/2999 | Train: 410.047 | Test: 975.635 
+Epoch  612/2999 | Train: 395.970 | Test: 990.357 
+Epoch  613/2999 | Train: 413.326 | Test: 977.783 
+Epoch  614/2999 | Train: 406.526 | Test: 989.236 
+Epoch  615/2999 | Train: 406.123 | Test: 992.648 
+Epoch  616/2999 | Train: 398.285 | Test: 978.700 
+Epoch  617/2999 | Train: 399.014 | Test: 991.222 
+Epoch  618/2999 | Train: 397.704 | Test: 972.159 
+Epoch  619/2999 | Train: 396.297 | Test: 1000.830 
+Epoch  620/2999 | Train: 384.197 | Test: 1000.770 
+Epoch  621/2999 | Train: 396.952 | Test: 985.641 
+Epoch  622/2999 | Train: 402.460 | Test: 976.333 
+Epoch  623/2999 | Train: 421.205 | Test: 981.504 
+Epoch  624/2999 | Train: 402.280 | Test: 988.241 
+Epoch  625/2999 | Train: 379.046 | Test: 1023.252 
+Epoch  626/2999 | Train: 359.721 | Test: 1011.979 
+Epoch  627/2999 | Train: 375.240 | Test: 1010.845 
+Epoch  628/2999 | Train: 370.422 | Test: 1036.995 
+Epoch  629/2999 | Train: 383.551 | Test: 1001.950 
+Epoch  630/2999 | Train: 383.295 | Test: 1016.781 
+Epoch  631/2999 | Train: 387.286 | Test: 990.177 
+Epoch  632/2999 | Train: 375.277 | Test: 988.094 
+Epoch  633/2999 | Train: 393.637 | Test: 998.124 
+Epoch  634/2999 | Train: 387.274 | Test: 1001.724 
+Epoch  635/2999 | Train: 398.100 | Test: 995.168 
+Epoch  636/2999 | Train: 373.509 | Test: 986.453 
+Epoch  637/2999 | Train: 380.669 | Test: 1005.685 
+Epoch  638/2999 | Train: 408.995 | Test: 978.419 
+Epoch  639/2999 | Train: 410.446 | Test: 994.257 
+Epoch  640/2999 | Train: 389.486 | Test: 999.028 
+Epoch  641/2999 | Train: 372.301 | Test: 1015.675 
+Epoch  642/2999 | Train: 359.525 | Test: 1015.533 
+Epoch  643/2999 | Train: 363.561 | Test: 998.005 
+Epoch  644/2999 | Train: 372.469 | Test: 1012.149 
+Epoch  645/2999 | Train: 357.043 | Test: 1004.536 
+Epoch  646/2999 | Train: 356.963 | Test: 1027.727 
+Epoch  647/2999 | Train: 351.952 | Test: 990.417 
+Epoch  648/2999 | Train: 354.507 | Test: 997.875 
+Epoch  649/2999 | Train: 354.942 | Test: 1010.818 
+Epoch  650/2999 | Train: 341.532 | Test: 1023.544 
+Epoch  651/2999 | Train: 338.289 | Test: 1009.004 
+Epoch  652/2999 | Train: 346.956 | Test: 1025.373 
+Epoch  653/2999 | Train: 351.347 | Test: 1007.035 
+Epoch  654/2999 | Train: 351.207 | Test: 1012.055 
+Epoch  655/2999 | Train: 341.576 | Test: 1016.135 
+Epoch  656/2999 | Train: 345.905 | Test: 1026.774 
+Epoch  657/2999 | Train: 343.856 | Test: 1028.615 
+Epoch  658/2999 | Train: 345.059 | Test: 1021.524 
+Epoch  659/2999 | Train: 351.551 | Test: 1024.632 
+Epoch  660/2999 | Train: 359.638 | Test: 1012.521 
+Epoch  661/2999 | Train: 346.499 | Test: 996.180 
+Epoch  662/2999 | Train: 339.295 | Test: 1004.160 
+Epoch  663/2999 | Train: 329.966 | Test: 1020.138 
+Epoch  664/2999 | Train: 324.609 | Test: 1015.056 
+Epoch  665/2999 | Train: 324.845 | Test: 1018.365 
+Epoch  666/2999 | Train: 343.935 | Test: 1027.959 
+Epoch  667/2999 | Train: 348.404 | Test: 1000.012 
+Epoch  668/2999 | Train: 345.120 | Test: 1022.659 
+Epoch  669/2999 | Train: 340.101 | Test: 1020.145 
+Epoch  670/2999 | Train: 344.116 | Test: 1018.778 
+Epoch  671/2999 | Train: 334.833 | Test: 1032.127 
+Epoch  672/2999 | Train: 338.373 | Test: 1020.615 
+Epoch  673/2999 | Train: 331.918 | Test: 1019.066 
+Epoch  674/2999 | Train: 326.461 | Test: 1007.045 
+Epoch  675/2999 | Train: 321.331 | Test: 1035.785 
+Epoch  676/2999 | Train: 310.205 | Test: 1025.307 
+Epoch  677/2999 | Train: 323.268 | Test: 1019.761 
+Epoch  678/2999 | Train: 324.190 | Test: 1013.797 
+Epoch  679/2999 | Train: 322.459 | Test: 1046.671 
+Epoch  680/2999 | Train: 320.807 | Test: 1021.720 
+Epoch  681/2999 | Train: 323.789 | Test: 1025.043 
+Epoch  682/2999 | Train: 316.435 | Test: 1033.437 
+Epoch  683/2999 | Train: 323.724 | Test: 1046.683 
+Epoch  684/2999 | Train: 310.594 | Test: 1030.309 
+Epoch  685/2999 | Train: 298.086 | Test: 1037.041 
+Epoch  686/2999 | Train: 313.855 | Test: 1016.042 
+Epoch  687/2999 | Train: 296.041 | Test: 1023.777 
+Epoch  688/2999 | Train: 299.871 | Test: 1020.363 
+Epoch  689/2999 | Train: 294.150 | Test: 1032.274 
+Epoch  690/2999 | Train: 315.006 | Test: 1030.303 
+Epoch  691/2999 | Train: 296.461 | Test: 1036.149 
+Epoch  692/2999 | Train: 289.223 | Test: 1042.016 
+Epoch  693/2999 | Train: 309.140 | Test: 1034.694 
+Epoch  694/2999 | Train: 297.044 | Test: 1041.778 
+Epoch  695/2999 | Train: 291.426 | Test: 1045.557 
+Epoch  696/2999 | Train: 304.182 | Test: 1015.783 
+Epoch  697/2999 | Train: 311.187 | Test: 1025.933 
+Epoch  698/2999 | Train: 319.345 | Test: 1043.660 
+Epoch  699/2999 | Train: 315.828 | Test: 1039.728 
+Epoch  700/2999 | Train: 316.493 | Test: 1019.589 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-9.4256, 18.3901, 22.0133, -5.5191, 30.8909, -2.5334],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([-8.4780, 62.7104, -0.7794, 10.0430, 44.8503,  7.1104],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([ -5.9229,  66.9106,   4.5752, -16.9689,  38.8869,  19.2074],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  701/2999 | Train: 320.057 | Test: 1036.255 
+Epoch  702/2999 | Train: 327.760 | Test: 1034.583 
+Epoch  703/2999 | Train: 317.922 | Test: 1027.891 
+Epoch  704/2999 | Train: 305.923 | Test: 1036.693 
+Epoch  705/2999 | Train: 309.792 | Test: 1026.968 
+Epoch  706/2999 | Train: 316.645 | Test: 1028.858 
+Epoch  707/2999 | Train: 312.812 | Test: 1033.442 
+Epoch  708/2999 | Train: 302.565 | Test: 1035.992 
+Epoch  709/2999 | Train: 309.508 | Test: 1027.179 
+Epoch  710/2999 | Train: 304.173 | Test: 1040.067 
+Epoch  711/2999 | Train: 300.465 | Test: 1030.833 
+Epoch  712/2999 | Train: 299.798 | Test: 1051.161 
+Epoch  713/2999 | Train: 294.804 | Test: 1040.222 
+Epoch  714/2999 | Train: 298.917 | Test: 1046.139 
+Epoch  715/2999 | Train: 286.540 | Test: 1045.442 
+Epoch  716/2999 | Train: 285.151 | Test: 1046.135 
+Epoch  717/2999 | Train: 293.104 | Test: 1039.525 
+Epoch  718/2999 | Train: 308.191 | Test: 1041.281 
+Epoch  719/2999 | Train: 305.377 | Test: 1021.245 
+Epoch  720/2999 | Train: 314.636 | Test: 1052.847 
+Epoch  721/2999 | Train: 315.010 | Test: 1061.395 
+Epoch  722/2999 | Train: 318.682 | Test: 1055.028 
+Epoch  723/2999 | Train: 324.687 | Test: 1049.451 
+Epoch  724/2999 | Train: 311.752 | Test: 1041.129 
+Epoch  725/2999 | Train: 295.550 | Test: 1046.383 
+Epoch  726/2999 | Train: 315.964 | Test: 1048.641 
+Epoch  727/2999 | Train: 304.142 | Test: 1040.800 
+Epoch  728/2999 | Train: 292.228 | Test: 1054.769 
+Epoch  729/2999 | Train: 277.450 | Test: 1046.107 
+Epoch  730/2999 | Train: 273.819 | Test: 1051.409 
+Epoch  731/2999 | Train: 274.410 | Test: 1039.398 
+Epoch  732/2999 | Train: 277.246 | Test: 1048.022 
+Epoch  733/2999 | Train: 283.489 | Test: 1044.437 
+Epoch  734/2999 | Train: 287.997 | Test: 1042.234 
+Epoch  735/2999 | Train: 288.089 | Test: 1034.231 
+Epoch  736/2999 | Train: 282.866 | Test: 1039.326 
+Epoch  737/2999 | Train: 275.198 | Test: 1044.003 
+Epoch  738/2999 | Train: 277.188 | Test: 1032.278 
+Epoch  739/2999 | Train: 277.420 | Test: 1049.424 
+Epoch  740/2999 | Train: 281.785 | Test: 1037.860 
+Epoch  741/2999 | Train: 328.642 | Test: 1057.790 
+Epoch  742/2999 | Train: 334.602 | Test: 1034.767 
+Epoch  743/2999 | Train: 350.383 | Test: 1037.406 
+Epoch  744/2999 | Train: 361.819 | Test: 1009.056 
+Epoch  745/2999 | Train: 350.093 | Test: 1032.766 
+Epoch  746/2999 | Train: 331.036 | Test: 1021.516 
+Epoch  747/2999 | Train: 335.831 | Test: 1021.275 
+Epoch  748/2999 | Train: 363.045 | Test: 1042.056 
+Epoch  749/2999 | Train: 374.224 | Test: 1000.452 
+Epoch  750/2999 | Train: 378.557 | Test: 1016.467 
+Epoch  751/2999 | Train: 349.778 | Test: 1006.396 
+Epoch  752/2999 | Train: 352.008 | Test: 1023.036 
+Epoch  753/2999 | Train: 346.369 | Test: 1041.811 
+Epoch  754/2999 | Train: 354.581 | Test: 1009.356 
+Epoch  755/2999 | Train: 381.688 | Test: 1014.632 
+Epoch  756/2999 | Train: 381.013 | Test: 1001.765 
+Epoch  757/2999 | Train: 358.485 | Test: 1018.867 
+Epoch  758/2999 | Train: 350.932 | Test: 1029.839 
+Epoch  759/2999 | Train: 374.230 | Test: 1026.598 
+Epoch  760/2999 | Train: 366.494 | Test: 1024.448 
+Epoch  761/2999 | Train: 365.193 | Test: 1008.435 
+Epoch  762/2999 | Train: 372.730 | Test: 1014.185 
+Epoch  763/2999 | Train: 354.162 | Test: 1021.193 
+Epoch  764/2999 | Train: 362.509 | Test: 1014.860 
+Epoch  765/2999 | Train: 355.094 | Test: 1022.397 
+Epoch  766/2999 | Train: 350.016 | Test: 1020.093 
+Epoch  767/2999 | Train: 351.705 | Test: 1016.229 
+Epoch  768/2999 | Train: 355.020 | Test: 1014.070 
+Epoch  769/2999 | Train: 355.428 | Test: 1008.000 
+Epoch  770/2999 | Train: 348.467 | Test: 988.901 
+Epoch  771/2999 | Train: 357.083 | Test: 1002.318 
+Epoch  772/2999 | Train: 332.476 | Test: 1018.010 
+Epoch  773/2999 | Train: 336.214 | Test: 1030.202 
+Epoch  774/2999 | Train: 332.357 | Test: 1019.689 
+Epoch  775/2999 | Train: 342.923 | Test: 1042.866 
+Epoch  776/2999 | Train: 333.544 | Test: 1039.939 
+Epoch  777/2999 | Train: 321.300 | Test: 1018.459 
+Epoch  778/2999 | Train: 324.147 | Test: 1036.160 
+Epoch  779/2999 | Train: 331.131 | Test: 1016.902 
+Epoch  780/2999 | Train: 327.884 | Test: 1043.409 
+Epoch  781/2999 | Train: 327.683 | Test: 1051.856 
+Epoch  782/2999 | Train: 313.724 | Test: 1034.954 
+Epoch  783/2999 | Train: 323.868 | Test: 1038.253 
+Epoch  784/2999 | Train: 343.937 | Test: 1037.649 
+Epoch  785/2999 | Train: 339.453 | Test: 1032.318 
+Epoch  786/2999 | Train: 342.592 | Test: 1045.351 
+Epoch  787/2999 | Train: 372.561 | Test: 1027.244 
+Epoch  788/2999 | Train: 355.873 | Test: 1026.053 
+Epoch  789/2999 | Train: 349.070 | Test: 1015.627 
+Epoch  790/2999 | Train: 332.815 | Test: 1031.684 
+Epoch  791/2999 | Train: 320.536 | Test: 1039.899 
+Epoch  792/2999 | Train: 305.753 | Test: 1060.823 
+Epoch  793/2999 | Train: 303.682 | Test: 1040.279 
+Epoch  794/2999 | Train: 300.433 | Test: 1032.417 
+Epoch  795/2999 | Train: 291.457 | Test: 1051.516 
+Epoch  796/2999 | Train: 300.426 | Test: 1046.165 
+Epoch  797/2999 | Train: 303.606 | Test: 1044.675 
+Epoch  798/2999 | Train: 316.310 | Test: 1037.753 
+Epoch  799/2999 | Train: 322.998 | Test: 1043.954 
+Epoch  800/2999 | Train: 322.922 | Test: 1057.880 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-12.3062,  26.5713,  24.3895,  -4.3694,  22.7476, -16.5299],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 18.3816,  36.1399,   0.5051, -14.3477,  49.5364,  -5.5603],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([ 0.3853, 53.6417, 10.7475, -9.6850, 49.9843, 20.8434],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  801/2999 | Train: 325.794 | Test: 1030.657 
+Epoch  802/2999 | Train: 322.788 | Test: 1043.419 
+Epoch  803/2999 | Train: 326.207 | Test: 1033.567 
+Epoch  804/2999 | Train: 325.557 | Test: 1031.523 
+Epoch  805/2999 | Train: 343.770 | Test: 1020.137 
+Epoch  806/2999 | Train: 332.715 | Test: 1038.320 
+Epoch  807/2999 | Train: 321.444 | Test: 1037.459 
+Epoch  808/2999 | Train: 330.987 | Test: 1044.825 
+Epoch  809/2999 | Train: 327.945 | Test: 1026.862 
+Epoch  810/2999 | Train: 331.285 | Test: 1030.995 
+Epoch  811/2999 | Train: 323.054 | Test: 1036.935 
+Epoch  812/2999 | Train: 337.847 | Test: 1051.633 
+Epoch  813/2999 | Train: 338.774 | Test: 1032.446 
+Epoch  814/2999 | Train: 319.736 | Test: 1042.899 
+Epoch  815/2999 | Train: 327.831 | Test: 1053.946 
+Epoch  816/2999 | Train: 332.974 | Test: 1016.563 
+Epoch  817/2999 | Train: 326.044 | Test: 1033.533 
+Epoch  818/2999 | Train: 302.690 | Test: 1036.203 
+Epoch  819/2999 | Train: 318.927 | Test: 1021.189 
+Epoch  820/2999 | Train: 329.491 | Test: 1042.526 
+Epoch  821/2999 | Train: 322.991 | Test: 1037.772 
+Epoch  822/2999 | Train: 328.752 | Test: 1045.572 
+Epoch  823/2999 | Train: 336.005 | Test: 1023.145 
+Epoch  824/2999 | Train: 347.240 | Test: 1021.867 
+Epoch  825/2999 | Train: 341.579 | Test: 1046.476 
+Epoch  826/2999 | Train: 342.366 | Test: 1022.769 
+Epoch  827/2999 | Train: 334.683 | Test: 1034.290 
+Epoch  828/2999 | Train: 321.496 | Test: 1041.147 
+Epoch  829/2999 | Train: 347.192 | Test: 1010.269 
+Epoch  830/2999 | Train: 346.661 | Test: 1031.269 
+Epoch  831/2999 | Train: 334.880 | Test: 1038.700 
+Epoch  832/2999 | Train: 338.412 | Test: 1044.302 
+Epoch  833/2999 | Train: 330.729 | Test: 1012.672 
+Epoch  834/2999 | Train: 347.207 | Test: 1029.137 
+Epoch  835/2999 | Train: 348.160 | Test: 1021.595 
+Epoch  836/2999 | Train: 343.652 | Test: 1013.798 
+Epoch  837/2999 | Train: 344.517 | Test: 1026.089 
+Epoch  838/2999 | Train: 327.875 | Test: 1045.045 
+Epoch  839/2999 | Train: 311.942 | Test: 1040.061 
+Epoch  840/2999 | Train: 318.025 | Test: 1033.283 
+Epoch  841/2999 | Train: 306.293 | Test: 1036.985 
+Epoch  842/2999 | Train: 310.591 | Test: 1050.685 
+Epoch  843/2999 | Train: 311.204 | Test: 1021.961 
+Epoch  844/2999 | Train: 305.055 | Test: 1036.382 
+Epoch  845/2999 | Train: 297.169 | Test: 1049.633 
+Epoch  846/2999 | Train: 314.012 | Test: 1029.061 
+Epoch  847/2999 | Train: 325.144 | Test: 1042.814 
+Epoch  848/2999 | Train: 329.917 | Test: 1031.845 
+Epoch  849/2999 | Train: 318.403 | Test: 1037.192 
+Epoch  850/2999 | Train: 323.604 | Test: 1041.423 
+Epoch  851/2999 | Train: 304.716 | Test: 1042.301 
+Epoch  852/2999 | Train: 300.765 | Test: 1042.181 
+Epoch  853/2999 | Train: 312.813 | Test: 1061.023 
+Epoch  854/2999 | Train: 326.904 | Test: 1021.828 
+Epoch  855/2999 | Train: 329.588 | Test: 1034.248 
+Epoch  856/2999 | Train: 326.316 | Test: 1048.875 
+Epoch  857/2999 | Train: 325.743 | Test: 1035.098 
+Epoch  858/2999 | Train: 325.649 | Test: 1040.825 
+Epoch  859/2999 | Train: 321.461 | Test: 1053.399 
+Epoch  860/2999 | Train: 310.823 | Test: 1036.840 
+Epoch  861/2999 | Train: 309.787 | Test: 1038.656 
+Epoch  862/2999 | Train: 328.848 | Test: 1047.133 
+Epoch  863/2999 | Train: 327.344 | Test: 1041.158 
+Epoch  864/2999 | Train: 341.049 | Test: 1036.307 
+Epoch  865/2999 | Train: 338.645 | Test: 1026.929 
+Epoch  866/2999 | Train: 343.356 | Test: 1017.244 
+Epoch  867/2999 | Train: 358.942 | Test: 1051.207 
+Epoch  868/2999 | Train: 353.847 | Test: 1018.445 
+Epoch  869/2999 | Train: 339.606 | Test: 1041.397 
+Epoch  870/2999 | Train: 341.513 | Test: 1047.529 
+Epoch  871/2999 | Train: 334.123 | Test: 1017.110 
+Epoch  872/2999 | Train: 346.591 | Test: 1062.552 
+Epoch  873/2999 | Train: 363.583 | Test: 1031.051 
+Epoch  874/2999 | Train: 365.115 | Test: 1027.366 
+Epoch  875/2999 | Train: 358.923 | Test: 1019.282 
+Epoch  876/2999 | Train: 343.943 | Test: 1033.970 
+Epoch  877/2999 | Train: 350.566 | Test: 1028.372 
+Epoch  878/2999 | Train: 357.397 | Test: 1017.203 
+Epoch  879/2999 | Train: 343.289 | Test: 1031.948 
+Epoch  880/2999 | Train: 342.595 | Test: 1038.458 
+Epoch  881/2999 | Train: 350.069 | Test: 1038.993 
+Epoch  882/2999 | Train: 330.873 | Test: 1035.590 
+Epoch  883/2999 | Train: 328.250 | Test: 1026.853 
+Epoch  884/2999 | Train: 331.644 | Test: 1025.560 
+Epoch  885/2999 | Train: 311.233 | Test: 1044.671 
+Epoch  886/2999 | Train: 305.732 | Test: 1050.646 
+Epoch  887/2999 | Train: 311.286 | Test: 1055.731 
+Epoch  888/2999 | Train: 331.276 | Test: 1057.078 
+Epoch  889/2999 | Train: 338.114 | Test: 1040.035 
+Epoch  890/2999 | Train: 333.080 | Test: 1038.699 
+Epoch  891/2999 | Train: 331.225 | Test: 1045.562 
+Epoch  892/2999 | Train: 341.654 | Test: 1042.707 
+Epoch  893/2999 | Train: 338.073 | Test: 1055.460 
+Epoch  894/2999 | Train: 338.184 | Test: 1051.420 
+Epoch  895/2999 | Train: 321.926 | Test: 1035.293 
+Epoch  896/2999 | Train: 326.303 | Test: 1014.438 
+Epoch  897/2999 | Train: 317.721 | Test: 1040.380 
+Epoch  898/2999 | Train: 347.791 | Test: 1031.902 
+Epoch  899/2999 | Train: 339.590 | Test: 1027.376 
+Epoch  900/2999 | Train: 326.900 | Test: 1040.490 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-4.2500, -1.4301, 14.9852, -5.9820, 29.3322, 10.7541],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([10.9846, 51.9574,  1.2812, -3.7303, 50.8899,  0.7734],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-8.4254, 57.8453, 10.7707, -5.9637, 39.9222, 21.6218],
+       grad_fn=<SelectBackward0>) 
+
+Epoch  901/2999 | Train: 317.214 | Test: 1051.630 
+Epoch  902/2999 | Train: 305.127 | Test: 1050.719 
+Epoch  903/2999 | Train: 307.706 | Test: 1053.496 
+Epoch  904/2999 | Train: 313.191 | Test: 1063.635 
+Epoch  905/2999 | Train: 319.613 | Test: 1030.125 
+Epoch  906/2999 | Train: 325.794 | Test: 1038.044 
+Epoch  907/2999 | Train: 321.696 | Test: 1037.445 
+Epoch  908/2999 | Train: 330.001 | Test: 1045.146 
+Epoch  909/2999 | Train: 319.380 | Test: 1041.105 
+Epoch  910/2999 | Train: 322.376 | Test: 1032.279 
+Epoch  911/2999 | Train: 332.277 | Test: 1052.503 
+Epoch  912/2999 | Train: 331.301 | Test: 1052.534 
+Epoch  913/2999 | Train: 319.416 | Test: 1059.211 
+Epoch  914/2999 | Train: 325.532 | Test: 1020.846 
+Epoch  915/2999 | Train: 338.355 | Test: 1031.574 
+Epoch  916/2999 | Train: 320.316 | Test: 1050.330 
+Epoch  917/2999 | Train: 322.490 | Test: 1060.243 
+Epoch  918/2999 | Train: 311.498 | Test: 1022.641 
+Epoch  919/2999 | Train: 320.573 | Test: 1041.186 
+Epoch  920/2999 | Train: 323.605 | Test: 1049.961 
+Epoch  921/2999 | Train: 334.353 | Test: 1043.403 
+Epoch  922/2999 | Train: 315.156 | Test: 1058.035 
+Epoch  923/2999 | Train: 318.015 | Test: 1046.006 
+Epoch  924/2999 | Train: 332.080 | Test: 1017.966 
+Epoch  925/2999 | Train: 324.581 | Test: 1075.080 
+Epoch  926/2999 | Train: 316.196 | Test: 1051.367 
+Epoch  927/2999 | Train: 325.666 | Test: 1030.313 
+Epoch  928/2999 | Train: 314.118 | Test: 1042.019 
+Epoch  929/2999 | Train: 325.106 | Test: 1069.232 
+Epoch  930/2999 | Train: 317.434 | Test: 1079.593 
+Epoch  931/2999 | Train: 322.812 | Test: 1030.957 
+Epoch  932/2999 | Train: 325.416 | Test: 1026.833 
+Epoch  933/2999 | Train: 324.345 | Test: 1045.953 
+Epoch  934/2999 | Train: 327.897 | Test: 1036.254 
+Epoch  935/2999 | Train: 337.392 | Test: 1033.121 
+Epoch  936/2999 | Train: 344.919 | Test: 1039.634 
+Epoch  937/2999 | Train: 345.903 | Test: 1041.607 
+Epoch  938/2999 | Train: 350.532 | Test: 1026.766 
+Epoch  939/2999 | Train: 332.922 | Test: 1044.111 
+Epoch  940/2999 | Train: 328.846 | Test: 1035.746 
+Epoch  941/2999 | Train: 323.096 | Test: 1046.613 
+Epoch  942/2999 | Train: 319.613 | Test: 1030.135 
+Epoch  943/2999 | Train: 363.867 | Test: 1028.173 
+Epoch  944/2999 | Train: 349.180 | Test: 1031.977 
+Epoch  945/2999 | Train: 336.636 | Test: 1038.520 
+Epoch  946/2999 | Train: 352.464 | Test: 1031.674 
+Epoch  947/2999 | Train: 355.553 | Test: 1036.673 
+Epoch  948/2999 | Train: 346.885 | Test: 1032.866 
+Epoch  949/2999 | Train: 354.988 | Test: 1040.230 
+Epoch  950/2999 | Train: 349.186 | Test: 1027.766 
+Epoch  951/2999 | Train: 353.696 | Test: 1025.207 
+Epoch  952/2999 | Train: 356.190 | Test: 1027.107 
+Epoch  953/2999 | Train: 362.647 | Test: 1015.621 
+Epoch  954/2999 | Train: 343.203 | Test: 1026.846 
+Epoch  955/2999 | Train: 349.134 | Test: 1059.817 
+Epoch  956/2999 | Train: 358.325 | Test: 1027.814 
+Epoch  957/2999 | Train: 353.714 | Test: 1043.676 
+Epoch  958/2999 | Train: 345.159 | Test: 1043.865 
+Epoch  959/2999 | Train: 339.627 | Test: 1033.599 
+Epoch  960/2999 | Train: 334.709 | Test: 1017.397 
+Epoch  961/2999 | Train: 343.536 | Test: 1052.072 
+Epoch  962/2999 | Train: 348.081 | Test: 1025.167 
+Epoch  963/2999 | Train: 343.851 | Test: 1047.639 
+Epoch  964/2999 | Train: 343.745 | Test: 1032.360 
+Epoch  965/2999 | Train: 335.621 | Test: 1048.482 
+Epoch  966/2999 | Train: 335.536 | Test: 1041.633 
+Epoch  967/2999 | Train: 337.116 | Test: 1016.948 
+Epoch  968/2999 | Train: 338.151 | Test: 1038.782 
+Epoch  969/2999 | Train: 347.362 | Test: 1002.106 
+Epoch  970/2999 | Train: 350.376 | Test: 1035.025 
+Epoch  971/2999 | Train: 367.346 | Test: 1014.494 
+Epoch  972/2999 | Train: 383.263 | Test: 1011.232 
+Epoch  973/2999 | Train: 384.166 | Test: 997.526 
+Epoch  974/2999 | Train: 388.010 | Test: 1024.659 
+Epoch  975/2999 | Train: 379.806 | Test: 1012.182 
+Epoch  976/2999 | Train: 373.955 | Test: 1012.760 
+Epoch  977/2999 | Train: 370.942 | Test: 1018.993 
+Epoch  978/2999 | Train: 369.212 | Test: 1051.374 
+Epoch  979/2999 | Train: 367.870 | Test: 1032.190 
+Epoch  980/2999 | Train: 381.089 | Test: 1019.906 
+Epoch  981/2999 | Train: 390.617 | Test: 998.624 
+Epoch  982/2999 | Train: 371.028 | Test: 1025.070 
+Epoch  983/2999 | Train: 365.211 | Test: 1033.107 
+Epoch  984/2999 | Train: 380.561 | Test: 1008.269 
+Epoch  985/2999 | Train: 378.071 | Test: 1008.053 
+Epoch  986/2999 | Train: 375.694 | Test: 1012.575 
+Epoch  987/2999 | Train: 366.813 | Test: 1011.602 
+Epoch  988/2999 | Train: 365.203 | Test: 1038.404 
+Epoch  989/2999 | Train: 357.512 | Test: 1029.861 
+Epoch  990/2999 | Train: 354.436 | Test: 996.150 
+Epoch  991/2999 | Train: 365.167 | Test: 1027.765 
+Epoch  992/2999 | Train: 373.453 | Test: 1017.512 
+Epoch  993/2999 | Train: 372.951 | Test: 1012.741 
+Epoch  994/2999 | Train: 369.597 | Test: 1032.636 
+Epoch  995/2999 | Train: 360.828 | Test: 1034.276 
+Epoch  996/2999 | Train: 383.962 | Test: 1031.187 
+Epoch  997/2999 | Train: 386.793 | Test: 1015.474 
+Epoch  998/2999 | Train: 378.161 | Test: 1053.270 
+Epoch  999/2999 | Train: 364.879 | Test: 1019.155 
+Epoch 1000/2999 | Train: 369.202 | Test: 1016.130 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-2.3589, 15.8204,  7.2046, -2.0235, 26.9415,  3.5015],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 3.2680, 51.8540,  7.9068, 10.5361, 54.7473, -0.7846],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-5.4343, 56.4297, 12.4734, -8.7941, 52.8710, 19.9014],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1001/2999 | Train: 358.001 | Test: 1026.323 
+Epoch 1002/2999 | Train: 356.099 | Test: 1037.680 
+Epoch 1003/2999 | Train: 355.003 | Test: 1019.797 
+Epoch 1004/2999 | Train: 353.406 | Test: 1027.013 
+Epoch 1005/2999 | Train: 340.176 | Test: 1041.375 
+Epoch 1006/2999 | Train: 342.868 | Test: 1050.536 
+Epoch 1007/2999 | Train: 334.440 | Test: 1036.475 
+Epoch 1008/2999 | Train: 343.138 | Test: 1030.259 
+Epoch 1009/2999 | Train: 349.528 | Test: 1054.815 
+Epoch 1010/2999 | Train: 352.754 | Test: 1022.920 
+Epoch 1011/2999 | Train: 353.186 | Test: 1016.441 
+Epoch 1012/2999 | Train: 354.746 | Test: 1032.256 
+Epoch 1013/2999 | Train: 367.399 | Test: 1032.977 
+Epoch 1014/2999 | Train: 350.238 | Test: 1029.745 
+Epoch 1015/2999 | Train: 348.714 | Test: 1014.986 
+Epoch 1016/2999 | Train: 336.362 | Test: 1017.392 
+Epoch 1017/2999 | Train: 351.258 | Test: 1041.270 
+Epoch 1018/2999 | Train: 347.601 | Test: 1031.750 
+Epoch 1019/2999 | Train: 354.786 | Test: 1049.385 
+Epoch 1020/2999 | Train: 356.550 | Test: 1039.801 
+Epoch 1021/2999 | Train: 373.202 | Test: 1037.557 
+Epoch 1022/2999 | Train: 346.647 | Test: 1035.420 
+Epoch 1023/2999 | Train: 363.919 | Test: 1030.210 
+Epoch 1024/2999 | Train: 373.480 | Test: 1017.474 
+Epoch 1025/2999 | Train: 367.239 | Test: 1037.988 
+Epoch 1026/2999 | Train: 394.338 | Test: 1019.367 
+Epoch 1027/2999 | Train: 390.762 | Test: 1013.657 
+Epoch 1028/2999 | Train: 390.236 | Test: 1018.623 
+Epoch 1029/2999 | Train: 392.182 | Test: 1003.782 
+Epoch 1030/2999 | Train: 387.814 | Test: 1001.052 
+Epoch 1031/2999 | Train: 393.770 | Test: 1004.274 
+Epoch 1032/2999 | Train: 368.595 | Test: 1024.593 
+Epoch 1033/2999 | Train: 347.774 | Test: 1014.929 
+Epoch 1034/2999 | Train: 358.893 | Test: 1050.300 
+Epoch 1035/2999 | Train: 362.323 | Test: 1028.474 
+Epoch 1036/2999 | Train: 368.561 | Test: 1025.560 
+Epoch 1037/2999 | Train: 357.714 | Test: 1022.854 
+Epoch 1038/2999 | Train: 374.617 | Test: 1006.036 
+Epoch 1039/2999 | Train: 384.403 | Test: 1025.141 
+Epoch 1040/2999 | Train: 362.441 | Test: 1015.807 
+Epoch 1041/2999 | Train: 370.156 | Test: 1004.388 
+Epoch 1042/2999 | Train: 363.605 | Test: 1033.557 
+Epoch 1043/2999 | Train: 361.628 | Test: 1036.045 
+Epoch 1044/2999 | Train: 378.344 | Test: 1007.399 
+Epoch 1045/2999 | Train: 392.601 | Test: 1004.963 
+Epoch 1046/2999 | Train: 378.529 | Test: 1033.890 
+Epoch 1047/2999 | Train: 369.306 | Test: 1010.429 
+Epoch 1048/2999 | Train: 371.282 | Test: 1008.513 
+Epoch 1049/2999 | Train: 374.114 | Test: 1033.852 
+Epoch 1050/2999 | Train: 376.933 | Test: 1009.968 
+Epoch 1051/2999 | Train: 366.347 | Test: 1028.515 
+Epoch 1052/2999 | Train: 366.796 | Test: 1005.540 
+Epoch 1053/2999 | Train: 374.118 | Test: 1017.756 
+Epoch 1054/2999 | Train: 379.065 | Test: 1019.888 
+Epoch 1055/2999 | Train: 372.129 | Test: 1056.096 
+Epoch 1056/2999 | Train: 380.442 | Test: 1041.214 
+Epoch 1057/2999 | Train: 371.808 | Test: 1042.359 
+Epoch 1058/2999 | Train: 357.883 | Test: 1033.027 
+Epoch 1059/2999 | Train: 370.221 | Test: 1035.259 
+Epoch 1060/2999 | Train: 379.559 | Test: 1015.097 
+Epoch 1061/2999 | Train: 380.065 | Test: 1036.904 
+Epoch 1062/2999 | Train: 365.248 | Test: 1015.250 
+Epoch 1063/2999 | Train: 358.038 | Test: 1039.904 
+Epoch 1064/2999 | Train: 359.678 | Test: 1013.692 
+Epoch 1065/2999 | Train: 360.211 | Test: 1037.425 
+Epoch 1066/2999 | Train: 349.718 | Test: 1012.979 
+Epoch 1067/2999 | Train: 356.582 | Test: 1019.568 
+Epoch 1068/2999 | Train: 364.062 | Test: 1037.636 
+Epoch 1069/2999 | Train: 359.513 | Test: 1027.066 
+Epoch 1070/2999 | Train: 355.462 | Test: 1023.590 
+Epoch 1071/2999 | Train: 347.291 | Test: 1038.054 
+Epoch 1072/2999 | Train: 360.327 | Test: 1032.518 
+Epoch 1073/2999 | Train: 368.219 | Test: 1016.935 
+Epoch 1074/2999 | Train: 368.986 | Test: 1033.715 
+Epoch 1075/2999 | Train: 380.636 | Test: 1035.672 
+Epoch 1076/2999 | Train: 369.816 | Test: 1047.640 
+Epoch 1077/2999 | Train: 367.145 | Test: 1021.626 
+Epoch 1078/2999 | Train: 377.572 | Test: 1031.931 
+Epoch 1079/2999 | Train: 369.804 | Test: 1025.167 
+Epoch 1080/2999 | Train: 375.023 | Test: 1035.731 
+Epoch 1081/2999 | Train: 396.550 | Test: 1009.770 
+Epoch 1082/2999 | Train: 389.364 | Test: 1010.380 
+Epoch 1083/2999 | Train: 374.415 | Test: 1024.128 
+Epoch 1084/2999 | Train: 384.664 | Test: 1015.217 
+Epoch 1085/2999 | Train: 372.578 | Test: 1036.153 
+Epoch 1086/2999 | Train: 377.500 | Test: 1035.937 
+Epoch 1087/2999 | Train: 381.455 | Test: 1029.421 
+Epoch 1088/2999 | Train: 381.567 | Test: 1019.868 
+Epoch 1089/2999 | Train: 380.307 | Test: 1019.251 
+Epoch 1090/2999 | Train: 362.768 | Test: 1024.924 
+Epoch 1091/2999 | Train: 364.072 | Test: 1003.291 
+Epoch 1092/2999 | Train: 381.924 | Test: 1027.432 
+Epoch 1093/2999 | Train: 362.507 | Test: 1007.783 
+Epoch 1094/2999 | Train: 370.242 | Test: 1031.844 
+Epoch 1095/2999 | Train: 376.256 | Test: 1012.218 
+Epoch 1096/2999 | Train: 375.900 | Test: 1014.831 
+Epoch 1097/2999 | Train: 372.665 | Test: 1014.486 
+Epoch 1098/2999 | Train: 364.372 | Test: 1020.663 
+Epoch 1099/2999 | Train: 363.381 | Test: 1016.186 
+Epoch 1100/2999 | Train: 361.749 | Test: 1002.866 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([-7.6525, 14.0602, 10.7267, -8.1491, 22.9284, 17.0698],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([19.5050, 31.4613, -8.1237, -4.7605, 48.3944, -0.6746],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([ -8.5424,  33.6729,  -1.2377, -11.7861,  36.4765,   9.1789],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1101/2999 | Train: 371.716 | Test: 1012.674 
+Epoch 1102/2999 | Train: 366.052 | Test: 1017.035 
+Epoch 1103/2999 | Train: 369.626 | Test: 1015.030 
+Epoch 1104/2999 | Train: 367.568 | Test: 1028.862 
+Epoch 1105/2999 | Train: 388.769 | Test: 1003.330 
+Epoch 1106/2999 | Train: 379.385 | Test: 1018.424 
+Epoch 1107/2999 | Train: 382.689 | Test: 1015.975 
+Epoch 1108/2999 | Train: 372.251 | Test: 1006.783 
+Epoch 1109/2999 | Train: 398.113 | Test: 1007.831 
+Epoch 1110/2999 | Train: 402.765 | Test: 1010.873 
+Epoch 1111/2999 | Train: 390.268 | Test: 1022.556 
+Epoch 1112/2999 | Train: 384.274 | Test: 1015.976 
+Epoch 1113/2999 | Train: 386.909 | Test: 1010.453 
+Epoch 1114/2999 | Train: 385.288 | Test: 1021.083 
+Epoch 1115/2999 | Train: 387.060 | Test: 1017.177 
+Epoch 1116/2999 | Train: 399.733 | Test: 1008.657 
+Epoch 1117/2999 | Train: 380.659 | Test: 1002.043 
+Epoch 1118/2999 | Train: 377.852 | Test: 1018.190 
+Epoch 1119/2999 | Train: 384.413 | Test: 1003.457 
+Epoch 1120/2999 | Train: 373.734 | Test: 1009.716 
+Epoch 1121/2999 | Train: 368.767 | Test: 1022.216 
+Epoch 1122/2999 | Train: 378.115 | Test: 1022.312 
+Epoch 1123/2999 | Train: 381.583 | Test: 1022.878 
+Epoch 1124/2999 | Train: 376.490 | Test: 1008.051 
+Epoch 1125/2999 | Train: 378.845 | Test: 1016.601 
+Epoch 1126/2999 | Train: 379.662 | Test: 1037.958 
+Epoch 1127/2999 | Train: 387.718 | Test: 1005.489 
+Epoch 1128/2999 | Train: 404.906 | Test: 1008.433 
+Epoch 1129/2999 | Train: 398.913 | Test: 991.807 
+Epoch 1130/2999 | Train: 394.040 | Test: 1012.808 
+Epoch 1131/2999 | Train: 389.656 | Test: 992.760 
+Epoch 1132/2999 | Train: 391.594 | Test: 1023.709 
+Epoch 1133/2999 | Train: 392.140 | Test: 1002.194 
+Epoch 1134/2999 | Train: 380.443 | Test: 1013.631 
+Epoch 1135/2999 | Train: 392.402 | Test: 1023.135 
+Epoch 1136/2999 | Train: 374.533 | Test: 1018.976 
+Epoch 1137/2999 | Train: 370.715 | Test: 1023.617 
+Epoch 1138/2999 | Train: 394.424 | Test: 1006.710 
+Epoch 1139/2999 | Train: 382.084 | Test: 1031.772 
+Epoch 1140/2999 | Train: 386.297 | Test: 1023.577 
+Epoch 1141/2999 | Train: 378.808 | Test: 1013.611 
+Epoch 1142/2999 | Train: 377.763 | Test: 1011.121 
+Epoch 1143/2999 | Train: 378.835 | Test: 1029.747 
+Epoch 1144/2999 | Train: 381.789 | Test: 1017.879 
+Epoch 1145/2999 | Train: 390.818 | Test: 1004.995 
+Epoch 1146/2999 | Train: 373.430 | Test: 1023.411 
+Epoch 1147/2999 | Train: 389.748 | Test: 1020.641 
+Epoch 1148/2999 | Train: 384.518 | Test: 1001.359 
+Epoch 1149/2999 | Train: 379.743 | Test: 1014.101 
+Epoch 1150/2999 | Train: 383.881 | Test: 1019.170 
+Epoch 1151/2999 | Train: 392.134 | Test: 1020.101 
+Epoch 1152/2999 | Train: 385.775 | Test: 993.429 
+Epoch 1153/2999 | Train: 391.232 | Test: 975.341 
+Epoch 1154/2999 | Train: 391.518 | Test: 1012.526 
+Epoch 1155/2999 | Train: 400.565 | Test: 1031.117 
+Epoch 1156/2999 | Train: 397.783 | Test: 1026.022 
+Epoch 1157/2999 | Train: 383.399 | Test: 1007.246 
+Epoch 1158/2999 | Train: 379.889 | Test: 1001.843 
+Epoch 1159/2999 | Train: 374.717 | Test: 1006.213 
+Epoch 1160/2999 | Train: 375.713 | Test: 1012.766 
+Epoch 1161/2999 | Train: 374.992 | Test: 1028.052 
+Epoch 1162/2999 | Train: 381.932 | Test: 1012.815 
+Epoch 1163/2999 | Train: 388.369 | Test: 1010.035 
+Epoch 1164/2999 | Train: 400.334 | Test: 1014.079 
+Epoch 1165/2999 | Train: 404.940 | Test: 1010.809 
+Epoch 1166/2999 | Train: 383.552 | Test: 996.073 
+Epoch 1167/2999 | Train: 385.708 | Test: 1012.279 
+Epoch 1168/2999 | Train: 376.506 | Test: 1016.897 
+Epoch 1169/2999 | Train: 382.871 | Test: 983.556 
+Epoch 1170/2999 | Train: 365.375 | Test: 1013.793 
+Epoch 1171/2999 | Train: 357.488 | Test: 1010.501 
+Epoch 1172/2999 | Train: 358.271 | Test: 1010.463 
+Epoch 1173/2999 | Train: 374.749 | Test: 1000.085 
+Epoch 1174/2999 | Train: 379.035 | Test: 1013.306 
+Epoch 1175/2999 | Train: 372.640 | Test: 1013.007 
+Epoch 1176/2999 | Train: 374.083 | Test: 988.066 
+Epoch 1177/2999 | Train: 365.415 | Test: 1010.737 
+Epoch 1178/2999 | Train: 379.064 | Test: 1003.480 
+Epoch 1179/2999 | Train: 362.717 | Test: 1012.732 
+Epoch 1180/2999 | Train: 366.758 | Test: 1025.094 
+Epoch 1181/2999 | Train: 378.238 | Test: 1005.530 
+Epoch 1182/2999 | Train: 371.864 | Test: 1028.078 
+Epoch 1183/2999 | Train: 372.762 | Test: 1022.652 
+Epoch 1184/2999 | Train: 367.463 | Test: 1000.859 
+Epoch 1185/2999 | Train: 376.678 | Test: 1012.848 
+Epoch 1186/2999 | Train: 373.484 | Test: 1012.847 
+Epoch 1187/2999 | Train: 379.379 | Test: 1008.994 
+Epoch 1188/2999 | Train: 398.029 | Test: 1009.686 
+Epoch 1189/2999 | Train: 400.104 | Test: 985.978 
+Epoch 1190/2999 | Train: 396.289 | Test: 996.227 
+Epoch 1191/2999 | Train: 394.019 | Test: 1012.973 
+Epoch 1192/2999 | Train: 398.084 | Test: 989.868 
+Epoch 1193/2999 | Train: 395.425 | Test: 1010.547 
+Epoch 1194/2999 | Train: 398.859 | Test: 977.961 
+Epoch 1195/2999 | Train: 395.215 | Test: 1001.778 
+Epoch 1196/2999 | Train: 402.264 | Test: 971.784 
+Epoch 1197/2999 | Train: 399.616 | Test: 1001.450 
+Epoch 1198/2999 | Train: 395.295 | Test: 1000.242 
+Epoch 1199/2999 | Train: 373.955 | Test: 999.021 
+Epoch 1200/2999 | Train: 379.595 | Test: 1007.231 
+
+ Target: tensor([  2.7103,   0.9973,  20.7577,   4.7597,  33.7085, -19.5543]) 
+Predicted: tensor([ -6.6588,  15.9080,  -0.6653, -12.4593,  15.0130,   3.1597],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ 5.9941, 55.5609,  4.5685,  3.0171, 41.7321,  1.7942]) 
+Predicted: tensor([ 1.6907e+01,  5.2324e+01,  9.3121e+00, -2.5097e+01,  3.8579e+01,
+         9.4166e-03], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-23.2264,  65.6756,  21.2772,   6.7375,  25.6274, -14.8695]) 
+Predicted: tensor([-9.0580, 44.4259, 22.4679, -7.3259, 51.2226, 15.6014],
+       grad_fn=<SelectBackward0>) 
+
+Epoch 1201/2999 | Train: 397.850 | Test: 1006.549 
+Epoch 1202/2999 | Train: 406.798 | Test: 987.387 
+Epoch 1203/2999 | Train: 390.110 | Test: 1019.839 
+Epoch 1204/2999 | Train: 382.718 | Test: 1015.428 
+Epoch 1205/2999 | Train: 376.939 | Test: 996.113 
+Epoch 1206/2999 | Train: 379.690 | Test: 1017.980 
+Epoch 1207/2999 | Train: 381.671 | Test: 1036.283 
+Epoch 1208/2999 | Train: 384.964 | Test: 1009.248 
+Epoch 1209/2999 | Train: 391.642 | Test: 1024.084 
+Epoch 1210/2999 | Train: 379.940 | Test: 1016.785 
+Epoch 1211/2999 | Train: 387.749 | Test: 1007.140 
+Epoch 1212/2999 | Train: 390.045 | Test: 1015.614 
+Epoch 1213/2999 | Train: 383.651 | Test: 1015.758 
+Epoch 1214/2999 | Train: 391.030 | Test: 994.766 
+Epoch 1215/2999 | Train: 401.678 | Test: 1023.643 
+Epoch 1216/2999 | Train: 405.120 | Test: 1021.713 
+Epoch 1217/2999 | Train: 406.305 | Test: 1016.509 
+Epoch 1218/2999 | Train: 396.604 | Test: 1001.756 
+Epoch 1219/2999 | Train: 391.887 | Test: 1010.165 
+Epoch 1220/2999 | Train: 392.455 | Test: 1008.930 
+Epoch 1221/2999 | Train: 391.567 | Test: 982.190 
+Epoch 1222/2999 | Train: 397.591 | Test: 991.529 
+Epoch 1223/2999 | Train: 387.684 | Test: 997.460 
+Epoch 1224/2999 | Train: 397.734 | Test: 1010.006 
+Epoch 1225/2999 | Train: 399.413 | Test: 1005.573 
+Epoch 1226/2999 | Train: 393.738 | Test: 993.999 
+Epoch 1227/2999 | Train: 393.686 | Test: 984.051 
+Epoch 1228/2999 | Train: 387.313 | Test: 1010.268 
+Epoch 1229/2999 | Train: 382.607 | Test: 981.418 
+Epoch 1230/2999 | Train: 378.621 | Test: 1013.178 
+Epoch 1231/2999 | Train: 377.690 | Test: 999.509 
+Epoch 1232/2999 | Train: 377.968 | Test: 1012.537 
+Epoch 1233/2999 | Train: 374.438 | Test: 1018.186 
+Epoch 1234/2999 | Train: 394.659 | Test: 1011.078 
+Epoch 1235/2999 | Train: 388.844 | Test: 999.857 
+Epoch 1236/2999 | Train: 384.045 | Test: 1007.365 
+Epoch 1237/2999 | Train: 384.154 | Test: 1017.334 
+Epoch 1238/2999 | Train: 393.048 | Test: 1010.440 
+Epoch 1239/2999 | Train: 389.834 | Test: 992.756 
+Epoch 1240/2999 | Train: 397.810 | Test: 995.593 
+Epoch 1241/2999 | Train: 403.525 | Test: 981.916 
+Epoch 1242/2999 | Train: 394.609 | Test: 993.122 
+Epoch 1243/2999 | Train: 393.812 | Test: 1004.554 
+Epoch 1244/2999 | Train: 398.217 | Test: 1016.817 
+Epoch 1245/2999 | Train: 391.657 | Test: 1000.562 
+Epoch 1246/2999 | Train: 391.844 | Test: 1009.175 
+Epoch 1247/2999 | Train: 387.921 | Test: 1024.664 
+Epoch 1248/2999 | Train: 392.737 | Test: 994.447 
+Epoch 1249/2999 | Train: 386.333 | Test: 997.198 
+Epoch 1250/2999 | Train: 377.617 | Test: 1017.333 
+Epoch 1251/2999 | Train: 375.205 | Test: 998.798 
+Epoch 1252/2999 | Train: 388.101 | Test: 996.559 
+Epoch 1253/2999 | Train: 397.070 | Test: 1003.589 
+Epoch 1254/2999 | Train: 394.525 | Test: 1002.949 
+Epoch 1255/2999 | Train: 380.049 | Test: 996.697 
+Epoch 1256/2999 | Train: 390.054 | Test: 989.217 
+Epoch 1257/2999 | Train: 395.600 | Test: 1023.119 
+Epoch 1258/2999 | Train: 388.493 | Test: 1013.101 
+Epoch 1259/2999 | Train: 382.265 | Test: 1022.178 
