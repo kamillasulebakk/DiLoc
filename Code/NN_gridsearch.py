@@ -16,6 +16,9 @@ X = np.load('data/multiple_dipoles_eeg_10000_1.npy')
 y = np.load('data/multiple_dipoles_locations_10000_1.npy')
 y = np.reshape(y, (10000, 3))
 
+print(y)
+input()
+
 pipe_sgd = Pipeline([('scl', StandardScaler()),
         ('reg', MultiOutputRegressor(SGDRegressor()))])
 
@@ -24,7 +27,8 @@ grid_param_sgd = {
     'reg__estimator__penalty': ['l2', 'l1'],
     'reg__estimator__fit_intercept': [True, False],
     'reg__estimator__learning_rate': ['constant', 'optimal', 'invscaling'],
-    # 'reg__estimator__eta0': [0.0001, 0.001, 0.1], # learning rate
+    'reg__estimator__power_t: [0.1, 0.25, 0.3]'
+    'reg__estimator__eta0': [0.0001, 0.001, 0.1], # learning rate
 
 
 
@@ -66,3 +70,9 @@ print(f"Test MSE: {mse}")
 #     # 'regressor__shuffle': [True, False],
 #     # 'regressor__tol': [0.0001, 0.001, 0.01]
 # }
+
+# Best hyperparameters: {'reg__estimator__alpha': 0.0001, 'reg__estimator__eta0': 0.0001,
+# 'reg__estimator__fit_intercept': False, 'reg__estimator__learning_rate': 'invscaling',
+# 'reg__estimator__penalty': 'l2'}
+# Best score: -1516.897186385399
+# Test MSE: 1507.8309816235776

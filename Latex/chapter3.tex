@@ -5,7 +5,39 @@
 
 \begin{document}
 \chapter{Methods}
+
 \section{New York Head Model}
+
+Neurons communicate with each other through the use of electical currents. When a neuron receives a signal, it generates an electrical current that propegates along the axon and causes the release of neurotransmitters that diffuse across the gap between the sending and the recieving neuron. If the neurotransmitters are accepted by the receptors on the recieving neuron, a new electrical signal will be generated. This process of electrical communaication between neurons creates electromagnetic fields that can be measured using electroencephalography (EEG).
+
+Especially important for electrode locations outside of the brain, such as EEG, is the knowledge about how the electrical potentials will be affected by the geometries and conductivites of the various parts of the head (Biophysically detailed forward modeling of the neural origin of EEG and MEG signals). A model that takes these detailes into account is the New York Head Model. The model is based on anatomical and electrical characteristics of 152 adult human brains and is solved for 231 electrode locations.
+
+The model was developed to be used for, and improve the accuracy of EEG source localization (The New York Head—A precise standardized volume conductor model for EEG source localization and tES targeting). To generate predictions of the EEG signals recorded from different scalp locations in response to a given set of source currents, the New York head model uses the lead field matrix (source), which is a mathematical representation of the relationship between the electrical activity in the brain and the electrical potentials recorded on the scalp. The lead field matrix, $\boldsymbol{L}$ is given as:
+
+\begin{equation}
+L = \frac{E}{I},
+\label{eq:R2}
+\end{equation}
+
+where
+
+%The New York head model is a detailed three-dimensional model of the human head and brain, which takes into account individual differences in head size and shape, as well as variations in tissue conductivity. It has become a widely used standard for EEG source localization and is still used in many research studies and clinical applications today.
+
+
+
+
+% Include section about volume conductors??
+% The New York Head Model is a detailed model of the electrical brain signals in the human head and is modeled using complex volume conductors. ....
+
+used to simulate the electrical activity of the brain.
+
+\subsection{}
+
+
+
+
+
+\subsection{New York Head Model}
 The New York Head Model is a computer model of the human head used to simulate the electrical activity of the brain. It was created by the Electrical Geodesics Incorporated (EGI) in 2004, and is based on the anatomical and electrical characteristics of the head of a typical adult human.
 
 The model consists of a three-dimensional (3D) representation of the head and brain, with detailed information on the geometry and electrical properties of the different tissues and structures within the head. The model includes the scalp, skull, cerebrospinal fluid, gray matter, and white matter. The electrical properties of each of these tissues, such as conductivity and permittivity, are also included in the model.
@@ -16,7 +48,11 @@ The model is also used in the field of non-invasive brain stimulation, where it 
 
 Overall, the New York Head Model is an important tool for understanding the electrical activity of the brain and has numerous applications in research and clinical settings.
 
+
 \section{Machine Learning and Neural Networks}
+The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes.
+
+% notethis
 Computational neuroscience is a field that aims to understand the principles underlying information processing in the brain using mathematical and computational tools. The inverse problem in EEG, which involves estimating the location and strength of electrical sources in the brain based on measurements of electrical activity on the scalp, is a key challenge in computational neuroscience. Machine learning techniques, including feedforward neural networks, have been used to address this problem by learning to map the measured EEG signals to estimates of the underlying electrical sources in the brain.
 
 Source localization using machine learning techniques has shown promise for improving the accuracy and efficiency of EEG analysis, and has been applied to a variety of cognitive and clinical applications. For example, machine learning-based source localization has been used to study the neural mechanisms underlying attention, memory, and perception (Wu et al., 2018; Lopes da Silva et al., 2019), as well as to diagnose and monitor neurological disorders such as epilepsy (Safieddine et al., 2019; Shah et al., 2020). These applications demonstrate the potential of machine learning and computational neuroscience to enhance our understanding of the brain and improve clinical outcomes.
