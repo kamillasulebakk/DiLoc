@@ -2,7 +2,7 @@ import numpy as np
 from lfpykit.eegmegcalc import NYHeadModel
 import matplotlib.pyplot as plt
 from scipy import interpolate
-from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region
+from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region, plot_neighbour_dipoles
 import utils
 
 
@@ -153,6 +153,51 @@ def return_multiple_dipoles(num_samples: int, num_dipoles):
 
 
     return eeg, dipole_locations
+
+def find_neighbour_dipole():
+    nyhead = NYHeadModel()
+    sulci_map = np.array(nyhead.head_data["cortex75K"]["sulcimap"], dtype=int)[0]
+
+    rng = np.random.default_rng(seed=36)
+
+    dipole_location = rng.choice(nyhead.cortex, size=1, axis=1) # [mm]
+    dipole_location = np.reshape(dipole_location, -1)
+
+    nyhead.set_dipole_pos(dipole_location)
+    eeg = calculate_eeg(nyhead)
+
+    idx = nyhead.return_closest_idx(dipole_location)
+    sulci_map_dipole = sulci_map[idx]
+    if sulci_map_dipole == 1:
+        print('Dipole is located in sulcus')
+        corex_loc = 'sulcus'
+    else:
+        print('Dipole is located in gyrus')
+        corex_loc = 'gyrus'
+
+    # Doing the same for the neighbouring dipole
+    x = dipole_location[0] + 1 # mm
+    y = dipole_location[1] #+ 1 # mm
+    z = dipole_location[2] # mm
+
+    neighbour_idx = nyhead.return_closest_idx([x,y,z])
+    neighbour_location = nyhead.cortex[:, neighbour_idx]
+
+    nyhead.set_dipole_pos(neighbour_location)
+    eeg_neighbour = calculate_eeg(nyhead)
+
+    sulci_map_neighbour = sulci_map[neighbour_idx]
+    if sulci_map_neighbour == 1:
+        print('Neighbour dipole is located in sulcus')
+        corex_loc_neighbour = 'sulcus'
+    else:
+        print('Neighbour dipole is located in gyrus')
+        corex_loc_neighbour = 'gyrus'
+
+    plot_neighbour_dipoles(dipole_location, neighbour_location, eeg, eeg_neighbour, corex_loc, corex_loc_neighbour)
+
+
+
 
 def calculate_eeg(nyhead, dip_orientation: int = 1.0):
     """
@@ -339,14 +384,15 @@ def load_electrode_positions():
 
 
 if __name__ == '__main__':
-    num_samples = 10_000
-    # name = 'multiple_dipoles'
-    # num_dipoles = 2
-    # prepare_and_save_data(num_samples, name, num_dipoles)
+    # num_samples = 10_000
+    # # name = 'multiple_dipoles'
+    # # num_dipoles = 2
+    # # prepare_and_save_data(num_samples, name, num_dipoles)
+    #
+    # # name = 'single_dipole'
+    # # prepare_and_save_data(num_samples, name, num_dipoles)
+    #
+    # name = 'dipole_area'
+    # prepare_and_save_data(num_samples, name)
 
-    # name = 'single_dipole'
-    # prepare_and_save_data(num_samples, name, num_dipoles)
-
-    name = 'dipole_area'
-    prepare_and_save_data(num_samples, name)
-
+    find_neighbour_dipole()

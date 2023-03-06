@@ -250,3 +250,22 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
         print(f'Finished producing figure with {numbr*100} % noise')
 
     plt.close(fig)
+
+def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg, neighbour_eeg, corex_loc, corex_loc_neighbour):
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    ax.set_xlabel('Electrode number', fontsize=18)
+    ax.set_ylabel('eeg [uV]', fontsize=18) #nanoampere micrometer
+
+    ax.plot(dipole_eeg, label=f'Dipole located in {corex_loc} \
+                                with coordinates [{dipole_loc[0]:.2f}, \
+                                {dipole_loc[1]:.2f}, {dipole_loc[2]:.2f} ]')
+
+    ax.plot(neighbour_eeg, label=f'Neighbouring dipole located in {corex_loc} \
+                                with coordinates [{neighbour_loc[0]:.2f}, \
+                                {neighbour_loc[1]:.2f}, {neighbour_loc[2]:.2f} ]')
+
+    plt.legend(bbox_to_anchor=(0.5, 1.15), loc='upper center', fontsize=16)
+
+    # ax.legend(fontsize=18)
+    fig.savefig(f'plots/neighbour_dipoles.png')

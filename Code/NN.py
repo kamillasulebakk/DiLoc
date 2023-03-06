@@ -210,16 +210,23 @@ def main(
                         f.write('\n')
                     break
 
-    plot_MSE_NN(
-        train_loss,
-        test_loss,
-        save_file_name,
-        'TanH',
-        batch_size,
-        N_epochs,
-    )
+    # plot_MSE_NN(
+    #     train_loss,
+    #     test_loss,
+    #     save_file_name,
+    #     'TanH',
+    #     batch_size,
+    #     N_epochs,
+    # )
 
     torch.save(net, f'trained_models/finals/{save_file_name}.pt')
+
+
+    eeg, _ = load_data(N_samples, 'multiple_dipoles', num_dipoles=N_dipoles)
+    input_names = ["EEG data"]
+    output_names = ["Dipole source location"]
+    torch.onnx.export(net, eeg.tolist(), "model.onnx", input_names=input_names, output_names=output_names)
+
 
 
 if __name__ == '__main__':
@@ -227,7 +234,7 @@ if __name__ == '__main__':
         N_samples=10_000,
         N_dipoles=1,
         determine_area=False,
-        N_epochs=3000,
+        N_epochs=3,
         noise_pct=10,
-        log_dir='results/17.feb'
+        log_dir='results/02.mar'
     )

@@ -1,0 +1,19 @@
+Samples: 10000, Batch size: 30, Epochs: 3, Noise: 10 %
+
+Eeg Data: data/multiple_dipoles_eeg_10000_1.npy
+Location Data: data/multiple_dipoles_locations_10000_1.npy
+Mean and std Data: data/multiple_dipoles_1_eeg_mean_std_10000.npy
+--------------------------------------------------------------
+Epoch    0/   2 | Train: 1501.589 | Test: 1501.240 
+
+ Target: tensor([-43.0767, -77.2568,  15.5780]) 
+Predicted: tensor([-0.2860, -1.1288,  0.7204], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-3.7265, 58.8606, -1.4999]) 
+Predicted: tensor([-0.2329, -0.8053,  0.6691], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-27.0266, -42.1754,  71.5611]) 
+Predicted: tensor([-0.2532, -1.0302,  0.7179], grad_fn=<SelectBackward0>) 
+
+Epoch    1/   2 | Train: 1459.667 | Test: 1440.065 
+Epoch    2/   2 | Train: 1371.732 | Test: 1289.293 

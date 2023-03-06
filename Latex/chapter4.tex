@@ -4,32 +4,58 @@
 
 \begin{document}
 
-\chapter{Implementations}
-In this chapther the models and implementations used for the results of localizations of dipoles in the human cortex will be presented.
+\chapter{Dipole Source Localization using Neural Networks}
+In this chapther we will be presenting the neural networks used for the localization of current dipole sources in the human cortex.
 
-\section{New York Head Model}
-The New York Head Model is a computer model of the human head used to simulate the electrical activity of the brain. The model is based on anatomical and electrical characteristics of 152 adumlt human brains and can with high precision capture tissue types and complex anatomical structures.
+\subsection{Neural Networks}
+Artificial Neural Networks are computational systems that can learn to perform tasks by considering examples, generally without being programmed with any task-specific rules \cite{101}.
 
-The model is solved for 231 electrode locations 
+The biological neural networks of animal brains, wherein neurons interact by sending signals in the form of mathematical functions between layers, has inspired a simple model for an artificial neuron:
 
-The New York Head Model is a computer model of the human head used to simulate the electrical activity of the brain. It was created by the Electrical Geodesics Incorporated (EGI) in 2004, and is based on the anatomical and electrical characteristics of the head of a typical adult human.
+\begin{equation*}
+    a = f \left( \Sigma_{i=1}^n w_ix_i + b_i\right ) = f(z)
+    \label{eq:NN}
+\end{equation*}
 
-The model consists of a three-dimensional (3D) representation of the head and brain, with detailed information on the geometry and electrical properties of the different tissues and structures within the head. The model includes the scalp, skull, cerebrospinal fluid, gray matter, and white matter. The electrical properties of each of these tissues, such as conductivity and permittivity, are also included in the model.
+where the output $a$ of the neuron is the value of its activation function $f$, which as input has the sum of signals $x_i, x_{i+1}, ..., x_n$ received by $n$ other neurons, multiplied with the weights $w_i, w_{i+1}, ..., w_n$ and added with biases.
 
-The New York Head Model is used in research and clinical applications to understand the electrical activity of the brain and diagnose neurological disorders. It is particularly useful for studying the electrical activity of the brain during various cognitive and motor tasks, as well as during seizures and other abnormal brain activity.
+Most artificial neural networks consists of an input layer, an output layer and layers in between, called hidden layers. The layers consists of an arbitrary number of neurons, also referred to as nodes. The connection between two nodes is associated with a weight variable $w$, that weights the importance of various inputs. A more convenient notation for the activation function is:
 
-The model is also used in the field of non-invasive brain stimulation, where it helps to guide the placement of electrodes or magnetic coils to target specific areas of the brain for therapeutic or diagnostic purposes. By using the model to predict the electrical activity of the brain, researchers and clinicians can optimize the placement of the electrodes or magnetic coils to achieve the desired effect.
+\begin{equation}
+    a_i(\boldsymbol{x}) = f_i(z^{(i)}) = f_i(\boldsymbol{w^{i}}\cdot \boldsymbol{x} + b^{i})
+\label{eq:NN_vec}
+\end{equation}
 
-Overall, the New York Head Model is an important tool for understanding the electrical activity of the brain and has numerous applications in research and clinical settings.
-
-\section{The Dataset}
-
-\section{The DiLoc Model}
+where $\boldsymbol{w}^{(i)} = (w_1^{(i)}, w_2^{(i)}, ..., w_n^{(i)})$ and $b^{(i)}$ are the neuron-specific weights and biases respectively. The bias is normally needed in case of zero activation weights or inputs \cite{101}.
 
 \section{Feed-Forward Neural Network Approach for localizing single dipole sources}
-The FFNN that are trained to solve the inverse problem of ours has an input layer of 231 neurons, corresponding to the M = 231 electrode measures of the potentials. The input layer is followed by three hidden layers with 120, 84 and 16 hidden neurons, respectively. The final output layer holds the predicted x-, y- and z- position of the desired dipole source. For the neurons of the input layers we use the linear activation function ReLu, while for the neurons of the hidden and output layers, we chose the much used hyperbolic tangent activation function.
+The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes.
+
+
+
+\subsection{DiLoc}
+The FFNN that are trained to solve the inverse problem of ours has an input layer of 231 neurons, corresponding to the M = 231 electrode measures of the potentials. The input layer is followed by three hidden layers with 120, 84 and 16 hidden neurons, respectively. When the aim is to estimate the localization of the current dipole, \emph{only}, the final output layer holds the predicted x-, y- and z- position of the desired dipole source.  However, if the interest lies in determining the size of the dipole population, an alternative output layer is incorporated in the network architecture providing the radius of the dipole(s), in addition to the location coordinates. This enables the model to provide a more comprehensive understanding of the dipole source(s) being analyzed.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{figures/NN_architecture.png}
+  \caption{A caption here is needed.}
+  \label{fig:NN_architecture.png}
+\end{figure}
+
+
+
+\subsection{Activation functions, Batchsize and Optimization}
+For the neurons of the input layers we use the linear activation function ReLu, while for the neurons of the hidden and output layers, we chose the much used hyperbolic tangent activation function.
 
 Cost function
+% Maybe this does not belong here?
+In order to train the network faster, one commonly split the data set into mini-batches, which is also done here. When splitting the data such a way, the weights of connection between neurons are updated after each propagation, making the network converge considerable faster.
+
+Scaling
+Every potential distribution presented to the network is first average referenced by subtracting the average of all potential values. Subsequently, the average referenced potentials are normalized by dividing them by the magnitude of the largest. The dipole location parameters are normalized to 1 with respect to the radius of the outer head boundary in the spherical head model (9.2 cm). In the case of a realistically shaped head model, the location parameters are normalized with respect to the radius of the best-fitting sphere for the scalp–air interface.
+
+As was pointed out in the previous section, the optimal dipole orientation (in the leastsquares sense) for a given location can be calculated in a straightforward manner. Therefore, we will use neural networks to estimate only the dipole location parameters.
+
 
 \subsection{Training, testing and evaluation}
 In order to make an ANN that generalizes well to new data we split our data into training and testing sets. Randomly selecting 80 percent of the rows in the full dataset, we put this into a separate one and call it our training set. The remaining 20 percent is put into the test set. In practice, the training data set consists of pairs of an input vector with EEG signals and the corresponding output vector, where the answer key is the x-, y- and z coordinate of the dipole source. The neural network is then feed with the training data and produces an estimation of the localization of the dipole. The estimation is found by the network through optimizing the parameters $\beta$ minimizing the cost function, or said in other words, through finding parameters for the function that produces the smallest outcomes, meaning the smallest errors. The result provided by the network is then compared with the target, for each input vector in the training data. Adjustment of parameters...
@@ -39,12 +65,18 @@ When the network is fully trained, we have a final model fit on the training dat
 In figure \ref{fig:single_dipole_accuracy_FFNN} we have provided the bias-variance trade-off for when using Tanh as activation function. We notice that error of the model is approaching 0 and that the variance between the two curves decreases for an increasing number of epochs.
 
 
-
 % Notes:
 % The ‘lead field’ or ‘forward model’ used for EEG inverse
 % modeling relates a current source in the brain to the electric potentials
 % measured on the scalp (Sarvas, 1987; Mosher et al., 1999; Baillet et al.,
 % 2001; Vatta et al., 2010; Akalin Acar and Makeig, 2013; Vorwerk et al.,
 % 2014).
+
+\begin{thebibliography}{9}
+
+  \bibitem{101}
+     Jensen, M, H., 2021, Constructing a Neural Network code, Tensor flow and start Convolutional Neural Networks
+
+\end{thebibliography}
 
 \end{document}

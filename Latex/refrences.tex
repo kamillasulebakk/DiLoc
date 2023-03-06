@@ -1,0 +1,20 @@
+\documentclass[11pt,a4paper,UKenglish]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc,url}
+\usepackage{babel,csquotes,newcent,textcomp}
+\usepackage[backend=biber,sortcites]{biblatex}
+\title{Line breaking in \TeX}
+\author{Dag Langmyhr\\ Department of Informatics\\
+University of Oslo\\ E-mail: \url{dag@ifi.uio.no}}
+\addbibresource{mini.bib}
+\begin{document}
+\maketitle
+
+\section{\LaTeX}
+\begin{refsection}
+\LaTeX\cite{LaTeX2} is an extension of
+\TeX\cite{TeX-book} programmed in \TeX{} itself.
+\end{refsection}
+\printbibliography[section=1,title=Bibliography on Introduction]
+\printbibliography[section=2,title=Bibliography on \LaTeX]
+\end{document}

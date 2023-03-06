@@ -20,6 +20,7 @@ import matplotlib.patches as mpatches
 from matplotlib.collections import PatchCollection
 # from ECSbook_simcode.neural_simulations import return_equidistal_xyz
 # from ECSbook_simcode.plotting_convention import mark_subplots, simplify_axes
+import h5py
 
 head_colors = ["#ffb380", "#74abff", "#b3b3b3", "#c87137"]
 radii_4s = [89000., 90000., 95000., 100000.]  # (µm)
@@ -209,7 +210,7 @@ r_elecs_4s = np.vstack((elecs_x_4s, elecs_y_4s, elecs_z_4s)).T
 sphere_model = FourSphereVolumeConductor(r_elecs_4s, radii_4s, sigmas_4s)
 
 eegs_NY = []
-eegs_4s = []
+# eegs_4s = []
 dipole_locs = []
 dipole_vecs = []
 
@@ -361,13 +362,6 @@ cbar.set_ticks(np.linspace(-int(vmax), int(vmax), 9))
 plt.savefig("comparison_simple_and_complex_head_models.pdf")
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
 
 
 
