@@ -279,9 +279,6 @@ for i, dipole_location in enumerate(dipole_locations):
     ax_4s.plot(dipole_location[0], dipole_location[1], 'o', color=color, zorder=10)
     ax_NY.plot(dipole_location[0], dipole_location[1], 'o', color=color, zorder=10)
 
-#ax1_NY.axhline(dipole_location[1], ls='--', c='grey')
-#ax1_4s.axhline(dipole_location[1], ls='--', c='grey')
-
 head = np.array(nyhead.head_data["head"]["vc"])
 threshold = 10
 xz_plane_idxs = np.where(np.abs(head[1, :] -

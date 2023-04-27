@@ -1,0 +1,117 @@
+Samples: 10000, Batch size: 32, Epochs: 100, Noise: 10 %
+Learning rate: 0.001, Momentum: 1e-06, Weight decay: 1e-05 %
+ 
+
+Eeg Data: data/new/multiple_dipoles_eeg_10000_1.npy
+Target Data: data/new/multiple_dipoles_locations_10000_1.npy
+--------------------------------------------------------------
+Epoch    0/  99 | Train: 906.008 | Test: 628.367 
+
+ Target: tensor([-43.0767, -77.2568,  15.5780,   9.0000]) 
+Predicted: tensor([  0.1656, -41.7435,  18.4905,   3.5865], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ -9.4245, -80.3638, -15.1035,   2.0000]) 
+Predicted: tensor([  0.1107, -39.5123,  17.5646,   3.4292], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-24.9749,  -9.2876, -12.2115,   4.0000]) 
+Predicted: tensor([0.0433, 0.4944, 1.7364, 1.1387], grad_fn=<SelectBackward0>) 
+
+Epoch    1/  99 | Train: 533.747 | Test: 405.231 
+Epoch    2/  99 | Train: 273.732 | Test: 157.397 
+Epoch    3/  99 | Train: 109.730 | Test: 74.275 
+Epoch    4/  99 | Train: 58.693 | Test: 47.117 
+Epoch    5/  99 | Train: 38.546 | Test: 34.096 
+Epoch    6/  99 | Train: 29.301 | Test: 27.504 
+Epoch    7/  99 | Train: 24.104 | Test: 26.368 
+Epoch    8/  99 | Train: 21.435 | Test: 21.473 
+Epoch    9/  99 | Train: 18.802 | Test: 19.124 
+Epoch   10/  99 | Train: 17.109 | Test: 18.587 
+Epoch   11/  99 | Train: 15.869 | Test: 17.007 
+Epoch   12/  99 | Train: 14.750 | Test: 17.101 
+Epoch   13/  99 | Train: 14.030 | Test: 16.033 
+Epoch   14/  99 | Train: 13.245 | Test: 15.710 
+Epoch   15/  99 | Train: 12.701 | Test: 15.645 
+Epoch   16/  99 | Train: 12.164 | Test: 15.916 
+Epoch   17/  99 | Train: 11.746 | Test: 15.331 
+Epoch   18/  99 | Train: 11.280 | Test: 15.227 
+Epoch   19/  99 | Train: 11.201 | Test: 15.415 
+Epoch   20/  99 | Train: 10.639 | Test: 14.798 
+Epoch   21/  99 | Train: 10.332 | Test: 14.273 
+Epoch   22/  99 | Train: 10.154 | Test: 13.426 
+Epoch   23/  99 | Train:  9.885 | Test: 14.178 
+Epoch   24/  99 | Train:  9.722 | Test: 13.699 
+Epoch   25/  99 | Train:  9.388 | Test: 13.711 
+Epoch   26/  99 | Train:  9.119 | Test: 13.896 
+Epoch   27/  99 | Train:  8.961 | Test: 13.424 
+Epoch   28/  99 | Train:  8.794 | Test: 13.031 
+Epoch   29/  99 | Train:  8.683 | Test: 13.186 
+Epoch   30/  99 | Train:  8.546 | Test: 13.141 
+Epoch   31/  99 | Train:  8.378 | Test: 13.623 
+Epoch   32/  99 | Train:  8.172 | Test: 13.217 
+Epoch   33/  99 | Train:  8.126 | Test: 12.583 
+Epoch   34/  99 | Train:  7.952 | Test: 12.473 
+Epoch   35/  99 | Train:  7.898 | Test: 14.348 
+Epoch   36/  99 | Train:  7.855 | Test: 13.425 
+Epoch   37/  99 | Train:  7.696 | Test: 12.562 
+Epoch   38/  99 | Train:  7.580 | Test: 12.776 
+Epoch   39/  99 | Train:  7.375 | Test: 12.428 
+Epoch   40/  99 | Train:  7.375 | Test: 12.398 
+Epoch   41/  99 | Train:  7.277 | Test: 12.605 
+Epoch   42/  99 | Train:  7.235 | Test: 12.587 
+Epoch   43/  99 | Train:  7.208 | Test: 12.236 
+Epoch   44/  99 | Train:  7.022 | Test: 12.874 
+Epoch   45/  99 | Train:  6.938 | Test: 12.921 
+Epoch   46/  99 | Train:  6.961 | Test: 12.328 
+Epoch   47/  99 | Train:  6.837 | Test: 12.029 
+Epoch   48/  99 | Train:  6.667 | Test: 12.320 
+Epoch   49/  99 | Train:  6.678 | Test: 12.276 
+Epoch   50/  99 | Train:  6.628 | Test: 11.863 
+Epoch   51/  99 | Train:  6.500 | Test: 11.862 
+Epoch   52/  99 | Train:  6.445 | Test: 13.360 
+Epoch   53/  99 | Train:  6.410 | Test: 12.568 
+Epoch   54/  99 | Train:  6.418 | Test: 12.598 
+Epoch   55/  99 | Train:  6.248 | Test: 12.293 
+Epoch   56/  99 | Train:  6.224 | Test: 12.118 
+Epoch   57/  99 | Train:  6.172 | Test: 11.918 
+Epoch   58/  99 | Train:  6.205 | Test: 12.092 
+Epoch   59/  99 | Train:  6.050 | Test: 11.791 
+Epoch   60/  99 | Train:  6.001 | Test: 12.446 
+Epoch   61/  99 | Train:  5.939 | Test: 12.314 
+Epoch   62/  99 | Train:  5.937 | Test: 11.697 
+Epoch   63/  99 | Train:  5.878 | Test: 11.966 
+Epoch   64/  99 | Train:  5.928 | Test: 11.672 
+Epoch   65/  99 | Train:  5.778 | Test: 11.867 
+Epoch   66/  99 | Train:  5.734 | Test: 11.850 
+Epoch   67/  99 | Train:  5.802 | Test: 11.912 
+Epoch   68/  99 | Train:  5.641 | Test: 11.520 
+Epoch   69/  99 | Train:  5.604 | Test: 12.266 
+Epoch   70/  99 | Train:  5.590 | Test: 12.134 
+Epoch   71/  99 | Train:  5.529 | Test: 11.590 
+Epoch   72/  99 | Train:  5.503 | Test: 11.267 
+Epoch   73/  99 | Train:  5.456 | Test: 11.572 
+Epoch   74/  99 | Train:  5.407 | Test: 11.896 
+Epoch   75/  99 | Train:  5.412 | Test: 11.578 
+Epoch   76/  99 | Train:  5.347 | Test: 11.510 
+Epoch   77/  99 | Train:  5.371 | Test: 11.433 
+Epoch   78/  99 | Train:  5.352 | Test: 11.849 
+Epoch   79/  99 | Train:  5.239 | Test: 11.846 
+Epoch   80/  99 | Train:  5.124 | Test: 11.484 
+Epoch   81/  99 | Train:  5.139 | Test: 11.665 
+Epoch   82/  99 | Train:  5.191 | Test: 11.882 
+Epoch   83/  99 | Train:  5.077 | Test: 11.482 
+Epoch   84/  99 | Train:  5.008 | Test: 12.161 
+Epoch   85/  99 | Train:  5.020 | Test: 11.606 
+Epoch   86/  99 | Train:  4.996 | Test: 11.505 
+Epoch   87/  99 | Train:  4.942 | Test: 11.454 
+Epoch   88/  99 | Train:  5.002 | Test: 11.437 
+Epoch   89/  99 | Train:  4.896 | Test: 11.018 
+Epoch   90/  99 | Train:  4.903 | Test: 12.015 
+Epoch   91/  99 | Train:  4.834 | Test: 11.638 
+Epoch   92/  99 | Train:  4.832 | Test: 11.640 
+Epoch   93/  99 | Train:  4.757 | Test: 11.416 
+Epoch   94/  99 | Train:  4.782 | Test: 11.504 
+Epoch   95/  99 | Train:  4.857 | Test: 11.419 
+Epoch   96/  99 | Train:  4.674 | Test: 11.537 
+Epoch   97/  99 | Train:  4.677 | Test: 11.575 
+Epoch   98/  99 | Train:  4.640 | Test: 11.593 
+Epoch   99/  99 | Train:  4.633 | Test: 11.257 

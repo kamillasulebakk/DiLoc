@@ -7,8 +7,8 @@ from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
 
 from produce_and_load_eeg_data import load_data, load_mean_std
-from plot import plot_MSE_NN
-from utils import numpy_to_torch
+from plot import plot_MSE_NN, plot_R2_NN
+from utils import numpy_to_torch, r2_score
 
 
 class Net(nn.Module):
@@ -42,10 +42,6 @@ class EEGDataset(torch.utils.data.Dataset):
 
         if determine_area:
             name = 'dipole_area'
-        # elif N_dipoles > 1:
-        #     name = 'multiple_dipoles'
-        # else:
-        #     name = 'single_dipole'
         else:
             name = 'multiple_dipoles'
 
@@ -98,32 +94,47 @@ class EEGDataset(torch.utils.data.Dataset):
 
 def train_epoch(data_loader_train, optimizer, net, criterion):
     losses = np.zeros(len(data_loader_train))
+    # r2 = np.zeros(len(data_loader_train))
     for idx, (signal, position) in enumerate(data_loader_train):
         optimizer.zero_grad()
         pred = net(signal)
+        # r2score = r2_score(pred, position)
         loss = criterion(pred, position)
-        l1_lambda = 0.001
 
+        l1_lambda = 0.001
         # TODO: fix this list -> tensor hack
         l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
 
         loss = loss + l1_lambda * l1_norm
         loss.backward()
         optimizer.step()
+
         losses[idx] = loss.item()
+
+        # r2[idx] = r2score.numpy()
+
+    # mean_r2 = np.mean(r2)
     mean_loss = np.mean(losses)
-    return mean_loss
+
+    return mean_loss #, mean_r2
 
 
 def test_epoch(data_loader_test, net, criterion):
     losses = np.zeros(len(data_loader_test))
+    # r2 = np.zeros(len(data_loader_test))
+
     with torch.no_grad():
         for idx, (signal, position) in enumerate(data_loader_test):
             pred = net(signal)
+            # r2score = r2_score(pred, position)
             loss = criterion(pred, position)
             losses[idx] = loss.item()
+            # r2[idx] = r2score.numpy()
+
+        # mean_r2 = np.mean(r2)
         mean_loss = np.mean(losses)
-    return mean_loss
+
+    return mean_loss #, mean_r2
 
 
 def main(
@@ -160,17 +171,21 @@ def main(
 
     criterion = nn.MSELoss()
 
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6)
-
     # weight_decay > 0 --> l2/ridge penalty
-    # optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay=1e-5)
+    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6) #, weight_decay=1e-5)
+    # optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6)
     # optimizer = torch.optim.Adam(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay = 1e-5)
 
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_20mm'
-    # save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_l2'
+    # train_r2 = np.zeros(N_epochs)
+    # test_r2 = np.zeros(N_epochs)
+
+    # save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_20mm'
+    save_file_name = f'NN_{N_dipoles}_{N_samples}_20mm'
+    # save_file_name = f'NN_{N_dipoles}_{N_samples}_l1'
+    # save_file_name = f'NN_{N_dipoles}_{N_samples}'
     log_file_name = os.path.join(log_dir, save_file_name + '.txt')
 
     with open(log_file_name, 'w') as f:
@@ -183,6 +198,10 @@ def main(
     # Train the model
     status_line = 'Epoch {:4d}/{:4d} | Train: {:6.3f} | Test: {:6.3f} \n'
     for epoch in range(N_epochs):
+        # train_loss[epoch], train_r2[epoch] = train_epoch(
+        #     data_loader_train, optimizer, net, criterion)
+        # test_loss[epoch], test_r2[epoch] = test_epoch(
+        #     data_loader_test, net, criterion)
         train_loss[epoch] = train_epoch(
             data_loader_train, optimizer, net, criterion)
         test_loss[epoch] = test_epoch(
@@ -210,22 +229,32 @@ def main(
                         f.write('\n')
                     break
 
-    # plot_MSE_NN(
-    #     train_loss,
-    #     test_loss,
+    plot_MSE_NN(
+        train_loss,
+        test_loss,
+        save_file_name,
+        'TanH',
+        batch_size,
+        N_epochs,
+    )
+
+    # plot_R2_NN(
+    #     train_r2,
+    #     test_r2,
     #     save_file_name,
     #     'TanH',
     #     batch_size,
     #     N_epochs,
     # )
 
-    torch.save(net, f'trained_models/finals/{save_file_name}.pt')
+    torch.save(net, f'trained_models/22.mar/{save_file_name}.pt')
 
 
-    eeg, _ = load_data(N_samples, 'multiple_dipoles', num_dipoles=N_dipoles)
-    input_names = ["EEG data"]
-    output_names = ["Dipole source location"]
-    torch.onnx.export(net, eeg.tolist(), "model.onnx", input_names=input_names, output_names=output_names)
+    # Code for visualize the network - but does not work as intended
+    # eeg, _ = load_data(N_samples, 'multiple_dipoles', num_dipoles=N_dipoles)
+    # input_names = ["EEG data"]
+    # output_names = ["Dipole source location"]
+    # torch.onnx.export(net, eeg.tolist(), "model.onnx", input_names=input_names, output_names=output_names)
 
 
 
@@ -233,8 +262,8 @@ if __name__ == '__main__':
     main(
         N_samples=10_000,
         N_dipoles=1,
-        determine_area=False,
-        N_epochs=3,
+        determine_area=True,
+        N_epochs=2000,
         noise_pct=10,
-        log_dir='results/02.mar'
+        log_dir='results/22.mar'
     )

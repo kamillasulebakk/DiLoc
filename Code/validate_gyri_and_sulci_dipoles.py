@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from NN import Net
+from NN_17_feb import Net
 from produce_and_load_eeg_data import calculate_eeg
 from utils import numpy_to_torch
 import produce_and_load_eeg_data
@@ -23,18 +23,19 @@ def plot_MSE_error(mse, dipole_locs):
 
     img = ax4.scatter(dipole_locs[0], dipole_locs[2], c=mse, **scatter_params)
     plt.colorbar(img, cax=cax)
-    plt.savefig(f"plots/mse_y_plane.pdf")
+    plt.savefig(f"plots/mse_y_plane_test.pdf")
 
 
 model = Net()
-model = torch.load('trained_models/NN_10000.pt')
+# model = torch.load('trained_models/NN_10000.pt')
+model = torch.load('April/multipe_dipoles_lr0.0001_l1_11.april.pt')
 
 nyhead = NYHeadModel()
 
 # dipole_locations = [[37.8, -18.8, 71.1], [42.4, -18.8, 55.0]]
 mse = []
 
-mean, std_dev = produce_and_load_eeg_data.load_mean_std(10_000)
+# mean, std_dev = produce_and_load_eeg_data.load_mean_std(10_000)
 
 sulcimap = np.array(nyhead.head_data["cortex75K"]["sulcimap"])[0,:]
 
@@ -56,7 +57,7 @@ for idx in xz_plane_idxs:
     nyhead.set_dipole_pos(nyhead.cortex[:,idx])
     eeg = calculate_eeg(nyhead)
     eeg = numpy_to_torch(eeg.T)
-    eeg = (eeg - mean)/std_dev
+    eeg = (eeg - np.mean(eeg))/np.std(eeg)
     pred = model(eeg)
 
     mse_i = np.mean((nyhead.cortex[:,idx] - pred.detach().numpy())**2)

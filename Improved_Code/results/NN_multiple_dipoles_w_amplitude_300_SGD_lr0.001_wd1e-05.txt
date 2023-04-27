@@ -1,0 +1,53 @@
+Samples: 10000, Batch size: 32, Epochs: 300, Noise: 10 %
+Learning rate: 0.001, Momentum: 1e-06, Weight decay: 1e-05 %
+ 
+
+Eeg Data: data/new/multiple_dipoles_eeg_10000_1.npy
+Target Data: data/new/multiple_dipoles_locations_10000_1.npy
+--------------------------------------------------------------
+Epoch    0/ 299 | Train: 923.698 | Test: 647.726 
+
+ Target: tensor([-43.0767, -77.2568,  15.5780,   9.0000]) 
+Predicted: tensor([ -1.2625, -38.7460,  19.1807,   3.7034], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([ -9.4245, -80.3638, -15.1035,   2.0000]) 
+Predicted: tensor([ -1.1333, -37.0632,  17.5489,   3.3510], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([-24.9749,  -9.2876, -12.2115,   4.0000]) 
+Predicted: tensor([ 0.3837, -3.2637, -3.5497, -0.4294], grad_fn=<SelectBackward0>) 
+
+Epoch    1/ 299 | Train: 536.080 | Test: 382.089 
+Epoch    2/ 299 | Train: 238.604 | Test: 139.069 
+Epoch    3/ 299 | Train: 99.954 | Test: 72.435 
+Epoch    4/ 299 | Train: 56.000 | Test: 48.538 
+Epoch    5/ 299 | Train: 38.435 | Test: 34.900 
+Epoch    6/ 299 | Train: 29.749 | Test: 27.082 
+Epoch    7/ 299 | Train: 24.623 | Test: 24.510 
+Epoch    8/ 299 | Train: 21.400 | Test: 22.824 
+Epoch    9/ 299 | Train: 19.159 | Test: 20.567 
+Epoch   10/ 299 | Train: 17.257 | Test: 19.760 
+Epoch   11/ 299 | Train: 15.947 | Test: 20.124 
+Epoch   12/ 299 | Train: 14.851 | Test: 16.920 
+Epoch   13/ 299 | Train: 14.077 | Test: 17.561 
+Epoch   14/ 299 | Train: 13.389 | Test: 16.803 
+Epoch   15/ 299 | Train: 12.600 | Test: 16.585 
+Epoch   16/ 299 | Train: 12.127 | Test: 15.659 
+Epoch   17/ 299 | Train: 11.622 | Test: 14.741 
+Epoch   18/ 299 | Train: 11.218 | Test: 14.188 
+Epoch   19/ 299 | Train: 10.828 | Test: 14.641 
+Epoch   20/ 299 | Train: 10.425 | Test: 14.726 
+Epoch   21/ 299 | Train: 10.095 | Test: 14.409 
+Epoch   22/ 299 | Train:  9.972 | Test: 13.590 
+Epoch   23/ 299 | Train:  9.816 | Test: 14.058 
+Epoch   24/ 299 | Train:  9.435 | Test: 13.373 
+Epoch   25/ 299 | Train:  9.334 | Test: 13.293 
+Epoch   26/ 299 | Train:  9.112 | Test: 13.595 
+Epoch   27/ 299 | Train:  8.968 | Test: 13.038 
+Epoch   28/ 299 | Train:  8.793 | Test: 14.444 
+Epoch   29/ 299 | Train:  8.704 | Test: 13.770 
+Epoch   30/ 299 | Train:  8.350 | Test: 12.921 
+Epoch   31/ 299 | Train:  8.220 | Test: 13.364 
+Epoch   32/ 299 | Train:  8.127 | Test: 13.012 
+Epoch   33/ 299 | Train:  8.069 | Test: 12.647 
+Epoch   34/ 299 | Train:  7.947 | Test: 13.482 
+Epoch   35/ 299 | Train:  7.817 | Test: 12.253 
