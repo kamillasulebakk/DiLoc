@@ -6,7 +6,7 @@ import torch.nn.functional as F
 from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
 
-from load_data import load_data
+from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
 from utils import numpy_to_torch, normalize
 
@@ -87,7 +87,7 @@ class EEGDataset(torch.utils.data.Dataset):
         else:
             name = 'multiple_dipoles'
 
-        eeg, target = load_data(N_samples, name, num_dipoles=N_dipoles)
+        eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
 
 
         # TODO: move this to the generating function in
@@ -208,6 +208,7 @@ def main(
         batch_size=batch_size,
         shuffle=True,
     )
+    print(dataset_train)
     dataset_test = EEGDataset('test', determine_area, N_samples, N_dipoles)
     data_loader_test = torch.utils.data.DataLoader(
         dataset_test,

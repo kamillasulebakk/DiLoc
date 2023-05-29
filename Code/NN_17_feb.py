@@ -10,6 +10,10 @@ from produce_and_load_eeg_data_17 import load_data, load_mean_std
 from plot import plot_MSE_NN
 from utils import numpy_to_torch
 
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+import torch.optim as optim
+
+
 
 class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False):
@@ -112,7 +116,7 @@ def train_epoch(data_loader_train, optimizer, net, criterion):
     return mean_loss
 
 
-def test_epoch(data_loader_test, net, criterion):
+def test_epoch(data_loader_test, net, criterion, scheduler):
     losses = np.zeros(len(data_loader_test))
     with torch.no_grad():
         for idx, (signal, position) in enumerate(data_loader_test):
@@ -120,6 +124,10 @@ def test_epoch(data_loader_test, net, criterion):
             loss = criterion(pred, position)
             losses[idx] = loss.item()
         mean_loss = np.mean(losses)
+
+        # Adjust the learning rate based on validation loss
+        scheduler.step(losses[idx])
+
     return mean_loss
 
 
@@ -161,6 +169,10 @@ def main(
     optimizer = torch.optim.SGD(net.parameters(), lr, momentum=1e-6)
 
 
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=10,
+                              verbose=True, threshold=0.00000001, threshold_mode='rel',
+                              cooldown=0, min_lr=0, eps=1e-08)
+
     # weight_decay > 0 --> l2/ridge penalty
     # optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay=1e-5)
     # optimizer = torch.optim.Adam(net.parameters(), lr=0.0001, momentum=1e-6, weight_decay = 1e-5)
@@ -168,7 +180,7 @@ def main(
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    save_file_name = f'dipole_area_lr{lr}_l1_11.april_NOTL2'
+    save_file_name = f'09mai_adaptive_lr{lr}_l1_11.april_NOTL2'
     # save_file_name = f'NN_{N_dipoles}_{N_samples}_l1_l2'
     log_file_name = os.path.join(log_dir, save_file_name + '.txt')
 
@@ -185,7 +197,7 @@ def main(
         train_loss[epoch] = train_epoch(
             data_loader_train, optimizer, net, criterion)
         test_loss[epoch] = test_epoch(
-            data_loader_test, net, criterion)
+            data_loader_test, net, criterion, scheduler)
 
         line = status_line.format(
             epoch, N_epochs - 1, train_loss[epoch], test_loss[epoch]
@@ -225,8 +237,8 @@ if __name__ == '__main__':
     main(
         N_samples=10_000,
         N_dipoles=1,
-        determine_area=True,
-        N_epochs=3000,
+        determine_area=False,
+        N_epochs=1000,
         noise_pct=10,
         log_dir='results'
     )

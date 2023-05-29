@@ -1,0 +1,33 @@
+Network: NN_custom_loss, 50000 samples
+
+- Adaptive lr
+
+gyri_and_sulcus:
+----------------------
+50000 samples, 500 epochs:
+MAE x-coordinates:5.072314530910118
+MAE y-coordinates:0.9961785449057216
+MAE z-coordinates:5.508107316861256
+MAE location:3.8588667975590325
+
+10000 samples, 500 epochs:
+MAE x-coordinates:5.672251268592641
+MAE y-coordinates:0.9839477298114567
+MAE z-coordinates:6.49440045208175
+MAE location:4.383533150161949
+
+model_normalization:
+----------------------
+50000 samples, 500 epochs:
+MAE x-coordinates:4.542149831087751
+MAE y-coordinates:5.4352527236732024
+MAE z-coordinates:4.50960092191105
+MAE radius:1.555884123143149
+MAE amplitude:305.67859807253217
+
+10000 samples, 500 epochs (MSE instead of custom):
+Relative error x-coordinates:5.964126373620513
+Relative error y-coordinates:6.294748958557222
+Relative error z-coordinates:5.408713019451309
+Relative error radius:2.094372481404416
+Relative error amplitude:339.96755627977535

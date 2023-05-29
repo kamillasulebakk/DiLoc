@@ -6,9 +6,9 @@ import torch.nn.functional as F
 from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
 
-from load_data import load_data
+from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
-from utils import numpy_to_torch, normalize
+from utils import numpy_to_torch, normalize, custom_loss
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 
@@ -49,38 +49,43 @@ class EEGDataset(torch.utils.data.Dataset):
         else:
             name = 'multiple_dipoles'
 
-        eeg, target = load_data(N_samples, name, num_dipoles=N_dipoles)
-
+        eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
 
         # TODO: move this to the generating function in
         # produce_and_load_eeg_data.py
         if N_dipoles > 1:
-            target = np.reshape(target, (N_samples, 3*N_dipoles))
+            # reshape so that target goes like [x1, y1, z1, A1, ..., xn, yn, zn, An]
+            target = np.reshape(target, (N_samples, 4*N_dipoles))
+
 
         # normalize input data so that it ranges from 0 to 1
         # eeg = normalize(eeg)
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
+        target = target.T
 
 
         if determine_area:
+            for i in range(np.shape(target)[1]):
+                target[:, i] = normalize(target[:, i])
+
             # normalize target coordinates
-            target[:, 0] = normalize(target[:, 0])
-            target[:, 1] = normalize(target[:, 1])
-            target[:, 2] = normalize(target[:, 2])
-            # normalize target radii
-            target[:, -2] = normalize(target[:, -1])
-            # normalize target amplitude
-            target[:, -1] = normalize(target[:, -1])
+            # target[:, 0] = normalize(target[:, 0])
+            # target[:, 1] = normalize(target[:, 1])
+            # target[:, 2] = normalize(target[:, 2])
+            # # normalize target radii
+            # target[:, -2] = normalize(target[:, -1])
+            # # normalize target amplitude
+            # target[:, -1] = normalize(target[:, -1])
 
         else:
-            # normalize target coordinates
-            # normaliser x, y, z hver for seg
+            for i in range(np.shape(target)[1]):
+                target[:, i] = normalize(target[:, i])
 
-            target[:, 0] = normalize(target[:, 0])
-            target[:, 1] = normalize(target[:, 1])
-            target[:, 2] = normalize(target[:, 2])
-            # normalize target amplitude
-            target[:, -1] = normalize(target[:, -1])
+                # # normalize target coordinates
+                # target[:, 1] = normalize(target[:, 1])
+                # target[:, 2] = normalize(target[:, 2])
+                # # normalize target amplitude
+                # target[:, -1] = normalize(target[:, -1])
 
 
         eeg = numpy_to_torch(eeg)
@@ -184,13 +189,15 @@ def main(
     )
 
     criterion = nn.MSELoss()
+    # criterion = custom_loss
 
-    lr = 1.8
+    lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
+    # lr = 0.1 # Works best for population of dipoles, with amplitude and radii
     momentum = 1e-4
     weight_decay = 1e-5
     # weight_decay > 0 --> l2/ridge penalty
 
-    save_file_name: str = f'new_lr_standarisation_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_bs{batch_size}'
+    save_file_name: str = f'SECOND_CASE'
 
 
     optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
@@ -264,6 +271,7 @@ def main(
         'TanH',
         batch_size,
         N_epochs,
+        N_dipoles
     )
 
     plot_MSE_targets(
@@ -273,14 +281,16 @@ def main(
         MSE_A,
         'TanH',
         batch_size,
-        save_file_name
+        save_file_name,
+        N_dipoles
     )
 
     plot_MSE_single_target(
         MSE_x,
         'TanH',
         batch_size,
-        save_file_name
+        save_file_name,
+        N_dipoles
     )
 
     torch.save(net, f'trained_models/{save_file_name}.pt')
@@ -288,7 +298,7 @@ def main(
 
 if __name__ == '__main__':
     main(
-        N_samples=10_000,
+        N_samples=50_000,
         N_dipoles=1,
         determine_area=False,
         N_epochs=500,

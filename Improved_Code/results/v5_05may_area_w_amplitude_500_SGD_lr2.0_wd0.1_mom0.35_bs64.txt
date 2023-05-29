@@ -1,0 +1,78 @@
+Samples: 10000, Batch size: 64, Epochs: 500, Noise: 10 %
+Learning rate: 2.0
+Eeg Data: data/new/multiple_dipoles_eeg_10000_1.npy
+Target Data: data/new/multiple_dipoles_locations_10000_1.npy
+--------------------------------------------------------------
+Epoch    0/ 499 | Train: 0.1175300764 | Test: 0.0846367716 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 0.5271, 0.1481]) 
+Predicted: tensor([0.4899, 0.4702, 0.5035, 0.6589, 0.1737], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.6330, 0.1668]) 
+Predicted: tensor([0.4893, 0.4704, 0.5025, 0.6811, 0.1981], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4479, 0.6225, 0.4087, 0.7147, 0.3063]) 
+Predicted: tensor([0.4748, 0.4550, 0.5063, 0.8994, 0.4484], grad_fn=<SelectBackward0>) 
+
+Epoch    1/ 499 | Train: 0.0853930690 | Test: 0.0820199309 
+Epoch    2/ 499 | Train: 0.0841642420 | Test: 0.0831867235 
+Epoch    3/ 499 | Train: 0.0830592146 | Test: 0.0808718144 
+Epoch    4/ 499 | Train: 0.0796455609 | Test: 0.0792338361 
+Epoch    5/ 499 | Train: 0.0772129144 | Test: 0.0749487742 
+Epoch    6/ 499 | Train: 0.0719500266 | Test: 0.0675625775 
+Epoch    7/ 499 | Train: 0.0651689828 | Test: 0.0636901573 
+Epoch    8/ 499 | Train: 0.0604849166 | Test: 0.0628753237 
+Epoch    9/ 499 | Train: 0.0577577648 | Test: 0.0583134092 
+Epoch   10/ 499 | Train: 0.0562685258 | Test: 0.0553591155 
+Epoch   11/ 499 | Train: 0.0544669440 | Test: 0.0560726565 
+Epoch   12/ 499 | Train: 0.0523583680 | Test: 0.0543522838 
+Epoch   13/ 499 | Train: 0.0517711500 | Test: 0.0545756083 
+Epoch   14/ 499 | Train: 0.0496015157 | Test: 0.0550552318 
+Epoch   15/ 499 | Train: 0.0485023192 | Test: 0.0562715458 
+Epoch   16/ 499 | Train: 0.0481013232 | Test: 0.0512373138 
+Epoch   17/ 499 | Train: 0.0472608998 | Test: 0.0541217243 
+Epoch   18/ 499 | Train: 0.0462604188 | Test: 0.0522570162 
+Epoch   19/ 499 | Train: 0.0455445131 | Test: 0.0557364771 
+Epoch   20/ 499 | Train: 0.0451258529 | Test: 0.0513398091 
+Epoch   21/ 499 | Train: 0.0443940645 | Test: 0.0533956332 
+Epoch   22/ 499 | Train: 0.0442293090 | Test: 0.0531023639 
+Epoch   23/ 499 | Train: 0.0435295738 | Test: 0.0599733968 
+Epoch   24/ 499 | Train: 0.0428428873 | Test: 0.0540149680 
+Epoch   25/ 499 | Train: 0.0429259669 | Test: 0.0528658318 
+Epoch   26/ 499 | Train: 0.0419662033 | Test: 0.0532007442 
+Epoch   27/ 499 | Train: 0.0419862223 | Test: 0.0579079636 
+Epoch   28/ 499 | Train: 0.0360365605 | Test: 0.0492478575 
+Epoch   29/ 499 | Train: 0.0348001977 | Test: 0.0494857257 
+Epoch   30/ 499 | Train: 0.0343206080 | Test: 0.0489983606 
+Epoch   31/ 499 | Train: 0.0338367467 | Test: 0.0495493055 
+Epoch   32/ 499 | Train: 0.0333216479 | Test: 0.0493260619 
+Epoch   33/ 499 | Train: 0.0330846662 | Test: 0.0495410974 
+Epoch   34/ 499 | Train: 0.0327745356 | Test: 0.0494405149 
+Epoch   35/ 499 | Train: 0.0324404326 | Test: 0.0495728473 
+Epoch   36/ 499 | Train: 0.0321508202 | Test: 0.0495721131 
+Epoch   37/ 499 | Train: 0.0319968506 | Test: 0.0492694366 
+Epoch   38/ 499 | Train: 0.0315918704 | Test: 0.0492127446 
+Epoch   39/ 499 | Train: 0.0314933788 | Test: 0.0499280583 
+Epoch   40/ 499 | Train: 0.0310942348 | Test: 0.0500251929 
+Epoch   41/ 499 | Train: 0.0309272236 | Test: 0.0490968706 
+Epoch   42/ 499 | Train: 0.0307055867 | Test: 0.0494611738 
+Epoch   43/ 499 | Train: 0.0303928902 | Test: 0.0506160002 
+Epoch   44/ 499 | Train: 0.0305429704 | Test: 0.0497188132 
+Epoch   45/ 499 | Train: 0.0302884203 | Test: 0.0513403257 
+Epoch   46/ 499 | Train: 0.0299980450 | Test: 0.0497429074 
+Epoch   47/ 499 | Train: 0.0274789470 | Test: 0.0490858292 
+Epoch   48/ 499 | Train: 0.0270524268 | Test: 0.0491846699 
+Epoch   49/ 499 | Train: 0.0267531783 | Test: 0.0491289000 
+Epoch   50/ 499 | Train: 0.0265795051 | Test: 0.0491241100 
+Epoch   51/ 499 | Train: 0.0264253893 | Test: 0.0490274150 
+Epoch   52/ 499 | Train: 0.0263018838 | Test: 0.0492683256 
+Epoch   53/ 499 | Train: 0.0261587886 | Test: 0.0489656926 
+Epoch   54/ 499 | Train: 0.0260186156 | Test: 0.0490853291 
+Epoch   55/ 499 | Train: 0.0258932578 | Test: 0.0491531132 
+Epoch   56/ 499 | Train: 0.0258424072 | Test: 0.0490572286 
+Epoch   57/ 499 | Train: 0.0256693651 | Test: 0.0491949107 
+Epoch   58/ 499 | Train: 0.0250853578 | Test: 0.0490739744 
+Epoch   59/ 499 | Train: 0.0249850870 | Test: 0.0490756918 
+Epoch   60/ 499 | Train: 0.0249395968 | Test: 0.0490926250 
+Epoch   61/ 499 | Train: 0.0248841723 | Test: 0.0490833117 
+Epoch   62/ 499 | Train: 0.0248517559 | Test: 0.0490837875 

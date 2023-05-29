@@ -5,7 +5,7 @@ from scipy import interpolate
 from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region
 import utils
 
-def return_multiple_dipoles(num_samples: int, num_dipoles: int, create_plot: bool = False):
+def return_multiple_dipoles(num_samples: int, num_dipoles: int, create_plot: bool = True):
     """
     Produce eeg data from multiple dipole moments for num_samples
     input:
@@ -25,7 +25,7 @@ def return_multiple_dipoles(num_samples: int, num_dipoles: int, create_plot: boo
     dipole_locations = rng.choice(nyhead.cortex, size=num_samples*num_dipoles, axis=1) # [mm]
 
     eeg = np.zeros((num_samples, 231))
-    dipole_amplitudes = np.zeros((1, num_samples))
+    dipole_amplitudes = np.zeros((1, num_samples*num_dipoles))
 
     for i in range(num_samples):
         eeg_i = np.zeros((1,231))
@@ -35,11 +35,13 @@ def return_multiple_dipoles(num_samples: int, num_dipoles: int, create_plot: boo
             nyhead.set_dipole_pos(dipole_locations[:,j+(num_dipoles)*i])
             dipole_pos_list.append(nyhead.dipole_pos)
 
-            eeg_i = calculate_eeg(nyhead, A).T
+            dipole_amplitudes[:,j+(num_dipoles)*i] = A
+
+            eeg_tmp = calculate_eeg(nyhead, A).T
+
+            eeg_i += eeg_tmp
 
         eeg[i, :] = eeg_i
-        # What do I mean by this? *num_dipoles?
-        dipole_amplitudes[:,i] = A*num_dipoles
 
         if i < 5 and create_plot == True:
             plot_dipoles(nyhead, "multiple_dipoles", eeg[i], dipole_pos_list, i)
@@ -198,6 +200,8 @@ def prepare_and_save_data(num_samples, name, num_dipoles : int = 1):
 
     if name == 'multiple_dipoles':
         eeg, target = return_multiple_dipoles(num_samples, num_dipoles)
+        # np.save(f'data/test_{name}_eeg_{num_samples}_{num_dipoles}', eeg)
+        # np.save(f'data/test_{name}_locations_{num_samples}_{num_dipoles}', target)
         np.save(f'data/test_{name}_eeg_{num_samples}_{num_dipoles}', eeg)
         np.save(f'data/test_{name}_locations_{num_samples}_{num_dipoles}', target)
         name = f'multiple_dipoles_{num_dipoles}'
@@ -272,12 +276,35 @@ def find_neighbour_dipole():
 
 
 
+def split_data_set(eeg_filename, target_list_filename, N_dipoles = 2):
+
+    eeg = np.load(f'data/{eeg_filename}')
+    target_list = np.load(f'data/{target_list_filename}').T
+
+    N_samples = np.shape(eeg)[0]
+    target = np.reshape(target_list, (N_samples, 4*N_dipoles))
+
+    eeg_validate = eeg[:20000,:]
+    pos_list_validate = target[:20000,:]
+
+    eeg_train_test = eeg[20000:,:]
+    pos_list_train_test = target[20000:,:]
+
+    np.save(f'data/final/train_test_{eeg_filename}', eeg_train_test)
+    np.save(f'data/final/train_test_{target_list_filename}', pos_list_train_test)
+
+    np.save(f'data/final/validate_{eeg_filename}', eeg_validate)
+    np.save(f'data/final/validate_{target_list_filename}', pos_list_validate)
+
 
 if __name__ == '__main__':
-    num_samples = 10_000
+    # num_samples = 70_000
     # name = 'multiple_dipoles'
-    # num_dipoles = 1
+    # num_dipoles = 2
     # prepare_and_save_data(num_samples, name, num_dipoles)
 
-    name = 'dipole_area'
-    prepare_and_save_data(num_samples, name)
+    # eeg_filename = 'multiple_dipoles_eeg_70000_2.npy'
+    # pos_list_filename = 'multiple_dipoles_locations_70000_2.npy'
+    # split_data_set(eeg_filename, pos_list_filename)
+
+    return_multiple_dipoles(10, 2, True)

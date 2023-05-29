@@ -1,0 +1,18 @@
+Network: NN_17_feb.py
+
+- Adaptive lr
+- No amplitude
+- No normalization of targets
+
+gyri_and_sulcus:
+----------------------
+MAE x-coordinates:1.3225668887408308
+MAE y-coordinates:1.2889333229713156
+MAE z-coordinates:1.2930738683130931
+MAE location:1.3015246933417466
+
+model_normalization:
+----------------------
+MAE x-coordinates:0.8907075840771198
+MAE y-coordinates:0.9029002843543891
+MAE z-coordinates:0.8963086621373891

@@ -3,15 +3,18 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from NN import Net
+from NN_17_feb import Net
+# from NN_best_architecture import Net
+# from NN_costum_loss import Net
+
 from produce_plots_and_data import calculate_eeg
-from utils import numpy_to_torch, normalize, denormalize, MSE, relative_change
+from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change
 import produce_plots_and_data
 
 import os
 import h5py
 
-def plot_MSE_error(mse, dipole_locs, name):
+def plot_MAE_error(mse, dipole_locs, name):
     fig = plt.figure(figsize=[8, 8])
     fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
 
@@ -19,20 +22,22 @@ def plot_MSE_error(mse, dipole_locs, name):
     cax = fig.add_axes([0.92, 0.55, 0.01, 0.3]) # This axis is just the colorbar
 
     # mse_max = np.max(np.abs(mse))
-    scatter_params = dict(cmap="hot", vmin=0, vmax=30, s=10)
+    scatter_params = dict(cmap="hot", vmin=0, vmax=15, s=10)
 
     img = ax4.scatter(dipole_locs[0], dipole_locs[2], c=mse, **scatter_params)
     plt.colorbar(img, cax=cax)
-    plt.savefig(f"plots/mse_y_plane_{name}_lr_1.8.pdf")
+    plt.savefig(f"09_mai/amplitude_error_{name}.pdf")
 
 
-# model = torch.load('trained_models/new_architecture_(6layers)_standarisation_w_amplitude_5000_SGD_lr0.001_wd1e-05.pt')
-# model = torch.load('trained_models/new_architecture_(times4)_(6layers)_standarisation_w_amplitude_5000_SGD_lr0.001_wd1e-05.pt')
-# model = torch.load('trained_models/25_april_(times8)_(6layers)_standarisation_w_amplitude_5000_SGD_lr0.001_wd1e-05.pt')
+# x, y, z - coordinates
+model = torch.load('09_mai/09mai_adaptive_lr0.001_l1_11.april_NOTL2.pt')
+
+# x, y, z - coordinates + amplitude
 # model = torch.load('trained_models/best_architecture_standarisation_w_amplitude_500_SGD_lr1.5_wd1e-05_bs32.pt')
-# model = torch.load('trained_models/new_lr_standarisation_w_amplitude_500_SGD_lr1.8_wd1e-05_bs32.pt')
-model = torch.load('trained_models/new_lr_standarisation_w_amplitude_500_SGD_lr0.01_wd1e-05_bs32.pt')
 
+# x, y, z - coordinates + amplitude + radius
+# model = torch.load('trained_models/08may_MSE_area_w_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/10000_08may_MSE_area_w_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
 
 
 nyhead = NYHeadModel()
@@ -69,6 +74,7 @@ x_target_list = np.zeros(len(xz_plane_idxs))
 y_target_list = np.zeros(len(xz_plane_idxs))
 z_target_list = np.zeros(len(xz_plane_idxs))
 
+# Here is no amplitude PROBLEM
 for i, idx in enumerate(xz_plane_idxs):
     nyhead.set_dipole_pos(nyhead.cortex[:,idx])
     eeg = calculate_eeg(nyhead)
@@ -82,9 +88,14 @@ for i, idx in enumerate(xz_plane_idxs):
     z_max, z_min = find_max_min(2)
 
     # denormalize target coordinates
-    x_pred = pred_list[i, 0] = denormalize(pred[0], x_max, x_min)
-    y_pred = pred_list[i, 1] = denormalize(pred[1], y_max, y_min)
-    z_pred = pred_list[i, 2] = denormalize(pred[2], z_max, z_min)
+    # x_pred = pred_list[i, 0] = denormalize(pred[0], x_max, x_min)
+    # y_pred = pred_list[i, 1] = denormalize(pred[1], y_max, y_min)
+    # z_pred = pred_list[i, 2] = denormalize(pred[2], z_max, z_min)
+
+    x_pred = pred_list[i, 0] = pred[0]
+    y_pred = pred_list[i, 1] = pred[1]
+    z_pred = pred_list[i, 2] = pred[2]
+
 
     x_target = x_target_list[i] = nyhead.cortex[0,idx]
     y_target = y_target_list[i] = nyhead.cortex[1,idx]
@@ -102,28 +113,31 @@ for i, idx in enumerate(xz_plane_idxs):
     error_i_z = np.abs(z_target - z_pred)
     error_z.append(error_i_z)
 
-    # pred_locations = np.array((x_pred, y_pred, z_pred))
-    # target_locations = np.array((x_target, y_target, z_target))
-
+    error_i_locations = np.sqrt((error_i_x)**2 + (error_i_y)**2 + (error_i_z)**2)
+    error_locations.append(error_i_locations)
 
 target = np.concatenate((x_target_list, y_target_list, z_target_list))
 
-# MSE_locations = MSE(target, pred_list)
-MSE_x = MSE(x_target_list, pred_list[:,0])
-MSE_y = MSE(y_target_list, pred_list[:,1])
-MSE_z = MSE(z_target_list, pred_list[:,2])
+MAE_x = MAE(x_target_list, pred_list[:,0])
+MAE_y = MAE(y_target_list, pred_list[:,1])
+MAE_z = MAE(z_target_list, pred_list[:,2])
+MAE_locations = (MAE_x + MAE_y + MAE_z) / 3
 
-print(f'MSE x-coordinates:{MSE_x}')
-print(f'MSE y-coordinates:{MSE_y}')
-print(f'MSE z-coordinates:{MSE_z}')
-# print(f'MSE location:{MSE_locations}')
+print(np.mean(error_x))
+print(np.mean(error_y))
+print(np.mean(error_z))
 
-# plot_MSE_error(error_i_locations, nyhead.cortex[:,xz_plane_idxs], 'locations')
-plot_MSE_error(error_x, nyhead.cortex[:,xz_plane_idxs], 'x')
-plot_MSE_error(error_y, nyhead.cortex[:,xz_plane_idxs], 'y')
-plot_MSE_error(error_z, nyhead.cortex[:,xz_plane_idxs], 'z')
-# plot_MSE_error(mse_amplitude, nyhead.cortex[:,xz_plane_idxs], 'amplitude')
+print(f'MAE x-coordinates:{MAE_x}')
+print(f'MAE y-coordinates:{MAE_y}')
+print(f'MAE z-coordinates:{MAE_z}')
+print(f'MAE location:{MAE_locations}')
 
+print(np.shape(error_x))
+print(np.shape(nyhead.cortex[:,xz_plane_idxs]))
+plot_MAE_error(error_x, nyhead.cortex[:,xz_plane_idxs], 'x')
+plot_MAE_error(error_y, nyhead.cortex[:,xz_plane_idxs], 'y')
+plot_MAE_error(error_z, nyhead.cortex[:,xz_plane_idxs], 'z')
+plot_MAE_error(error_locations, nyhead.cortex[:,xz_plane_idxs], 'position')
 
 
 

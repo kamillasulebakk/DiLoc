@@ -1,0 +1,28 @@
+Samples: 10000, Batch size: 64, Epochs: 10, Noise: 10 %
+Learning rate: 1.5
+Eeg Data: data/new/multiple_dipoles_eeg_10000_2.npy
+Target Data: data/new/multiple_dipoles_locations_10000_2.npy
+--------------------------------------------------------------
+Epoch    0/   9 | Train: 0.0013529361 | Test: 0.0013339583 
+
+ Target: tensor([0.4351, 0.2372, 0.4562, 0.0231, 0.2249, 0.4135, 0.5371, 0.0231]) 
+Predicted: tensor([0.4891, 0.4786, 0.4941, 0.5144, 0.5246, 0.4877, 0.4872, 0.4847],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4237, 0.7317, 0.8553, 0.2388, 0.1628, 0.6739, 0.6380, 0.2388]) 
+Predicted: tensor([0.4891, 0.4786, 0.4942, 0.5144, 0.5247, 0.4877, 0.4873, 0.4848],
+       grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4085, 0.4738, 0.7052, 0.6477, 0.4896, 0.4025, 0.2968, 0.6477]) 
+Predicted: tensor([0.4890, 0.4784, 0.4941, 0.5146, 0.5247, 0.4877, 0.4872, 0.4846],
+       grad_fn=<SelectBackward0>) 
+
+Epoch    1/   9 | Train: 0.0013517072 | Test: 0.0013331624 
+Epoch    2/   9 | Train: 0.0013507227 | Test: 0.0013325519 
+Epoch    3/   9 | Train: 0.0013499393 | Test: 0.0013320793 
+Epoch    4/   9 | Train: 0.0013493088 | Test: 0.0013317106 
+Epoch    5/   9 | Train: 0.0013487877 | Test: 0.0013314170 
+Epoch    6/   9 | Train: 0.0013483565 | Test: 0.0013311871 
+Epoch    7/   9 | Train: 0.0013480012 | Test: 0.0013310024 
+Epoch    8/   9 | Train: 0.0013476973 | Test: 0.0013308478 
+Epoch    9/   9 | Train: 0.0013474431 | Test: 0.0013307223 

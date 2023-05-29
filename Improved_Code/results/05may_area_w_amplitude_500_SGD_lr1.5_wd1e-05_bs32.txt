@@ -1,0 +1,42 @@
+Samples: 10000, Batch size: 32, Epochs: 500, Noise: 10 %
+Learning rate: 1.5
+Eeg Data: data/new/multiple_dipoles_eeg_10000_1.npy
+Target Data: data/new/multiple_dipoles_locations_10000_1.npy
+--------------------------------------------------------------
+Epoch    0/ 499 | Train: 0.0853273004 | Test: 0.0733235005 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 1.0000]) 
+Predicted: tensor([0.4867, 0.5230, 0.5259, 0.8461], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.1250]) 
+Predicted: tensor([0.4992, 0.5260, 0.5624, 0.0913], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.3750]) 
+Predicted: tensor([0.4896, 0.5302, 0.5389, 0.5370], grad_fn=<SelectBackward0>) 
+
+Epoch    1/ 499 | Train: 0.0759009727 | Test: 0.0726581816 
+Epoch    2/ 499 | Train: 0.0786760309 | Test: 0.0722560514 
+Epoch    3/ 499 | Train: 0.0791740586 | Test: 0.0746719298 
+Epoch    4/ 499 | Train: 0.0816461550 | Test: 0.0762025533 
+Epoch    5/ 499 | Train: 0.0714249720 | Test: 0.0699770393 
+Epoch    6/ 499 | Train: 0.0714665498 | Test: 0.0709590949 
+Epoch    7/ 499 | Train: 0.0729458018 | Test: 0.0909111810 
+Epoch    8/ 499 | Train: 0.0771719534 | Test: 0.0729080568 
+Epoch    9/ 499 | Train: 0.0752390912 | Test: 0.0832943852 
+Epoch   10/ 499 | Train: 0.0852424394 | Test: 0.0848452741 
+Epoch   11/ 499 | Train: 0.1081032483 | Test: 0.1102113956 
+Epoch   12/ 499 | Train: 0.1129014389 | Test: 0.1100657021 
+Epoch   13/ 499 | Train: 0.1130635327 | Test: 0.1108278769 
+Epoch   14/ 499 | Train: 0.1130933127 | Test: 0.1096581352 
+Epoch   15/ 499 | Train: 0.1132273272 | Test: 0.1095427917 
+Epoch   16/ 499 | Train: 0.1133961549 | Test: 0.1098771106 
+Epoch   17/ 499 | Train: 0.1123252881 | Test: 0.1093987717 
+Epoch   18/ 499 | Train: 0.1121935991 | Test: 0.1094024016 
+Epoch   19/ 499 | Train: 0.1122246010 | Test: 0.1093758300 
+Epoch   20/ 499 | Train: 0.1122436792 | Test: 0.1093950091 
+Epoch   21/ 499 | Train: 0.1122489936 | Test: 0.1092394564 
+Epoch   22/ 499 | Train: 0.1122573312 | Test: 0.1094475407 
+Epoch   23/ 499 | Train: 0.1122921760 | Test: 0.1096115499 
+Epoch   24/ 499 | Train: 0.1123073407 | Test: 0.1095616614 
+Epoch   25/ 499 | Train: 0.1122862232 | Test: 0.1092479709 
+Epoch   26/ 499 | Train: 0.1123835384 | Test: 0.1093044721 

@@ -4,81 +4,8 @@
 
 
 \begin{document}
-\chapter{Methods}
-% Need another name for this chapter
-
-\section{Head Models and Multicompartmental Modeling }
-% Something more about volume conducters
-
-\section{Currents and Potentials in the Brain}
-Ohm's law in volume conductors is a more genral statement than its usual form in electrical circuits. It is a linear relationship between vector current density $J$ and the electric field $E$. The law is then expessed as follows:
-
-\begin{equation}
-J = \sigma E,
-\label{eq:ohms_law}
-\end{equation}
-
-where $\sigma$ is the conductivity of the .... (physical material). (Soruce: Electric Fields of the Brain: The Neurophysics of EEG).
-
-
-\section{New York Head Model}
-Neurons communicate with each other through the use of electical currents. When a neuron receives a signal, it generates an electrical current that propegates along the axon and causes the release of neurotransmitters that diffuse across the gap between the sending and the recieving neuron. If the neurotransmitters are accepted by the receptors on the recieving neuron, a new electrical signal will be generated. This process of electrical communaication between neurons creates electromagnetic fields that can be measured using electroencephalography (EEG).
-
-A central problem for EEG is to relate scalp data to brain \emph{current sources} (Electric Fields of the Brain: The Neurophysics of EEG)....
-
-Especially important for electrode locations outside of the brain, such as EEG, is the knowledge about how the electrical potentials will be affected by the geometries and conductivites of the various parts of the head (Biophysically detailed forward modeling of the neural origin of EEG and MEG signals). A model that takes these detailes into account is the New York Head Model. The model is based on anatomical and electrical characteristics of 152 adult human brains and is solved for 231 electrode locations.
-
-The New York Head Model is a computer model of the human head used to simulate the electrical activity of the brain. It was created by the Electrical Geodesics Incorporated (EGI) in 2004, and is based on the anatomical and electrical characteristics of the head of a typical adult human. The model consists of a three-dimensional (3D) representation of the head and brain, with detailed information on the geometry and electrical properties of the different tissues and structures within the head. The model includes the scalp, skull, cerebrospinal fluid, gray matter, and white matter. The electrical properties of each of these tissues, such as conductivity and permittivity, are also included in the model.
-% Need sources and to be rewritten
-
-The model was developed to be used for, and improve the accuracy of EEG source localization (The New York Head—A precise standardized volume conductor model for EEG source localization and tES targeting). To generate predictions of the EEG signals recorded from different scalp locations in response to a given set of source currents, the New York head model uses the lead field matrix (SOURCE), which is a mathematical representation of the relationship between the electrical activity in the brain and the electrical potentials recorded on the scalp.
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{figures/lead_fields.png}
-  \caption{A caption here is needed.}
-  \label{fig:lead_field}
-\end{figure}
-
-The lead field matrix is constructed by taking advantage of the reciprocity theorem that states that knowledge of the current density through a volume conducter caused by an injection of current between two stimulating electrodes completely specifies how those same recording electrodes pick up potentials caused by dipole sources in the volume conducter. If one suppose that a pair of stimulating electrodes is placed at locations A and B on the scalp as provided in figure \ref{fig:lead_field}, an external current source will cause current to flow from electrode B through the brain, and all the way to electrode A. However, due to the geometry, inhomogeneity, and ansisotropy of the head, the current density will vary with location. The amount of current that pass through the brain depends, to a great extent, on the location of the electordes. In general, the brain currents will decrease with decreasing distance between electrodes. Thus, for a fixed pair of electrodes, the lead field vectors can be calculated as a function of position throughout the volume conducter. At each location, the orientation of the lead field vector $L_{AB}$ is the orientation of the dipole source that produces the largest potential difference between the electrodes. The lead field matrix, $\boldsymbol{L}$ is given as:
-
-\begin{equation}
-L = \frac{E}{I},
-\label{eq:R2}
-\end{equation}
-
-where $I$ is the injected current at the electode locations and $E$ is the resulting electric field in the brain (Biophysically detailed forward modeling of the neural origin of EEG and MEG signals). Moreover, the precise link between a current dipole moment $p$ in the brain and the resulting EEG signals $\Phi$ is then related to the lead field matrix as follows:
-
-\begin{equation}
-\Phi_{AB} = L_{AB} \cdot p,
-\label{eq:EEG_signal}
-\end{equation}
-
-Here, an injected current $I$ of 1 mA gives an electric potential $E$ in V/m, meaning that a current dipole moment $\textbf{p}$ in the unit of mAm gives EEG signals in the unit of V.
-
-%(Do I understand this? Note: Can write much more about this. page 288.)
-
-The New York Head model has been incorporated in the Python module LFPy, which provides classes for calculation of extracellular potentials from multicomparment neuron models. Read more: \url{https://lfpy.readthedocs.io/en/latest/readme.html#summary}
-
-%by dowloading the lead field $L$ from \url{https://parralab.org/nyhead/}.
-
-
-%The New York head model is a detailed three-dimensional model of the human head and brain, which takes into account individual differences in head size and shape, as well as variations in tissue conductivity. It has become a widely used standard for EEG source localization and is still used in many research studies and clinical applications today.
-
-% Include section about volume conductors??
-% The New York Head Model is a detailed model of the electrical brain signals in the human head and is modeled using complex volume conductors. ....
-
-% @book{nunez2006electric,
-%   title={Electric fields of the brain: the neurophysics of EEG},
-%   author={Nunez, Paul L and Srinivasan, Ramesh},
-%   year={2006},
-%   publisher={Oxford University Press, USA}
-% }
-
-% The New York Head Model is used in research and clinical applications to understand the electrical activity of the brain and diagnose neurological disorders. It is particularly useful for studying the electrical activity of the brain during various cognitive and motor tasks, as well as during seizures and other abnormal brain activity.
-%
-% The model is also used in the field of non-invasive brain stimulation, where it helps to guide the placement of electrodes or magnetic coils to target specific areas of the brain for therapeutic or diagnostic purposes. By using the model to predict the electrical activity of the brain, researchers and clinicians can optimize the placement of the electrodes or magnetic coils to achieve the desired effect.
-%
-% Overall, the New York Head Model is an important tool for understanding the electrical activity of the brain and has numerous applications in research and clinical settings.
+\chapter{EEG inverse problem: Machine Learning approaches}
+Machine learning is a field concerned with constructing computer programs that learn from experience, where the utialization of data improves computer performance across various tasks. Within this broad scope, one notable application lies in the identification of sources generating abnormal electrical brain signals. By employing specific machine learning algorithms, EEG data can be processed and analyzed to accurately localize the sources responsible for the recorded signals. These algorithms learn from the data and uncover patterns that associate the signals with their corresponding sources, effectively solving the EEG inverse problem. In this chapter, we introduce the field of machine learning and provide an overview of relevant tequniqes for solving our specific EEG inverse problem and its wider implications.
 
 
 \section{Machine Learning and Neural Networks}

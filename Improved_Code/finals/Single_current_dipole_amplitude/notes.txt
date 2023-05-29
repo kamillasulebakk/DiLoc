@@ -1,0 +1,21 @@
+Network: NN_best_architecture.py
+
+- Adaptive lr
+- Amplitude
+- Normalization of targets
+- When validates sulcus and gyri we uses data with same amplitude for all positions
+  (would be interesting to see result with more complicated data)
+
+gyri_and_sulcus: NO AMPLITUDE
+----------------------
+MAE x-coordinates:2.967828509626984
+MAE y-coordinates:0.9915967334100412
+MAE z-coordinates:2.8745089777623782
+MAE location:2.277978073599801
+
+model_normalization:
+----------------------
+MAE x-coordinates:1.7073788122612112
+MAE y-coordinates:1.9230695901709123
+MAE z-coordinates:1.8612159410410523
+MAE amplitude:0.6193917137235786

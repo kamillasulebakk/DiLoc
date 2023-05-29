@@ -1,0 +1,37 @@
+Network: NN_custom_loss, 50000 samples
+
+- MSE criterion(might explain why only one dipole has low loss)
+  - Those named with tanh is actually ReLU but with MSE criterion
+
+model_normalization:
+----------------------
+10000 samples, 150 epochs:
+
+Dipole No: 1
+MAE x-coordinates:26.641615276409908
+MAE y-coordinates:37.51791273067063
+MAE z-coordinates:26.01138272745029
+MAE amplitude:0.5769615508698932
+
+Dipole No: 2
+MAE x-coordinates:3.026925837590276
+MAE y-coordinates:4.350235027323349
+MAE z-coordinates:3.800457061646636
+MAE amplitude:0.5749554317522976
+
+- Custom criterion:
+
+model_normalization:
+----------------------
+10000 samples, 150 epochs:
+
+Dipole No: 1
+MAE x-coordinates:26.272861793246502
+MAE y-coordinates:37.686794284032565
+MAE z-coordinates:25.795540399192895
+MAE amplitude:1.0889601120369958
+Dipole No: 2
+MAE x-coordinates:3.9515631908641216
+MAE y-coordinates:6.043055838576367
+MAE z-coordinates:4.114185756288718
+MAE amplitude:1.0867196138447717

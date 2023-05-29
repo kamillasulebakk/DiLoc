@@ -3,6 +3,12 @@
 \usepackage[T1]{fontenc}
 \usepackage{babel, uiomasterfp}
 \usepackage[subpreambles=true]{standalone}
+\usepackage{amsmath}
+
+\usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
+\usepackage{hyperref}
+
+\addbibresource{kilder.bib}
 
 \author{Kamilla Ida Julie Sulebakk}
 \title{Localization and identification of Neural Sources from simulated EEG Signals}
@@ -21,9 +27,11 @@ dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}]
 \input{chapter0}
 \input{chapter1}
 \input{chapter2}
-\input{chapter3}
-\input{chapter4}
+%\input{chapter3}
+%\input{chapter4}
 \input{chapter5}
+
+\printbibliography
 
 \backmatter
 

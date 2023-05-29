@@ -10,7 +10,40 @@ plt.rc('text.latex', preamble=r'\usepackage{amsmath}')
 
 big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
 
-def plot_MSE_targets(tagret_1, target_2, target_3, target_4, act_func, batch_size, NN):
+def plot_MSE_targets_2_dipoles(
+    MSE_x1,
+    MSE_y1,
+    MSE_z1,
+    MSE_A1,
+    MSE_x2,
+    MSE_y2,
+    MSE_z2,
+    MSE_A2,
+    act_func,
+    batch_size,
+    NN,
+    N_dipoles
+):
+    fig = plt.figure()
+    ax = fig.add_subplot()
+    ax.set_title(f'MSE for test data using {act_func} with {batch_size} batches', fontsize=20)
+    ax.set_xlabel('Number of epochs', fontsize=18)
+    ax.set_ylabel('ln(MSE)', fontsize=18)
+    ax.tick_params(axis='both', which='major', labelsize=18)
+    ax.plot(np.log(MSE_x1), label='no 1, x position [mm]')
+    ax.plot(np.log(MSE_y1), label='no 1, y position [mm]')
+    ax.plot(np.log(MSE_z1), label='no 1, z position [mm]')
+    ax.plot(np.log(MSE_A1), label='no 1, Amplitude [nA um]')
+    ax.plot(np.log(MSE_x2), label='no 2, x position [mm]')
+    ax.plot(np.log(MSE_y2), label='no 2, y position [mm]')
+    ax.plot(np.log(MSE_z2), label='no 2, z position [mm]')
+    ax.plot(np.log(MSE_A2), label='no 2, Amplitude [nA um]')
+    ax.legend(fontsize=18)
+    plt.tight_layout()
+    fig.savefig(f'plots/multiple_dipoles_w_amplitude/mse_targets_{NN}_2_dipoles.png')
+
+
+def plot_MSE_targets(tagret_1, target_2, target_3, target_4, act_func, batch_size, NN, N_dipoles):
     fig = plt.figure()
     ax = fig.add_subplot()
     ax.set_title(f'MSE for test data using {act_func} with {batch_size} batches', fontsize=20)
@@ -24,7 +57,7 @@ def plot_MSE_targets(tagret_1, target_2, target_3, target_4, act_func, batch_siz
     ax.legend(fontsize=18)
     fig.savefig(f'plots/multiple_dipoles_w_amplitude/mse_targets_{NN}.png')
 
-def plot_MSE_single_target(target_1, act_func, batch_size, NN):
+def plot_MSE_single_target(target_1, act_func, batch_size, NN, N_dipoles):
     fig = plt.figure()
     ax = fig.add_subplot()
     ax.set_title(f'MSE for test data using {act_func} with {batch_size} batches', fontsize=20)
@@ -36,7 +69,7 @@ def plot_MSE_single_target(target_1, act_func, batch_size, NN):
     fig.savefig(f'plots/multiple_dipoles_w_amplitude/mse_amplitude_{NN}.png')
 
 
-def plot_MSE_NN(train_loss, test_loss, NN, act_func, batch_size, num_epochs, name = "NN"):
+def plot_MSE_NN(train_loss, test_loss, NN, act_func, batch_size, num_epochs, N_dipoles):
     fig = plt.figure()
     ax = fig.add_subplot()
     ax.set_title(f'MSE for train and test data using {act_func} with {batch_size} batches', fontsize=20)
@@ -46,7 +79,7 @@ def plot_MSE_NN(train_loss, test_loss, NN, act_func, batch_size, num_epochs, nam
     ax.plot(np.log(train_loss), label='Train')
     ax.plot(np.log(test_loss), label='Test')
     ax.legend(fontsize=18)
-    fig.savefig(f'plots/multiple_dipoles_w_amplitude/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
+    fig.savefig(f'plots/multiple_dipoles_w_amplitude/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}_N_dipoles_{N_dipoles}.png')
 
 def plot_R2_NN(train_R2, test_R2, NN, act_func, batch_size, num_epochs, name = "NN"):
     fig = plt.figure()

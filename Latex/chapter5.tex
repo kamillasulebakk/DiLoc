@@ -89,46 +89,26 @@ Where the mean value of $y_i$ is defined by $\bar{y}$:
 \label{eq:ybar}
 \end{equation*}
 
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\linewidth]{../Finals/plots/simple_dipole_eeg_field_noise_1000.png}
+    \caption{The EEG data of a randomly picked sample. As for all samples, 10 percent of normally distributed noise has been added to the original signal.}
+    \label{fig:eeg_field_10percent_noise}
+\end{figure}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{../Code/plots/finals/MSE_NN_1_10000_TanH_30_2000.png}
-    \caption{The validation accuracy for the simple Feed Forward Neural Network with 10 000 samples with tanh activation function. }
+    \includegraphics[width=\linewidth]{../Finals/plots/MSE_simple_dipole_lr0.001_l1_penalty_300_50000_TanH_30_300_N_dipoles_1.png}
+    \caption{The validation accuracy for the simple Feed Forward Neural Network with 50 000 samples and tanh as activation function. }
     \label{fig:single_dipole_accuracy}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{../Code/plots/finals/R2_NN_1_10000_l1_TanH_30_2000.png}
-    \caption{The R2 score for the simple Feed Forward Neural Network with 10 000 samples with tanh activation function. }
-    \label{fig:single_dipole_R2}
+    \includegraphics[width=\linewidth]{../Finals/plots/simple_dipole_error_position.pdf}
+    \caption{Mean absolute error of the network for each dipole location in the cortical y-plane cross section at y = 0.}
+    \label{fig:single_dipole_accuracy}
 \end{figure}
-
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=\linewidth]{../Code/plots/finals/mse_y_plane.pdf}
-    \caption{The mean squared error of the location accuracy (NN) at different dipole locations
-    in the y cross section, for the simple Feed Forward Neural Network.}
-    \label{fig:single_dipole_accuracy_plane}
-\end{figure}
-
-
-
-% \begin{figure}[!htb]
-%     \centering
-%     \includegraphics[width=\linewidth]{../Code/plots/finals/eeg_field_2_2.png}
-%     \caption{Example 2 dipoles. }
-%     \label{fig:eeg_field_2_dipole_example}
-% \end{figure}
-
-
-
-% \begin{figure}[!htb]
-%     \centering
-%     \includegraphics[width=\linewidth]{../Code/plots/NN/MSE_NN_noise_TanH_100_3000.png}
-%     \caption{The validation accuracy for simple Feed Forward Neural Network with 10 000 samples with tanh activation function and 10$\%$ noise added to the data. }
-%     \label{fig:single_dipole_accuracy}
-% \end{figure}
 
 
 

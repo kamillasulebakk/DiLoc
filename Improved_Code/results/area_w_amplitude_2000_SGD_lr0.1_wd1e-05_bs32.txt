@@ -1,0 +1,717 @@
+Samples: 10000, Batch size: 32, Epochs: 2000, Noise: 10 %
+Learning rate: 0.1, Momentum: 0.0001, Weight decay: 1e-05 %
+ 
+
+Eeg Data: data/new/multiple_dipoles_eeg_10000_1.npy
+Target Data: data/new/multiple_dipoles_locations_10000_1.npy
+--------------------------------------------------------------
+Epoch    0/1999 | Train: 0.0663924802 | Test: 0.0422526554 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 1.0000]) 
+Predicted: tensor([0.2279, 0.1455, 0.4752, 0.9409], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.1250]) 
+Predicted: tensor([0.4746, 0.4459, 0.4456, 0.0802], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.3750]) 
+Predicted: tensor([0.4395, 0.5443, 0.3019, 0.4551], grad_fn=<SelectBackward0>) 
+
+Epoch 1482/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch    1/1999 | Train: 0.0372997950 | Test: 0.0334192223 
+Epoch    2/1999 | Train: 0.0328563504 | Test: 0.0315896408 
+Epoch    3/1999 | Train: 0.0310763971 | Test: 0.0307122622 
+Epoch 1483/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch    4/1999 | Train: 0.0299778702 | Test: 0.0288880456 
+Epoch    5/1999 | Train: 0.0290383756 | Test: 0.0289339061 
+Epoch 1484/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch    6/1999 | Train: 0.0282969724 | Test: 0.0284017215 
+Epoch    7/1999 | Train: 0.0277289685 | Test: 0.0295351032 
+Epoch    8/1999 | Train: 0.0273235846 | Test: 0.0270880563 
+Epoch 1485/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch    9/1999 | Train: 0.0269308577 | Test: 0.0274391458 
+Epoch   10/1999 | Train: 0.0265266848 | Test: 0.0263830289 
+Epoch 1486/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   11/1999 | Train: 0.0262539325 | Test: 0.0259191151 
+Epoch   12/1999 | Train: 0.0260951859 | Test: 0.0265281226 
+Epoch   13/1999 | Train: 0.0257330018 | Test: 0.0264410290 
+Epoch 1487/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   14/1999 | Train: 0.0254204077 | Test: 0.0266404427 
+Epoch   15/1999 | Train: 0.0251855076 | Test: 0.0252726856 
+Epoch 1488/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   16/1999 | Train: 0.0250438737 | Test: 0.0260006560 
+Epoch   17/1999 | Train: 0.0249846548 | Test: 0.0259828679 
+Epoch   18/1999 | Train: 0.0244486893 | Test: 0.0278202974 
+Epoch 1489/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   19/1999 | Train: 0.0244868306 | Test: 0.0253587300 
+Epoch   20/1999 | Train: 0.0242762721 | Test: 0.0245143232 
+Epoch 1490/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   21/1999 | Train: 0.0240657806 | Test: 0.0243113935 
+Epoch   22/1999 | Train: 0.0241389035 | Test: 0.0266619340 
+Epoch   23/1999 | Train: 0.0237641512 | Test: 0.0241106531 
+Epoch 1491/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   24/1999 | Train: 0.0238909665 | Test: 0.0239298823 
+Epoch   25/1999 | Train: 0.0236463829 | Test: 0.0250846155 
+Epoch   26/1999 | Train: 0.0236063617 | Test: 0.0238338341 
+Epoch 1492/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   27/1999 | Train: 0.0235898247 | Test: 0.0299290647 
+Epoch   28/1999 | Train: 0.0235224561 | Test: 0.0236114881 
+Epoch 1493/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   29/1999 | Train: 0.0232108872 | Test: 0.0266699339 
+Epoch   30/1999 | Train: 0.0229868746 | Test: 0.0245009581 
+Epoch   31/1999 | Train: 0.0230591978 | Test: 0.0234419618 
+Epoch 1494/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   32/1999 | Train: 0.0227361173 | Test: 0.0251453277 
+Epoch   33/1999 | Train: 0.0230280344 | Test: 0.0235447419 
+Epoch 1495/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   34/1999 | Train: 0.0227183212 | Test: 0.0236478321 
+Epoch   35/1999 | Train: 0.0225775920 | Test: 0.0236609039 
+Epoch   36/1999 | Train: 0.0225690229 | Test: 0.0230182986 
+Epoch 1496/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   37/1999 | Train: 0.0224240851 | Test: 0.0240009117 
+Epoch   38/1999 | Train: 0.0224542714 | Test: 0.0228045478 
+Epoch 1497/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   39/1999 | Train: 0.0225254582 | Test: 0.0235315909 
+Epoch   40/1999 | Train: 0.0222852629 | Test: 0.0230423286 
+Epoch   41/1999 | Train: 0.0222992984 | Test: 0.0229653831 
+Epoch 1498/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   42/1999 | Train: 0.0221560998 | Test: 0.0247578636 
+Epoch   43/1999 | Train: 0.0219509194 | Test: 0.0235540854 
+Epoch 1499/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   44/1999 | Train: 0.0217690152 | Test: 0.0225653624 
+Epoch   45/1999 | Train: 0.0218869718 | Test: 0.0230387670 
+Epoch   46/1999 | Train: 0.0217763961 | Test: 0.0229957389 
+Epoch 1500/1999 | Train: 0.015742 | Test: 0.051225 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 0.5271, 0.1481]) 
+Predicted: tensor([0.1716, 0.1609, 0.5105, 0.6283, 0.1476], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.3902, 0.0755]) 
+Predicted: tensor([0.4573, 0.1291, 0.3085, 0.6029, 0.1499], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.6330, 0.1668]) 
+Predicted: tensor([0.2874, 0.5225, 0.2873, 0.5135, 0.1144], grad_fn=<SelectBackward0>) 
+
+Epoch   47/1999 | Train: 0.0215541522 | Test: 0.0233497101 
+Epoch   48/1999 | Train: 0.0217053413 | Test: 0.0250331030 
+Epoch 1501/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   49/1999 | Train: 0.0217878303 | Test: 0.0262503570 
+Epoch   50/1999 | Train: 0.0216204483 | Test: 0.0246176116 
+Epoch   51/1999 | Train: 0.0214160977 | Test: 0.0224067686 
+Epoch 1502/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   52/1999 | Train: 0.0211333057 | Test: 0.0236350770 
+Epoch   53/1999 | Train: 0.0214052723 | Test: 0.0250273166 
+Epoch 1503/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   54/1999 | Train: 0.0213453701 | Test: 0.0240340329 
+Epoch   55/1999 | Train: 0.0211790020 | Test: 0.0232569035 
+Epoch 1504/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   56/1999 | Train: 0.0214531590 | Test: 0.0223462422 
+Epoch   57/1999 | Train: 0.0212161016 | Test: 0.0227113436 
+Epoch 1505/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   58/1999 | Train: 0.0209991477 | Test: 0.0226316717 
+Epoch   59/1999 | Train: 0.0210675368 | Test: 0.0233148949 
+Epoch   60/1999 | Train: 0.0204435993 | Test: 0.0226370189 
+Epoch 1506/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   61/1999 | Train: 0.0208453227 | Test: 0.0230118157 
+Epoch   62/1999 | Train: 0.0209075436 | Test: 0.0221920352 
+Epoch 1507/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   63/1999 | Train: 0.0207373610 | Test: 0.0216995472 
+Epoch   64/1999 | Train: 0.0207210194 | Test: 0.0238523248 
+Epoch 1508/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   65/1999 | Train: 0.0204527216 | Test: 0.0220228223 
+Epoch   66/1999 | Train: 0.0210226754 | Test: 0.0225714629 
+Epoch 1509/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   67/1999 | Train: 0.0203103448 | Test: 0.0219162075 
+Epoch   68/1999 | Train: 0.0204651172 | Test: 0.0215690832 
+Epoch 1510/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   69/1999 | Train: 0.0205721683 | Test: 0.0216583320 
+Epoch   70/1999 | Train: 0.0202858613 | Test: 0.0219128695 
+Epoch   71/1999 | Train: 0.0203253803 | Test: 0.0222811968 
+Epoch 1511/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   72/1999 | Train: 0.0202327397 | Test: 0.0215598065 
+Epoch   73/1999 | Train: 0.0203486901 | Test: 0.0218206941 
+Epoch 1512/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   74/1999 | Train: 0.0203591936 | Test: 0.0224506146 
+Epoch   75/1999 | Train: 0.0202122876 | Test: 0.0254090020 
+Epoch 1513/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   76/1999 | Train: 0.0200344980 | Test: 0.0218379494 
+Epoch   77/1999 | Train: 0.0201378669 | Test: 0.0219508667 
+Epoch 1514/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   78/1999 | Train: 0.0199723371 | Test: 0.0216049074 
+Epoch   79/1999 | Train: 0.0199467719 | Test: 0.0219122367 
+Epoch   80/1999 | Train: 0.0201548364 | Test: 0.0224360132 
+Epoch 1515/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   81/1999 | Train: 0.0199902148 | Test: 0.0216252687 
+Epoch   82/1999 | Train: 0.0196790334 | Test: 0.0224643339 
+Epoch 1516/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   83/1999 | Train: 0.0200451147 | Test: 0.0218578168 
+Epoch   84/1999 | Train: 0.0198417717 | Test: 0.0217572236 
+Epoch 1517/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   85/1999 | Train: 0.0199884023 | Test: 0.0232997183 
+Epoch   86/1999 | Train: 0.0198227369 | Test: 0.0240069775 
+Epoch 1518/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   87/1999 | Train: 0.0195020722 | Test: 0.0212919830 
+Epoch   88/1999 | Train: 0.0200523893 | Test: 0.0219167317 
+Epoch   89/1999 | Train: 0.0196757872 | Test: 0.0232747740 
+Epoch 1519/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   90/1999 | Train: 0.0199547965 | Test: 0.0214319292 
+Epoch   91/1999 | Train: 0.0194153333 | Test: 0.0220351159 
+Epoch 1520/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   92/1999 | Train: 0.0193772872 | Test: 0.0215035910 
+Epoch   93/1999 | Train: 0.0196394051 | Test: 0.0213719996 
+Epoch 1521/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   94/1999 | Train: 0.0196896460 | Test: 0.0239820934 
+Epoch   95/1999 | Train: 0.0196014608 | Test: 0.0215961933 
+Epoch 1522/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   96/1999 | Train: 0.0198196788 | Test: 0.0216374078 
+Epoch   97/1999 | Train: 0.0193663163 | Test: 0.0217148717 
+Epoch   98/1999 | Train: 0.0194961941 | Test: 0.0213844457 
+Epoch 1523/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch   99/1999 | Train: 0.0195802613 | Test: 0.0222195059 
+Epoch  100/1999 | Train: 0.0195179234 | Test: 0.0236847671 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 1.0000]) 
+Predicted: tensor([0.1828, 0.1060, 0.5087, 0.9725], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.1250]) 
+Predicted: tensor([0.4859, 0.1872, 0.3402, 0.1193], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.3750]) 
+Predicted: tensor([0.3362, 0.5179, 0.2635, 0.5397], grad_fn=<SelectBackward0>) 
+
+Epoch 1524/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  101/1999 | Train: 0.0193148257 | Test: 0.0213951558 
+Epoch  102/1999 | Train: 0.0192866113 | Test: 0.0217717419 
+Epoch 1525/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  103/1999 | Train: 0.0193363943 | Test: 0.0239573310 
+Epoch  104/1999 | Train: 0.0190535758 | Test: 0.0219522816 
+Epoch  105/1999 | Train: 0.0192118080 | Test: 0.0224497434 
+Epoch 1526/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  106/1999 | Train: 0.0191554636 | Test: 0.0218183856 
+Epoch  107/1999 | Train: 0.0192029299 | Test: 0.0212715674 
+Epoch 1527/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  108/1999 | Train: 0.0191966747 | Test: 0.0220188297 
+Epoch  109/1999 | Train: 0.0191095373 | Test: 0.0218676644 
+Epoch 1528/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  110/1999 | Train: 0.0190689914 | Test: 0.0219316794 
+Epoch  111/1999 | Train: 0.0192775821 | Test: 0.0218488151 
+Epoch 1529/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  112/1999 | Train: 0.0192238272 | Test: 0.0214650224 
+Epoch  113/1999 | Train: 0.0190876385 | Test: 0.0217076916 
+Epoch 1530/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  114/1999 | Train: 0.0191272940 | Test: 0.0214898719 
+Epoch  115/1999 | Train: 0.0190356530 | Test: 0.0223192301 
+Epoch  116/1999 | Train: 0.0192247548 | Test: 0.0220656786 
+Epoch 1531/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  117/1999 | Train: 0.0190425978 | Test: 0.0212464612 
+Epoch  118/1999 | Train: 0.0188539685 | Test: 0.0253970779 
+Epoch 1532/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  119/1999 | Train: 0.0188353263 | Test: 0.0213451345 
+Epoch  120/1999 | Train: 0.0189219276 | Test: 0.0216582321 
+Epoch 1533/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch  121/1999 | Train: 0.0190818292 | Test: 0.0230938578 
+Epoch 1534/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1535/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1536/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1537/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1538/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1539/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1540/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1541/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1542/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1543/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1544/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1545/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1546/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1547/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1548/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1549/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1550/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1551/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1552/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1553/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1554/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1555/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1556/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1557/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1558/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1559/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1560/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1561/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1562/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1563/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1564/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1565/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1566/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1567/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1568/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1569/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1570/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1571/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1572/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1573/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1574/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1575/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1576/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1577/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1578/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1579/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1580/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1581/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1582/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1583/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1584/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1585/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1586/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1587/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1588/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1589/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1590/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1591/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1592/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1593/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1594/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1595/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1596/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1597/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1598/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1599/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1600/1999 | Train: 0.015742 | Test: 0.051225 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 0.5271, 0.1481]) 
+Predicted: tensor([0.1716, 0.1609, 0.5105, 0.6283, 0.1476], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.3902, 0.0755]) 
+Predicted: tensor([0.4573, 0.1291, 0.3085, 0.6029, 0.1499], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.6330, 0.1668]) 
+Predicted: tensor([0.2874, 0.5225, 0.2873, 0.5135, 0.1144], grad_fn=<SelectBackward0>) 
+
+Epoch 1601/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1602/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1603/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1604/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1605/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1606/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1607/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1608/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1609/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1610/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1611/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1612/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1613/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1614/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1615/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1616/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1617/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1618/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1619/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1620/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1621/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1622/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1623/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1624/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1625/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1626/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1627/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1628/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1629/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1630/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1631/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1632/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1633/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1634/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1635/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1636/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1637/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1638/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1639/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1640/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1641/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1642/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1643/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1644/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1645/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1646/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1647/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1648/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1649/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1650/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1651/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1652/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1653/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1654/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1655/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1656/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1657/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1658/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1659/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1660/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1661/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1662/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1663/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1664/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1665/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1666/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1667/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1668/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1669/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1670/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1671/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1672/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1673/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1674/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1675/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1676/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1677/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1678/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1679/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1680/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1681/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1682/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1683/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1684/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1685/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1686/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1687/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1688/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1689/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1690/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1691/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1692/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1693/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1694/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1695/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1696/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1697/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1698/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1699/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1700/1999 | Train: 0.015742 | Test: 0.051225 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 0.5271, 0.1481]) 
+Predicted: tensor([0.1716, 0.1609, 0.5105, 0.6283, 0.1476], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.3902, 0.0755]) 
+Predicted: tensor([0.4573, 0.1291, 0.3085, 0.6029, 0.1499], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.6330, 0.1668]) 
+Predicted: tensor([0.2874, 0.5225, 0.2873, 0.5135, 0.1144], grad_fn=<SelectBackward0>) 
+
+Epoch 1701/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1702/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1703/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1704/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1705/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1706/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1707/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1708/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1709/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1710/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1711/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1712/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1713/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1714/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1715/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1716/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1717/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1718/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1719/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1720/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1721/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1722/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1723/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1724/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1725/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1726/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1727/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1728/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1729/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1730/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1731/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1732/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1733/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1734/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1735/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1736/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1737/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1738/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1739/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1740/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1741/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1742/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1743/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1744/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1745/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1746/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1747/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1748/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1749/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1750/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1751/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1752/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1753/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1754/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1755/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1756/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1757/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1758/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1759/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1760/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1761/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1762/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1763/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1764/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1765/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1766/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1767/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1768/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1769/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1770/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1771/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1772/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1773/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1774/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1775/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1776/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1777/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1778/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1779/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1780/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1781/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1782/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1783/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1784/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1785/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1786/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1787/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1788/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1789/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1790/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1791/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1792/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1793/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1794/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1795/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1796/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1797/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1798/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1799/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1800/1999 | Train: 0.015742 | Test: 0.051225 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 0.5271, 0.1481]) 
+Predicted: tensor([0.1716, 0.1609, 0.5105, 0.6283, 0.1476], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.3902, 0.0755]) 
+Predicted: tensor([0.4573, 0.1291, 0.3085, 0.6029, 0.1499], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.6330, 0.1668]) 
+Predicted: tensor([0.2874, 0.5225, 0.2873, 0.5135, 0.1144], grad_fn=<SelectBackward0>) 
+
+Epoch 1801/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1802/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1803/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1804/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1805/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1806/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1807/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1808/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1809/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1810/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1811/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1812/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1813/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1814/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1815/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1816/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1817/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1818/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1819/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1820/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1821/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1822/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1823/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1824/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1825/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1826/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1827/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1828/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1829/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1830/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1831/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1832/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1833/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1834/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1835/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1836/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1837/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1838/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1839/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1840/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1841/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1842/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1843/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1844/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1845/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1846/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1847/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1848/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1849/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1850/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1851/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1852/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1853/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1854/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1855/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1856/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1857/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1858/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1859/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1860/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1861/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1862/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1863/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1864/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1865/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1866/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1867/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1868/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1869/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1870/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1871/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1872/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1873/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1874/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1875/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1876/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1877/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1878/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1879/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1880/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1881/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1882/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1883/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1884/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1885/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1886/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1887/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1888/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1889/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1890/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1891/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1892/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1893/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1894/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1895/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1896/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1897/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1898/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1899/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1900/1999 | Train: 0.015742 | Test: 0.051225 
+
+ Target: tensor([0.2011, 0.1608, 0.5095, 0.5271, 0.1481]) 
+Predicted: tensor([0.1716, 0.1609, 0.5105, 0.6283, 0.1476], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.4375, 0.1434, 0.2800, 0.3902, 0.0755]) 
+Predicted: tensor([0.4573, 0.1291, 0.3085, 0.6029, 0.1499], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.3282, 0.5396, 0.3016, 0.6330, 0.1668]) 
+Predicted: tensor([0.2874, 0.5225, 0.2873, 0.5135, 0.1144], grad_fn=<SelectBackward0>) 
+
+Epoch 1901/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1902/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1903/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1904/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1905/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1906/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1907/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1908/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1909/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1910/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1911/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1912/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1913/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1914/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1915/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1916/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1917/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1918/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1919/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1920/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1921/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1922/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1923/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1924/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1925/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1926/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1927/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1928/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1929/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1930/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1931/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1932/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1933/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1934/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1935/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1936/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1937/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1938/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1939/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1940/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1941/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1942/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1943/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1944/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1945/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1946/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1947/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1948/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1949/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1950/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1951/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1952/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1953/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1954/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1955/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1956/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1957/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1958/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1959/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1960/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1961/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1962/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1963/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1964/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1965/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1966/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1967/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1968/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1969/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1970/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1971/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1972/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1973/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1974/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1975/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1976/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1977/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1978/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1979/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1980/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1981/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1982/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1983/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1984/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1985/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1986/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1987/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1988/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1989/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1990/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1991/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1992/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1993/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1994/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1995/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1996/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1997/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1998/1999 | Train: 0.015742 | Test: 0.051225 
+Epoch 1999/1999 | Train: 0.015742 | Test: 0.051225 
