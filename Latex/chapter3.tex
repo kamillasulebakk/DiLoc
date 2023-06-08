@@ -1,15 +1,220 @@
 \documentclass[a4paper, UKenglish, 11pt]{uiomaster}
 \usepackage{lipsum}
 \usepackage[subpreambles=true]{standalone}
+\usepackage{graphicx}
 
 
 \begin{document}
 \chapter{EEG inverse problem: Machine Learning approaches}
 Machine learning is a field concerned with constructing computer programs that learn from experience, where the utialization of data improves computer performance across various tasks. Within this broad scope, one notable application lies in the identification of sources generating abnormal electrical brain signals. By employing specific machine learning algorithms, EEG data can be processed and analyzed to accurately localize the sources responsible for the recorded signals. These algorithms learn from the data and uncover patterns that associate the signals with their corresponding sources, effectively solving the EEG inverse problem. In this chapter, we introduce the field of machine learning and provide an overview of relevant tequniqes for solving our specific EEG inverse problem and its wider implications.
 
-
 \section{Machine Learning and Neural Networks}
-The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes.
+% Include bias variance
+% Include SGD, momentum
+% Training and test data
+
+"Machine Learning is a subfield of artificial intelligence with the goal of developing algorithms capable of learning from
+data automatically" \cite{mehta2019high}. The typical machine learning (ML) problems are addressed using the same three elements. The first element is the dataset $\mathcal{D} = (\textbf{X}, \textbf{y})$ where $\textbf{X}$ commonly is refered to as the design matrix, and consists of independent variables, and $\textbf{y}$ is a vector consisting of dependent variables. Next, we have the model itself, $f(\textbf{x}; \boldsymbol{\theta})$. The ML model can be seen as a function used to predict an output from a vector of input variables, i.e. $f : \textbf{x} \rightarrow y$ of the parameters $\boldsymbol{\theta}$. Finally, the third element, allows us to evaluate how well the model performs on the obervations $\textbf{y}$. This element is known as the cost funtion $\mathcal{C}(\textbf{y}, f(\textbf{X}); \boldsymbol{\theta})$.
+
+\subsection{Fitting a Machine Learning Model}
+The first step in "fitting" a machine learning model, is to randomly split the dataset $\mathcal{D}$ into train and test sets. This is done in order to make a model compativle with multiple data sets. The size of each set commonly depend on the size of the data set avaible, however a rule of thumb is that the majority of the data are partitioned into the trainng set (e.g., 80$\%$) with the remainder going into the test set \cite{mehta2019high}.
+
+When using the expression "fitting a model" one commonly refer to finding the value of $\boldsymbol{\theta}$ that minimizes a chosen cost function, employing data from the training set. One commonly used cost funtion is the squared error, in which can be written as follows:
+
+\begin{equation}
+\text{MSE}(\boldsymbol{\theta}) = \frac{1}{n}
+\sum_{i=0}^{n-1}(y_i-\tilde{y}_i)^2 ,
+\label{eq:MSE}
+%MSE(\textbf{y},\mathbf{\tilde{y}}) =
+\end{equation}
+
+where $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ denotes the model parametes, $\tilde{y}_i$ represents the predicted value and $y_i$ is the corresponding true value.
+
+A general expression for any type of cost function can be formulated as follows:
+
+\begin{equation}
+C(\theta) = \Sigma^n_{i=0}c_i(\textbf{x}_i, \theta)
+\end{equation}
+
+In this expression, $c_i(\textbf{x}_i, \theta)$ represents the cost associated with the $i$-th data point, where $\textbf{x}_i$ represents the input data and $\theta$ denotes the parameter vector. This notation emphasizes the summation over all data points from 1 to $n$, where each data point contributes its own cost to the overall cost function.
+
+In order to minimize the cost function and find the optimal values for the model parameters, $\boldsymbol{\theta}$, an optimization alorithm is typically employed. One widely used optimization algorithm is gradient descent, which iteratively updates the parameters based on the negative gradient of the cost function.
+
+\subsection {Gradient Descent and Its Variants}
+
+Gradient Descent (GD) is an iterative optimization algorithm used to locate a local minima of a differentiable function. The core concept of the algorithm is based on the observation that a function $F(\textbf{x})$ will decrease most rapidly if we repeatedly move in one direction opposite to the negative gradient of the function at a given point $\textbf{w}$, $-\nabla F(\textbf{a})$. This means that if
+
+\begin{equation}
+\textbf{w}_{n+1} = \textbf{w}_n - \eta\nabla F(\textbf{w}_n)
+\end{equation}
+
+for a sufficiently small learning rate $\eta$, we are always moving towars a minimum, since $F(\textbf(w)_n) \ge F(\textbf(w)_{n+1})$ \cite{wiki-gradient-descent}. After each update, the gradient is recalculated for the updated weight vector $\textbf{w}$, and the process is repeated \cite{bishop2006pattern}. Based on this observation, the iterative process begins with an initial guess $x_0$ for a local minimum of the function $F$. It then generates a sequence $\textbf{x}_0, \textbf{x}_1, \textbf{x}_2, ..., \textbf{x}_n$ such that each element in the sequence is upated according to the rule:
+
+\begin{equation}
+\textbf{x}_{n+1} = \textbf{x}_{n} - \eta_n\nabla F(\textbf{x}_n), n \ge 0,
+\end{equation}
+
+where $\eta_n \ge 0$. The sequence forms what we call a monotonically decreasing sequence:
+
+\begin{equation}
+F(\textbf{x}_0) \ge F(\textbf{x}_1) \ge F(\textbf{x}_2) \ge ... \ge F(\textbf{x}_n)
+\end{equation}
+
+Hence, with this iterative process, it is hoped that the sequence $(\textbf{x}_n)$ converges to the desired local minimum \cite{wiki-gradient-descent}.
+
+However, it is important to note that the error function in gradient descent is computed based on the training set, so that each step requires that the entire training set, reffered to as the \emph{batch}, is processed in order to evaluate the new gradient. In that sense, gradient descent is generally considered a suboptimal algorithm. This perception aligns with the algorithms sensitivity to the initial condition, $\textbf{w}_0$, and the choice of the learning rate $\eta$. The sensiticity to initial conditions can be explained by the fact that we to a large extent most often deal with high-dimensional, non-convex cost functions with numerous local minima - where the risk of getting stuck in local minimums if the initial guess is not accurate. Additionally, guessing on a too large learning rate may result in overshooting the global minimum, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum point, thereby increasing computational time. Stochastic gradient descent, however, is a version of gradient descent that has provided useful in practise for training machine learning algorithms on large data sets \cite{bishop2006pattern}.
+
+\subsubsection{Stochastic Gradient Descent}
+The method of Stochastic Gradient Descent (SGD) allows us to compute the gradient by randomly selecting subsets of the data at each iteration, rather than using the entire dataset \cite{bishop2006pattern}. The update can be written as:
+
+\begin{equation}
+\textbf{w}_{\tau+1} = \textbf{w}_{\tau} - \eta\nabla F_n(\textbf{w}_\tau)
+\end{equation}
+
+These smaller subsets taken from the entire dataset are commonly reffered to as mini-batches. In other words, SGD is just like regular GD, except it only looks at one mini-batch for each step. Introducing fluctuation by only taking the gradient on a subset of the data, is beneficial as it enables the algorithm to jump to a new and potentially better local minima, rather that getting stuck in a local minimum point.
+
+\subsubsection{Stochastic Gradient Descent with Momentum}
+Splitting the dataset into mini-batches, as done with SGD, naturally reduces the calculation time. However, adding \emph{momentum}, to the algorithm, not only leads to faster converging, due to stronger acceleration of the gradient vectors in the relevant directions, but also improves the algorithms sensitivity to initial guess of the learning rate $\eta$. The momentum can be understood as a memory of the direction of the movement in parameter space, which is done by adding a fraction $\gamma$ of the weight vector of the past time step to the current weight vector:
+
+\begin{equation}
+\textbf{v}_{\tau} = \gamma\textbf{v}_{\tau-1} - \eta\nabla F_n(\textbf{w}_{\tau})
+\end{equation}
+
+\begin{equation}
+\textbf{w}_{\tau} = \textbf{w}_{\tau-1} + \textbf{v}_{\tau}
+\end{equation}
+
+Here, $\textbf{w}{\tau}$ represents the updated weight vector at iteration $\tau$, $\textbf{w}_{\tau-1}$ is the previous weight vector, $\textbf{v}_{\tau}$ is the updated momentum vector at iteration $\tau$, $\gamma$ is the momentum coefficient, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}_{\tau})$ is the gradient of the cost function $F_n$ computed on the mini-batch.
+
+% A general expression for any type of cost function can be formulated as follows:
+%
+% \begin{equation}
+% C(\theta) = \Sigma^n_{i=0}c_i(\textbf{x}_i, \theta)
+% \end{equation}
+%
+% In this expression, $c_i(\textbf{x}_i, \theta)$ represents the cost associated with the $i$-th data point, where $\textbf{x}_i$ represents the input data and $\theta$ denotes the parameter vector. This notation emphasizes the summation over all data points from 1 to $n$, where each data point contributes its own cost to the overall cost function.
+%
+% From the general expression it falls out that the total gradient can be computed as a sum over i gradients:
+%
+% \begin{equation}
+% \nabla_{\theta}C(\theta) = \Sigma^n_{i=0}\nabla_{\theta}c_i(\textbf{x}_i \theta).
+% \end{equation}
+
+%When the mean squared error (MSE) is zero, it indicates that the predicted values $\tilde{y}_i$ match the true values $y_i$ with perfect accuracy. This level of accuracy is ideal, but typically not attainable in practice.
+%Having a design matrix $\textbf{X}$ of size $N \cross p$, where N refers to the total number of samples, and $p$ is the number of features for each sample, we can denote the
+
+
+
+\subsection{Neural Networks}
+Neural networks are a distinct class of nonlinear machine learning models capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimics the way bilogical neurons trasmit signals, with interconnected nodes known as neurons that communicate through mathematical functions across layers. The layers in neural networks contain an arbitraty number of neurons, where each connection is represented by a weight variable.
+
+The behaviour of the human brain has inspired the following simple mathematical model for an artificial neuron:
+
+\begin{equation}
+  a = f \left( \Sigma_{i=1}^n w_ix_i \right) ) = f(z)
+\label{eq:neuron}
+\end{equation}
+
+where $a$ is the output of the neuron, and is the value of the neurons activation function $f$ which has as input a weighted sum of signals $x_i, x_{i+1},...,x_n$ recieved by $n$ other neurons, multiplied with the weights $w_i, w_{i+1}, ..., w_{n}$ and added with bieases $b_i, b_{i+1}, ..., b_{n}$.  A neural network consits of many such neurons stacked into layers, with the output of one layer serving as the input for the next. Typically, the neural networks built up of an input layer, an output layer and layers in between, called hidden layers.
+
+The exact function $a$ varies depending on the type of non-linearity that exists in the activation function applied to the input of each neuron. However, in almost all cases $a$ can be decomposed into a linear operation that weights the relative importance of the various inputs, and a non-linear transformation $f(z)$ which is usually the same for all neurons in the network. As seen in equation \ref{eq:neuron}, the linear tranformation commonly takes the form of a dot product with a set of neuron-specific weights followed by re-centering with a neuron-specific bias. A more convenient notation for the linear transformation $z^{i}$ then goes as follows:
+
+\begin{equation}
+z^{i} = \boldsymbol{w}^{(i)} \cdot \boldsymbol{x} + b^{(i)} = \mathbf{x}^T \cdot \mathbf{w}^{(i)} ,
+\label{eq:linear_transformation}
+\end{equation}
+
+
+where $\mathbf{x} = (1, \boldsymbol{x})$ and $\mathbf{w}^i = (b^{(i)}), \boldsymbol{w}^{(i)})$. The full input-output function can be expressed by incorporating this into the non-linear activation function $a_i$, as expressed below.
+
+\begin{equation}
+a_i(\mathbf{x}) = f_i(z^{(i)}) .
+\label{eq:linear_transformation}
+\end{equation}
+
+In figure \ref{fig:NN_basic_architecture} we have provided the basic architecture of neural networks. Here nodes are depiced as circular shapes, while arrows indicate connections between the nodes.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/basic_architecture.png}
+    \caption{$\textbf{(A)}$ The fundamental structure of neural networks comprises simplified neuron units that perform a linear operation to assign different weights to inputs, followed by a non-linear activation function.$\textbf{(B)}$ These neuron units are organized into layers, where the output of one layer serves as the input to the subsequent layer, forming a hierarchical arrangement.}
+    \label{fig:NN_basic_architecture}
+\end{figure}
+
+
+\subsubsection{Feed Forward Neural Networks}
+The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes \cite{Hjorth-Jensen2022}.
+
+
+\subsubsection{Convolutional Neural Networks}
+Convolutional neural networks (CNNs) is an other variant of FFNNs that have drawen inspiration from the functioning of the visual cortex of the brain. In the visual cortex, individual neurons exhibit selective responses to stimuli within small sub-regions of the visual field, known as receptive fields. This property allows the neurons to effectively exploit the spatially local correlations present in natural images. Mathematically, the response of each neuron can be approximated using a convolution operation \cite{Hjorth-Jensen2022}.
+
+% TODO: check sources
+CNNs mimic the behavior of visual cortex neurons by utializing a specific connectivity pattern between nodes in adjacent layers. Unlike fully contected FFNNs, where each node connects to all nodes in the preceding layer, CNNs  local connectivity. In other words, each node in a convolutional layer is only connected to a subset of nodes in the previous layer. Typically, CNNs consist of multiple convolutional layers that learn local features from the input data. These layers are followed by a fully connected layer that combines the learned local information to produce the final outputs. CNNs find wide applications in image and video recognition tasks \cite{Hjorth-Jensen2022}.
+
+\subsection{Activation functions}
+The output of a neural network will always be a linear function of the inputs. By introducing  non-linearities into the neural networks computations, activation functions makes the network able to capture complex relationships and patterns that cannot be represented by simple linear functions.
+
+Activation functions in neural networks draw inspiration from the behavior of neurons in the brain. Similar to how neurons respond to incoming electrical signals, activation functions determine whether a neuron in a neural network should be activated or not based on the strength of the input. If the input exceeds a certain threshold, the neuron "fires" or becomes activated, otherwise it remains inactive. This behavior mimics the action potential of neurons in the brain, allowing neural networks to model complex decision-making processes and nonlinear relationships in data.
+
+
+\subsubsection{Sigmoid}
+The sigmoid activation function is one of the more biologically plausible as the putput of inactivated neurons returns zero \cite{Jensen2022}. 
+
+\subsubsection{Hyperbolig Tengent}
+
+\subsubsection{Rectified Linear Unit}
+
+
+\subsubsection{Back propagation algorithm}
+The back propagation algorithm is a clever procedure that allows us to change the weights in order to minimize the cost function. At its core, back propagation is simply the ordinary chain rule for partial differentiation, and can be summarized using four equations \cite{mehta2019high}.
+
+The fist equation is the definition of the error $\delta_i^L$ of the $i$-th neuron in the $L$-th layer:
+
+\begin{equation}
+    \delta_i^L = \frac{\partial C}{\partial(z_i^L)},
+\label{eq:I}
+\end{equation}
+which can be thought of as the change to the cost function by increasing $z_i^L$ infinitesimally. By definition, the cost function measures the error of the output compared to the target data. So if the error $\delta_i^L$ is large, that would suggest the cost function hasn't yet reached its minima.
+The second equation is the analogously defined error of neuron $i$ in layer $l$, $\delta_i^l$:
+\begin{equation}
+    \delta_i^l = f'(z_i^l)\frac{\partial C}{\partial(a_i^l)}
+\label{eq:II}
+\end{equation}
+where $f'(z_i^l)$ measures how fast the activation function $f$ is changing at the given activation value.
+Utilizing that $\delta_i^l = \frac{\partial C}{\partial z_j^l}$ we can express the error in terms of the equations for layer $l+1$. This can be done by using the chain rule, and is the third back propagation equation (for full calculations see ...):
+
+\begin{equation}
+    \delta_i^l = \frac{\partial C}{\partial z^l_{i}} = \Sigma \delta_j^{l+1}w_{ij}^{l+1}f'(z_i^l)
+\label{eq:III}
+\end{equation}
+
+Finally the last equation of the four back propagation equations the derivative of the cost function in terms of the weights:
+
+\begin{equation}
+    \frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}
+\label{eq:IV}
+\end{equation}
+
+With these four equations in hand we can now calculate the gradient of the cost function, starting from the output layer, and calculating the error of each layer backwards. We then have a way of adjusting all the weights and biases to better fit the target data. The back propagation algorithm then goes as follows:
+
+\begin{enumerate}
+  \item \textbf{Activation at input layer:} calculate the activations $a_i^1$ of all the neurons in the input layer.
+  \item \textbf{Feed forward:} starting with the first layer, utilize the feed-forward algorithm through \ref{eq:FFNN} to compute $z^{l}$ and $a^{l}$ for each subsequent layer.
+  \item \textbf{Error at top layer:} calculate the error of the top layer using equation \ref{eq:I}. This requires to know the expression for the derivative of both the cost function $C(\boldsymbol{W}) = C(\boldsymbol{a}^L)$ and the activation function $f(z)$.
+  \item \textbf{"Backpropagate" the error:} use equation \ref{eq:III} to propagate the error backwards and calculate $\delta_j^l$ for all layers.
+  \item \textbf{Calculate gradient:} use equation \ref{eq:II} and \ref{eq:IV} to calculate $\frac{\partial C}{\partial z^l_{i}}$ and $\frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}$. \newline
+  \item \textbf{Update weights and biases:} \\[2pt] $w^l_{jk}=w^l_{jk}-\eta\delta^l_ja^{l-1}_k$ \\[2pt] $b_j^l = b_j^l - \eta \delta_j^l$
+\end{enumerate}
+
+
+
+
+
+
+
+
+
 
 % notethis
 Computational neuroscience is a field that aims to understand the principles underlying information processing in the brain using mathematical and computational tools. The inverse problem in EEG, which involves estimating the location and strength of electrical sources in the brain based on measurements of electrical activity on the scalp, is a key challenge in computational neuroscience. Machine learning techniques, including feedforward neural networks, have been used to address this problem by learning to map the measured EEG signals to estimates of the underlying electrical sources in the brain.
@@ -142,7 +347,7 @@ Overall, feedforward neural networks are a powerful machine learning tool that c
 % Implementing momentum to the Stochastic Gradient Descent, helps accelerate gradient vectors in the right directions, which leads to faster converging. In many ways this improves the algorithms sensitivity to the learning rate. The momentum serves as a memory of the direction we are moving in parameter space and can be written as follows:
 %
 % \begin{equation}
-%     \textbf{v}_{t} = \gamma\textbf{v}_{t-1} - \eta_t\nabla F(\boldsymbol{\beta}_t)
+%     \textbf{v}_{t} = \eta\textbf{v}_{t-1} - \eta_t\nabla F(\boldsymbol{\beta}_t)
 %     \label{eq:GDM}
 % \end{equation}
 %
@@ -151,7 +356,7 @@ Overall, feedforward neural networks are a powerful machine learning tool that c
 %     \label{eq:GDM_beta}
 % \end{equation}
 %
-% where the parameter $\gamma$ represents the momentum and must be between 0 and 1. The momentum term $\gamma$ is usually set to 0.9 or a similar value \cite{100}. We used $\gamma = 0.9$. We also set the initial "velocity" to $v=0$.
+% where the parameter $\eta$ represents the momentum and must be between 0 and 1. The momentum term $\eta$ is usually set to 0.9 or a similar value \cite{100}. We used $\eta = 0.9$. We also set the initial "velocity" to $v=0$.
 %
 % \subsubsection*{The momentum SGD algorithm}
 % \begin{algorithmic}[H]
@@ -166,7 +371,7 @@ Overall, feedforward neural networks are a powerful machine learning tool that c
 % \For { $index \in \{m_{minibatches}\}$}
 % \State \textit{Calculate gradients}
 % \State \textit{Find current learning rate}
-% \State \textit{$v = \gamma * v + \eta *$ gradients}
+% \State \textit{$v = \eta * v + \eta *$ gradients}
 % \State \textit{$\beta = \beta - v$}
 %
 % \end{algorithmic}
@@ -223,48 +428,7 @@ Overall, feedforward neural networks are a powerful machine learning tool that c
 % % Here: linear means that each node in the output layer has a linear activation function.
 % % find picture to illustrate
 %
-% \subsubsection*{Back propagation algorithm}
-%
-% The back propagation algorithm is a clever procedure that allows us to change the weights in order to minimize the cost function. At its core, back propagation is simply the ordinary chain rule for partial differentiation, and can be summarized using four equations \cite{96}.
-%
-% The fist equation is the definition of the error $\delta_i^L$ of the $i$-th neuron in the $L$-th layer:
-%
-% \begin{equation}
-%     \delta_i^L = \frac{\partial C}{\partial(z_i^L)},
-% \label{eq:I}
-% \end{equation}
-% which can be thought of as the change to the cost function by increasing $z_i^L$ infinitesimally. By definition, the cost function measures the error of the output compared to the target data. So if the error $\delta_i^L$ is large, that would suggest the cost function hasn't yet reached its minima.
-% The second equation is the analogously defined error of neuron $i$ in layer $l$, $\delta_i^l$:
-% \begin{equation}
-%     \delta_i^l = f'(z_i^l)\frac{\partial C}{\partial(a_i^l)}
-% \label{eq:II}
-% \end{equation}
-% where $f'(z_i^l)$ measures how fast the activation function $f$ is changing at the given activation value.
-% Utilizing that $\delta_i^l = \frac{\partial C}{\partial z_j^l}$ we can express the error in terms of the equations for layer $l+1$. This can be done by using the chain rule, and is the third back propagation equation (for full calculations see \cite{102} under "Final back propagation equation"):
-%
-% \begin{equation}
-%     \delta_i^l = \frac{\partial C}{\partial z^l_{i}} = \Sigma \delta_j^{l+1}w_{ij}^{l+1}f'(z_i^l)
-% \label{eq:III}
-% \end{equation}
-%
-% Finally the last equation of the four back propagation equations the derivative of the cost function in terms of the weights:
-%
-% \begin{equation}
-%     \frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}
-% \label{eq:IV}
-% \end{equation}
-%
-% With these four equations in hand we can now calculate the gradient of the cost function, starting from the output layer, and calculating the error of each layer backwards. We then have a way of adjusting all the weights and biases to better fit the target data. The back propagation algorithm then goes as follows:
-%
-% \begin{enumerate}
-%   \item \textbf{Activation at input layer:} calculate the activations $a_i^1$ of all the neurons in the input layer.
-%   \item \textbf{Feed forward:} starting with the first layer, utilize the feed-forward algorithm through \ref{eq:FFNN} to compute $z^{l}$ and $a^{l}$ for each subsequent layer.
-%   \item \textbf{Error at top layer:} calculate the error of the top layer using equation \ref{eq:I}. This requires to know the expression for the derivative of both the cost function $C(\boldsymbol{W}) = C(\boldsymbol{a}^L)$ and the activation function $f(z)$.
-%   \item \textbf{"Backpropagate" the error:} use equation \ref{eq:III} to propagate the error backwards and calculate $\delta_j^l$ for all layers.
-%   \item \textbf{Calculate gradient:} use equation \ref{eq:II} and \ref{eq:IV} to calculate $\frac{\partial C}{\partial z^l_{i}}$ and $\frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}$. \newline
-%   \item \textbf{Update weights and biases:} \\[2pt] $w^l_{jk}=w^l_{jk}-\eta\delta^l_ja^{l-1}_k$ \\[2pt] $b_j^l = b_j^l - \eta \delta_j^l$
-% \end{enumerate}
-%
+
 % \subsubsection*{Structure of our neural network}
 %
 % The way we decided to structure our neural network is based on how to handle the design matrix containing the input data used for producing Franke's Function terrain data. We decided to take a slightly different approach to setting up the design matrix compared to in project 1 \cite{97}. Instead of assuming a polynomial of a given complexity as we did there, we now set up the design matrix as shown below in (\ref{eq:design}). This way the columns represent all the $x$ and $y$ values respectively, and each row represent each its own unique combination of the input points. The design matrix then contains all the inputs used for producing the terrain, so by the universal approximation theorem there should then exist a network which should produce Franke's Function terrain. The design matrix then takes the form:
@@ -385,23 +549,6 @@ Overall, feedforward neural networks are a powerful machine learning tool that c
 %     \label{fig:exploding_sigmoid}
 % \end{figure}
 %
-% \subsubsection*{The Xavier and Kaiper/He initialization methods.}
-%
-% From what we have discussed above, it seems that choosing reasonable initial weights and biases in combination with the right activation function is nothing other than a minefield impossible to navigate through. Luckily for us, there are people before us which have found methods to do just this.
-%
-% The first initialization method we will cover is called the Xavier weight initialization and is an approach normally used for Sigmoid as activation function. The challenge faced is to avoid shrinking the variances of the outputs through each layer. The way this is solved is to initialize the weights of each layer uniformly, and as function of the number of input nodes to that layer. The way we then initialize one layer is to draw from the uniformly distributed weights between:
-%
-% \begin{align}
-%     \pm \frac{1}{\sqrt{n_l}},
-% \end{align}
-% where $n_l$ specifies the number of inputs to that layer. As Tanh is pretty similar to the Sigmoid, it's only natural that the weight initialization also is similar, which it is. For initializing the wheights when using Tanh we use a variation of the Xavier initialization called the normalized Xavier initialization. Using this the weights are initialized uniformly distributed between:
-%
-% \begin{align}
-%     \pm \frac{\sqrt{6}}{\sqrt{n_l+n_{l+1}}},
-% \end{align}
-% where $n_{l+1}$ specifies the number of nodes of the outgoing layer.
-%
-% The second initialization method we will cover is called the Kaiming/He initialization and is an initialization method used for the ReLU activation function. Again the challenge is to avoid shrinking variances through each layer. This method exploits that when using ReLU, the ouput of a layer has a standard deviation of approximately $\sqrt{n_l/2}$, where again $n_l$ is the number of inputs to that layer. The idea is then to scale each layer by $\sqrt{n_l/2}$ so that each layer has an average standard deviation of 1. The weights of a given layer are then initialized from a Gaussian distribution with mean zero and standard deviation of $\sqrt{2/n_i}$.
 
 
 \end{document}

@@ -5,7 +5,7 @@ from scipy import interpolate
 from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region
 import utils
 
-def return_simple_dipole(num_samples:int,  num_dipoles: int = 1):
+def return_simple_dipole(num_samples:int, num_dipoles: int = 1):
     """
     Produce eeg data from single dipole moment for num_samples
 
@@ -13,9 +13,8 @@ def return_simple_dipole(num_samples:int,  num_dipoles: int = 1):
         num_samples : int
             The number of samples/patients
 
-        interpolation : bool
-            "True" if one wants to interpolate eeg data into 2d matrix
-            (for use in CCNs), "False" if not
+        num_dipoles : int
+            The number of desired diples
 
     returns:
         eeg : numpy array of floats, size (num_samples, 231)
@@ -167,17 +166,18 @@ def return_dipole_area(num_samples: int, radii_range: int = 20):
 def calculate_eeg(nyhead, A: int = 1.0):
     """
     Calculates the eeg signal from the dipole population
+
     returns:
         eeg_i : array of length (231)
             Combined eeg signal from the dipole population for a single patient
     """
     M = nyhead.get_transformation_matrix()
     # Dipole oriented in depth direction in the cortex
-    p = np.array(([0.0], [0.0], [A])) * 1E7 # [nA* u m]
+    p = np.array(([0.0], [0.0], [A])) * 1E7 # [nA* mu m]
     # Rotates the direction of the dipole moment so that it is normal to the cerebral cortex
     p = nyhead.rotate_dipole_to_surface_normal(p)
     # Generates the EEG signal that belongs to the dipole moment
-    eeg_i = M @ p * 1E3 # [mV] -> uV unit conversion (eeg_i between 10 og 100)
+    eeg_i = M @ p * 1E3 # [mV] -> muV unit conversion (eeg_i between 10 og 100)
 
     return eeg_i
 
