@@ -28,7 +28,7 @@ def plot_MAE_error(mse, dipole_locs, name):
 
 
 # x, y, z - coordinates
-model = torch.load('trained_models/simple_dipole_lr0.001_l1_penalty_300_50000.pt')
+model = torch.load('trained_models/TEST_simple_dipole_lr0.001_l1_penalty_300_50000.pt')
 
 nyhead = NYHeadModel()
 

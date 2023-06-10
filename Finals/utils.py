@@ -85,7 +85,7 @@ def xz_plane_idxs(nyhead, xz_plane_idxs):
 
     return eeg_list, x_pred_list, y_pred_list, z_pred_list
 
-"""
+
 def custom_loss(y_true, y_pred):
     eeg, target = load_data.load_data_files(10000, 'dipole_area', '1d', 1)
 
@@ -110,35 +110,16 @@ def custom_loss(y_true, y_pred):
     w_r = 1 / (r_max - r_min)
     w_a = 1 / (a_max - a_min)
 
-    # loss = (w_x * (x_pred - x_true)**2 + w_y * (y_pred - y_true)**2 + w_z * (z_pred - z_true)**2
-    #    + w_r * (radius_pred - radius_true)**2 + w_a * (amplitude_pred - amplitude_true)**2)
-
     # Compute the total loss as a weighted sum of the individual losses
     total_loss = w_x * x_loss + w_y * y_loss + w_z * z_loss + w_r * radius_loss + w_a * amplitude_loss
-    # total_loss = 0.2 * x_loss + 0.2 * y_loss + 0.2 * z_loss + 0.2 * radius_loss + 0.2 * amplitude_loss
-
-    print(x_max)
-    print(x_min)
-    print(a_max)
-    print(a_min)
-    print(r_max)
-    print(r_min)
-
-
-    print(w_x)
-    print(w_y)
-    print(w_z)
-    print(w_r)
-    print(w_a)
-    input()
 
     return total_loss
-"""
 
-def custom_loss(Y_true, Y_pred, N_dipoles):
 
-    eeg, target = load_data.load_data_files(10000, 'multiple_dipoles', '1d', N_dipoles)
-    target = target.T.reshape(10000, 4*N_dipoles)
+def custom_loss_dipoles_w_amplitudes(Y_true, Y_pred, N_dipoles):
+
+    eeg, target = load_data.load_data_files(10000, 'dipoles_w_amplitudes', '1d', N_dipoles)
+    # target = target.T.reshape(10000, 4*N_dipoles)
 
     total_loss = 0
 

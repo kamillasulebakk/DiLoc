@@ -54,7 +54,7 @@ class EEGDataset(torch.utils.data.Dataset):
         if determine_area:
             name = 'dipole_area'
         else:
-            name = 'multiple_dipoles'
+            name = 'dipoles_w_amplitudes'
 
         eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
 
@@ -98,12 +98,12 @@ class EEGDataset(torch.utils.data.Dataset):
         return self.eeg.shape[0]
 
 
-def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
+def train_epoch(data_loader_train, optimizer, net, criterion):
     losses = np.zeros(len(data_loader_train))
     for idx, (signal, target_train) in enumerate(data_loader_train):
         optimizer.zero_grad()
         pred = net(signal)
-        loss = criterion(pred, target_train, N_dipoles)
+        loss = criterion(pred, target_train)
         # l1_lambda = 0.00001
 
         #TODO: fix this list -> tensor hack
@@ -119,12 +119,12 @@ def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
     return mean_loss
 
 
-def test_epoch(data_loader_test, net, criterion, N_dipoles, scheduler):
+def test_epoch(data_loader_test, net, criterion, scheduler):
     losses = np.zeros(len(data_loader_test))
     with torch.no_grad():
         for idx, (signal, target_test) in enumerate(data_loader_test):
             pred = net(signal)
-            loss = criterion(pred, target_test, N_dipoles)
+            loss = criterion(pred, target_test)
             losses[idx] = loss.item()
         mean_loss = np.mean(losses)
 
@@ -153,7 +153,6 @@ def main(
     print(msg)
     print(f'{N_dipoles} dipole(s) and {noise_pct} % noise for {N_epochs} epochs.\n')
 
-    # batch_size = 30
     batch_size = 64
 
 
@@ -172,21 +171,13 @@ def main(
     )
 
     criterion = custom_loss
-    # criterion = nn.L1Loss()
     # criterion = nn.MSELoss()
 
-
-    # lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
-    # lr = 0.001 # Works best for population of dipoles, with amplitude and radii
     lr = 1.5
     momentum = 0.35
     weight_decay = 0.1
-    # weight_decay > 0 --> l2/ridge penalty
 
-    save_file_name: str = f'{N_samples}_11may_MSE_area_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
-    # save_file_name: str = f'adam'
-    # lr = 0.001
-
+    save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
 
     optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
     # optimizer = optim.Adam(net.parameters(), lr)
@@ -221,9 +212,9 @@ def main(
     status_line = 'Epoch {:4d}/{:4d} | Train: {:6.10f} | Test: {:6.10f} \n'
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(
-            data_loader_train, optimizer, net, criterion, N_dipoles)
+            data_loader_train, optimizer, net, criterion)
         test_loss[epoch] = test_epoch(
-            data_loader_test, net, criterion, N_dipoles, scheduler)
+            data_loader_test, net, criterion, scheduler)
 
         line = status_line.format(
             epoch, N_epochs - 1, train_loss[epoch], test_loss[epoch]
@@ -292,8 +283,8 @@ def main(
 if __name__ == '__main__':
     main(
         N_samples=50000,
-        N_dipoles=2,
-        determine_area=False,
+        N_dipoles=1,
+        determine_area=True,
         N_epochs=500,
         noise_pct=10,
         log_dir='results'

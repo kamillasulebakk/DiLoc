@@ -31,7 +31,7 @@ class Net(nn.Module):
             self.fc8 = nn.Linear(32, 5*N_dipoles)
         else:
             self.fc8 = nn.Linear(32, 4*N_dipoles)
-        self.sigmoid = nn.Sigmoid()
+        # self.sigmoid = nn.Sigmoid()
 
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
@@ -41,7 +41,7 @@ class Net(nn.Module):
         x = torch.relu(self.fc5(x))
         x = torch.relu(self.fc6(x))
         x = torch.relu(self.fc7(x))
-        x = self.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
+        x = (self.fc8(x))
 
         return x
 
@@ -54,7 +54,7 @@ class EEGDataset(torch.utils.data.Dataset):
         if determine_area:
             name = 'dipole_area'
         else:
-            name = 'multiple_dipoles'
+            name = 'dipoles_w_amplitudes'
 
         eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
 
@@ -73,8 +73,6 @@ class EEGDataset(torch.utils.data.Dataset):
 
         eeg = numpy_to_torch(eeg)
         target = numpy_to_torch(target)
-        print(np.shape(target))
-        input()
 
         self.eeg, self.target = self.split_data(eeg, target, train_test, noise_pct)
 
@@ -190,9 +188,9 @@ def main(
     # lr = 0.001 # Works best for population of dipoles, with amplitude and radii
 
     # first try
-    lr = 0.25
-    momentum = 0.35
-    weight_decay = 0.1
+    # lr = 0.25
+    # momentum = 0.35
+    # weight_decay = 0.1
 
     # second try
     lr = 0.1
@@ -201,7 +199,7 @@ def main(
 
     # weight_decay > 0 --> l2/ridge penalty
 
-    save_file_name: str = f'criterion_MSE_{N_samples}_11may_MSE_area_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
+    save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
     # save_file_name: str = f'adam'
     # lr = 0.001
 

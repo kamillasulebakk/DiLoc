@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \documentclass[a4paper, UKenglish, 11pt]{uiomaster}
 \usepackage{lipsum}
 \usepackage[subpreambles=true]{standalone}
@@ -5,10 +6,13 @@
 
 
 \begin{document}
-\chapter{EEG inverse problem: Machine Learning approaches}
+% Maybe this should be title for next chapter?
+% \chapter{EEG inverse problem: Machine Learning approaches}
+% \chapter{Machine Learning and its Basics}
+\chapter{Machine Learning and Neural Networks}
 Machine learning is a field concerned with constructing computer programs that learn from experience, where the utialization of data improves computer performance across various tasks. Within this broad scope, one notable application lies in the identification of sources generating abnormal electrical brain signals. By employing specific machine learning algorithms, EEG data can be processed and analyzed to accurately localize the sources responsible for the recorded signals. These algorithms learn from the data and uncover patterns that associate the signals with their corresponding sources, effectively solving the EEG inverse problem. In this chapter, we introduce the field of machine learning and provide an overview of relevant tequniqes for solving our specific EEG inverse problem and its wider implications.
 
-\section{Machine Learning and Neural Networks}
+\section{Machine Learning and its Fundational Principles}
 % Include bias variance
 % Include SGD, momentum
 % Training and test data
@@ -17,7 +21,7 @@ Machine learning is a field concerned with constructing computer programs that l
 data automatically" \cite{mehta2019high}. The typical machine learning (ML) problems are addressed using the same three elements. The first element is the dataset $\mathcal{D} = (\textbf{X}, \textbf{y})$ where $\textbf{X}$ commonly is refered to as the design matrix, and consists of independent variables, and $\textbf{y}$ is a vector consisting of dependent variables. Next, we have the model itself, $f(\textbf{x}; \boldsymbol{\theta})$. The ML model can be seen as a function used to predict an output from a vector of input variables, i.e. $f : \textbf{x} \rightarrow y$ of the parameters $\boldsymbol{\theta}$. Finally, the third element, allows us to evaluate how well the model performs on the obervations $\textbf{y}$. This element is known as the cost funtion $\mathcal{C}(\textbf{y}, f(\textbf{X}); \boldsymbol{\theta})$.
 
 \subsection{Fitting a Machine Learning Model}
-The first step in "fitting" a machine learning model, is to randomly split the dataset $\mathcal{D}$ into train and test sets. This is done in order to make a model compativle with multiple data sets. The size of each set commonly depend on the size of the data set avaible, however a rule of thumb is that the majority of the data are partitioned into the trainng set (e.g., 80$\%$) with the remainder going into the test set \cite{mehta2019high}.
+The first step in "fitting" a machine learning model, is to randomly split the dataset $\mathcal{D}$ into train and test sets. This is done in order to make a model compatible with multiple data sets. The size of each set commonly depend on the size of the data set avaible, however a rule of thumb is that the majority of the data are partitioned into the trainng set (e.g., 80$\%$) with the remainder going into the test set \cite{mehta2019high}.
 
 When using the expression "fitting a model" one commonly refer to finding the value of $\boldsymbol{\theta}$ that minimizes a chosen cost function, employing data from the training set. One commonly used cost funtion is the squared error, in which can be written as follows:
 
@@ -62,7 +66,7 @@ F(\textbf{x}_0) \ge F(\textbf{x}_1) \ge F(\textbf{x}_2) \ge ... \ge F(\textbf{x}
 
 Hence, with this iterative process, it is hoped that the sequence $(\textbf{x}_n)$ converges to the desired local minimum \cite{wiki-gradient-descent}.
 
-However, it is important to note that the error function in gradient descent is computed based on the training set, so that each step requires that the entire training set, reffered to as the \emph{batch}, is processed in order to evaluate the new gradient. In that sense, gradient descent is generally considered a suboptimal algorithm. This perception aligns with the algorithms sensitivity to the initial condition, $\textbf{w}_0$, and the choice of the learning rate $\eta$. The sensiticity to initial conditions can be explained by the fact that we to a large extent most often deal with high-dimensional, non-convex cost functions with numerous local minima - where the risk of getting stuck in local minimums if the initial guess is not accurate. Additionally, guessing on a too large learning rate may result in overshooting the global minimum, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum point, thereby increasing computational time. Stochastic gradient descent, however, is a version of gradient descent that has provided useful in practise for training machine learning algorithms on large data sets \cite{bishop2006pattern}.
+However, it is important to note that the error function in gradient descent is computed based on the training set, so that each step requires that the entire training set, reffered to as the \emph{batch}, is processed in order to evaluate the new gradient. In that sense, gradient descent is generally considered a suboptimal algorithm. This perception aligns with the algorithms sensitivity to the initial condition, $\textbf{w}_0$, and the choice of the learning rate $\eta$. The sensitivity to initial conditions can be explained by the fact that we to a large extent most often deal with high-dimensional, non-convex cost functions with numerous local minima - where the risk of getting stuck in local minimums if the initial guess is not accurate. Additionally, guessing on a too large learning rate may result in overshooting the global minimum, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum point, thereby increasing computational time. Stochastic gradient descent, however, is a version of gradient descent that has provided useful in practise for training machine learning algorithms on large data sets \cite{bishop2006pattern}.
 
 \subsubsection{Stochastic Gradient Descent}
 The method of Stochastic Gradient Descent (SGD) allows us to compute the gradient by randomly selecting subsets of the data at each iteration, rather than using the entire dataset \cite{bishop2006pattern}. The update can be written as:
@@ -74,6 +78,7 @@ The method of Stochastic Gradient Descent (SGD) allows us to compute the gradien
 These smaller subsets taken from the entire dataset are commonly reffered to as mini-batches. In other words, SGD is just like regular GD, except it only looks at one mini-batch for each step. Introducing fluctuation by only taking the gradient on a subset of the data, is beneficial as it enables the algorithm to jump to a new and potentially better local minima, rather that getting stuck in a local minimum point.
 
 \subsubsection{Stochastic Gradient Descent with Momentum}
+% TODO: explain why. some more figrues
 Splitting the dataset into mini-batches, as done with SGD, naturally reduces the calculation time. However, adding \emph{momentum}, to the algorithm, not only leads to faster converging, due to stronger acceleration of the gradient vectors in the relevant directions, but also improves the algorithms sensitivity to initial guess of the learning rate $\eta$. The momentum can be understood as a memory of the direction of the movement in parameter space, which is done by adding a fraction $\gamma$ of the weight vector of the past time step to the current weight vector:
 
 \begin{equation}
@@ -85,6 +90,8 @@ Splitting the dataset into mini-batches, as done with SGD, naturally reduces the
 \end{equation}
 
 Here, $\textbf{w}{\tau}$ represents the updated weight vector at iteration $\tau$, $\textbf{w}_{\tau-1}$ is the previous weight vector, $\textbf{v}_{\tau}$ is the updated momentum vector at iteration $\tau$, $\gamma$ is the momentum coefficient, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}_{\tau})$ is the gradient of the cost function $F_n$ computed on the mini-batch.
+
+
 
 % A general expression for any type of cost function can be formulated as follows:
 %
@@ -105,7 +112,7 @@ Here, $\textbf{w}{\tau}$ represents the updated weight vector at iteration $\tau
 
 
 
-\subsection{Neural Networks}
+\section{Neural Networks}
 Neural networks are a distinct class of nonlinear machine learning models capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimics the way bilogical neurons trasmit signals, with interconnected nodes known as neurons that communicate through mathematical functions across layers. The layers in neural networks contain an arbitraty number of neurons, where each connection is represented by a weight variable.
 
 The behaviour of the human brain has inspired the following simple mathematical model for an artificial neuron:
@@ -115,7 +122,7 @@ The behaviour of the human brain has inspired the following simple mathematical 
 \label{eq:neuron}
 \end{equation}
 
-where $a$ is the output of the neuron, and is the value of the neurons activation function $f$ which has as input a weighted sum of signals $x_i, x_{i+1},...,x_n$ recieved by $n$ other neurons, multiplied with the weights $w_i, w_{i+1}, ..., w_{n}$ and added with bieases $b_i, b_{i+1}, ..., b_{n}$.  A neural network consits of many such neurons stacked into layers, with the output of one layer serving as the input for the next. Typically, the neural networks built up of an input layer, an output layer and layers in between, called hidden layers.
+where $a$ is the output of the neuron, and is the value of the neurons activation function $f$ which has as input a weighted sum of signals $x_i, x_{i+1},...,x_n$ recieved by $n$ other neurons, multiplied with the weights $w_i, w_{i+1}, ..., w_{n}$ and added with bieases $b_i, b_{i+1}, ..., b_{n}$.  A neural network consits of many such neurons stacked into layers, with the output of one layer serving as the input for the next. Typically, the neural networks are built up of an input layer, an output layer and layers in between, called hidden layers.
 
 The exact function $a$ varies depending on the type of non-linearity that exists in the activation function applied to the input of each neuron. However, in almost all cases $a$ can be decomposed into a linear operation that weights the relative importance of the various inputs, and a non-linear transformation $f(z)$ which is usually the same for all neurons in the network. As seen in equation \ref{eq:neuron}, the linear tranformation commonly takes the form of a dot product with a set of neuron-specific weights followed by re-centering with a neuron-specific bias. A more convenient notation for the linear transformation $z^{i}$ then goes as follows:
 
@@ -141,6 +148,71 @@ In figure \ref{fig:NN_basic_architecture} we have provided the basic architectur
     \label{fig:NN_basic_architecture}
 \end{figure}
 
+\subsection{Activation functions}
+Without activation functions, a neural network would essentially be a linear model, capable only of representing linear relationships between inputs and outputs. While the linear transformations occurs within individual neurons through the weighted sum of inputs, the introduction of non-linear activation functions allows the networks to capture complex relationships and patterns that cannot. With other words, activcation functions are important components of neural networks, that help the network learn by making sense of non-linear and complex mappings between input- and corresponding output values.
+
+Activation functions in neural networks draw inspiration from the behavior of neurons in the brain. Similar to how neurons respond to incoming electrical signals, activation functions determine whether a neuron in a neural network should be activated or not based on the strength of the input. If the input exceeds a certain threshold, the neuron "fires" or becomes activated, otherwise it remains inactive \cite{analyticsvidhya_activationfunctions}. This behavior mimics the action potential of neurons in the brain, allowing neural networks to model complex decision-making processes and nonlinear relationships in data.
+
+
+\subsubsection{Sigmoid}
+The sigmoid activation function is one of the more biologically plausible as the output of inactivated neurons returns zero \cite{Jensen2022}. More precised it is a logistic mathematic function meaning that it maps its input to a value between 0 and 1:
+
+\begin{equation}
+  f(x) = \frac{1}{1 + e^{-x}}
+\label{eq:Sigmoid}
+\end{equation}
+
+This function is differentiable everywhere
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/Sigmoid.pdf}
+    \caption{Sigmoid activation function.}
+    \label{fig:sigmoid}
+\end{figure}
+
+\subsubsection{Hyperbolic Tengent}
+The hyperbolic tangent (Tanh) is similar to the Sigmoid function, as it is continuis and differentiable at all points:
+
+\begin{equation}
+  f(x) = \frac{{e^x - e^{-x}}}{{e^x + e^{-x}}}
+\label{eq:I}
+\end{equation}
+
+
+ However, compared to the sigmoid function, the gradient of Tanh is steeper. Moreover this activation function maps its input to a value ranging between -1 and 1.
+
+Even though Sigmoid has its advantages, it has been shown that the hyperbolic tangent performs better than the sigmoid when approaching complex machine learning problems.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/Tanh.pdf}
+    \caption{Hyperbolig tangent activation function.}
+    \label{fig:Tanh}
+\end{figure}
+
+\subsubsection{Rectified Linear Unit}
+Compared to the Sigmoid and Hyperbolic Tengent function, the Rectified Linear Unit (ReLU) function may perceive somewhat simple. The function can be mathematically defined as:
+
+\begin{equation}
+    f(x) = \begin{cases}
+        x, & \text{if } x > 0 \\
+        0, & \text{otherwise}
+    \end{cases}
+\label{eq:ReLU}
+\end{equation}
+
+From Figure \ref{fig:ReLU} it is apparent that ReLU gives back the input value when the input is above zero, and returns zero when the input is a negative number. This sparse nature of the actiovation function makes it computationally efficient as only a few neurons will be activated at a time.
+
+% Include some of this? However, negative values have a derivative of 0, causing potential dead neurons. Leaky ReLU addresses this issue.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/ReLU.pdf}
+    \caption{ReLU tangent activation function.}
+    \label{fig:ReLU}
+\end{figure}
+
 
 \subsubsection{Feed Forward Neural Networks}
 The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes \cite{Hjorth-Jensen2022}.
@@ -152,22 +224,10 @@ Convolutional neural networks (CNNs) is an other variant of FFNNs that have draw
 % TODO: check sources
 CNNs mimic the behavior of visual cortex neurons by utializing a specific connectivity pattern between nodes in adjacent layers. Unlike fully contected FFNNs, where each node connects to all nodes in the preceding layer, CNNs  local connectivity. In other words, each node in a convolutional layer is only connected to a subset of nodes in the previous layer. Typically, CNNs consist of multiple convolutional layers that learn local features from the input data. These layers are followed by a fully connected layer that combines the learned local information to produce the final outputs. CNNs find wide applications in image and video recognition tasks \cite{Hjorth-Jensen2022}.
 
-\subsection{Activation functions}
-The output of a neural network will always be a linear function of the inputs. By introducing  non-linearities into the neural networks computations, activation functions makes the network able to capture complex relationships and patterns that cannot be represented by simple linear functions.
-
-Activation functions in neural networks draw inspiration from the behavior of neurons in the brain. Similar to how neurons respond to incoming electrical signals, activation functions determine whether a neuron in a neural network should be activated or not based on the strength of the input. If the input exceeds a certain threshold, the neuron "fires" or becomes activated, otherwise it remains inactive. This behavior mimics the action potential of neurons in the brain, allowing neural networks to model complex decision-making processes and nonlinear relationships in data.
-
-
-\subsubsection{Sigmoid}
-The sigmoid activation function is one of the more biologically plausible as the putput of inactivated neurons returns zero \cite{Jensen2022}. 
-
-\subsubsection{Hyperbolig Tengent}
-
-\subsubsection{Rectified Linear Unit}
-
 
 \subsubsection{Back propagation algorithm}
-The back propagation algorithm is a clever procedure that allows us to change the weights in order to minimize the cost function. At its core, back propagation is simply the ordinary chain rule for partial differentiation, and can be summarized using four equations \cite{mehta2019high}.
+The back propagation algorithm is a fundamental tequniqe used in nenural networks in order to adjust the weights for the purpose of minimizing the cost function. To explain the implementation details of this technique, we follow the guidance provided in the book 'A high-bias, low-variance introduction to machine learning for physicists' (Pankaj Mehta, et al., 2019) as it offers a comprehensive treatment of the topic. The back propogation tequniqe leverages the chain rule from calculus to compute gradients for weight adjustments and can be summarized using four equations:
+
 
 The fist equation is the definition of the error $\delta_i^L$ of the $i$-th neuron in the $L$-th layer:
 

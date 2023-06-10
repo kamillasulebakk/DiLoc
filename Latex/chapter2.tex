@@ -13,9 +13,9 @@
 % Point source approximation?
 
 \chapter{Electroencephalograpy}
-Neurons communicate with each other through the use of electical currents. When a neuron receives a signal, it generates an electrical current that propegates along the axon and causes the release of neurotransmitters that diffuse across the gap between the sending and the recieving neuron. If the neurotransmitters are accepted by the receptors on the recieving neuron, a new electrical signal will be generated. This process of electrical communaication between neurons creates electromagnetic fields that can be measured using electroencephalography (EEG).
+Neurons communicate with each other through the use of electical currents. When a neuron receives a signal, it generates an electrical current that propegates along the axon and causes the release of neurotransmitters that diffuse across the gap between the sending and the recieving neuron. If the neurotransmitters are accepted by the receptors on the recieving neuron, a new electrical signal, also known as synaptic input will be generated. This transmission of signals between neurons at specialized junctions are called synaptic inputs. The process of electrical communaication between neurons creates electromagnetic fields that can be measured using electroencephalography (EEG).
 
-Electroencephalography (EEG) is a non-invasive technique that has been used for almost a century to study the electrical potentials in the human brain. It remains one of the most important methods for investigating the brain's activity, with significant applications in both neuroscientific and clinical research \cite{ilmoniemi2019brain}.
+Electroencephalography (EEG) is a non-invasive technique that has been used for almost a century to study the electrical potentials in the human brain. It has remained one of the most important methods for investigating the brain's activity, with significant applications in both neuroscientific and clinical research \cite{ilmoniemi2019brain}.
 
 % Maybe this should appear in introduction to neurosience
 An EEG signal is believed to originate from large numbers of synaptic inputs to populations of geometrically aligned pyramidal neurons \cite{nunez2006electric}.The signal can be understood as a signature of neural activities that are generated from synaptic inputs to cells in the cortex. Synaptic inputs on its side are electrical or chemical signals that are being transmitted from one neuron to another, causing changes in the membrane potential of the neurons. In other words, neurons are specialized to pass signals, and synapses are the structures that make this transmission possible.
@@ -30,12 +30,12 @@ One of the primary uses of EEG is to investigate cognitive processes, diagnose d
 \end{figure}
 
 
-Source localization is a fundamental aspect of EEG signal analysis, with the ultimate aim of accurately identifying the location of neural current sources from EEG data. However, this is a challenging problem due to the inherent ill-posed nature of the inverse problem in electrostatics. This means that there is no unique solution, making it a difficult task to solve. Before digging deeper into the inverse problem, we will first look at how to simulate the electrical activity of the brain as it would be measured by electrodes on the scalp, better known as forward modeling.
+Source localization is a fundamental aspect of EEG signal analysis, with the ultimate aim of accurately identifying the location of neural current sources from EEG data. However, this is a challenging problem due to the inherent ill-posed nature of the inverse problem in electrostatics. This means that there is no unique solution, making it a difficult task to solve. Before digging deeper into the inverse problem, we will first look at how to simulate electrical brain activity and the corresponding EEG signal as it would have been measured by electrodes on the scalp. This method is better known as forward modeling.
 
 \section{Forward modeling of EEG signals}
 To better understand the complexities of the inverse problem and the nuances of source localization in EEG, it is helpful to gain a deeper comprehensionin of forward modeling, involving the simulation of electrical activity of the brain as it would be measured by electrodes on the scalp.
 
-As explained in chapter 1, neural activity generates electric currents in the brain, which in turn create electromagnetic fields. In order to calculate extracellular electric potentials, one can envision the head as a 3D volume conduction, and combine Maxwell's equations with the current conservation law. The Poisson equation for computing extracellular potentials then goes as follows:
+As explained in chapter 1, neural activity generates electric currents in the brain, which in turn create electromagnetic fields. In order to calculate extracellular electric potentials, one can envision the head as a 3D volume conduction, and combine Maxwell's equations with the current conservation law. We then obtain the Poisson equation for computing extracellular potentials:
 
 \begin{equation}
   \nabla \cdot \textbf{J} = \nabla \cdot \left(\sigma \nabla \phi \right)

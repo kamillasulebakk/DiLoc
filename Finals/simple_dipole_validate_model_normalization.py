@@ -3,9 +3,6 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-# from NN_best_architecture import Net
-# from NN import Net
-# from NN_17_feb import Net
 from NN_simple_dipole import Net
 
 
@@ -37,7 +34,7 @@ N_samples = 100
 N_dipoles = 1
 name = 'simple_dipole'
 
-model = torch.load('trained_models/simple_dipole_lr0.001_l1_penalty_300_50000.pt')
+model = torch.load('trained_models/TEST_simple_dipole_lr0.001_l1_penalty_300_50000.pt')
 print('finished loading model')
 
 nyhead = NYHeadModel()

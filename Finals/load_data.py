@@ -5,7 +5,7 @@ from scipy import interpolate
 from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region
 import utils
 
-def load_data_files(num_samples: int, name: str, shape: str = "1d", num_dipoles: int = 2):
+def load_data_files(num_samples: int, name: str, shape: str = "1d", num_dipoles: int = 1):
     """
     Name is either "dipole_area", "dipoles_w_amplitudes" or "simple_dipole"
     Shape is either "1d", "2d" or "interpolated"

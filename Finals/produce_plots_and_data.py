@@ -254,8 +254,8 @@ def prepare_and_save_data(num_samples, name, num_dipoles : int = 1):
 
     elif name == 'dipole_area':
         eeg, target = return_dipole_area(num_samples)
-        np.save(f'data/{name}_eeg_{num_samples}_20mm', eeg)
-        np.save(f'data/{name}_locations_{num_samples}_20mm', target)
+        np.save(f'data/{name}_eeg_{num_samples}_{num_dipoles}', eeg)
+        np.save(f'data/{name}_locations_{num_samples}_{num_dipoles}', target)
 
     print(f'Finished producing data for {name} with {num_dipoles} dipole(s)')
     print(f'and writing mean and std to file.')
@@ -347,7 +347,7 @@ def split_data_set(eeg_filename, target_list_filename, N_dipoles):
     np.save(f'data/validate_{target_list_filename}', pos_list_validate)
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
     # num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
     # num_dipoles = 1
@@ -364,9 +364,20 @@ if __name__ == '__main__':
     # num_dipoles = 1
     # prepare_and_save_data(num_samples, name, num_dipoles)
     # print('Finished')
+    #
+    # eeg_filename = 'dipole_area_eeg_70000_20mm.npy'
+    # pos_list_filename = 'dipole_area_locations_70000_20mm.npy'
+    # split_data_set(eeg_filename, pos_list_filename, 1)
+    # print('Finished')
 
-    eeg_filename = 'dipole_area_eeg_70000_20mm.npy'
-    pos_list_filename = 'dipole_area_locations_70000_20mm.npy'
-    split_data_set(eeg_filename, pos_list_filename, 1)
-    print('Finished')
+    # num_samples = 70_000
+    # name = 'dipoles_w_amplitudes'
+    # num_dipoles = 2
+    # prepare_and_save_data(num_samples, name, num_dipoles)
+    # print('Finished')
+
+    # eeg_filename = 'dipoles_w_amplitudes_eeg_70000_2.npy'
+    # pos_list_filename = 'dipoles_w_amplitudes_locations_70000_2.npy'
+    # split_data_set(eeg_filename, pos_list_filename, 2)
+    # print('Finished')
 

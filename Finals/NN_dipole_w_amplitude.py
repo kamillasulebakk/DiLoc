@@ -8,9 +8,11 @@ import numpy as np
 
 from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
-from utils import numpy_to_torch, normalize, custom_loss
+from utils import numpy_to_torch, normalize, custom_loss_dipoles_w_amplitudes
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 
+
+import torch.nn.init as init
 
 class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False):
@@ -28,15 +30,48 @@ class Net(nn.Module):
         else:
             self.fc6 = nn.Linear(32, 4*N_dipoles)
 
+        self.initialize_weights()
+
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                init.xavier_normal_(m.weight)
+
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
         x = torch.tanh(self.fc2(x))
         x = torch.tanh(self.fc3(x))
         x = torch.tanh(self.fc4(x))
         x = torch.tanh(self.fc5(x))
-        x = self.fc6(x)
+        x = torch.sigmoid(self.fc6(x))
 
         return x
+
+# class Net(nn.Module):
+#     def __init__(self, N_dipoles: int, determine_area: bool = False):
+#         self.determine_area = determine_area
+#         super().__init__()
+#         self.dropout = nn.Dropout(p=0.5)
+#         self.fc1 = nn.Linear(231, 128*4)
+#         self.fc2 = nn.Linear(128*4, 64*4)
+#         self.fc3 = nn.Linear(64*4, 32*4)
+#         self.fc4 = nn.Linear(32*4, 16*4)
+#         self.fc5 = nn.Linear(16*4, 32)
+#
+#         if determine_area:
+#             self.fc6 = nn.Linear(32, 5*N_dipoles)
+#         else:
+#             self.fc6 = nn.Linear(32, 4*N_dipoles)
+#
+#     def forward(self, x: torch.Tensor):
+#         x = F.relu(self.fc1(x))
+#         x = torch.tanh(self.fc2(x))
+#         x = torch.tanh(self.fc3(x))
+#         x = torch.tanh(self.fc4(x))
+#         x = torch.tanh(self.fc5(x))
+#         x = self.fc6(x)
+#
+#         return x
 
 
 class EEGDataset(torch.utils.data.Dataset):
@@ -64,10 +99,8 @@ class EEGDataset(torch.utils.data.Dataset):
         target = target
 
         if determine_area:
-            print('wrong')
             for i in range(np.shape(target)[1]):
                 target[:, i] = normalize(target[:, i])
-
             # normalize target coordinates
             # target[:, 0] = normalize(target[:, 0])
             # target[:, 1] = normalize(target[:, 1])
@@ -114,12 +147,12 @@ class EEGDataset(torch.utils.data.Dataset):
         return self.eeg.shape[0]
 
 
-def train_epoch(data_loader_train, optimizer, net, criterion):
+def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
     losses = np.zeros(len(data_loader_train))
     for idx, (signal, target_train) in enumerate(data_loader_train):
         optimizer.zero_grad()
         pred = net(signal)
-        loss = criterion(pred, target_train)
+        loss = criterion(pred, target_train, N_dipoles)
         l1_lambda = 0.00001
 
         #TODO: fix this list -> tensor hack
@@ -135,12 +168,12 @@ def train_epoch(data_loader_train, optimizer, net, criterion):
     return mean_loss
 
 
-def test_epoch(data_loader_test, net, criterion, scheduler):
+def test_epoch(data_loader_test, net, criterion, N_dipoles, scheduler):
     losses = np.zeros(len(data_loader_test))
     with torch.no_grad():
         for idx, (signal, target_test) in enumerate(data_loader_test):
             pred = net(signal)
-            loss = criterion(pred, target_test)
+            loss = criterion(pred, target_test, N_dipoles)
             losses[idx] = loss.item()
         mean_loss = np.mean(losses)
 
@@ -187,13 +220,13 @@ def main(
     )
 
     criterion = nn.MSELoss()
-    # criterion = custom_loss
+    # criterion = custom_loss_dipoles_w_amplitudes
 
     lr = 0.9 # Works best for 1 dipole, with amplitude (no radi)
     momentum = 1e-4
     weight_decay = 1e-5
 
-    save_file_name: str = f'RIGHT_custom_area_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_bs{batch_size}'
+    save_file_name: str = f'TEST_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_bs{batch_size}'
 
 
     optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
@@ -224,9 +257,9 @@ def main(
     status_line = 'Epoch {:4d}/{:4d} | Train: {:6.6f} | Test: {:6.6f} \n'
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(
-            data_loader_train, optimizer, net, criterion)
+            data_loader_train, optimizer, net, criterion, N_dipoles)
         test_loss[epoch] = test_epoch(
-            data_loader_test, net, criterion, scheduler)
+            data_loader_test, net, criterion, N_dipoles, scheduler)
 
         line = status_line.format(
             epoch, N_epochs - 1, train_loss[epoch], test_loss[epoch]

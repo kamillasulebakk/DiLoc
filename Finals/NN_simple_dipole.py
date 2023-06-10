@@ -19,7 +19,6 @@ class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False, determine_amplitude: bool = False):
         self.determine_area = determine_area
         super().__init__()
-        # self.dropout = nn.Dropout(p=0.5)
         self.fc1 = nn.Linear(231, 180)
         self.fc2 = nn.Linear(180, 120)
         self.fc3 = nn.Linear(120, 84)
@@ -65,13 +64,8 @@ class EEGDataset(torch.utils.data.Dataset):
         if N_dipoles > 1:
             pos_list = np.reshape(pos_list, (N_samples, 3*N_dipoles))
 
-        # if determine_area:
-            # normalize target coordinates
-            # pos_list[:, :-1] = (pos_list[:, :-1] - np.mean(pos_list[:, :-1]))/np.std(pos_list[:, :-1])
-            # normalize target radii
-            # pos_list[:, -1] = (pos_list[:, -1] - np.mean(pos_list[:, -1]))/np.std(pos_list[:, -1])
 
-        pos_list = numpy_to_torch(pos_list).T
+        pos_list = numpy_to_torch(pos_list)
 
         self.eeg, self.pos_list = self.split_data(eeg, pos_list, train_test, noise_pct)
 
@@ -181,7 +175,7 @@ def main(
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    save_file_name = f'simple_dipole_lr{lr}_l1_penalty_{N_epochs}_{N_samples}'
+    save_file_name = f'TEST_simple_dipole_lr{lr}_l1_penalty_{N_epochs}_{N_samples}'
     log_file_name = os.path.join(log_dir, save_file_name + '.txt')
 
     with open(log_file_name, 'w') as f:
