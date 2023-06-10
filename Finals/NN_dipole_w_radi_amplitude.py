@@ -10,8 +10,7 @@ from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
 from utils import numpy_to_torch, normalize, custom_loss
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-import torch.optim as optim
+import torch.nn.init as init
 
 
 class Net(nn.Module):
@@ -31,17 +30,23 @@ class Net(nn.Module):
             self.fc8 = nn.Linear(32, 5*N_dipoles)
         else:
             self.fc8 = nn.Linear(32, 4*N_dipoles)
-        self.sigmoid = nn.Sigmoid()
+
+        self.initialize_weights()
+
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                init.xavier_normal_(m.weight)
 
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
-        x = torch.relu(self.fc3(x))
-        x = torch.relu(self.fc4(x))
-        x = torch.relu(self.fc5(x))
-        x = torch.relu(self.fc6(x))
-        x = torch.relu(self.fc7(x))
-        x = self.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
+        x = torch.tanh(self.fc2(x))
+        x = torch.tanh(self.fc3(x))
+        x = torch.tanh(self.fc4(x))
+        x = torch.tanh(self.fc5(x))
+        x = torch.tanh(self.fc6(x))
+        x = torch.tanh(self.fc7(x))
+        x = torch.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
 
         return x
 
@@ -125,6 +130,12 @@ def test_epoch(data_loader_test, net, criterion, scheduler):
         for idx, (signal, target_test) in enumerate(data_loader_test):
             pred = net(signal)
             loss = criterion(pred, target_test)
+            l1_lambda = 0.00001
+
+            # TODO: fix this list -> tensor hack
+            l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
+
+            loss = loss + l1_lambda * l1_norm
             losses[idx] = loss.item()
         mean_loss = np.mean(losses)
 
@@ -170,12 +181,12 @@ def main(
         shuffle=False,
     )
 
-    criterion = custom_loss
-    # criterion = nn.MSELoss()
+    # r = custom_loss
+    criterion = nn.MSELoss()
 
-    lr = 1.5
-    momentum = 0.35
-    weight_decay = 0.1
+    lr = 0.9
+    momentum = 1e-4
+    weight_decay = 1e-5
 
     save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
 

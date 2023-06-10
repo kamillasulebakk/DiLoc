@@ -30,8 +30,8 @@ def plot_mse_amplitude(amplitude_dict):
 
 # eeg, target = load_data_files(50000, 'dipole_area', num_dipoles=1)
 
-eeg = np.load('data/validate_dipole_area_eeg_70000_20mm.npy')
-target = np.load('data/validate_dipole_area_locations_70000_20mm.npy')
+eeg = np.load('data/validate_dipole_area_eeg_70000.npy')
+target = np.load('data/validate_dipole_area_locations_70000.npy')
 print('finished loading data')
 
 N_samples = 1000

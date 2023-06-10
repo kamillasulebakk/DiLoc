@@ -10,8 +10,6 @@ from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
 from utils import numpy_to_torch, normalize, custom_loss_dipoles_w_amplitudes
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-
 import torch.nn.init as init
 
 class Net(nn.Module):
@@ -147,18 +145,18 @@ class EEGDataset(torch.utils.data.Dataset):
         return self.eeg.shape[0]
 
 
-def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
+def train_epoch(data_loader_train, optimizer, net, criterion):
     losses = np.zeros(len(data_loader_train))
     for idx, (signal, target_train) in enumerate(data_loader_train):
         optimizer.zero_grad()
         pred = net(signal)
-        loss = criterion(pred, target_train, N_dipoles)
-        l1_lambda = 0.00001
+        loss = criterion(pred, target_train)
+        # l1_lambda = 0.00001
 
         #TODO: fix this list -> tensor hack
-        l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
+        # l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
 
-        loss = loss + l1_lambda * l1_norm
+        # loss = loss + l1_lambda * l1_norm
         loss.backward()
         optimizer.step()
         losses[idx] = loss.item()
@@ -168,12 +166,12 @@ def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
     return mean_loss
 
 
-def test_epoch(data_loader_test, net, criterion, N_dipoles, scheduler):
+def test_epoch(data_loader_test, net, criterion, scheduler):
     losses = np.zeros(len(data_loader_test))
     with torch.no_grad():
         for idx, (signal, target_test) in enumerate(data_loader_test):
             pred = net(signal)
-            loss = criterion(pred, target_test, N_dipoles)
+            loss = criterion(pred, target_test)
             losses[idx] = loss.item()
         mean_loss = np.mean(losses)
 
@@ -257,9 +255,9 @@ def main(
     status_line = 'Epoch {:4d}/{:4d} | Train: {:6.6f} | Test: {:6.6f} \n'
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(
-            data_loader_train, optimizer, net, criterion, N_dipoles)
+            data_loader_train, optimizer, net, criterion)
         test_loss[epoch] = test_epoch(
-            data_loader_test, net, criterion, N_dipoles, scheduler)
+            data_loader_test, net, criterion, scheduler)
 
         line = status_line.format(
             epoch, N_epochs - 1, train_loss[epoch], test_loss[epoch]

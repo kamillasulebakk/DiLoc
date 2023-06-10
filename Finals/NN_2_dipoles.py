@@ -10,8 +10,7 @@ from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target, plot_MSE_targets_2_dipoles
 from utils import numpy_to_torch, normalize, custom_loss
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-import torch.optim as optim
+import torch.nn.init as init
 
 
 class Net(nn.Module):
@@ -31,17 +30,23 @@ class Net(nn.Module):
             self.fc8 = nn.Linear(32, 5*N_dipoles)
         else:
             self.fc8 = nn.Linear(32, 4*N_dipoles)
-        # self.sigmoid = nn.Sigmoid()
+
+        self.initialize_weights()
+
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                init.xavier_normal_(m.weight)
 
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
-        x = torch.relu(self.fc3(x))
-        x = torch.relu(self.fc4(x))
-        x = torch.relu(self.fc5(x))
-        x = torch.relu(self.fc6(x))
-        x = torch.relu(self.fc7(x))
-        x = (self.fc8(x))
+        x = torch.tanh(self.fc2(x))
+        x = torch.tanh(self.fc3(x))
+        x = torch.tanh(self.fc4(x))
+        x = torch.tanh(self.fc5(x))
+        x = torch.tanh(self.fc6(x))
+        x = torch.tanh(self.fc7(x))
+        x = torch.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
 
         return x
 
