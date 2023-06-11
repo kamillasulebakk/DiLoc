@@ -13,23 +13,64 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.nn.init as init
 
 
+# class Net(nn.Module):
+    # def __init__(self, N_dipoles: int, determine_area: bool = False):
+    #     self.determine_area = determine_area
+    #     super().__init__()
+    #     # self.dropout = nn.Dropout(p=0.5)
+    #     # self.fc1 = nn.Linear(231, 128*4)
+    #     # self.fc2 = nn.Linear(128*4, 64*4)
+    #     # self.fc3 = nn.Linear(64*4, 32*4)
+    #     # self.fc4 = nn.Linear(32*4, 16*4)
+    #     # self.fc5 = nn.Linear(16*4, 32)
+    #     #
+    #     # if determine_area:
+    #     #     self.fc6 = nn.Linear(32, 5*N_dipoles)
+    #     # else:
+    #     #     self.fc6 = nn.Linear(32, 4*N_dipoles)
+    #
+    #     self.dropout = nn.Dropout(p=0.5)
+    #     self.fc1 = nn.Linear(231, 128*2)
+    #     self.fc2 = nn.Linear(128*2, 128)
+    #     self.fc3 = nn.Linear(128, 32*2)
+    #     self.fc4 = nn.Linear(32*2, 16)
+    #
+    #     if determine_area:
+    #         self.fc5 = nn.Linear(16, 5*N_dipoles)
+    #     else:
+    #         self.fc5 = nn.Linear(16, 4*N_dipoles)
+    #
+    #     self.initialize_weights()
+    #
+    # def initialize_weights(self):
+    #     for m in self.modules():
+    #         if isinstance(m, nn.Linear):
+    #             init.xavier_normal_(m.weight)
+    #
+    # def forward(self, x: torch.Tensor):
+    #     x = F.relu(self.fc1(x))
+    #     x = torch.tanh(self.fc2(x))
+    #     x = torch.tanh(self.fc3(x))
+    #     x = torch.tanh(self.fc4(x))
+    #     x = torch.sigmoid(self.fc5(x))
+    #
+    #     return x
+
 class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False):
         self.determine_area = determine_area
         super().__init__()
+
         self.dropout = nn.Dropout(p=0.5)
-        self.fc1 = nn.Linear(231, 128*4)
-        self.fc2 = nn.Linear(128*4, 128*8)
-        self.fc3 = nn.Linear(128*8, 128*4)
-        self.fc4 = nn.Linear(128*4, 64*4)
-        self.fc5 = nn.Linear(64*4, 32*4)
-        self.fc6 = nn.Linear(32*4, 16*4)
-        self.fc7 = nn.Linear(16*4, 32)
+        self.fc1 = nn.Linear(231, 128*2)
+        self.fc2 = nn.Linear(128*2, 128)
+        self.fc3 = nn.Linear(128, 32*2)
+        self.fc4 = nn.Linear(32*2, 16)
 
         if determine_area:
-            self.fc8 = nn.Linear(32, 5*N_dipoles)
+            self.fc5 = nn.Linear(16, 5*N_dipoles)
         else:
-            self.fc8 = nn.Linear(32, 4*N_dipoles)
+            self.fc5 = nn.Linear(16, 4*N_dipoles)
 
         self.initialize_weights()
 
@@ -39,14 +80,11 @@ class Net(nn.Module):
                 init.xavier_normal_(m.weight)
 
     def forward(self, x: torch.Tensor):
-        x = F.relu(self.fc1(x))
-        x = torch.tanh(self.fc2(x))
-        x = torch.tanh(self.fc3(x))
-        x = torch.tanh(self.fc4(x))
-        x = torch.tanh(self.fc5(x))
-        x = torch.tanh(self.fc6(x))
-        x = torch.tanh(self.fc7(x))
-        x = torch.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
+        x = nn.ReLU()(self.fc1(x))
+        x = nn.ReLU()(self.fc2(x))
+        x = nn.ReLU()(self.fc3(x))
+        x = nn.ReLU()(self.fc4(x))
+        x = self.fc5(x)
 
         return x
 
@@ -130,7 +168,7 @@ def test_epoch(data_loader_test, net, criterion, scheduler):
         for idx, (signal, target_test) in enumerate(data_loader_test):
             pred = net(signal)
             loss = criterion(pred, target_test)
-            l1_lambda = 0.00001
+            l1_lambda = 0.0001
 
             # TODO: fix this list -> tensor hack
             l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
@@ -184,21 +222,25 @@ def main(
     # r = custom_loss
     criterion = nn.MSELoss()
 
-    lr = 0.9
-    momentum = 1e-4
-    weight_decay = 1e-5
+    # lr = 0.1
+    # momentum = 0.9
+    # weight_decay = 1e-4
 
-    save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
+    lr = 0.001
+    beta1 = 0.9
+    beta2 = 0.999
+    weight_decay = 1e-4
 
-    optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
-    # optimizer = optim.Adam(net.parameters(), lr)
+    # save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
+    save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_Adam_lr{lr}_wd{weight_decay}_bs{batch_size}'
+
+    # optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr, betas=(beta1, beta2), weight_decay=weight_decay)
 
     # This one works for radii + amplitude, and amplitude
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=10,
-                              verbose=True, threshold=0.00000001, threshold_mode='rel',
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=50,
+                              verbose=True, threshold=0.0001, threshold_mode='rel',
                               cooldown=0, min_lr=0, eps=1e-08)
-
-
 
 
     train_loss = np.zeros(N_epochs)

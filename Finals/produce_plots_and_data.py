@@ -150,11 +150,11 @@ def return_dipole_area(num_samples: int, radii_range: int = 20):
             A_sum += A
 
         eeg[i, :] = eeg_i
-        dipole_amplitudes[:,i] = A_sum
+        pos_idx = A_sum/len(pos_idx)
+
+        print(pos_idx)
 
         target = np.concatenate((dipole_locations_and_radii, dipole_amplitudes), axis=0)
-
-        print(i)
 
         # if i < 6:
         #     plot_active_region(eeg[i], centers[:,i], radii[i], pos_idx, i)
@@ -254,8 +254,8 @@ def prepare_and_save_data(num_samples, name, num_dipoles : int = 1):
 
     elif name == 'dipole_area':
         eeg, target = return_dipole_area(num_samples)
-        np.save(f'data/{name}_eeg_{num_samples}_{num_dipoles}', eeg)
-        np.save(f'data/{name}_locations_{num_samples}_{num_dipoles}', target)
+        np.save(f'data/new_A_{name}_eeg_{num_samples}_{num_dipoles}', eeg)
+        np.save(f'data/new_A_{name}_locations_{num_samples}_{num_dipoles}', target)
 
     print(f'Finished producing data for {name} with {num_dipoles} dipole(s)')
     print(f'and writing mean and std to file.')
@@ -347,7 +347,7 @@ def split_data_set(eeg_filename, target_list_filename, N_dipoles):
     np.save(f'data/validate_{target_list_filename}', pos_list_validate)
 
 
-# if __name__ == '__main__':
+if __name__ == '__main__':
     # num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
     # num_dipoles = 1
@@ -359,17 +359,17 @@ def split_data_set(eeg_filename, target_list_filename, N_dipoles):
     # split_data_set(eeg_filename, pos_list_filename, 1)
     # print('Finished')
     #
-    # num_samples = 70_000
-    # name = 'dipole_area'
-    # num_dipoles = 1
-    # prepare_and_save_data(num_samples, name, num_dipoles)
-    # print('Finished')
-    #
-    # eeg_filename = 'dipole_area_eeg_70000_20mm.npy'
-    # pos_list_filename = 'dipole_area_locations_70000_20mm.npy'
-    # split_data_set(eeg_filename, pos_list_filename, 1)
-    # print('Finished')
+    num_samples = 70_000
+    name = 'dipole_area'
+    num_dipoles = 1
+    prepare_and_save_data(num_samples, name, num_dipoles)
+    print('Finished')
 
+    eeg_filename = 'new_A_dipole_area_eeg_70000.npy_1'
+    pos_list_filename = 'new_A_dipole_area_locations_70000.npy_1'
+    split_data_set(eeg_filename, pos_list_filename, 1)
+    print('Finished')
+    #
     # num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
     # num_dipoles = 2

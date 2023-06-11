@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \documentclass[a4paper, UKenglish, 11pt]{uiomaster}
 \usepackage{lipsum}
 \usepackage[subpreambles=true]{standalone}
@@ -36,8 +37,6 @@ However, in order to decribe the effect of the \emph{orientation} of the dipoles
     \caption{A: Two manually chosen dipole locations in the New York head model, located in a gyrus (red) and a sulcus (blue). The head model is seen from the side (x, z-plane). EEG electrode locations close to the chosen cross section plane are marked in light blue. The available dipole locations close to the cortical cross section effectively draw an outline of the cortical sheet, and are marked in pink. The current dipole moment was in all cases $10^7$ nA$\mu$m. B: Interpolated color plot of EEG signal from the dipole in gyrus, seen from the top (x, y-plane). The plotted EEG signal is normalized but the maximal value was 1.1 $\mu$V. C: Interpolated color plot of EEG signal from the dipole in sulcus. The plotted EEG signal is normalized but the maximal value was 0.7 $\mu$V. (source: BookTVN)}
     \label{fig:gyrus_and_sulcus_EEG}
 \end{figure}
-\\
-\\
 
 
 \subsection{Noise}
@@ -70,9 +69,9 @@ In Figure \ref{fig:single_dipole_accuracy} we have provided the validation accur
 The expression for MSE when predicting the x-, y- and z-coordinate, goes as follows:
 
 \begin{equation}
-MSE(\hat{y},\hat{\tilde{y}}) &= \frac{1}{n}
+MSE(\hat{y},\hat{\tilde{y}}) = \frac{1}{n}
 \sum_{i=1}^{n}(y_i-\tilde{y}_i)^2 \\
-&= \frac{1}{3}\sum_{i=1}^{3}((x-\tilde{x})^2 + (y-\tilde{y})^2 + (z-\tilde{z})^2 )
+= \frac{1}{3}\sum_{i=1}^{3}((x-\tilde{x})^2 + (y-\tilde{y})^2 + (z-\tilde{z})^2 )
 \label{eq:MSE}
 \end{equation}
 

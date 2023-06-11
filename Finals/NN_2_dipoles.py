@@ -184,33 +184,22 @@ def main(
         shuffle=False,
     )
 
-    # criterion = custom_loss
-    # criterion = nn.L1Loss()
     criterion = nn.MSELoss()
 
-
-    # lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
-    # lr = 0.001 # Works best for population of dipoles, with amplitude and radii
-
-    # first try
-    # lr = 0.25
+    # lr = 0.1
     # momentum = 0.35
-    # weight_decay = 0.1
+    # weight_decay = 0.25
 
-    # second try
-    lr = 0.1
-    momentum = 0.35
-    weight_decay = 0.25
+    lr = 0.001
+    beta1 = 0.9
+    beta2 = 0.999
+    weight_decay = 1e-4
 
-    # weight_decay > 0 --> l2/ridge penalty
+    # save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
+    save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_Adam_lr{lr}_wd{weight_decay}_bs{batch_size}'
 
-    save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
-    # save_file_name: str = f'adam'
-    # lr = 0.001
-
-
-    optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
-    # optimizer = optim.Adam(net.parameters(), lr)
+    # optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
+    optimizer = torch.optim.Adam(net.parameters(), lr=lr, betas=(beta1, beta2), weight_decay=weight_decay)
 
     # This one works for radii + amplitude, and amplitude
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=30,

@@ -1,0 +1,13 @@
+two_dipoles_w_amplitude_model_normalization.py
+
+two_dipoles_w_amplitude_model_normalization.py
+
+MAE x-coordinates:39.04542394164756
+MAE y-coordinates:50.567315666676805
+MAE z-coordinates:32.202537327814284
+MAE amplitude:2.8263947689568973
+
+MAE x-coordinates:38.537719358139505
+MAE y-coordinates:50.1927110687214
+MAE z-coordinates:32.30986899972817
+MAE amplitude:2.8260708120075297

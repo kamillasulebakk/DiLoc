@@ -191,8 +191,8 @@ def main(
     criterion = nn.MSELoss()
     # criterion = custom_loss
 
-    lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
-    # lr = 0.1 # Works best for population of dipoles, with amplitude and radii
+    # lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
+    lr = 0.1 # Works best for population of dipoles, with amplitude and radii
     momentum = 1e-4
     weight_decay = 1e-5
     # weight_decay > 0 --> l2/ridge penalty

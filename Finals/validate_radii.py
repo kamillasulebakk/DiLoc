@@ -40,6 +40,8 @@ eeg = eeg[:N_samples,:]
 target = target[:N_samples,:]
 
 model = torch.load('trained_models/dipole_w_radi_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/TEST_dipole_w_radi_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/TEST_dipole_w_radi_amplitude_500_Adam_lr0.001_wd0.0001_bs64.pt')
 
 print('loading finished')
 

@@ -36,6 +36,7 @@ name = 'dipole_w_amplitude'
 # Amplitude
 # model = torch.load('trained_models/two_dipoles_w_amplitude_1000_SGD_lr0.1_wd0.25_mom0.35_bs128.pt')
 model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
+
 print('finished loading model')
 
 nyhead = NYHeadModel()
