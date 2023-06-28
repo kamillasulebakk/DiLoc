@@ -321,16 +321,16 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
     cmap = lambda v: plt.cm.bwr((v + vmax) / (2*vmax))
 
     fig = plt.figure(figsize=[25, 11])
-    fig.suptitle(f'EEG signals from simulated current dipole moment(s)', fontsize=20)
+    # fig.suptitle(f'EEG signals from simulated current dipole moment(s)', fontsize=20)
     ax1 = fig.add_subplot(131, aspect=1)
-    ax1.set_xlabel("x (mm)", fontsize = 24.0)
-    ax1.set_ylabel("y (mm)", fontsize = 24.0)
+    ax1.set_xlabel("x (mm)", fontsize = 30.0)
+    ax1.set_ylabel("y (mm)", fontsize = 30.0)
     ax2 = fig.add_subplot(132, aspect=1)
-    ax2.set_xlabel("x (mm)", fontsize = 24.0)
-    ax2.set_ylabel("z (mm)", fontsize = 24.0)
+    ax2.set_xlabel("x (mm)", fontsize = 30.0)
+    ax2.set_ylabel("z (mm)", fontsize = 30.0)
     ax3 = fig.add_subplot(133, aspect=1)
-    ax3.set_xlabel("y (mm)", fontsize = 24.0)
-    ax3.set_ylabel("z (mm)", fontsize = 24.0)
+    ax3.set_xlabel("y (mm)", fontsize = 30.0)
+    ax3.set_ylabel("z (mm)", fontsize = 30.0)
 
     electrode_measures = np.zeros((2, 231))
     for idx in range(eeg.shape[0]):
@@ -347,8 +347,8 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
 
     img = ax3.imshow([[], []], origin="lower", cmap=plt.cm.bwr)
     cbar = plt.colorbar(img)
-    cbar.ax.tick_params(labelsize=24)
-    cbar.set_label(label='µV',size=24, weight='bold')
+    cbar.ax.tick_params(labelsize=30)
+    cbar.set_label(label='µV',size=30, weight='bold')
 
 
     if name == "dipoles_w_amplitudes":
@@ -363,17 +363,17 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
         ax3.plot(dipole_pos_list[1], dipole_pos_list[2], '*', ms=22, color='orange', zorder=1000)
 
 
-    ax1.tick_params(axis='both', which='major', labelsize=22)
-    ax2.tick_params(axis='both', which='major', labelsize=22)
-    ax3.tick_params(axis='both', which='major', labelsize=22)
+    ax1.tick_params(axis='both', which='major', labelsize=27)
+    ax2.tick_params(axis='both', which='major', labelsize=27)
+    ax3.tick_params(axis='both', which='major', labelsize=27)
 
     if name == "dipoles_w_amplitudes":
         fig.savefig(f'plots/{name}_eeg_field_{len(dipole_pos_list)}_{numbr}.png')
         print(f'Finished producing figure {numbr}')
 
     elif name == "simple_dipole":
-        fig.savefig(f'plots/{name}_eeg_field_noise_{numbr/100}.png')
-        print(f'Finished producing figure with {numbr/100} % noise')
+        fig.savefig(f'plots/{name}_eeg_field_noise_{numbr}.png')
+        print(f'Finished producing figure with {numbr} % noise')
 
     plt.close(fig)
 
@@ -432,11 +432,11 @@ def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg,
                   {normal_vec_neighbour[1]:.2f}, {normal_vec_neighbour[2]:.2f} )')
 
 
-    ax.plot(dipole_eeg, label=f'Dipole located in {corex_loc} \
+    ax.plot(dipole_eeg, label=f'Blue dipole located in {corex_loc} \
                                 with coordinates ({dipole_loc[0]:.2f}, \
                                 {dipole_loc[1]:.2f}, {dipole_loc[2]:.2f} ) ')
 
-    ax.plot(neighbour_eeg, label=f'Neighbouring dipole located in {corex_loc} \
+    ax.plot(neighbour_eeg, label=f'Green dipole located in {corex_loc} \
                                 with coordinates ({neighbour_loc[0]:.2f}, \
                                 {neighbour_loc[1]:.2f}, {neighbour_loc[2]:.2f} )')
 
@@ -444,7 +444,7 @@ def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg,
     ax1_NY.legend(fontsize=10, loc='upper right')
     ax.legend(bbox_to_anchor=(0.5, 1.15), loc='lower center', fontsize=10)
 
-    fig.savefig(f'plots/neighbour_dipoles.png')
+    fig.savefig(f'plots/compare_dipoles.png')
 
 
 def plot_simple_example():
@@ -549,4 +549,93 @@ def plot_simple_example():
 
     plt.show()
 
-# plot_simple_example()
+def plot_normalized_population(eeg, activity_center, activity_radius, active_idxs):
+    eeg = (eeg - np.mean(eeg))/np.std(eeg)
+    num_active_vertexes = len(active_idxs)
+
+    nyhead_file = os.path.join(big_data_path, "sa_nyhead.mat")
+    head_data = h5py.File(nyhead_file, 'r')["sa"]
+    cortex = np.array(head_data["cortex75K"]["vc"]) # Locations of every vertex in cortex
+    elecs = np.array(head_data["locs_3D"]) # 3D locations of electrodes
+    num_elecs = elecs.shape[1]
+
+    fig = plt.figure(figsize=[12, 8])
+    fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
+
+    ax1 = fig.add_subplot(231, aspect=1)
+    ax1.set_xlabel("x (mm)", fontsize = 23.0)
+    ax1.set_ylabel("z (mm)", fontsize = 23.0)
+    ax2 = fig.add_subplot(232, aspect=1)
+    ax2.set_xlabel("x (mm)", fontsize = 23.0)
+    ax2.set_ylabel("y (mm)", fontsize = 23.0)
+    ax3 = fig.add_subplot(233, aspect=1)
+    ax3.set_xlabel("y (mm)", fontsize = 23.0)
+    ax3.set_ylabel("z (mm)", fontsize = 23.0)
+    ax4 = fig.add_subplot(234, aspect=1)
+    ax4.set_xlabel("x (mm)", fontsize = 23.0)
+    ax4.set_ylabel("z (mm)", fontsize = 23.0)
+    ax5 = fig.add_subplot(235, aspect=1)
+    ax5.set_xlabel("x (mm)", fontsize = 23.0)
+    ax5.set_ylabel("y (mm)", fontsize = 23.0)
+    ax6 = fig.add_subplot(236, aspect=1)
+    ax6.set_xlabel("y (mm)", fontsize = 23.0)
+    ax6.set_ylabel("z (mm)", fontsize = 23.0)
+    cax = fig.add_axes([0.9, 0.55, 0.01, 0.3]) # This axis is just the colorbar
+
+    eegmax = np.max(np.abs(eeg))
+    scatter_params = dict(cmap="bwr", vmin=-eegmax, vmax=eegmax, s=50)
+
+    # Plot 3D location EEG electrodes
+    # Arrange point along different axes to avoid confusing overlapping points
+    order = np.argsort(elecs[1, :])
+    ax1.scatter(elecs[0, order], elecs[2, order], c=eeg[order], **scatter_params)
+    order = np.argsort(elecs[2, :])
+    ax2.scatter(elecs[0, order], elecs[1, order], c=eeg[order], **scatter_params)
+    order = np.argsort(elecs[0, :])
+    im = ax3.scatter(elecs[1, order], elecs[2, order], c=eeg[order], **scatter_params)
+
+    # cbar = plt.colorbar(im, cax=cax, label="µV", size=23)
+    cbar = plt.colorbar(im, cax=cax)
+    cbar.ax.tick_params(labelsize=23)
+
+    # Plotting crossection of cortex around active region center
+    threshold = 2  # threshold in mm for including points in plot
+    xz_plane_idxs = np.where(np.abs(cortex[1, :] - activity_center[1]) < threshold)[0]
+    xy_plane_idxs = np.where(np.abs(cortex[2, :] - activity_center[2]) < threshold)[0]
+    yz_plane_idxs = np.where(np.abs(cortex[0, :] - activity_center[0]) < threshold)[0]
+
+    ax4.scatter(cortex[0, xz_plane_idxs], cortex[2, xz_plane_idxs], s=1, c='gray')
+    ax5.scatter(cortex[0, xy_plane_idxs], cortex[1, xy_plane_idxs], s=1, c='gray')
+    ax6.scatter(cortex[1, yz_plane_idxs], cortex[2, yz_plane_idxs], s=1, c='gray')
+
+    # Mark active sources
+    plot_idxs_xz = np.intersect1d(xz_plane_idxs, active_idxs)
+    plot_idxs_xy = np.intersect1d(xy_plane_idxs, active_idxs)
+    plot_idxs_yz = np.intersect1d(yz_plane_idxs, active_idxs)
+    ax4.scatter(cortex[0, plot_idxs_xz], cortex[2, plot_idxs_xz], s=1, c='orange')
+    ax5.scatter(cortex[0, plot_idxs_xy], cortex[1, plot_idxs_xy], s=1, c='orange')
+    ax6.scatter(cortex[1, plot_idxs_yz], cortex[2, plot_idxs_yz], s=1, c='orange')
+
+    # Plot outline of active region
+    theta = np.linspace(0, 2 * np.pi, 50)
+    circle_x = activity_center[0] + activity_radius * np.cos(theta)
+    circle_z = activity_center[2] + activity_radius * np.sin(theta)
+    ax4.plot(circle_x, circle_z, ls='--', c='k')
+
+    circle_x = activity_center[0] + activity_radius * np.cos(theta)
+    circle_y = activity_center[1] + activity_radius * np.sin(theta)
+    ax5.plot(circle_x, circle_y, ls='--', c='k')
+
+    circle_y = activity_center[1] + activity_radius * np.cos(theta)
+    circle_z = activity_center[2] + activity_radius * np.sin(theta)
+    ax6.plot(circle_y, circle_z, ls='--', c='k')
+
+    ax1.tick_params(axis='both', which='major', labelsize=23)
+    ax2.tick_params(axis='both', which='major', labelsize=23)
+    ax3.tick_params(axis='both', which='major', labelsize=23)
+    ax4.tick_params(axis='both', which='major', labelsize=23)
+    ax5.tick_params(axis='both', which='major', labelsize=23)
+    ax6.tick_params(axis='both', which='major', labelsize=23)
+
+    plt.savefig(f"plots/dipole_area/large_dipole_area_normalized.pdf")
+

@@ -240,13 +240,12 @@ where it in the last line has been used that the derivative of the activation fu
 
 By applying the chain rule, we can express the error $\delta_i^l$ in Equation \ref{eq:I} in terms of the equations for layer $l+1$. This forms the basis of the third equation used in the backpropagation algorithm:
 
-\begin{equation}
-\delta_i^l = \frac{\partial C}{\partial z^l_{i}} =
-\sum_j \frac{\partial C}{\partial z_j^{l+1}}\frac{\partial z_j^{l+1}}{\partial z_i^l} =
-\sum_j \delta_j^{l+1} \frac{\partial z_j^{l+1}}{\partial z_i^l} =
-\sum_j \delta_j^{l+1}w_{ij}^{l+1}f'(z_i^l)
-\label{eq:III}
-\end{equation}
+\begin{align}
+\delta_i^l = \frac{\partial C}{\partial z^l_{i}}
+&= \sum_j \frac{\partial C}{\partial z_j^{l+1}}\frac{\partial z_j^{l+1}}{\partial z_i^l} \nonumber \\
+&= \sum_j \delta_j^{l+1} \frac{\partial z_j^{l+1}}{\partial z_i^l} \nonumber \\
+&= \sum_j \delta_j^{l+1}w_{ij}^{l+1}f'(z_i^l) \label{eq:III}
+\end{align}
 
 Finally the last equation of the four back propagation equations the derivative of the cost function in terms of the weights:
 

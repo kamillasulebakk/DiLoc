@@ -156,6 +156,11 @@ def return_dipole_population(nyhead, center, radius):
 
     return pos_idx
 
+def load_electrode_positions():
+    x_pos = np.load('data/electrode_positions_x.npy')
+    y_pos = np.load('data/electrode_positions_y.npy')
+    return x_pos, y_pos
+
 
 def return_interpolated_eeg_data(eeg, num_samples, grid_shape : int = 20):
     nyhead = NYHeadModel()

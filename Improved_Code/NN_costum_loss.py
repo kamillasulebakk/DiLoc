@@ -15,7 +15,7 @@ import torch.optim as optim
 
 
 class Net(nn.Module):
-    def __init__(self, N_dipoles: int, determine_area: bool = False):
+    def __init__(self, N_dipoles: int, determine_area: bool = True):
         self.determine_area = determine_area
         super().__init__()
         self.dropout = nn.Dropout(p=0.5)
@@ -48,6 +48,7 @@ class Net(nn.Module):
 
 class EEGDataset(torch.utils.data.Dataset):
     def __init__(self, train_test: str, determine_area: bool, N_samples: int, N_dipoles: int, noise_pct: int = 10):
+
         if train_test not in ['train', 'test']:
             raise ValueError(f'Unknown train_test value {train_test}')
 
@@ -82,10 +83,14 @@ class EEGDataset(torch.utils.data.Dataset):
         )
         if train_test == 'train':
             noise = torch.normal(0, torch.std(eeg_train) * noise_pct/100, size=eeg_train.shape)
+            print(torch.std(eeg_train))
+            input()
             eeg_train += noise
             return eeg_train, target_train
         if train_test == 'test':
             noise = torch.normal(0, torch.std(eeg_test) * noise_pct/100, size=eeg_test.shape)
+            print(torch.std(eeg_train))
+            input()
             eeg_test += noise
             return eeg_test, target_test
 
@@ -103,7 +108,7 @@ def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
     for idx, (signal, target_train) in enumerate(data_loader_train):
         optimizer.zero_grad()
         pred = net(signal)
-        loss = criterion(pred, target_train, N_dipoles)
+        loss = criterion(pred, target_train) #, N_dipoles)
         # l1_lambda = 0.00001
 
         #TODO: fix this list -> tensor hack
@@ -124,7 +129,7 @@ def test_epoch(data_loader_test, net, criterion, N_dipoles, scheduler):
     with torch.no_grad():
         for idx, (signal, target_test) in enumerate(data_loader_test):
             pred = net(signal)
-            loss = criterion(pred, target_test, N_dipoles)
+            loss = criterion(pred, target_test) #, N_dipoles)
             losses[idx] = loss.item()
         mean_loss = np.mean(losses)
 
@@ -171,19 +176,30 @@ def main(
         shuffle=False,
     )
 
-    criterion = custom_loss
+    # criterion = custom_loss
     # criterion = nn.L1Loss()
-    # criterion = nn.MSELoss()
+    criterion = nn.MSELoss()
 
 
     # lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
     # lr = 0.001 # Works best for population of dipoles, with amplitude and radii
-    lr = 1.5
+
+    # PREDICTS THE BEST
+    # lr = 1.5
+    # momentum = 0.35
+    # weight_decay = 0.1
+
+    # lr = 0.9
+    # momentum = 1e-4
+    # weight_decay = 1e-5
+
+    lr = 0.001
     momentum = 0.35
     weight_decay = 0.1
+
     # weight_decay > 0 --> l2/ridge penalty
 
-    save_file_name: str = f'{N_samples}_11may_MSE_area_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
+    save_file_name: str = f'{N_samples}_26junemseloss_MSE_area_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
     # save_file_name: str = f'adam'
     # lr = 0.001
 
@@ -292,9 +308,9 @@ def main(
 if __name__ == '__main__':
     main(
         N_samples=50000,
-        N_dipoles=2,
-        determine_area=False,
-        N_epochs=500,
+        N_dipoles=1,
+        determine_area=True,
+        N_epochs=5000,
         noise_pct=10,
         log_dir='results'
     )

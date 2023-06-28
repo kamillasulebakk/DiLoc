@@ -164,7 +164,7 @@ def main(
     batch_size = 32
 
     # second try
-    batch_size = 128
+    # batch_size = 128
 
 
     net = Net(N_dipoles, determine_area)
@@ -190,14 +190,14 @@ def main(
     # lr = 0.001 # Works best for population of dipoles, with amplitude and radii
 
     # first try
-    lr = 0.25
-    momentum = 0.35
-    weight_decay = 0.1
+    # lr = 0.25
+    # momentum = 0.35
+    # weight_decay = 0.1
 
     # second try
-    lr = 0.1
-    momentum = 0.35
-    weight_decay = 0.25
+    # lr = 0.1
+    # momentum = 0.35
+    # weight_decay = 0.25
 
     # weight_decay > 0 --> l2/ridge penalty
 

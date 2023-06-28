@@ -30,9 +30,9 @@ class Net(nn.Module):
 
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
-        x = torch.tanh(self.fc2(x))
-        x = torch.tanh(self.fc3(x))
-        x = torch.tanh(self.fc4(x))
+        x = torch.relu(self.fc2(x))
+        x = torch.relu(self.fc3(x))
+        x = torch.relu(self.fc4(x))
         x = self.fc5(x)
 
         return x
@@ -97,12 +97,12 @@ def train_epoch(data_loader_train, optimizer, net, criterion):
         optimizer.zero_grad()
         pred = net(signal)
         loss = criterion(pred, position)
-        l1_lambda = 0.001
-
-        # TODO: fix this list -> tensor hack
-        l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
-
-        loss = loss + l1_lambda * l1_norm
+        # l1_lambda = 0.001
+        #
+        # # TODO: fix this list -> tensor hack
+        # l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
+        #
+        # loss = loss + l1_lambda * l1_norm
         loss.backward()
         optimizer.step()
         losses[idx] = loss.item()
@@ -142,7 +142,7 @@ def main(
     print(msg)
     print(f'{N_dipoles} dipole(s) and {noise_pct} % noise for {N_epochs} epochs.\n')
 
-    batch_size = 30
+    batch_size = 32
 
     net = Net(N_dipoles, determine_area)
 
@@ -163,8 +163,15 @@ def main(
     )
 
     criterion = nn.MSELoss()
-    lr=0.001
-    optimizer = torch.optim.SGD(net.parameters(), lr, momentum=1e-6)
+    # lr=0.001
+    # optimizer = torch.optim.SGD(net.parameters(), lr, momentum=1e-6)
+
+    lr = 0.001
+    momentum = 0.35
+    optimizer = torch.optim.SGD(net.parameters(), lr, momentum)
+
+
+
 
 
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=10,
@@ -175,7 +182,7 @@ def main(
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    save_file_name = f'TEST_simple_dipole_lr{lr}_l1_penalty_{N_epochs}_{N_samples}'
+    save_file_name = f'simple_dipole_lr{lr}_RELU_{N_epochs}_{N_samples}'
     log_file_name = os.path.join(log_dir, save_file_name + '.txt')
 
     with open(log_file_name, 'w') as f:
@@ -219,7 +226,7 @@ def main(
         train_loss,
         test_loss,
         save_file_name,
-        'TanH',
+        'ReLU',
         batch_size,
         N_epochs,
         N_dipoles
@@ -234,7 +241,7 @@ if __name__ == '__main__':
         N_dipoles=1,
         determine_area=False,
         determine_amplitude=False,
-        N_epochs=300,
+        N_epochs=500,
         noise_pct=10,
         log_dir='results'
     )

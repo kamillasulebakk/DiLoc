@@ -4,6 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from NN_dipole_w_radi_amplitude import Net
+# from NN_best_architecture import Net
+
 
 from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change, xz_plane_idxs
 from load_data import load_data_files
@@ -39,9 +41,9 @@ N_samples = 1000
 eeg = eeg[:N_samples,:]
 target = target[:N_samples,:]
 
-model = torch.load('trained_models/dipole_w_radi_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
-# model = torch.load('trained_models/TEST_dipole_w_radi_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
-# model = torch.load('trained_models/TEST_dipole_w_radi_amplitude_500_Adam_lr0.001_wd0.0001_bs64.pt')
+model = torch.load('trained_models/22.juni_dipole_w_radi_amplitude_500_SGD_lr0.09_wd0.0001_mom0.9_bs32.pt')
+# model = torch.load('trained_models/22.juni_dipole_w_radi_amplitude_500_SGD_lr0.9_wd0.0001_mom0.9_bs32.pt')
+
 
 print('loading finished')
 

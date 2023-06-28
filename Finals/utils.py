@@ -27,9 +27,9 @@ def MSE(Y_true, Y_pred):
     error = np.square(np.subtract(Y_true,Y_pred)).mean()
     return error
 
-def relative_change(Y_true, Y_pred):
-    error = np.abs((Y_pred - Y_true)/(Y_true))
-    return error
+# def relative_change(Y_true, Y_pred):
+#     error = np.abs((Y_true - Y_pred)/(Y_true))*100
+#     return error
 
 def MAE(Y_true, Y_pred):
     error = np.abs(Y_pred - Y_true).mean()

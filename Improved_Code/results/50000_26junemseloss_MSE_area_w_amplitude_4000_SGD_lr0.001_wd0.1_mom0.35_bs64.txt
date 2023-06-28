@@ -1,0 +1,16 @@
+Samples: 50000, Batch size: 64, Epochs: 4000, Noise: 10 %
+Learning rate: 0.001
+Eeg Data: data/new/multiple_dipoles_eeg_50000_1.npy
+Target Data: data/new/multiple_dipoles_locations_50000_1.npy
+--------------------------------------------------------------
+Epoch    0/3999 | Train: 0.0775564964 | Test: 0.0765806087 
+
+ Target: tensor([0.6924, 0.4158, 0.9602, 0.8193, 0.2590]) 
+Predicted: tensor([0.4676, 0.4925, 0.4696, 0.4920, 0.4905], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.6605, 0.5638, 0.1673, 0.7067, 0.2869]) 
+Predicted: tensor([0.4677, 0.4924, 0.4698, 0.4921, 0.4907], grad_fn=<SelectBackward0>) 
+
+ Target: tensor([0.1525, 0.5693, 0.1017, 0.7649, 0.2772]) 
+Predicted: tensor([0.4679, 0.4925, 0.4699, 0.4919, 0.4906], grad_fn=<SelectBackward0>) 
+

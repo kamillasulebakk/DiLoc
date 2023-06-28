@@ -137,8 +137,8 @@ def custom_loss(y_true, y_pred):
 
 def custom_loss(Y_true, Y_pred, N_dipoles):
 
-    eeg, target = load_data.load_data_files(10000, 'multiple_dipoles', '1d', N_dipoles)
-    target = target.T.reshape(10000, 4*N_dipoles)
+    eeg, target = load_data.load_data_files(50000, 'dipole_area', '1d', N_dipoles)
+    target = target.T.reshape(np.shape(target)[0], 5*N_dipoles)
 
     total_loss = 0
 

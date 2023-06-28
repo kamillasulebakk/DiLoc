@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 from NN_simple_dipole import Net
 
 from produce_plots_and_data import calculate_eeg
-from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change
+from utils import numpy_to_torch, normalize, denormalize, MSE, MAE
 import produce_plots_and_data
 
 import os
 import h5py
 
-def plot_MAE_error(mse, dipole_locs, name):
+def plot_MAE_error(mse, dipole_locs, name, numbr):
     fig = plt.figure(figsize=[8, 8])
     fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
 
@@ -24,107 +24,85 @@ def plot_MAE_error(mse, dipole_locs, name):
 
     img = ax4.scatter(dipole_locs[0], dipole_locs[2], c=mse, **scatter_params)
     plt.colorbar(img, cax=cax)
-    plt.savefig(f"plots/simple_dipole_error_{name}.pdf")
+    plt.savefig(f"plots/NEW_simple_dipole_error_{name}_{numbr}.pdf")
 
 
 # x, y, z - coordinates
-model = torch.load('trained_models/TEST_simple_dipole_lr0.001_l1_penalty_300_50000.pt')
+model = torch.load('trained_models/simple_dipole_lr0.001_RELU_500_50000.pt')
 
 nyhead = NYHeadModel()
 
-error_locations = []
-error_x = []
-error_y = []
-error_z = []
-
+x_plane = 0
 y_plane = 0
+z_plane = 0
 
 # Plotting crossection of cortex
 threshold = 2  # threshold in mm for including points in plot
 
 #inneholder alle idekser i koreks i planet mitt
 xz_plane_idxs = np.where(np.abs(nyhead.cortex[1, :] - y_plane) < threshold)[0]
+xy_plane_idxs = np.where(np.abs(nyhead.cortex[0, :] - z_plane) < threshold)[0]
+yz_plane_idxs = np.where(np.abs(nyhead.cortex[2, :] - x_plane) < threshold)[0]
 
-def find_max_min(coordinate):
-    max = 0
-    min = 0
+planes = [xz_plane_idxs, xy_plane_idxs, yz_plane_idxs]
 
-    for idx in xz_plane_idxs:
-        tmp = nyhead.cortex[coordinate,idx]
+for numbr, plane in enumerate(planes):
+    error_locations = []
+    error_x = []
+    error_y = []
+    error_z = []
 
-        if tmp > max:
-            max = tmp
-        elif tmp < min:
-            min = tmp
+    pred_list = np.zeros((len(plane),3))
+    x_target_list = np.zeros(len(plane))
+    y_target_list = np.zeros(len(plane))
+    z_target_list = np.zeros(len(plane))
 
-    return max, min
+    for i, idx in enumerate(plane):
+        nyhead.set_dipole_pos(nyhead.cortex[:,idx])
+        eeg = calculate_eeg(nyhead)
+        eeg = (eeg - np.mean(eeg))/np.std(eeg)
+        eeg = numpy_to_torch(eeg.T)
+        pred = model(eeg)
+        pred = pred.detach().numpy().flatten()
 
-pred_list = np.zeros((len(xz_plane_idxs),3))
-x_target_list = np.zeros(len(xz_plane_idxs))
-y_target_list = np.zeros(len(xz_plane_idxs))
-z_target_list = np.zeros(len(xz_plane_idxs))
+        x_pred = pred_list[i, 0] = pred[0]
+        y_pred = pred_list[i, 1] = pred[1]
+        z_pred = pred_list[i, 2] = pred[2]
 
-# Here is no amplitude PROBLEM
-for i, idx in enumerate(xz_plane_idxs):
-    nyhead.set_dipole_pos(nyhead.cortex[:,idx])
-    eeg = calculate_eeg(nyhead)
-    eeg = (eeg - np.mean(eeg))/np.std(eeg)
-    eeg = numpy_to_torch(eeg.T)
-    pred = model(eeg)
-    pred = pred.detach().numpy().flatten()
+        x_target = x_target_list[i] = nyhead.cortex[0,idx]
+        y_target = y_target_list[i] = nyhead.cortex[1,idx]
+        z_target = z_target_list[i] = nyhead.cortex[2,idx]
 
-    # denormalize target coordinates
-    # x_pred = pred_list[i, 0] = denormalize(pred[0], x_max, x_min)
-    # y_pred = pred_list[i, 1] = denormalize(pred[1], y_max, y_min)
-    # z_pred = pred_list[i, 2] = denormalize(pred[2], z_max, z_min)
+        error_i_x = np.abs(x_target - x_pred)
+        error_x.append(error_i_x)
 
-    x_pred = pred_list[i, 0] = pred[0]
-    y_pred = pred_list[i, 1] = pred[1]
-    z_pred = pred_list[i, 2] = pred[2]
+        error_i_y = np.abs(y_target - y_pred)
+        error_y.append(error_i_y)
 
+        error_i_z = np.abs(z_target - z_pred)
+        error_z.append(error_i_z)
 
-    x_target = x_target_list[i] = nyhead.cortex[0,idx]
-    y_target = y_target_list[i] = nyhead.cortex[1,idx]
-    z_target = z_target_list[i] = nyhead.cortex[2,idx]
+        error_i_locations = np.sqrt((error_i_x)**2 + (error_i_y)**2 + (error_i_z)**2)
+        error_locations.append(error_i_locations)
 
-    # error_i_x = relative_change(x_target, x_pred)
-    error_i_x = np.abs(x_target - x_pred)
-    error_x.append(error_i_x)
+    target = np.concatenate((x_target_list, y_target_list, z_target_list))
+    target = target.reshape((np.shape(pred_list)[1], np.shape(pred_list)[0]))
+    target = target.T
 
-    # error_i_y = relative_change(y_target, y_pred)
-    error_i_y = np.abs(y_target - y_pred)
-    error_y.append(error_i_y)
+    MAE_x = MAE(x_target_list, pred_list[:,0])
+    MAE_y = MAE(y_target_list, pred_list[:,1])
+    MAE_z = MAE(z_target_list, pred_list[:,2])
+    MAE_locations = MAE(target, pred_list)
 
-    # error_i_z = relative_change(z_target, z_pred)
-    error_i_z = np.abs(z_target - z_pred)
-    error_z.append(error_i_z)
+    print(f'MAE x-coordinates:{MAE_x}')
+    print(f'MAE y-coordinates:{MAE_y}')
+    print(f'MAE z-coordinates:{MAE_z}')
+    print(f'MAE location:{MAE_locations}')
 
-    error_i_locations = np.sqrt((error_i_x)**2 + (error_i_y)**2 + (error_i_z)**2)
-    error_locations.append(error_i_locations)
-
-target = np.concatenate((x_target_list, y_target_list, z_target_list))
-
-MAE_x = MAE(x_target_list, pred_list[:,0])
-MAE_y = MAE(y_target_list, pred_list[:,1])
-MAE_z = MAE(z_target_list, pred_list[:,2])
-MAE_locations = (MAE_x + MAE_y + MAE_z) / 3
-
-print(np.mean(error_x))
-print(np.mean(error_y))
-print(np.mean(error_z))
-
-print(f'MAE x-coordinates:{MAE_x}')
-print(f'MAE y-coordinates:{MAE_y}')
-print(f'MAE z-coordinates:{MAE_z}')
-print(f'MAE location:{MAE_locations}')
-
-print(np.shape(error_x))
-print(np.shape(nyhead.cortex[:,xz_plane_idxs]))
-plot_MAE_error(error_x, nyhead.cortex[:,xz_plane_idxs], 'x')
-plot_MAE_error(error_y, nyhead.cortex[:,xz_plane_idxs], 'y')
-plot_MAE_error(error_z, nyhead.cortex[:,xz_plane_idxs], 'z')
-plot_MAE_error(error_locations, nyhead.cortex[:,xz_plane_idxs], 'position')
-
+    plot_MAE_error(error_x, nyhead.cortex[:,plane], 'x', numbr)
+    plot_MAE_error(error_y, nyhead.cortex[:,plane], 'y', numbr)
+    plot_MAE_error(error_z, nyhead.cortex[:,plane], 'z', numbr)
+    plot_MAE_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
 
 
 

@@ -7,7 +7,8 @@ from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
 
-import produce_and_load_eeg_data
+
+from load_data import load_data_files
 from plot import plot_MSE_CNN
 import utils
 
@@ -40,34 +41,37 @@ class CNN(nn.Module):
 
 
 class EEGDataset(torch.utils.data.Dataset):
-    def __init__(self, train_test: str, name: str, N_samples: int):
-
-        mean, std_dev = produce_and_load_eeg_data.load_mean_std(N_samples, 'single_dipole')
+    def __init__(self, train_test: str, name: str, N_samples: int, noise_pct: int = 10):
 
         # Use eeg data from selfdefined 2d matrix
         if name == '2d':
-            eeg, pos_list = produce_and_load_eeg_data.load_data(N_samples, 'single_dipole', '2d')
+            eeg, pos_list = load_data_files(N_samples, 'simple_dipole', '2d', 1)
+
 
         # Use eeg data from 2d interpolated data
         elif name == 'interpolated':
-            eeg, pos_list = produce_and_load_eeg_data.load_data(N_samples, 'single_dipole', 'interpolated')
+            eeg, pos_list = load_data_files(N_samples, 'simple_dipole', 'interpolated', 1)
 
         # Scaling the data
-        eeg = (eeg - mean)/std_dev
+        eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
         eeg_matrix = utils.numpy_to_torch(eeg)
         pos_list = utils.numpy_to_torch(pos_list)
 
-        self.eeg_matrix, self.pos_list = self.split_data(eeg_matrix, pos_list, train_test)
+        self.eeg_matrix, self.pos_list = self.split_data(eeg_matrix, pos_list, train_test, noise_pct)
 
 
-    def split_data(self, eeg, pos_list, train_test):
+    def split_data(self, eeg, pos_list, train_test, noise_pct):
         eeg_train, eeg_test, pos_list_train, pos_list_test = train_test_split(
             eeg, pos_list, test_size=0.2, random_state=0
         )
         if train_test == 'train':
+            noise = torch.normal(0, torch.std(eeg_train) * noise_pct/100, size=eeg_train.shape)
+            eeg_train += noise
             return eeg_train, pos_list_train
         elif train_test == 'test':
+            noise = torch.normal(0, torch.std(eeg_test) * noise_pct/100, size=eeg_test.shape)
+            eeg_test += noise
             return eeg_test, pos_list_test
         else:
             raise ValueError(f'Unknown train_test value {train_test}')
@@ -87,8 +91,6 @@ def train_epoch(data_loader_train, noise_pct, optimizer, net, criterion):
     losses = np.zeros(len(data_loader_train))
     for idx, (signal, position) in enumerate(data_loader_train):
         optimizer.zero_grad()
-        noise = np.random.normal(0, np.std(signal.numpy()) * noise_pct/100, signal.shape)
-        signal = utils.numpy_to_torch(signal + noise)
         signal = signal.unsqueeze(1)
         pred = net(signal)
         loss = criterion(pred, position)
@@ -118,13 +120,13 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
     batch_size = 30
 
     net = CNN()
-    dataset_train = EEGDataset('train', name, N_samples)
+    dataset_train = EEGDataset('train', name, N_samples, noise_pct)
     data_loader_train = torch.utils.data.DataLoader(
         dataset_train,
         batch_size=batch_size,
         shuffle=True
     )
-    dataset_test = EEGDataset('test', name, N_samples)
+    dataset_test = EEGDataset('test', name, N_samples, noise_pct)
     data_loader_test = torch.utils.data.DataLoader(
         dataset_test,
         batch_size=batch_size,
@@ -138,7 +140,7 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    with open(f'results/01.feb/restult_single_dipole_CNN.txt', 'w') as f:
+    with open(f'results/restult_single_dipole_CNN.txt', 'w') as f:
         f.write(f'Samples: {N_samples}, Batch size: {batch_size}, Epochs: {N_epochs}, Noise: {noise_pct} %\n')
         f.write(f'\nEeg Data: data/single_dipole_eeg_{N_samples}.npy')
         f.write(f'\nLocation Data: data/single_dipole_locations_{N_samples}.npy')
@@ -153,7 +155,7 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
         line += f', test loss: {test_loss[epoch]:9.3f}'
         print(line)
 
-        with open(f'results/01.feb/restult_single_dipole_CNN.txt', 'a') as f:
+        with open(f'results/restult_single_dipole_CNN.txt', 'a') as f:
             f.write(f'epoch {epoch:2d}, train loss: {train_loss[epoch]:9.3f}')
             f.write(f', test loss: {test_loss[epoch]:9.3f} \n')
 
@@ -163,8 +165,8 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
 
 
 if __name__ == '__main__':
-    N_samples = 10_000
-    N_epochs = 2000
+    N_samples = 50_000
+    N_epochs = 300
     noise_pct = 10
 
     net = main('interpolated', N_samples, N_epochs, noise_pct)

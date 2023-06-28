@@ -8,7 +8,7 @@ import numpy as np
 
 from load_data import load_data_files
 from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target, plot_MSE_targets_2_dipoles
-from utils import numpy_to_torch, normalize, custom_loss
+from utils import numpy_to_torch, normalize, custom_loss_dipoles_w_amplitudes
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.nn.init as init
 
@@ -147,7 +147,7 @@ def main(
     N_dipoles: int = 1,
     determine_area: bool = False,
     N_epochs: int = 2000,
-    noise_pct: int = 5,
+    noise_pct: int = 10,
     log_dir: str = 'results',
 ):
     noise_pct = noise_pct
@@ -185,21 +185,22 @@ def main(
     )
 
     criterion = nn.MSELoss()
+    # criterion = custom_loss_dipoles_w_amplitudes
 
-    # lr = 0.1
-    # momentum = 0.35
-    # weight_decay = 0.25
+    lr = 0.0001
+    momentum = 0.35
+    weight_decay = 0.1
 
-    lr = 0.001
-    beta1 = 0.9
-    beta2 = 0.999
-    weight_decay = 1e-4
+    # lr = 0.001
+    # beta1 = 0.9
+    # beta2 = 0.999
+    # weight_decay = 1e-4
 
-    # save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
-    save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_Adam_lr{lr}_wd{weight_decay}_bs{batch_size}'
+    save_file_name: str = f'26june_two_dipoles_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}_10noise'
+    # save_file_name: str = f'TEST_two_dipoles_w_amplitude_{N_epochs}_Adam_lr{lr}_wd{weight_decay}_bs{batch_size}'
 
-    # optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
-    optimizer = torch.optim.Adam(net.parameters(), lr=lr, betas=(beta1, beta2), weight_decay=weight_decay)
+    optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
+    # optimizer = torch.optim.Adam(net.parameters(), lr=lr, betas=(beta1, beta2), weight_decay=weight_decay)
 
     # This one works for radii + amplitude, and amplitude
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=30,
@@ -333,7 +334,7 @@ if __name__ == '__main__':
         N_samples=50_000,
         N_dipoles=2,
         determine_area=False,
-        N_epochs=1000,
+        N_epochs=10000,
         noise_pct=10,
         log_dir='results'
     )

@@ -105,7 +105,7 @@ def plot_MSE_CNN(train_loss, test_loss, NN, act_func, batch_size, num_epochs):
     ax.plot(np.log(train_loss), label='Train')
     ax.plot(np.log(test_loss), label='Test')
     ax.legend(fontsize=18)
-    fig.savefig(f'plots/07.feb/MSE_CNN_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
+    fig.savefig(f'plots/MSE_CNN_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
 
 
 def plot_interpolated_eeg_data(nyhead, eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i):

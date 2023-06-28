@@ -13,53 +13,21 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.nn.init as init
 
 
-# class Net(nn.Module):
-    # def __init__(self, N_dipoles: int, determine_area: bool = False):
-    #     self.determine_area = determine_area
-    #     super().__init__()
-    #     # self.dropout = nn.Dropout(p=0.5)
-    #     # self.fc1 = nn.Linear(231, 128*4)
-    #     # self.fc2 = nn.Linear(128*4, 64*4)
-    #     # self.fc3 = nn.Linear(64*4, 32*4)
-    #     # self.fc4 = nn.Linear(32*4, 16*4)
-    #     # self.fc5 = nn.Linear(16*4, 32)
-    #     #
-    #     # if determine_area:
-    #     #     self.fc6 = nn.Linear(32, 5*N_dipoles)
-    #     # else:
-    #     #     self.fc6 = nn.Linear(32, 4*N_dipoles)
-    #
-    #     self.dropout = nn.Dropout(p=0.5)
-    #     self.fc1 = nn.Linear(231, 128*2)
-    #     self.fc2 = nn.Linear(128*2, 128)
-    #     self.fc3 = nn.Linear(128, 32*2)
-    #     self.fc4 = nn.Linear(32*2, 16)
-    #
-    #     if determine_area:
-    #         self.fc5 = nn.Linear(16, 5*N_dipoles)
-    #     else:
-    #         self.fc5 = nn.Linear(16, 4*N_dipoles)
-    #
-    #     self.initialize_weights()
-    #
-    # def initialize_weights(self):
-    #     for m in self.modules():
-    #         if isinstance(m, nn.Linear):
-    #             init.xavier_normal_(m.weight)
-    #
-    # def forward(self, x: torch.Tensor):
-    #     x = F.relu(self.fc1(x))
-    #     x = torch.tanh(self.fc2(x))
-    #     x = torch.tanh(self.fc3(x))
-    #     x = torch.tanh(self.fc4(x))
-    #     x = torch.sigmoid(self.fc5(x))
-    #
-    #     return x
-
 class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False):
         self.determine_area = determine_area
         super().__init__()
+        # self.dropout = nn.Dropout(p=0.5)
+        # self.fc1 = nn.Linear(231, 128*4)
+        # self.fc2 = nn.Linear(128*4, 64*4)
+        # self.fc3 = nn.Linear(64*4, 32*4)
+        # self.fc4 = nn.Linear(32*4, 16*4)
+        # self.fc5 = nn.Linear(16*4, 32)
+        #
+        # if determine_area:
+        #     self.fc6 = nn.Linear(32, 5*N_dipoles)
+        # else:
+        #     self.fc6 = nn.Linear(32, 4*N_dipoles)
 
         self.dropout = nn.Dropout(p=0.5)
         self.fc1 = nn.Linear(231, 128*2)
@@ -80,13 +48,47 @@ class Net(nn.Module):
                 init.xavier_normal_(m.weight)
 
     def forward(self, x: torch.Tensor):
-        x = nn.ReLU()(self.fc1(x))
-        x = nn.ReLU()(self.fc2(x))
-        x = nn.ReLU()(self.fc3(x))
-        x = nn.ReLU()(self.fc4(x))
+        x = F.relu(self.fc1(x))
+        x = torch.tanh(self.fc2(x))
+        x = torch.tanh(self.fc3(x))
+        x = torch.tanh(self.fc4(x))
         x = self.fc5(x)
 
         return x
+
+# class Net(nn.Module):
+#     def __init__(self, N_dipoles: int, determine_area: bool = False):
+#         self.determine_area = determine_area
+#         super().__init__()
+#         self.dropout = nn.Dropout(p=0.5)
+#         self.fc1 = nn.Linear(231, 128*4)
+#         self.fc2 = nn.Linear(128*4, 64*4)
+#         self.fc3 = nn.Linear(64*4, 32*4)
+#         self.fc4 = nn.Linear(32*4, 16*4)
+#         self.fc5 = nn.Linear(16*4, 32)
+#
+#         if determine_area:
+#             self.fc6 = nn.Linear(32, 5*N_dipoles)
+#         else:
+#             self.fc6 = nn.Linear(32, 4*N_dipoles)
+#
+#         self.initialize_weights()
+#
+#     def initialize_weights(self):
+#         for m in self.modules():
+#             if isinstance(m, nn.Linear):
+#                 init.xavier_normal_(m.weight)
+#
+#     def forward(self, x: torch.Tensor):
+#         x = F.relu(self.fc1(x))
+#         x = torch.tanh(self.fc2(x))
+#         x = torch.tanh(self.fc3(x))
+#         x = torch.tanh(self.fc4(x))
+#         x = torch.tanh(self.fc5(x))
+#         x = self.fc6(x)
+#
+#         return x
+
 
 
 class EEGDataset(torch.utils.data.Dataset):
@@ -109,7 +111,7 @@ class EEGDataset(torch.utils.data.Dataset):
             target = np.reshape(target, (N_samples, 4*N_dipoles))
 
 
-        eeg = (eeg - np.mean(eeg))/np.std(eeg)
+        # eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
         for i in range(np.shape(target)[1]):
             target[:, i] = normalize(target[:, i])
@@ -202,7 +204,7 @@ def main(
     print(msg)
     print(f'{N_dipoles} dipole(s) and {noise_pct} % noise for {N_epochs} epochs.\n')
 
-    batch_size = 64
+    batch_size = 32
 
 
     net = Net(N_dipoles, determine_area)
@@ -219,27 +221,31 @@ def main(
         shuffle=False,
     )
 
-    # r = custom_loss
-    criterion = nn.MSELoss()
+    criterion = custom_loss
+    # criterion = nn.MSELoss()
 
-    # lr = 0.1
-    # momentum = 0.9
+    lr = 0.9
+    momentum = 1e-5
+    weight_decay = 1e-5
+
+    # lr = 0.001
+    # beta1 = 0.9
+    # beta2 = 0.999
     # weight_decay = 1e-4
 
-    lr = 0.001
-    beta1 = 0.9
-    beta2 = 0.999
-    weight_decay = 1e-4
+    save_file_name: str = f'23.juni_customloss_xavier_dipole_w_radi_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
+    # save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_Adam_lr{lr}_wd{weight_decay}_bs{batch_size}'
 
-    # save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_mom{momentum}_bs{batch_size}'
-    save_file_name: str = f'TEST_dipole_w_radi_amplitude_{N_epochs}_Adam_lr{lr}_wd{weight_decay}_bs{batch_size}'
-
-    # optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
-    optimizer = torch.optim.Adam(net.parameters(), lr=lr, betas=(beta1, beta2), weight_decay=weight_decay)
+    optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
+    # optimizer = torch.optim.Adam(net.parameters(), lr=lr, betas=(beta1, beta2), weight_decay=weight_decay)
 
     # This one works for radii + amplitude, and amplitude
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=50,
-                              verbose=True, threshold=0.0001, threshold_mode='rel',
+    # scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=50,
+    #                           verbose=True, threshold=0.0001, threshold_mode='rel',
+    #                           cooldown=0, min_lr=0, eps=1e-08)
+
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=10,
+                              verbose=True, threshold=0.000001, threshold_mode='rel',
                               cooldown=0, min_lr=0, eps=1e-08)
 
 

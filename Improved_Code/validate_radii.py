@@ -3,11 +3,9 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-# from NN import Net
-# from NN_best_architecture import Net
+# from new_dipole_w_radi_amplitude import Net
 from NN_costum_loss import Net
 
-from produce_plots_and_data import return_multiple_dipoles, return_dipole_area
 from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change, xz_plane_idxs
 from load_data import load_data_files
 
@@ -29,17 +27,26 @@ def plot_mse_amplitude(amplitude_dict):
     ax.set_ylabel('Error [mm]', fontsize=18)
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.plot(labels, values)
-    fig.savefig(f'plots/amplitude_mse_lr_1.8.png')
+    fig.savefig(f'plots/dipole_w_radi_amplitude_mse_lr_1.5.png')
 
-eeg, target = load_data_files(50000, 'dipole_area', num_dipoles=1)
+# eeg, target = load_data_files(50000, 'dipole_area', num_dipoles=1)
+
+eeg = np.load('data/validate_const_A_dipole_area_const_A_eeg_70000_1.npy')
+target = np.load('data/validate_const_A_dipole_area_const_A_locations_70000_1.npy')
+
+
+print('finished loading data')
 
 N_samples = 1000
 
 eeg = eeg[:N_samples,:]
 target = target[:N_samples,:]
 
-# model = torch.load('trained_models/08may_MSE_area_w_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
-model = torch.load('trained_models/10000_08may_MSE_area_w_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/50000_23june_MSE_area_w_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/50000_23junemseloss_MSE_area_w_amplitude_500_SGD_lr1.5_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/50000_26junemseloss_MSE_area_w_amplitude_500_SGD_lr_0.001_wd0.1_mom0.35_bs64.pt')
+model = torch.load('trained_models/50000_26junemseloss_MSE_area_w_amplitude_5000_SGD_lr0.001_wd0.1_mom0.35_bs64.pt')
+
 
 print('loading finished')
 
@@ -54,11 +61,6 @@ y_target = target[:, 1]
 z_target = target[:, 2]
 radius_target = target[:, -2]
 amplitude_target = target[:, -1]
-
-import sys
-import numpy
-numpy.set_printoptions(threshold=sys.maxsize)
-
 
 error_x = np.zeros(N_samples)
 error_y = np.zeros_like(error_x)
@@ -103,36 +105,6 @@ for i in range(N_samples):
 
     amplitude_dict[amplitude_target[i]] = error_amplitude[i]
 
-    # print(f'Sample {i}/{N_samples}')
-    # print(f'True x-postion: {x_target[i]}')
-    # print(f'Pred x-postion: {x_pred}')
-    # print(f'Relative difference: {relative_change_x[i]}')
-    # print(f'Absolute Error: {error_x[i]}')
-    #
-    # print(' ')
-    # print(f'True y-postion: {y_target[i]}')
-    # print(f'Pred y-postion: {y_pred}')
-    # print(f'Relative difference: {relative_change_y[i]}')
-    # print(f'Absolute Error: {error_y[i]}')
-    # print(' ')
-    # print(f'True z-postion: {z_target[i]}')
-    # print(f'Pred z-postion: {z_pred}')
-    # print(f'Relative difference: {relative_change_z[i]}')
-    # print(f'Absolute Error: {error_z[i]}')
-    # print(' ')
-    # print(f'True radius: {radius_target[i]}')
-    # print(f'Pred radius: {radius_pred}')
-    # print(f'Relative difference: {relative_change_radius[i]}')
-    # print(f'Absolute Error: {error_radius[i]}')
-    # print(' ')
-    # print(f'True amplitude: {amplitude_target[i]}')
-    # print(f'Pred amplitude: {amplitude_pred}')
-    # print(f'Relative difference: {relative_change_amplitude[i]}')
-    # print(f'Absolute Error: {error_amplitude[i]}')
-    # print(' ')
-    # print(' ')
-
-
 print(f'Relative error x-coordinates:{MAE(x_target, pred_list[:,0])}')
 print(f'Relative error y-coordinates:{MAE(y_target, pred_list[:,1])}')
 print(f'Relative error z-coordinates:{MAE(z_target, pred_list[:,2])}')
@@ -140,6 +112,9 @@ print(f'Relative error radius:{MAE(radius_target, pred_list[:,-2])}')
 print(f'Relative error amplitude:{MAE(amplitude_target, pred_list[:,-1])}')
 
 plot_mse_amplitude(amplitude_dict)
+
+
+
 
 
 

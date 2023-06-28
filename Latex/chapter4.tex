@@ -53,6 +53,31 @@ The FFNN that are trained to solve the inverse problem of ours has an input laye
   \label{fig:NN_architecture.png}
 \end{figure}
 
+\subsection{Validation accuracy}
+In Figure \ref{fig:single_dipole_accuracy} we have provided the validation accuray, using mean squared error (MSE) and the coefficient of determination (R2-score).
+
+The expression for MSE when predicting the x-, y- and z-coordinate, goes as follows:
+
+\begin{equation}
+MSE(\hat{y},\hat{\tilde{y}}) = \frac{1}{n}
+\sum_{i=1}^{n}(y_i-\tilde{y}_i)^2 \\
+= \frac{1}{3}\sum_{i=1}^{3}((x-\tilde{x})^2 + (y-\tilde{y})^2 + (z-\tilde{z})^2 )
+\label{eq:MSE}
+\end{equation}
+
+The coefficient of determination is given as follows:
+\begin{equation}
+R^2(\hat{y}, \tilde{\hat{y}}) = 1 - \frac{\sum_{i=0}^{n - 1} (y_i - \tilde{y}_i)^2}{\sum_{i=0}^{n - 1} (y_i - \bar{y})^2},
+\label{eq:R2}
+\end{equation}
+
+Where the mean value of $y_i$ is defined by $\bar{y}$:
+
+\begin{equation*}
+\bar{y} =  \frac{1}{n} \sum_{i=0}^{n - 1} y_i.
+\label{eq:ybar}
+\end{equation*}
+
 
 
 \subsection{Activation functions, Batchsize and Optimization}
@@ -83,11 +108,5 @@ In figure \ref{fig:single_dipole_accuracy_FFNN} we have provided the bias-varian
 % 2001; Vatta et al., 2010; Akalin Acar and Makeig, 2013; Vorwerk et al.,
 % 2014).
 
-\begin{thebibliography}{9}
-
-  \bibitem{101}
-     Jensen, M, H., 2021, Constructing a Neural Network code, Tensor flow and start Convolutional Neural Networks
-
-\end{thebibliography}
 
 \end{document}

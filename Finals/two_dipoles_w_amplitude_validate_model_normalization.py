@@ -37,7 +37,8 @@ name = 'dipole_w_amplitude'
 # Amplitude
 # model = torch.load('trained_models/dipole_w_amplitude__lr1.5_l1_1e-5_l2_1e-5_300_50000_bs32.pt')
 # model = torch.load('trained_models/RIGHT_custom_area_w_amplitude_500_SGD_lr1.5_wd1e-05_bs32.pt')
-model = torch.load('trained_models/TEST_two_dipoles_w_amplitude_1000_SGD_lr0.1_wd0.25_mom0.35_bs128.pt')
+# model = torch.load('trained_models/TEST_two_dipoles_w_amplitude_1000_SGD_lr0.1_wd0.25_mom0.35_bs128.pt')
+model = torch.load('trained_models/26june_two_dipoles_w_amplitude_5000_SGD_lr0.0001_wd0.1_mom0.35_bs128_10noise.pt')
 
 print('finished loading model')
 
