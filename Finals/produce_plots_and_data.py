@@ -8,164 +8,335 @@ import os
 import h5py
 from matplotlib.widgets import Slider
 
-
 big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
 
+plt.style.use('seaborn')
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "DejaVu Sans",
+    "font.serif": ["Computer Modern"]}
+)
 
-def return_simple_dipole(num_samples:int, num_dipoles: int = 1):
-    """
-    Produce eeg data from single dipole moment for num_samples
 
-    input:
-        num_samples : int
-            The number of samples/patients
-
-        num_dipoles : int
-            The number of desired diples
-
-    returns:
-        eeg : numpy array of floats, size (num_samples, 231)
-            Electrical signals from single dipole in the cortex
-
-        dipole_locations : numpy array of floats, size (3, num_samples)
-            Position of single dipole for each sample
-    """
+def plot_simple_example(A1, A2):
     nyhead = NYHeadModel()
 
-    rng = np.random.default_rng(seed=36)
-    dipole_locations = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
+    dipole_location = 'motorsensory_cortex'  # predefined location from NYHead class
+    nyhead.set_dipole_pos(dipole_location)
+    M = nyhead.get_transformation_matrix()
 
-    eeg = np.zeros((num_samples, 231))
+    p1 = np.array(([0.0], [0.0], [A1])) * 1E7  # Ganske sterk dipol --> målbart resultat [nA* u m]
+    p2 = np.array(([0.0], [0.0], [A2])) * 1E7
 
-    for i in range(num_samples):
-        nyhead.set_dipole_pos(dipole_locations[:,i])
-        eeg_i = calculate_eeg(nyhead)
-        eeg[i, :] = eeg_i.T
+    # We rotate current dipole moment to be oriented along the normal vector of cortex
+    p1 = nyhead.rotate_dipole_to_surface_normal(p1)
+    p2 = nyhead.rotate_dipole_to_surface_normal(p2)
 
+    eeg1 = M @ p1 * 1E9  # [mV] -> [pV] unit conversion
+    eeg2 = M @ p2 * 1E9
 
-    # plotting the data without and with (different amount of) noise
-    plot_dipoles(nyhead, "simple_dipole", eeg[0], dipole_locations[:,0], 0)
+    x_lim = [-100, 100]
+    y_lim = [-130, 100]
 
-    noise_pcts = [0.1, 0.5, 1, 10, 50]
-    for i, noise_pct in enumerate(noise_pcts):
-        eeg_noise = eeg[0] + np.random.normal(0, np.std(eeg[0]) * noise_pct/100, eeg[0].shape) # add noice
+    plt.close("all")
+    fig = plt.figure(figsize=[19, 10])
+    gs = fig.add_gridspec(1, 2, wspace=0.3)
+    ax1 = fig.add_subplot(gs[0, 0])
+    ax2 = fig.add_subplot(gs[0, 1])
 
-        plot_dipoles(nyhead, "simple_dipole", eeg_noise, dipole_locations[:,0], noise_pct)
+    axes = [ax1, ax2]
+    eeg_data = [eeg1, eeg2]
+    titles = [f'Amplitude = {A1} nA$\mu$m', f'Amplitude = {A2} nA$\mu$m']
 
-    return eeg, dipole_locations
+    vmax = np.max(np.abs(np.concatenate((eeg1, eeg2), axis=0)))
+    cmap = lambda v: plt.cm.bwr((v + vmax) / (2 * vmax))
 
+    for ax, eeg, title in zip(axes, eeg_data, titles):
+        max_elec_idx = np.argmax(np.std(eeg, axis=1))
+        time_idx = np.argmax(np.abs(eeg[max_elec_idx]))
 
+        for idx in range(eeg.shape[0]):
+            c = cmap(eeg[idx, time_idx])
+            ax.plot(nyhead.elecs[0, idx], nyhead.elecs[1, idx], 'o', ms=10, c=c,
+                    zorder=nyhead.elecs[2, idx])
 
-def return_dipoles_w_amplitudes(num_samples: int, num_dipoles: int, create_plot: bool = True):
-    """
-    Produce eeg data from multiple dipole moments for num_samples
-    input:
-        num_samples : int
-            The number of samples/patients
-        num_dipoles : int
-            The number of desired diples
-    returns:
-        eeg : numpy array of floats, size (num_samples, 231)
-            Electrical signals from single dipole in the cortex
-        dipole_locations : numpy array of floats, size (3, num_samples)
-            Position of single dipole for each sample
-    """
-    nyhead = NYHeadModel()
+        ax.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=20, color='orange', zorder=1000)
+        ax.set_xlabel("x (mm)", fontsize=20)
+        ax.set_ylabel("y (mm)", fontsize=20)
+        ax.set_xlim(x_lim)
+        ax.set_ylim(y_lim)
+        ax.set_title(title, fontsize=25)
 
-    rng = np.random.default_rng(seed=36)
-    dipole_locations = rng.choice(nyhead.cortex, size=num_samples*num_dipoles, axis=1) # [mm]
+    cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7])  # [left, bottom, width, height]
+    img = ax1.imshow([[]], origin="lower", vmin=-vmax, vmax=vmax, cmap=plt.cm.bwr)
+    cbar = plt.colorbar(img, cax=cbar_ax)
+    cbar.set_label(label='µV', size=20, weight='bold')
+    cbar.ax.tick_params(axis="both", labelsize=20)
 
-    eeg = np.zeros((num_samples, 231))
-    dipole_amplitudes = np.zeros((1, num_samples*num_dipoles))
+    ax1.tick_params(axis='x', which='both', labelsize=20)
+    ax1.tick_params(axis='y', which='both', labelsize=20)
+    ax2.tick_params(axis='x', which='both', labelsize=20)
+    ax2.tick_params(axis='y', which='both', labelsize=20)
 
-    for i in range(num_samples):
-        eeg_i = np.zeros((1,231))
-        dipole_pos_list = []
-        A = np.random.uniform(1, 10) # Amplitude. Each sample has its own amplitude value
-        for j in range(num_dipoles):
-            nyhead.set_dipole_pos(dipole_locations[:,j+(num_dipoles)*i])
-            dipole_pos_list.append(nyhead.dipole_pos)
+    plt.savefig("plots/dipole_w_amplitude_example.pdf")
 
-            dipole_amplitudes[:,j+(num_dipoles)*i] = A
-
-            eeg_tmp = calculate_eeg(nyhead, A).T
-            eeg_i += eeg_tmp
-
-        eeg[i, :] = eeg_i
-
-        if i < 5 and create_plot == True:
-            plot_dipoles(nyhead, "dipoles_w_amplitudes", eeg[i], dipole_pos_list, i)
-
-    target = np.concatenate((dipole_locations, dipole_amplitudes), axis=0)
-
-    return eeg, target
-
-
-def return_dipole_area(num_samples: int, radii_range: int = 20):
-    """
-    Produce eeg data from population of dipoles for num_samples
-    and provides plots of the 10 first samples
-
-    input:
-        num_samples : int
-            Number of samples/patients
-
-        radii_range : int
-            Largest desired radius for the dipole population [mm]
-    returns:
-    pos_idx : list with ints
-        Indices of the positions in the brain within the given radii
-
-    eeg : array with shape (num_samples, 231)
-        Electrical signals from dipolepopulation in the cortex
-
-    dipole_locations_and_radii : array with shape (4, num_samples)
-        Center and radius of dipole population for each sample
-    """
-    nyhead = NYHeadModel()
-
-    rng = np.random.default_rng(seed=36)
-    # Center of dipoles
-    centers = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
-    radii = rng.uniform(low=1, high=radii_range, size=num_samples) # [mm]
-
-    eeg = np.zeros((num_samples, 231))
-    dipole_locations_and_radii = np.zeros((4, num_samples))
-    dipole_amplitudes = np.zeros((1, num_samples))
-
-
-    for i in range(num_samples):
-        print(centers[:,i])
-        dipole_locations_and_radii[0,i] = centers[0,i]
-        dipole_locations_and_radii[1,i] = centers[1,i]
-        dipole_locations_and_radii[2,i] = centers[2,i]
-        dipole_locations_and_radii[3,i] = radii[i]
-        # pos index consist of multiple dipoles within a defined radius
-        pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
-
-        A = np.random.uniform(1, 10) # Amplitude. Each sample has its own amplitude value
-        A_sum = 0
-
-        while len(pos_idx) < 1:
-            radii[i] += 1
-            pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
-
-        eeg_i = np.zeros((1,231))
-
-        for idx in pos_idx:
-            nyhead.set_dipole_pos(nyhead.cortex[:,idx])
-            eeg_i += calculate_eeg(nyhead, A).T
-            A_sum += A
-
-        eeg[i, :] = eeg_i
-        dipole_amplitudes[:,i] = A_sum/len(pos_idx)
-
-        target = np.concatenate((dipole_locations_and_radii, dipole_amplitudes), axis=0)
-        if i < 6:
-            plot_active_region(eeg[i], centers[:,i], radii[i], pos_idx, i)
-            print(f'Finished producing figure {i}')
-
-    return eeg, target
+# def plot_simple_example(A):
+#     nyhead = NYHeadModel()
+#
+#     dipole_location = 'motorsensory_cortex'  # predefined location from NYHead class
+#     nyhead.set_dipole_pos(dipole_location)
+#     M = nyhead.get_transformation_matrix()
+#
+#     p = np.array(([0.0], [0.0], [A])) * 1E7 # Ganske sterk dipol --> målbart resultat [nA* u m]
+#
+#     # We rotate current dipole moment to be oriented along the normal vector of cortex
+#     p = nyhead.rotate_dipole_to_surface_normal(p)
+#     eeg = M @ p * 1E9 # [mV] -> [pV] unit conversion
+#
+#     x_lim = [-100, 100]
+#     y_lim = [-130, 100]
+#     z_lim = [-160, 120]
+#
+#     plt.close("all")
+#     fig = plt.figure(figsize=[19, 10])
+#     fig.subplots_adjust(top=0.96, bottom=0.05, hspace=0.17, wspace=0.3, left=0.1, right=0.99)
+#     ax1 = fig.add_subplot(245, aspect=1, xlabel="x (mm)", ylabel='y (mm)', xlim=x_lim, ylim=y_lim)
+#     ax2 = fig.add_subplot(246, aspect=1, xlabel="x (mm)", ylabel='z (mm)', xlim=x_lim, ylim=z_lim)
+#     ax3 = fig.add_subplot(247, aspect=1, xlabel="y (mm)", ylabel='z (mm)', xlim=y_lim, ylim=z_lim)
+#     # ax_eeg = fig.add_subplot(244, xlabel="Time (ms)", ylabel='pV', title='EEG at all electrodes')
+#     #
+#     # ax_cdm = fig.add_subplot(248, xlabel="Time (ms)", ylabel='nA$\cdot \mu$m',
+#     #                          title='Current dipole moment')
+#     # dist, closest_elec_idx = nyhead.find_closest_electrode()
+#     # print("Closest electrode to dipole: {:1.2f} mm".format(dist))
+#
+#     max_elec_idx = np.argmax(np.std(eeg, axis=1))
+#     time_idx = np.argmax(np.abs(eeg[max_elec_idx]))
+#     max_eeg = np.max(np.abs(eeg[:, time_idx]))
+#     max_eeg_idx = np.argmax(np.abs(eeg[:, time_idx]))
+#
+#     max_eeg_pos = nyhead.elecs[:3, max_eeg_idx]
+#     # fig.text(0.01, 0.25, "Cortex", va='center', rotation=90, fontsize=22)
+#     # fig.text(0.03, 0.25,
+#     #          "Dipole pos: {:1.1f}, {:1.1f}, {:1.1f}\nDipole moment: {:1.2f} {:1.2f} {:1.2f}".format(
+#     #     nyhead.dipole_pos[0], nyhead.dipole_pos[1], nyhead.dipole_pos[2],
+#     #     p[0, time_idx], p[1, time_idx], p[2, time_idx]
+#     # ), va='center', rotation=90, fontsize=14)
+#
+#     # fig.text(0.01, 0.75, "EEG", va='center', rotation=90, fontsize=22)
+#     # fig.text(0.03, 0.75, "Max: {:1.2f} pV at idx {}\n({:1.1f}, {:1.1f} {:1.1f})".format(
+#     #          max_eeg, max_eeg_idx, max_eeg_pos[0], max_eeg_pos[1], max_eeg_pos[2]), va='center',
+#     #          rotation=90, fontsize=14)
+#
+#     ax7 = fig.add_subplot(241, aspect=1, xlabel="x (mm)", ylabel='y (mm)',
+#                           xlim=x_lim, ylim=y_lim)
+#     ax8 = fig.add_subplot(242, aspect=1, xlabel="x (mm)", ylabel='z (mm)',
+#                           xlim=x_lim, ylim=z_lim)
+#     ax9 = fig.add_subplot(243, aspect=1, xlabel="y (mm)", ylabel='z (mm)',
+#                           xlim=y_lim, ylim=z_lim)
+#
+#     # ax_cdm.plot(t, p[2, :], 'k')
+#     # [ax_eeg.plot(t, eeg[idx, :], c='gray') for idx in range(eeg.shape[0])]
+#     # ax_eeg.plot(t, eeg[closest_elec_idx, :], c='green', lw=2)
+#
+#     vmax = np.max(np.abs(eeg[:, time_idx]))
+#     v_range = vmax
+#     cmap = lambda v: plt.cm.bwr((v + vmax) / (2*vmax))
+#
+#     threshold = 2
+#
+#     xz_plane_idxs = np.where(np.abs(nyhead.cortex[1, :] - nyhead.dipole_pos[1]) < threshold)[0]
+#     xy_plane_idxs = np.where(np.abs(nyhead.cortex[2, :] - nyhead.dipole_pos[2]) < threshold)[0]
+#     yz_plane_idxs = np.where(np.abs(nyhead.cortex[0, :] - nyhead.dipole_pos[0]) < threshold)[0]
+#
+#     ax1.scatter(nyhead.cortex[0, xy_plane_idxs], nyhead.cortex[1, xy_plane_idxs], s=5)
+#     ax2.scatter(nyhead.cortex[0, xz_plane_idxs], nyhead.cortex[2, xz_plane_idxs], s=5)
+#     ax3.scatter(nyhead.cortex[1, yz_plane_idxs], nyhead.cortex[2, yz_plane_idxs], s=5)
+#
+#     for idx in range(eeg.shape[0]):
+#         c = cmap(eeg[idx, time_idx])
+#         ax7.plot(nyhead.elecs[0, idx], nyhead.elecs[1, idx], 'o', ms=10, c=c,
+#                  zorder=nyhead.elecs[2, idx])
+#         ax8.plot(nyhead.elecs[0, idx], nyhead.elecs[2, idx], 'o', ms=10, c=c,
+#                  zorder=nyhead.elecs[1, idx])
+#         ax9.plot(nyhead.elecs[1, idx], nyhead.elecs[2, idx], 'o', ms=10, c=c,
+#                  zorder=-nyhead.elecs[0, idx])
+#
+#     img = ax3.imshow([[], []], origin="lower", vmin=-vmax,
+#                      vmax=vmax, cmap=plt.cm.bwr)
+#     plt.colorbar(img, ax=ax9, shrink=0.5).set_label(label='µV',size=20, weight='bold')
+#     img.figure.axes[0].tick_params(axis="both", labelsize=20)
+#     img.figure.axes[1].tick_params(axis="x", labelsize=20)
+#
+#         # img = ax3.imshow([[], []], origin="lower", cmap=plt.cm.bwr)
+#         # cb = plt.colorbar(img).
+#
+#
+#     ax1.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=12, color='orange', zorder=1000)
+#     ax2.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
+#     ax3.plot(nyhead.dipole_pos[1], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
+#
+#     ax7.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=12, color='orange', zorder=1000)
+#     ax8.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
+#     ax9.plot(nyhead.dipole_pos[1], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
+#
+#     # plt.savefig(f"plots/dipole_area/dipole_area_reduced_{numbr}.pdf")
+#
+#
+# def return_simple_dipole(num_samples:int, num_dipoles: int = 1):
+#     """
+#     Produce eeg data from single dipole moment for num_samples
+#
+#     input:
+#         num_samples : int
+#             The number of samples/patients
+#
+#         num_dipoles : int
+#             The number of desired diples
+#
+#     returns:
+#         eeg : numpy array of floats, size (num_samples, 231)
+#             Electrical signals from single dipole in the cortex
+#
+#         dipole_locations : numpy array of floats, size (3, num_samples)
+#             Position of single dipole for each sample
+#     """
+#     nyhead = NYHeadModel()
+#
+#     rng = np.random.default_rng(seed=36)
+#     dipole_locations = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
+#
+#     eeg = np.zeros((num_samples, 231))
+#
+#     for i in range(num_samples):
+#         nyhead.set_dipole_pos(dipole_locations[:,i])
+#         eeg_i = calculate_eeg(nyhead)
+#         eeg[i, :] = eeg_i.T
+#
+#
+#     # plotting the data without and with (different amount of) noise
+#     plot_dipoles(nyhead, "simple_dipole", eeg[0], dipole_locations[:,0], 0)
+#
+#     noise_pcts = [0.1, 0.5, 1, 10, 50]
+#     for i, noise_pct in enumerate(noise_pcts):
+#         eeg_noise = eeg[0] + np.random.normal(0, np.std(eeg[0]) * noise_pct/100, eeg[0].shape) # add noice
+#
+#         plot_dipoles(nyhead, "simple_dipole", eeg_noise, dipole_locations[:,0], noise_pct)
+#
+#     return eeg, dipole_locations
+#
+#
+#
+# def return_dipoles_w_amplitudes(num_samples: int, num_dipoles: int, create_plot: bool = True):
+#     """
+#     Produce eeg data from multiple dipole moments for num_samples
+#     input:
+#         num_samples : int
+#             The number of samples/patients
+#         num_dipoles : int
+#             The number of desired diples
+#     returns:
+#         eeg : numpy array of floats, size (num_samples, 231)
+#             Electrical signals from single dipole in the cortex
+#         dipole_locations : numpy array of floats, size (3, num_samples)
+#             Position of single dipole for each sample
+#     """
+#     nyhead = NYHeadModel()
+#
+#     rng = np.random.default_rng(seed=36)
+#     dipole_locations = rng.choice(nyhead.cortex, size=num_samples*num_dipoles, axis=1) # [mm]
+#
+#     eeg = np.zeros((num_samples, 231))
+#     dipole_amplitudes = np.zeros((1, num_samples*num_dipoles))
+#
+#     for i in range(num_samples):
+#         eeg_i = np.zeros((1,231))
+#         dipole_pos_list = []
+#         A = np.random.uniform(1, 10) # Amplitude. Each sample has its own amplitude value
+#         for j in range(num_dipoles):
+#             nyhead.set_dipole_pos(dipole_locations[:,j+(num_dipoles)*i])
+#             dipole_pos_list.append(nyhead.dipole_pos)
+#
+#             dipole_amplitudes[:,j+(num_dipoles)*i] = A
+#
+#             eeg_tmp = calculate_eeg(nyhead, A).T
+#             eeg_i += eeg_tmp
+#
+#         eeg[i, :] = eeg_i
+#
+#         if i < 5 and create_plot == True:
+#             plot_dipoles(nyhead, "dipoles_w_amplitudes", eeg[i], dipole_pos_list, i)
+#
+#     target = np.concatenate((dipole_locations, dipole_amplitudes), axis=0)
+#
+#     return eeg, target
+#
+#
+# def return_dipole_area(num_samples: int, radii_range: int = 20):
+#     """
+#     Produce eeg data from population of dipoles for num_samples
+#     and provides plots of the 10 first samples
+#
+#     input:
+#         num_samples : int
+#             Number of samples/patients
+#
+#         radii_range : int
+#             Largest desired radius for the dipole population [mm]
+#     returns:
+#     pos_idx : list with ints
+#         Indices of the positions in the brain within the given radii
+#
+#     eeg : array with shape (num_samples, 231)
+#         Electrical signals from dipolepopulation in the cortex
+#
+#     dipole_locations_and_radii : array with shape (4, num_samples)
+#         Center and radius of dipole population for each sample
+#     """
+#     nyhead = NYHeadModel()
+#
+#     rng = np.random.default_rng(seed=36)
+#     # Center of dipoles
+#     centers = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
+#     radii = rng.uniform(low=1, high=radii_range, size=num_samples) # [mm]
+#
+#     eeg = np.zeros((num_samples, 231))
+#     dipole_locations_and_radii = np.zeros((4, num_samples))
+#     dipole_amplitudes = np.zeros((1, num_samples))
+#
+#
+#     for i in range(num_samples):
+#         print(centers[:,i])
+#         dipole_locations_and_radii[0,i] = centers[0,i]
+#         dipole_locations_and_radii[1,i] = centers[1,i]
+#         dipole_locations_and_radii[2,i] = centers[2,i]
+#         dipole_locations_and_radii[3,i] = radii[i]
+#         # pos index consist of multiple dipoles within a defined radius
+#         pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
+#
+#         A = np.random.uniform(1, 10) # Amplitude. Each sample has its own amplitude value
+#         A_sum = 0
+#
+#         while len(pos_idx) < 1:
+#             radii[i] += 1
+#             pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
+#
+#         eeg_i = np.zeros((1,231))
+#
+#         for idx in pos_idx:
+#             nyhead.set_dipole_pos(nyhead.cortex[:,idx])
+#             eeg_i += calculate_eeg(nyhead, A).T
+#             A_sum += A
+#
+#         eeg[i, :] = eeg_i
+#         dipole_amplitudes[:,i] = A_sum/len(pos_idx)
+#
+#         target = np.concatenate((dipole_locations_and_radii, dipole_amplitudes), axis=0)
+#         if i < 6:
+#             plot_active_region(eeg[i], centers[:,i], radii[i], pos_idx, i)
+#             print(f'Finished producing figure {i}')
+#
+#     return eeg, target
 
 
 def return_dipole_area_const_A(num_samples: int, radii_range: int = 20):
@@ -652,4 +823,6 @@ if __name__ == '__main__':
 
     # find_neighbour_dipole()
 
-    return_simple_dipole(10, 1)
+    # return_simple_dipole(10, 1)
+
+    plot_simple_example(5, 10)

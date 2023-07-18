@@ -12,6 +12,8 @@ from utils import numpy_to_torch
 
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.optim as optim
+import torch.nn.init as init
+
 
 
 
@@ -28,11 +30,18 @@ class Net(nn.Module):
         else:
             self.fc5 = nn.Linear(16, 3*N_dipoles)
 
+        self.initialize_weights()
+
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                init.xavier_normal_(m.weight)
+
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
-        x = torch.relu(self.fc2(x))
-        x = torch.relu(self.fc3(x))
-        x = torch.relu(self.fc4(x))
+        x = torch.tanh(self.fc2(x))
+        x = torch.tanh(self.fc3(x))
+        x = torch.tanh(self.fc4(x))
         x = self.fc5(x)
 
         return x
@@ -182,7 +191,7 @@ def main(
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
 
-    save_file_name = f'simple_dipole_lr{lr}_RELU_{N_epochs}_{N_samples}'
+    save_file_name = f'simple_dipole_lr{lr}_tanh_initialize_weight_{N_epochs}_{N_samples}'
     log_file_name = os.path.join(log_dir, save_file_name + '.txt')
 
     with open(log_file_name, 'w') as f:

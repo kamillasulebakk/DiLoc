@@ -46,28 +46,40 @@ class Net(nn.Module):
         return x
 
 # class Net(nn.Module):
-#     def __init__(self, N_dipoles: int, determine_area: bool = False):
+#     def __init__(self, N_dipoles: int, determine_area: bool = True):
 #         self.determine_area = determine_area
 #         super().__init__()
 #         self.dropout = nn.Dropout(p=0.5)
 #         self.fc1 = nn.Linear(231, 128*4)
-#         self.fc2 = nn.Linear(128*4, 64*4)
-#         self.fc3 = nn.Linear(64*4, 32*4)
-#         self.fc4 = nn.Linear(32*4, 16*4)
-#         self.fc5 = nn.Linear(16*4, 32)
+#         self.fc2 = nn.Linear(128*4, 128*8)
+#         self.fc3 = nn.Linear(128*8, 128*4)
+#         self.fc4 = nn.Linear(128*4, 64*4)
+#         self.fc5 = nn.Linear(64*4, 32*4)
+#         self.fc6 = nn.Linear(32*4, 16*4)
+#         self.fc7 = nn.Linear(16*4, 32)
 #
 #         if determine_area:
-#             self.fc6 = nn.Linear(32, 5*N_dipoles)
+#             self.fc8 = nn.Linear(32, 5*N_dipoles)
 #         else:
-#             self.fc6 = nn.Linear(32, 4*N_dipoles)
+#             self.fc8 = nn.Linear(32, 4*N_dipoles)
+#         self.sigmoid = nn.Sigmoid()
+#
+#         self.initialize_weights()
+#
+#     def initialize_weights(self):
+#         for m in self.modules():
+#             if isinstance(m, nn.Linear):
+#                 init.xavier_normal_(m.weight)
 #
 #     def forward(self, x: torch.Tensor):
 #         x = F.relu(self.fc1(x))
-#         x = torch.tanh(self.fc2(x))
-#         x = torch.tanh(self.fc3(x))
-#         x = torch.tanh(self.fc4(x))
-#         x = torch.tanh(self.fc5(x))
-#         x = self.fc6(x)
+#         x = torch.relu(self.fc2(x))
+#         x = torch.relu(self.fc3(x))
+#         x = torch.relu(self.fc4(x))
+#         x = torch.relu(self.fc5(x))
+#         x = torch.relu(self.fc6(x))
+#         x = torch.relu(self.fc7(x))
+#         x = self.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
 #
 #         return x
 
@@ -220,11 +232,15 @@ def main(
     criterion = nn.MSELoss()
     # criterion = custom_loss_dipoles_w_amplitudes
 
-    lr = 0.9 # Works best for 1 dipole, with amplitude (no radi)
-    momentum = 1e-4
-    weight_decay = 1e-5
+    # lr = 0.9 # Works best for 1 dipole, with amplitude (no radi)
+    # momentum = 1e-4
+    # weight_decay = 1e-5
 
-    save_file_name: str = f'TEST_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_bs{batch_size}'
+    lr = 0.001
+    momentum = 0.35
+    weight_decay = 0.1
+
+    save_file_name: str = f'7.july_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_bs{batch_size}'
 
 
     optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
@@ -325,10 +341,10 @@ def main(
 
 if __name__ == '__main__':
     main(
-        N_samples=10_000,
+        N_samples=50000,
         N_dipoles=1,
         determine_area=False,
-        N_epochs=500,
+        N_epochs=1000,
         noise_pct=10,
         log_dir='results'
     )

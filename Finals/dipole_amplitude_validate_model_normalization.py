@@ -4,9 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from NN_dipole_w_amplitude import Net
-# from NN_2_dipoles import Net
+# from NN_costum_loss import Net
+# from NN_simple_network_amplitude import Net
 
-from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change, xz_plane_idxs
+from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, xz_plane_idxs
 from load_data import load_data_files
 
 import os
@@ -29,13 +30,23 @@ def plot_mse_amplitude(amplitude_dict):
     ax.plot(labels, values)
     fig.savefig(f'plots/amplitude_mse_lr_1.8.png')
 
-N_samples = 1000
+N_samples = 3000
 N_dipoles = 1
 name = 'dipole_w_amplitude'
 
-# Amplitude
-# model = torch.load('trained_models/two_dipoles_w_amplitude_1000_SGD_lr0.1_wd0.25_mom0.35_bs128.pt')
-model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
+# NN_costum_loss
+# model = torch.load('trained_models/tanh_50000_3july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_mom0.35_bs64.pt')
+
+# print('amplitude 0.9')
+# model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
+model = torch.load('trained_models/7.july_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_bs32.pt')
+
+
+# simple mpodel with relu and parameters euqal to simple dipole
+# model = torch.load('trained_models/july/simple_network_relu_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
+
+# simple mpodel with tanh and sigmoid and parameters eqal to simple dipole
+# model = torch.load('trained_models/july/simple_network_tanh_sigmoid_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
 
 print('finished loading model')
 
@@ -72,10 +83,6 @@ for dipole_num in range(N_dipoles):
     error_z = np.zeros_like(error_x)
     error_amplitude = np.zeros_like(error_x)
 
-    relative_change_x = np.zeros(N_samples)
-    relative_change_y = np.zeros_like(relative_change_x)
-    relative_change_z = np.zeros_like(relative_change_x)
-    relative_change_amplitude = np.zeros_like(relative_change_x)
 
     amplitude_dict = {key: None for key in amplitude_target}
     amplitude_dict = dict(sorted(amplitude_dict.items()))
@@ -91,11 +98,6 @@ for dipole_num in range(N_dipoles):
         z_pred =  pred_list[dipole_num, i, 2] = denormalize(pred[2 + (dipole_num*4)], np.max(z_target), np.min(z_target))
         amplitude_pred = pred_list[dipole_num, i, 3] = denormalize(pred[3 + (dipole_num*4)], np.max(amplitude_target), np.min(amplitude_target))
 
-        relative_change_x[i] = relative_change(x_target[i], x_pred)
-        relative_change_y[i] = relative_change(y_target[i], y_pred)
-        relative_change_z[i] = relative_change(z_target[i], z_pred)
-        relative_change_amplitude[i] = relative_change(amplitude_target[i], amplitude_pred)
-
         error_x[i] = np.abs(x_target[i] - x_pred)
         error_y[i] = np.abs(y_target[i] - y_pred)
         error_z[i] = np.abs(z_target[i] - z_pred)
@@ -105,9 +107,38 @@ for dipole_num in range(N_dipoles):
 
 
 for i in range(N_dipoles):
+    MAE_x = MAE(x_target, pred_list[i, :, 0])
+    MAE_y = MAE(y_target, pred_list[i, :, 1])
+    MAE_z = MAE(z_target, pred_list[i, :, 2])
+    MAE_amp = MAE(amplitude_target, pred_list[i, :, 3])
+    MAE_pos = MAE(target, pred_list)
+    #
+    MSE_x = MSE(x_target, pred_list[i, :, 0])
+    MSE_y = MSE(y_target, pred_list[i, :, 1])
+    MSE_z = MSE(z_target, pred_list[i, :, 2])
+    MAE_amp = MAE(amplitude_target, pred_list[i, :, 3])
+    MSE_pos = MSE(target, pred_list)
+
+    # relative_change_pos = np.mean(relative_change(target, pred_list))
+
     print(f'Dipole No: {i+1}')
-    print(f'MAE x-coordinates:{MAE(x_target, pred_list[i, :, 0])}')
-    print(f'MAE y-coordinates:{MAE(y_target, pred_list[i, :, 1])}')
-    print(f'MAE z-coordinates:{MAE(z_target, pred_list[i, :, 2])}')
-    print(f'MAE amplitude:{MAE(amplitude_target, pred_list[i, :, 3])}')
-# plot_mse_amplitude(amplitude_dict)
+    print(f'MAE x-coordinates:{MAE_x} mm')
+    print(f'MAE y-coordinates:{MAE_y} mm')
+    print(f'MAE z-coordinates:{MAE_z} mm')
+    print(f'MAE amplitude:{MAE_amp} mm')
+    print(f'MAE: {MAE_pos} mm')
+
+    print(f'Dipole No: {i+1}')
+    print(f'MSE x-coordinates:{MSE_x} mm')
+    print(f'MSE y-coordinates:{MSE_y} mm')
+    print(f'MSE y-coordinates:{MSE_z} mm')
+    print(f'MSE amplitude:{MAE_amp} mm')
+    print(f'MSE: {MSE_pos} mm')
+
+    print(f'Dipole No: {i+1}')
+    print(f'RMSE x-coordinates:{np.sqrt(MSE(x_target, pred_list[i, :, 0]))}')
+    print(f'RMSE y-coordinates:{np.sqrt(MSE(y_target, pred_list[i, :, 1]))}')
+    print(f'RMSE z-coordinates:{np.sqrt(MSE(z_target, pred_list[i, :, 2]))}')
+    print(f'RMSE amplitude:{np.sqrt(MSE(amplitude_target, pred_list[i, :, 3]))}')
+    print(f'RMSE: {np.sqrt(MSE_pos)} mm')
+

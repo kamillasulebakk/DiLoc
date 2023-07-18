@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from NN_dipole_w_radi_amplitude import Net
 
 from produce_plots_and_data import calculate_eeg
-from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change
+from utils import numpy_to_torch, normalize, denormalize, MSE, MAE
 import produce_plots_and_data
 
 import os

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from NN_dipole_w_amplitude import Net
 
 from produce_plots_and_data import calculate_eeg
-from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, relative_change
+from utils import numpy_to_torch, normalize, denormalize, MSE, MAE
 import produce_plots_and_data
 
 import os
@@ -28,8 +28,8 @@ def plot_MAE_error(NN, mse, dipole_locs, name):
 
 
 # x, y, z - coordinates + amplitude
-model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
-
+# model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
+model = torch.load('trained_models/30.juni_dipole_w_amplitude_500_SGD_lr0.01_wd0.1_bs32.pt')
 
 nyhead = NYHeadModel()
 
@@ -113,9 +113,6 @@ print(f'MAE y-coordinates:{MAE_y}')
 print(f'MAE z-coordinates:{MAE_z}')
 print(f'MAE location:{MAE_locations}')
 
-plot_MAE_error('dipole_w_amplitude', error_x, nyhead.cortex[:,xz_plane_idxs], 'x')
-plot_MAE_error('dipole_w_amplitude', error_y, nyhead.cortex[:,xz_plane_idxs], 'y')
-plot_MAE_error('dipole_w_amplitude', error_z, nyhead.cortex[:,xz_plane_idxs], 'z')
 plot_MAE_error('dipole_w_amplitude', error_locations, nyhead.cortex[:,xz_plane_idxs], 'position')
 
 

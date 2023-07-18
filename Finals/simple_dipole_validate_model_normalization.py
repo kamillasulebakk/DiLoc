@@ -52,9 +52,9 @@ for dipole_num in range(N_dipoles):
     error_y = np.zeros_like(error_x)
     error_z = np.zeros_like(error_x)
 
-    relative_change_x = np.zeros(N_samples)
-    relative_change_y = np.zeros_like(relative_change_x)
-    relative_change_z = np.zeros_like(relative_change_x)
+    # relative_change_x = np.zeros(N_samples)
+    # relative_change_y = np.zeros_like(relative_change_x)
+    # relative_change_z = np.zeros_like(relative_change_x)
 
     print(f'Dipole No: {dipole_num+1}')
     for i in range(N_samples):
@@ -84,7 +84,7 @@ for i in range(N_dipoles):
     MSE_x = MSE(x_target, pred_list[i, :, 0])
     MSE_y = MSE(y_target, pred_list[i, :, 1])
     MSE_z = MSE(z_target, pred_list[i, :, 2])
-    MSE_pos = MAE(target, pred_list)
+    MSE_pos = MSE(target, pred_list)
 
     # relative_change_pos = np.mean(relative_change(target, pred_list))
 

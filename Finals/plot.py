@@ -3,7 +3,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from lfpykit.eegmegcalc import NYHeadModel
 import os
-import h5py
+# import h5py
 
 plt.style.use('seaborn')
 plt.rcParams.update({
@@ -447,14 +447,14 @@ def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg,
     fig.savefig(f'plots/compare_dipoles.png')
 
 
-def plot_simple_example():
+def plot_simple_example(A):
     nyhead = NYHeadModel()
 
     dipole_location = 'motorsensory_cortex'  # predefined location from NYHead class
     nyhead.set_dipole_pos(dipole_location)
     M = nyhead.get_transformation_matrix()
 
-    p = np.array(([0.0], [0.0], [1.0])) * 1E7 # Ganske sterk dipol --> målbart resultat [nA* u m]
+    p = np.array(([0.0], [0.0], [A])) * 1E7 # Ganske sterk dipol --> målbart resultat [nA* u m]
 
     # We rotate current dipole moment to be oriented along the normal vector of cortex
     p = nyhead.rotate_dipole_to_surface_normal(p)
@@ -463,6 +463,8 @@ def plot_simple_example():
     x_lim = [-100, 100]
     y_lim = [-130, 100]
     z_lim = [-160, 120]
+
+    input()
 
     plt.close("all")
     fig = plt.figure(figsize=[19, 10])

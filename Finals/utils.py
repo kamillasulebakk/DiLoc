@@ -15,10 +15,6 @@ def normalize(x):
     x_new = (x - np.min(x))/(np.max(x) - np.min(x))
     return x_new
 
-# def denormalize(x, max_x, min_x):
-#     x_new = x * (max_x - min_x) + min_x
-#     return x_new
-
 def denormalize(x, max_x, min_x):
     x_new = x * (max_x - min_x) + min_x
     return x_new
