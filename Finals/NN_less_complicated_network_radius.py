@@ -2,77 +2,15 @@ import os
 
 import torch
 from torch import nn
-import torch.nn.functional as F
-from sklearn.model_selection import train_test_split    # type: ignore
+from torch.optim.lr_scheduler import ReduceLROnPlateau
 import numpy as np
 
-from load_data import load_data_files
-from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
-from utils import numpy_to_torch, normalize, custom_loss
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-import torch.optim as optim
-import torch.nn.init as init
-
+from plot import plot_MSE_NN, plot_MSE_targets
 from ffnn import FFNN
-
-class EEGDataset(torch.utils.data.Dataset):
-    def __init__(self, train_test: str, determine_area: bool, determine_amplitude: bool, N_samples: int, N_dipoles: int, noise_pct: int = 10):
-        if train_test not in ['train', 'test']:
-            raise ValueError(f'Unknown train_test value {train_test}')
-
-        if determine_area:
-            name = 'dipole_area'
-        elif determine_amplitude:
-            name = 'dipoles_w_amplitudes'
-        else:
-            name = 'simple_dipole'
-
-        eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
-
-        # TODO: move this to the generating function in
-        # produce_and_load_eeg_data.py
-        if N_dipoles > 1:
-            # reshape so that target goes like [[x1, y1, z1, A1], [x2, y2, z2, A2], ..., [xn, yn, zn, An]]
-            target = np.reshape(target, (N_samples, 4*N_dipoles))
+from eeg_dataset import EEGDataset
 
 
-        eeg = (eeg - np.mean(eeg))/np.std(eeg)
-
-        if name != 'simple_dipole':
-            for i in range(np.shape(target)[1]):
-                target[:, i] = normalize(target[:, i])
-
-        eeg = numpy_to_torch(eeg)
-        target = numpy_to_torch(target)
-
-        self.eeg, self.target = self.split_data(eeg, target, train_test, noise_pct)
-        self.add_noise()
-
-    def add_noise(self):
-        noise_pct = 10
-        noise = torch.normal(0, torch.std(self.eeg) * noise_pct/100, size=self.eeg.shape)
-        self.eeg += noise
-
-    def split_data(self, eeg, target, train_test, noise_pct):
-        eeg_train, eeg_test, target_train, target_test = train_test_split(
-            eeg, target, test_size=0.2, random_state=0
-        )
-        if train_test == 'train':
-            return eeg_train, target_train
-        if train_test == 'test':
-            return eeg_test, target_test
-
-    def __getitem__(self, idx):
-        eeg = self.eeg[idx]
-        target = self.target[idx]
-        return eeg, target
-
-    def __len__(self):
-        return self.eeg.shape[0]
-
-
-def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
+def train_epoch(data_loader_train, optimizer, net, criterion):
     losses = np.zeros(len(data_loader_train))
     for idx, (signal, target_train) in enumerate(data_loader_train):
         optimizer.zero_grad()
@@ -93,7 +31,7 @@ def train_epoch(data_loader_train, optimizer, net, criterion, N_dipoles):
     return mean_loss
 
 
-def test_epoch(data_loader_test, net, criterion, N_dipoles, scheduler):
+def test_epoch(data_loader_test, net, criterion, scheduler):
     losses = np.zeros(len(data_loader_test))
     with torch.no_grad():
         for idx, (signal, target_test) in enumerate(data_loader_test):
@@ -117,9 +55,6 @@ def main(
     noise_pct: int = 5,
     log_dir: str = 'results',
 ):
-
-    noise_pct = noise_pct
-
     msg = f'Training network with {N_samples} samples'
     if determine_area:
         msg += ' determining radii'
@@ -140,14 +75,18 @@ def main(
         determine_amplitude
     )
 
-    dataset_train = EEGDataset('train', determine_area, determine_amplitude, N_samples, N_dipoles)
+    dataset_train = EEGDataset(
+        'train', determine_area, determine_amplitude, N_samples, N_dipoles
+    )
     data_loader_train = torch.utils.data.DataLoader(
         dataset_train,
         batch_size=batch_size,
         shuffle=True,
     )
-    dataset_test = EEGDataset('test', determine_area, determine_amplitude, N_samples, N_dipoles)
-    data_loader_test = torch.utils.data.DataLoader(
+    dataset_test = EEGDataset(
+        'validation', determine_area, determine_amplitude, N_samples, N_dipoles
+    )
+    data_loader_val = torch.utils.data.DataLoader(
         dataset_test,
         batch_size=batch_size,
         shuffle=False,
@@ -227,9 +166,9 @@ def main(
     status_line = 'Epoch {:4d}/{:4d} | Train: {:6.10f} | Test: {:6.10f} \n'
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(
-            data_loader_train, optimizer, net, criterion, N_dipoles)
+            data_loader_train, optimizer, net, criterion)
         test_loss[epoch] = test_epoch(
-            data_loader_test, net, criterion, N_dipoles, scheduler)
+            data_loader_val, net, criterion, scheduler)
 
         line = status_line.format(
             epoch, N_epochs - 1, train_loss[epoch], test_loss[epoch]
@@ -238,7 +177,7 @@ def main(
         with open(log_file_name, 'a') as f:
             f.write(line)
 
-        for i, (signal, target) in enumerate(data_loader_test):
+        for i, (signal, target) in enumerate(data_loader_val):
             pred = net(signal)
             target_ = target.detach().numpy()
             pred_ = pred.detach().numpy()
@@ -250,7 +189,7 @@ def main(
 
         # print target and predicted values
         if epoch % 100 == 0:
-            for i, (signal, target) in enumerate(data_loader_test):
+            for i, (signal, target) in enumerate(data_loader_val):
                 pred = net(signal)
                 line = f'\n Target: {target[0]} \n'
                 line += f'Predicted: {pred[0]} \n'
@@ -297,7 +236,7 @@ def main(
 
 if __name__ == '__main__':
     main(
-        N_samples=50000,
+        N_samples=70000,
         N_dipoles=1,
         determine_area=True,
         determine_amplitude=True,
