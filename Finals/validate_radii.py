@@ -2,11 +2,7 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-# from NN_dipole_w_radi_amplitude import Net
-# from NN_best_architecture import Net
-from NN_dipole_area_working import Net
-# from NN_simple_network_radius import Net
-# from NN_less_complicated_network_radius import Net
+from ffnn import FFNN
 
 from utils import numpy_to_torch, denormalize
 import test_models as tm
@@ -29,13 +25,15 @@ print('Test data loaded')
 
 # model = torch.load('trained_models/22.juni_dipole_w_radi_amplitude_500_SGD_lr0.09_wd0.0001_mom0.9_bs32.pt')
 # model = torch.load('trained_models/22.juni_dipole_w_radi_amplitude_500_SGD_lr0.9_wd0.0001_mom0.9_bs32.pt')
-model = torch.load('trained_models/50000_26junemseloss_MSE_area_w_amplitude_5000_SGD_lr0.001_wd0.1_mom0.35_bs64.pt')
+# model = torch.load('trained_models/50000_26junemseloss_MSE_area_w_amplitude_5000_SGD_lr0.001_wd0.1_mom0.35_bs64.pt')
 # model = torch.load('trained_models/july/new_dataset_simple_network_radius_tanh_sigmoid_50000_12july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_wd_0.1_bs32.pt')
 # model = torch.load('trained_models/july/l1_0.0001_simple_network_radius_tanh_sigmoid_50000_12july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_wd_0.1_bs32.pt')
 # model = torch.load('trained_models/july/l1_0.1_simple_network_radius_tanh_sigmoid_50000_12july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_wd_0.1_bs32.pt')
 #
 # model = torch.load('trained_models/july/area_l1_and_l2_less_complicated_network_radius_tanh_sigmoid_50000_18july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_wd_0.05_bs32.pt')
 # model = torch.load('trained_models/july/area_l2_less_complicated_network_radius_tanh_sigmoid_50000_18july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_wd_0.05_bs32.pt')
+
+model = torch.load('trained_models/july/test123.pt')
 
 print('Pretrained model loaded')
 

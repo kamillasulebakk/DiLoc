@@ -39,9 +39,9 @@ class Net(nn.Module):
 
     def forward(self, x: torch.Tensor):
         x = F.relu(self.fc1(x))
-        x = torch.tanh(self.fc2(x))
-        x = torch.tanh(self.fc3(x))
-        x = torch.tanh(self.fc4(x))
+        x = torch.relu(self.fc2(x))
+        x = torch.relu(self.fc3(x))
+        x = torch.relu(self.fc4(x))
         x = self.fc5(x)
 
         return x

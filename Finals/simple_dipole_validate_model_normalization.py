@@ -4,9 +4,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from NN_simple_dipole import Net
+# from NN_less_complicated_network_radius import Net
 
-
-from produce_plots_and_data import return_simple_dipole
 from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, xz_plane_idxs
 from load_data import load_data_files
 
@@ -23,6 +22,8 @@ name = 'simple_dipole'
 
 # model = torch.load('trained_models/TEST_simple_dipole_lr0.001_l1_penalty_300_50000.pt')
 model = torch.load('trained_models/simple_dipole_lr0.001_RELU_500_50000.pt')
+# model = torch.load('trained_models/july/simple_dipole_l2_less_complicated_network_radius_tanh_50000_19july_mseloss_MSE_dipole_w_amplitude_500_SGD_lr0.001_mom0.35_wd_0_bs64.pt')
+
 
 print('finished loading model')
 
