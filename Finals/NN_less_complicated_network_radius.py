@@ -14,47 +14,7 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.optim as optim
 import torch.nn.init as init
 
-
-class Net(nn.Module):
-    def __init__(self, N_dipoles: int, determine_area: bool = False, determine_amplitude: bool = False):
-        self.determine_area = determine_area
-        self.determine_amplitude = determine_amplitude
-        super().__init__()
-        self.dropout = nn.Dropout(p=0.5)
-        self.fc1 = nn.Linear(231, 128*4)
-        self.fc2 = nn.Linear(128*4, 64*4)
-        self.fc3 = nn.Linear(64*4, 32*4)
-        self.fc4 = nn.Linear(32*4, 16*4)
-        self.fc5 = nn.Linear(16*4, 32)
-
-        if determine_area:
-            self.fc6 = nn.Linear(32, 5*N_dipoles)
-        elif determine_amplitude:
-            self.fc6 = nn.Linear(32, 4*N_dipoles)
-        else:
-            self.fc6 = nn.Linear(32, 3*N_dipoles)
-
-        self.initialize_weights()
-
-    def initialize_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Linear):
-                init.xavier_normal_(m.weight)
-
-    def forward(self, x: torch.Tensor):
-        x = F.relu(self.fc1(x))
-        x = torch.tanh(self.fc2(x))
-        x = torch.tanh(self.fc3(x))
-        x = torch.tanh(self.fc4(x))
-        x = torch.tanh(self.fc5(x))
-
-        if self.determine_area or self.determine_amplitude:
-            x = torch.sigmoid(self.fc6(x))
-        else:
-            x = self.fc6(x)
-
-        return x
-
+from ffnn import FFNN
 
 class EEGDataset(torch.utils.data.Dataset):
     def __init__(self, train_test: str, determine_area: bool, determine_amplitude: bool, N_samples: int, N_dipoles: int, noise_pct: int = 10):
@@ -69,7 +29,6 @@ class EEGDataset(torch.utils.data.Dataset):
             name = 'simple_dipole'
 
         eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
-
 
         # TODO: move this to the generating function in
         # produce_and_load_eeg_data.py
@@ -174,7 +133,13 @@ def main(
     # batch_size = 128
 
 
-    net = Net(N_dipoles, determine_area)
+    net = FFNN(
+        [512, 256, 128, 64, 32],
+        N_dipoles,
+        determine_area,
+        determine_amplitude
+    )
+
     dataset_train = EEGDataset('train', determine_area, determine_amplitude, N_samples, N_dipoles)
     data_loader_train = torch.utils.data.DataLoader(
         dataset_train,
@@ -219,7 +184,9 @@ def main(
     # weight_decay = 0.1
     weight_decay = 0
 
-    save_file_name: str = f'simple_dipole_l2_less_complicated_network_radius_tanh_{N_samples}_19july_mseloss_MSE_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_mom{momentum}_wd_{weight_decay}_bs{batch_size}'
+    # save_file_name: str = f'simple_dipole_l2_less_complicated_network_radius_tanh_{N_samples}_19july_mseloss_MSE_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_mom{momentum}_wd_{weight_decay}_bs{batch_size}'
+    save_file_name: str = f'test123'
+
     # save_file_name: str = f'adam'
     # lr = 0.001
 
@@ -332,9 +299,9 @@ if __name__ == '__main__':
     main(
         N_samples=50000,
         N_dipoles=1,
-        determine_area=False,
-        determine_amplitude=False,
-        N_epochs=500,
+        determine_area=True,
+        determine_amplitude=True,
+        N_epochs=20,
         noise_pct=10,
         log_dir='results'
     )
