@@ -1,5 +1,5 @@
 # ignore large numpy files of EEG data
-Finals/data/*.npy
+Finals/data/*_complete.npy
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,python,latex,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,python,latex,linux
