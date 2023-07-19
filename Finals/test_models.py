@@ -1,6 +1,7 @@
 import json
 
 import numpy as np
+from ft.formats import Table
 
 from utils import MSE, MAE
 
@@ -87,28 +88,17 @@ def generate_test_results(predictions: np.ndarray, targets: np.ndarray):
 
 
 def print_test_results(d):
-    s = '' \
-        + f'MAE x-coordinates:{d["MAE_x"]} mm\n' \
-        + f'MAE y-coordinates:{d["MAE_y"]} mm\n' \
-        + f'MAE z-coordinates:{d["MAE_z"]} mm\n' \
-        + f'MAE radius:{d["MAE_radius"]} mm\n' \
-        + f'MAE amplitude:{d["MAE_amplitude"]} mm\n' \
-        + f'MAE: {d["MAE_position"]} mm\n' \
-        + '\n' \
-        + f'MSE x-coordinates:{d["MSE_x"]} mm\n' \
-        + f'MSE y-coordinates:{d["MSE_y"]} mm\n' \
-        + f'MSE y-coordinates:{d["MSE_z"]} mm\n' \
-        + f'MSE radius:{d["MSE_radius"]} mm\n' \
-        + f'MSE amplitude:{d["MSE_amplitude"]} mm\n' \
-        + f'MSE: {d["MSE_position"]} mm\n' \
-        + '\n' \
-        + f'RMSE x-coordinates:{np.sqrt(d["MSE_x"])}\n' \
-        + f'RMSE y-coordinates:{np.sqrt(d["MSE_y"])}\n' \
-        + f'RMSE z-coordinates:{np.sqrt(d["MSE_z"])}\n' \
-        + f'RMSE radius:{np.sqrt(d["MSE_radius"])}\n' \
-        + f'RMSE amplitude:{np.sqrt(d["MSE_amplitude"])}\n' \
-        + f'RMSE: {np.sqrt(d["MSE_position"])} mm'
-    print(s)
+    l = [
+        ['', 'MAE (mm)', 'MSE (mm^2)', 'RMSE (mm)'],
+        ['x', f'{d["MAE_x"]:.3f}', f'{d["MSE_x"]:.3f}', f'{np.sqrt(d["MSE_x"]):.3f}'],
+        ['y', f'{d["MAE_y"]:.3f}', f'{d["MSE_y"]:.3f}', f'{np.sqrt(d["MSE_y"]):.3f}'],
+        ['z', f'{d["MAE_z"]:.3f}', f'{d["MSE_z"]:.3f}', f'{np.sqrt(d["MSE_z"]):.3f}'],
+        ['Position', f'{d["MAE_position"]:.3f}', f'{d["MSE_position"]:.3f}', f'{np.sqrt(d["MSE_position"]):.3f}'],
+        ['Radius', f'{d["MAE_radius"]:.3f}', f'{d["MSE_radius"]:.3f}', f'{np.sqrt(d["MSE_radius"]):.3f}'],
+        ['Amplitude', f'{d["MAE_amplitude"]:.3f}', f'{d["MSE_amplitude"]:.3f}', f'{np.sqrt(d["MSE_amplitude"]):.3f}'],
+    ]
+    table = Table(l)
+    table.write()
 
 
 def save_test_results(d, filename: str):

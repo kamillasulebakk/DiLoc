@@ -41,7 +41,6 @@ name = 'dipole_w_amplitude'
 # model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
 model = torch.load('trained_models/7.july_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_bs32.pt')
 
-
 # simple mpodel with relu and parameters euqal to simple dipole
 # model = torch.load('trained_models/july/simple_network_relu_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
 
