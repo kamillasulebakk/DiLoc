@@ -88,26 +88,9 @@ class Logger:
         self._write_line('\n'.join(lines) + '\n')
 
 
-def main():
-    parameters = {
-        'N_samples': 70_000,
-        'N_dipoles': 1,
-        'determine_amplitude': False,
-        'determine_area': False,
-        'hidden_layers': [512, 256, 128, 64, 32],
-        'batch_size': 32,
-        'learning_rate': 0.001,
-        'momentum': 0.35,
-        'weight_decay': 0.1,
-        'N_epochs': 20,
-        'noise_pct': 10,
-        'log_fname': 'test12345',
-    }
-
+def run_model(parameters):
     logger = Logger(parameters)
-
     net = FFNN(parameters)
-
     data_loader_train = torch.utils.data.DataLoader(
         EEGDataset('train', parameters),
         batch_size=parameters['batch_size'],
@@ -201,6 +184,24 @@ def main():
     # )
 
     torch.save(net, f'trained_models/july/{parameters["log_fname"]}.pt')
+
+
+def main():
+    parameters = {
+        'N_samples': 70_000,
+        'N_dipoles': 1,
+        'determine_amplitude': False,
+        'determine_area': False,
+        'hidden_layers': [512, 256, 128, 64, 32],
+        'batch_size': 32,
+        'learning_rate': 0.001,
+        'momentum': 0.35,
+        'weight_decay': 0.1,
+        'N_epochs': 20,
+        'noise_pct': 10,
+        'log_fname': 'test12345',
+    }
+    run_model(parameters)
 
 
 if __name__ == '__main__':
