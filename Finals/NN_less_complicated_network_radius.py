@@ -29,17 +29,25 @@ def train_epoch(data_loader, optimizer, net, criterion):
     return mean_loss
 
 
-def test_epoch(data_loader, net, criterion, scheduler):
-    total_loss = 0.0
+def val_epoch(data_loader, net, criterion, scheduler):
+    total_loss = 0.0    # NB! Will turn into torch.Tensor
+    SE_targets = 0.0    # NB! Will turn into torch.Tensor
+    total_number_of_samples = 0
     with torch.no_grad():
         for eeg, target in data_loader:
             pred = net(eeg)
             loss = criterion(pred, target)
             total_loss += loss
+
+            SE_targets += ((target - pred)**2).sum(dim=0)
+            total_number_of_samples += target.shape[0]
+
         # Adjust the learning rate based on validation loss
         scheduler.step(loss)
+
     mean_loss = total_loss.item()/len(data_loader)
-    return mean_loss
+    MSE_targets = SE_targets.numpy()/total_number_of_samples
+    return mean_loss, MSE_targets
 
 
 batch_sizes = [32, 64, 128]
@@ -71,7 +79,7 @@ class Logger:
             f.write(line)
 
     def status(self, epoch: int, loss: float, val: float):
-        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Test: {:13.8f}\n'
+        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Validation: {:13.8f}\n'
         line = status_line.format(
             epoch,
             self._parameters['N_epochs'] - 1,
@@ -117,28 +125,16 @@ def run_model(parameters):
                                 eps=1e-08)
 
     train_loss = np.zeros(parameters['N_epochs'])
-    test_loss = np.zeros_like(train_loss)
-
-    MSE_targets = np.zeros((4, parameters['N_epochs']))
-    MSE_x, MSE_y, MSE_z, MSE_A = MSE_targets
+    val_loss = np.zeros_like(train_loss)
+    MSE_targets = np.zeros((parameters['N_epochs'], 3))
 
     # Train the model
     for epoch in range(parameters['N_epochs']):
         train_loss[epoch] = train_epoch(
             data_loader_train, optimizer, net, criterion)
-        test_loss[epoch] = test_epoch(
+        val_loss[epoch], MSE_targets[epoch] = val_epoch(
             data_loader_val, net, criterion, scheduler)
-        logger.status(epoch, train_loss[epoch], test_loss[epoch])
-
-        for i, (signal, target) in enumerate(data_loader_val):
-            pred = net(signal)
-            target_ = target.detach().numpy()
-            pred_ = pred.detach().numpy()
-
-            MSE_x[epoch] = np.mean((target_[:][0] - pred_[:][0]) ** 2)
-            MSE_y[epoch] = np.mean((target_[:][1] - pred_[:][1]) ** 2)
-            MSE_z[epoch] = np.mean((target_[:][2] - pred_[:][2]) ** 2)
-            MSE_A[epoch] = np.mean((target_[:][3] - pred_[:][3]) ** 2)
+        logger.status(epoch, train_loss[epoch], val_loss[epoch])
 
         # print target and predicted values
         if epoch % 100 == 0:
@@ -152,25 +148,27 @@ def run_model(parameters):
                     break
             logger.print_predictions(preds, targets)
 
+    # MSE_x, MSE_y, MSE_z, MSE_A = MSE_targets
+    #
     # plot_MSE_NN(
-        # train_loss,
-        # test_loss,
-        # save_file_name,
-        # 'tanh',
-        # batch_size,
-        # N_epochs,
-        # N_dipoles
+    #     train_loss,
+    #     val_loss,
+    #     save_file_name,
+    #     'tanh',
+    #     batch_size,
+    #     N_epochs,
+    #     N_dipoles
     # )
-
+    #
     # plot_MSE_targets(
-        # MSE_x,
-        # MSE_y,
-        # MSE_z,
-        # MSE_A,
-        # 'tanh',
-        # batch_size,
-        # save_file_name,
-        # N_dipoles
+    #     MSE_x,
+    #     MSE_y,
+    #     MSE_z,
+    #     MSE_A,
+    #     'tanh',
+    #     batch_size,
+    #     save_file_name,
+    #     N_dipoles
     # )
 
     # plot_MSE_single_target(
