@@ -35,10 +35,10 @@ def test_epoch(data_loader, net, criterion, scheduler):
         for eeg, target in data_loader:
             pred = net(eeg)
             loss = criterion(pred, target)
-            total_loss += loss.item()
-        mean_loss = total_loss/len(data_loader)
+            total_loss += loss
         # Adjust the learning rate based on validation loss
         scheduler.step(loss)
+    mean_loss = total_loss.item()/len(data_loader)
     return mean_loss
 
 
@@ -119,10 +119,8 @@ def run_model(parameters):
     train_loss = np.zeros(parameters['N_epochs'])
     test_loss = np.zeros_like(train_loss)
 
-    MSE_x = np.zeros(parameters['N_epochs'])
-    MSE_y = np.zeros_like(MSE_x)
-    MSE_z = np.zeros_like(MSE_x)
-    MSE_A = np.zeros_like(MSE_x)
+    MSE_targets = np.zeros((4, parameters['N_epochs']))
+    MSE_x, MSE_y, MSE_z, MSE_A = MSE_targets
 
     # Train the model
     for epoch in range(parameters['N_epochs']):
