@@ -7,7 +7,7 @@ import numpy as np
 
 from plot import plot_MSE_NN, plot_MSE_targets
 from ffnn import FFNN
-from eeg_dataset import EEGDataset
+from eeg_dataset import EEGDataset, generate_log_filename
 
 
 def train_epoch(data_loader, optimizer, net, criterion):
@@ -56,16 +56,9 @@ batch_sizes = [32, 64, 128]
 class Logger:
     def __init__(self, parameters):
         self._parameters = parameters
-        fname = os.path.join(
-            'results', self._parameters['log_fname'] + '.txt'
+        self._log_fname = os.path.join(
+            'results', parameters['log_fname'] + '.txt'
         )
-        i = 1
-        while os.path.isfile(fname):
-            fname = os.path.join(
-                'results', self._parameters['log_fname'] + f'_({i}).txt'
-            )
-            i += 1
-        self._log_fname = fname
         self._write_line(self._header_line())
 
     def _header_line(self):
@@ -148,28 +141,24 @@ def run_model(parameters):
                     break
             logger.print_predictions(preds, targets)
 
-    # MSE_x, MSE_y, MSE_z, MSE_A = MSE_targets
-    #
-    # plot_MSE_NN(
-    #     train_loss,
-    #     val_loss,
-    #     save_file_name,
-    #     'tanh',
-    #     batch_size,
-    #     N_epochs,
-    #     N_dipoles
-    # )
-    #
-    # plot_MSE_targets(
-    #     MSE_x,
-    #     MSE_y,
-    #     MSE_z,
-    #     MSE_A,
-    #     'tanh',
-    #     batch_size,
-    #     save_file_name,
-    #     N_dipoles
-    # )
+    MSE_x, MSE_y, MSE_z = MSE_targets.T
+
+    plot_MSE_NN(
+        train_loss,
+        val_loss,
+        parameters['log_fname'],
+        'tanh',
+        parameters['batch_size'],
+        parameters['N_epochs'],
+        parameters['N_dipoles']
+    )
+
+    plot_MSE_targets(
+        MSE_targets,
+        parameters['batch_size'],
+        parameters['log_fname'],
+        parameters['N_dipoles']
+    )
 
     # plot_MSE_single_target(
     #     MSE_A,
@@ -194,9 +183,9 @@ def main():
         'momentum': 0.35,
         'weight_decay': 0.1,
         'N_epochs': 20,
-        'noise_pct': 10,
-        'log_fname': 'test12345',
+        'noise_pct': 10
     }
+    parameters['log_fname'] = generate_log_filename(parameters)
     run_model(parameters)
 
 

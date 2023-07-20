@@ -1,8 +1,33 @@
+import os
+
 import torch
 from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
 
 from utils import numpy_to_torch, normalize
+
+
+def determine_fname_prefix(determine_area: bool, determine_amplitude: bool):
+    if determine_area:
+        result = 'area'
+    elif determine_amplitude:
+        result = 'amplitudes'
+    else:
+        result = 'simple'
+    return result
+
+
+def generate_log_filename(parameters):
+    result = determine_fname_prefix(
+        parameters['determine_area'],
+        parameters['determine_amplitude']
+    )
+    result += f'_{parameters["batch_size"]}_{parameters["learning_rate"]}'
+    result += f'_{parameters["momentum"]}_{parameters["weight_decay"]}'
+    i = 0
+    while os.path.isfile(os.path.join('results', result + f'_({i}).txt')):
+        i += 1
+    return result + f'_({i})'
 
 
 def load_data_files(
@@ -12,12 +37,7 @@ def load_data_files(
     N_samples: int,
     N_dipoles: int
     ):
-    if determine_area:
-        name = 'area'
-    elif determine_amplitude:
-        name = 'amplitudes'
-    else:
-        name = 'simple'
+    name = determine_fname_prefix(determine_area, determine_amplitude)
     filename_base = f'data/{name}_{N_samples}_{N_dipoles}'
     if data_split == 'test':
         filename_suffix = 'test'
