@@ -15,13 +15,7 @@ def train_epoch(data_loader, optimizer, net, criterion):
     for eeg, target in data_loader:
         optimizer.zero_grad()
         pred = net(eeg)
-        loss = criterion(pred, target)
-        # l1_lambda = 0.000001
-        #
-        # #TODO: fix this list -> tensor hack
-        # l1_norm = torch.sum(torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()]))
-        #
-        # loss = loss + l1_lambda * l1_norm
+        loss = criterion(pred, target, net, is_training=True)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
@@ -36,7 +30,7 @@ def val_epoch(data_loader, net, criterion, scheduler):
     with torch.no_grad():
         for eeg, target in data_loader:
             pred = net(eeg)
-            loss = criterion(pred, target)
+            loss = criterion(pred, target, net, is_training=False)
             total_loss += loss
 
             SE_targets += ((target - pred)**2).sum(dim=0)
@@ -89,6 +83,22 @@ class Logger:
         self._write_line('\n'.join(lines) + '\n')
 
 
+class Loss:
+    def __init__(self, l1_lambda):
+        self._lambda = l1_lambda
+        self._mse = nn.MSELoss()
+
+    def __call__(self, predicted, target, net, is_training: bool):
+        result = self._mse(predicted, target)
+        if is_training:
+            # TODO: fix this list -> tensor hack
+            l1_norm = torch.sum(
+                torch.tensor([torch.linalg.norm(p, 1) for p in net.parameters()])
+            )
+            result += self._lambda * l1_norm
+        return result
+
+
 def run_model(parameters):
     logger = Logger(parameters)
     net = FFNN(parameters)
@@ -103,7 +113,7 @@ def run_model(parameters):
         shuffle=False,
     )
 
-    criterion = nn.MSELoss()
+    criterion = Loss(parameters['l1_lambda'])
 
     optimizer = torch.optim.SGD(
         net.parameters(),
@@ -140,8 +150,6 @@ def run_model(parameters):
                 if i == 2:
                     break
             logger.print_predictions(preds, targets)
-
-    MSE_x, MSE_y, MSE_z = MSE_targets.T
 
     plot_MSE_NN(
         train_loss,
@@ -181,6 +189,7 @@ def main():
         'batch_size': 32,
         'learning_rate': 0.001,
         'momentum': 0.35,
+        'l1_lambda': 0.0,
         'weight_decay': 0.1,
         'N_epochs': 20,
         'noise_pct': 10
