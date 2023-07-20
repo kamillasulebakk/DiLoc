@@ -1,12 +1,11 @@
 import os
 
 import torch
-from torch import nn
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import numpy as np
 
 from plot import plot_MSE_NN, plot_MSE_targets
-from ffnn import FFNN
+from ffnn import FFNN, number_of_output_values
 from eeg_dataset import EEGDataset, generate_log_filename
 
 
@@ -42,9 +41,6 @@ def val_epoch(data_loader, net, criterion, scheduler):
     mean_loss = total_loss.item()/len(data_loader)
     MSE_targets = SE_targets.numpy()/total_number_of_samples
     return mean_loss, MSE_targets
-
-
-batch_sizes = [32, 64, 128]
 
 
 class Logger:
@@ -86,7 +82,7 @@ class Logger:
 class Loss:
     def __init__(self, l1_lambda):
         self._lambda = l1_lambda
-        self._mse = nn.MSELoss()
+        self._mse = torch.nn.MSELoss()
 
     def __call__(self, predicted, target, net, is_training: bool):
         result = self._mse(predicted, target)
@@ -100,6 +96,7 @@ class Loss:
 
 
 def run_model(parameters):
+    parameters['log_fname'] = generate_log_filename(parameters)
     logger = Logger(parameters)
     net = FFNN(parameters)
     data_loader_train = torch.utils.data.DataLoader(
@@ -129,7 +126,13 @@ def run_model(parameters):
 
     train_loss = np.zeros(parameters['N_epochs'])
     val_loss = np.zeros_like(train_loss)
-    MSE_targets = np.zeros((parameters['N_epochs'], 3))
+    MSE_targets = np.zeros((
+        parameters['N_epochs'],
+        number_of_output_values(
+            parameters['determine_amplitude'],
+            parameters['determine_area']
+        )
+    ))
 
     # Train the model
     for epoch in range(parameters['N_epochs']):
@@ -168,35 +171,4 @@ def run_model(parameters):
         parameters['N_dipoles']
     )
 
-    # plot_MSE_single_target(
-    #     MSE_A,
-    #     'tanh',
-    #     batch_size,
-    #     save_file_name,
-    #     N_dipoles
-    # )
-
     torch.save(net, f'trained_models/july/{parameters["log_fname"]}.pt')
-
-
-def main():
-    parameters = {
-        'N_samples': 70_000,
-        'N_dipoles': 1,
-        'determine_amplitude': False,
-        'determine_area': False,
-        'hidden_layers': [512, 256, 128, 64, 32],
-        'batch_size': 32,
-        'learning_rate': 0.001,
-        'momentum': 0.35,
-        'l1_lambda': 0.0,
-        'weight_decay': 0.1,
-        'N_epochs': 20,
-        'noise_pct': 10
-    }
-    parameters['log_fname'] = generate_log_filename(parameters)
-    run_model(parameters)
-
-
-if __name__ == '__main__':
-    main()

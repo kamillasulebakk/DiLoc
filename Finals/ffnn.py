@@ -2,8 +2,15 @@ from typing import List
 
 import torch
 from torch import nn
-import torch.nn.functional as F
-from torch.nn import init
+
+
+def number_of_output_values(amp: bool, area: bool):
+    result = 3
+    if amp:
+        result += 1
+    if area:
+        result += 1
+    return result
 
 
 class FFNN(nn.Module):
@@ -24,14 +31,12 @@ class FFNN(nn.Module):
             self.hidden_layers.append(
                 nn.Linear(hidden_layers[i], hidden_layers[i+1])
             )
-        number_of_output_values = 3
-        if self.determine_area:
-            number_of_output_values += 1
-        if self.determine_amplitude:
-            number_of_output_values += 1
+        N_output = number_of_output_values(
+            self.determine_amplitude, self.determine_area
+        )
         self.final_layer = nn.Linear(
             hidden_layers[-1],
-            number_of_output_values*N_dipoles
+            N_output*N_dipoles
         )
 
         self.initialize_weights()
@@ -39,10 +44,10 @@ class FFNN(nn.Module):
     def initialize_weights(self):
         for m in self.modules():
             if isinstance(m, nn.Linear):
-                init.xavier_normal_(m.weight)
+                nn.init.xavier_normal_(m.weight)
 
     def forward(self, x: torch.Tensor):
-        x = F.relu(self.first_layer(x))
+        x = nn.functional.relu(self.first_layer(x))
         for layer in self.hidden_layers:
             x = torch.tanh(layer(x))
         x = self.final_layer(x)
