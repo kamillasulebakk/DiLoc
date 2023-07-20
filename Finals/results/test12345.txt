@@ -1,0 +1,42 @@
+N_samples: 70000
+N_dipoles: 1
+determine_amplitude: False
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+weight_decay: 0.1
+N_epochs: 20
+noise_pct: 10
+log_fname: test12345
+------------------------------------------------------------
+Epoch    0/  19 | Train: 1081.01503257 | Test:  671.49267481
+Predicted: [  9.577799 -24.059818   8.681805]
+Target:    [ 22.28531  -24.038597  -9.578612]
+
+Predicted: [  8.06975  -47.394676  18.901989]
+Target:    [ 25.232157  -97.77904     4.5215373]
+
+Predicted: [ -0.96748424 -14.209379     9.51469   ]
+Target:    [ 6.163237  2.593288 43.872375]
+
+Epoch    1/  19 | Train:  447.24755962 | Test:  286.88131012
+Epoch    2/  19 | Train:  200.06904606 | Test:  129.29887190
+Epoch    3/  19 | Train:   91.06296193 | Test:   61.38464324
+Epoch    4/  19 | Train:   48.35611198 | Test:   37.15071953
+Epoch    5/  19 | Train:   32.31524763 | Test:   27.07481370
+Epoch    6/  19 | Train:   24.84284955 | Test:   21.77858930
+Epoch    7/  19 | Train:   20.52426345 | Test:   18.50132495
+Epoch    8/  19 | Train:   17.66982475 | Test:   16.26524793
+Epoch    9/  19 | Train:   15.65346209 | Test:   14.56525836
+Epoch   10/  19 | Train:   14.13994003 | Test:   13.33874495
+Epoch   11/  19 | Train:   12.96645519 | Test:   12.33963412
+Epoch   12/  19 | Train:   12.03339642 | Test:   11.54464640
+Epoch   13/  19 | Train:   11.27612112 | Test:   10.89453559
+Epoch   14/  19 | Train:   10.64637873 | Test:   10.35323224
+Epoch   15/  19 | Train:   10.11025607 | Test:    9.90436830
+Epoch   16/  19 | Train:    9.64446796 | Test:    9.49340778
+Epoch   17/  19 | Train:    9.25372704 | Test:    9.14051516
+Epoch   18/  19 | Train:    8.89844945 | Test:    8.83001904
+Epoch   19/  19 | Train:    8.59227414 | Test:    8.55984972

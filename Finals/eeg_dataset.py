@@ -29,42 +29,33 @@ def load_data_files(
 
 
 class EEGDataset(torch.utils.data.Dataset):
-    def __init__(
-        self,
-        data_split: str,
-        determine_area: bool,
-        determine_amplitude: bool,
-        N_samples: int,
-        N_dipoles: int,
-        noise_pct: int = 10
-    ):
+    def __init__(self, data_split, parameters):
         valid_data_splits = ['train', 'validation', 'test']
         if data_split not in valid_data_splits:
             raise ValueError(
                 f'data_split must be in {valid_data_splits}, not {data_split}'
             )
 
-        if N_dipoles > 1:
-            if determine_area:
+        if parameters['N_dipoles'] > 1:
+            if parameters['determine_area']:
                 raise ValueError(
                     'determine_area should be False when N_dipoles > 1'
                 )
-            if not determine_amplitude:
+            if not parameters['determine_amplitude']:
                 raise ValueError(
                     'determine_amplitude should be True when N_dipoles > 1'
                 )
 
-
         eeg, target = load_data_files(
             data_split,
-            determine_area,
-            determine_amplitude,
-            N_samples,
-            N_dipoles
+            parameters['determine_area'],
+            parameters['determine_amplitude'],
+            parameters['N_samples'],
+            parameters['N_dipoles']
         )
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
-        if determine_area or determine_amplitude:
+        if parameters['determine_area'] or parameters['determine_amplitude']:
             for i in range(target.shape[1]):
                 target[:, i] = normalize(target[:, i])
 
@@ -75,7 +66,7 @@ class EEGDataset(torch.utils.data.Dataset):
             self.eeg, self.target = eeg, target
         else:
             self.eeg, self.target = self.split_data(eeg, target, data_split)
-        self.add_noise(noise_pct)
+        self.add_noise(parameters['noise_pct'])
 
     def add_noise(self, noise_pct):
         noise = torch.normal(0, torch.std(self.eeg) * noise_pct/100, size=self.eeg.shape)

@@ -9,14 +9,13 @@ from torch.nn import init
 class FFNN(nn.Module):
     def __init__(
         self,
-        hidden_layers: List[int],
-        N_dipoles: int,
-        determine_area: bool = False,
-        determine_amplitude: bool = False
+        parameters
     ):
         super().__init__()
-        self.determine_area = determine_area
-        self.determine_amplitude = determine_amplitude
+        hidden_layers: List[int] = parameters['hidden_layers']
+        N_dipoles: int = parameters['N_dipoles']
+        self.determine_area = parameters['determine_area']
+        self.determine_amplitude = parameters['determine_amplitude']
         self.dropout = nn.Dropout(p=0.5)
 
         self.first_layer = nn.Linear(231, hidden_layers[0])
@@ -26,9 +25,9 @@ class FFNN(nn.Module):
                 nn.Linear(hidden_layers[i], hidden_layers[i+1])
             )
         number_of_output_values = 3
-        if determine_area:
+        if self.determine_area:
             number_of_output_values += 1
-        if determine_amplitude:
+        if self.determine_amplitude:
             number_of_output_values += 1
         self.final_layer = nn.Linear(
             hidden_layers[-1],

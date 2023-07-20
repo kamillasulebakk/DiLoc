@@ -10,12 +10,12 @@ from ffnn import FFNN
 from eeg_dataset import EEGDataset
 
 
-def train_epoch(data_loader_train, optimizer, net, criterion):
-    losses = np.zeros(len(data_loader_train))
-    for idx, (signal, target_train) in enumerate(data_loader_train):
+def train_epoch(data_loader, optimizer, net, criterion):
+    total_loss = 0.0
+    for eeg, target in data_loader:
         optimizer.zero_grad()
-        pred = net(signal)
-        loss = criterion(pred, target_train) #, N_dipoles)
+        pred = net(eeg)
+        loss = criterion(pred, target)
         # l1_lambda = 0.000001
         #
         # #TODO: fix this list -> tensor hack
@@ -24,158 +24,130 @@ def train_epoch(data_loader_train, optimizer, net, criterion):
         # loss = loss + l1_lambda * l1_norm
         loss.backward()
         optimizer.step()
-        losses[idx] = loss.item()
-
-    mean_loss = np.mean(losses)
-
+        total_loss += loss.item()
+    mean_loss = total_loss/len(data_loader)
     return mean_loss
 
 
-def test_epoch(data_loader_test, net, criterion, scheduler):
-    losses = np.zeros(len(data_loader_test))
+def test_epoch(data_loader, net, criterion, scheduler):
+    total_loss = 0.0
     with torch.no_grad():
-        for idx, (signal, target_test) in enumerate(data_loader_test):
-            pred = net(signal)
-            loss = criterion(pred, target_test) #, N_dipoles)
-            losses[idx] = loss.item()
-        mean_loss = np.mean(losses)
-
+        for eeg, target in data_loader:
+            pred = net(eeg)
+            loss = criterion(pred, target)
+            total_loss += loss.item()
+        mean_loss = total_loss/len(data_loader)
         # Adjust the learning rate based on validation loss
-        scheduler.step(losses[idx])
-
+        scheduler.step(loss)
     return mean_loss
 
 
-def main(
-    N_samples: int = 10_000,
-    N_dipoles: int = 1,
-    determine_area: bool = True,
-    determine_amplitude=False,
-    N_epochs: int = 2000,
-    noise_pct: int = 5,
-    log_dir: str = 'results',
-):
-    msg = f'Training network with {N_samples} samples'
-    if determine_area:
-        msg += ' determining radii'
-    else:
-        msg += ' without determining radii'
-    print(msg)
-    print(f'{N_dipoles} dipole(s) and {noise_pct} % noise for {N_epochs} epochs.\n')
-
-    batch_size = 32
-    # batch_size = 64
-    # batch_size = 128
+batch_sizes = [32, 64, 128]
 
 
-    net = FFNN(
-        [512, 256, 128, 64, 32],
-        N_dipoles,
-        determine_area,
-        determine_amplitude
-    )
+class Logger:
+    def __init__(self, parameters):
+        self._parameters = parameters
+        fname = os.path.join(
+            'results', self._parameters['log_fname'] + '.txt'
+        )
+        i = 1
+        while os.path.isfile(fname):
+            fname = os.path.join(
+                'results', self._parameters['log_fname'] + f'_({i}).txt'
+            )
+            i += 1
+        self._log_fname = fname
+        self._write_line(self._header_line())
 
-    dataset_train = EEGDataset(
-        'train', determine_area, determine_amplitude, N_samples, N_dipoles
-    )
+    def _header_line(self):
+        lines = [f'{key}: {value}' for key, value in self._parameters.items()]
+        lines.append('-'*60 + '\n')
+        return '\n'.join(lines)
+
+    def _write_line(self, line):
+        print(line, end='')
+        with open(self._log_fname, 'a', encoding='UTF-8') as f:
+            f.write(line)
+
+    def status(self, epoch: int, loss: float, val: float):
+        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Test: {:13.8f}\n'
+        line = status_line.format(
+            epoch,
+            self._parameters['N_epochs'] - 1,
+            loss,
+            val
+        )
+        self._write_line(line)
+
+    def print_predictions(self, predictions, targets):
+        lines = []
+        for pred, target in zip(predictions, targets):
+            lines.append(f'Predicted: {pred.detach().numpy()}')
+            lines.append(f'Target:    {target.numpy()}\n')
+        self._write_line('\n'.join(lines) + '\n')
+
+
+def main():
+    parameters = {
+        'N_samples': 70_000,
+        'N_dipoles': 1,
+        'determine_amplitude': False,
+        'determine_area': False,
+        'hidden_layers': [512, 256, 128, 64, 32],
+        'batch_size': 32,
+        'learning_rate': 0.001,
+        'momentum': 0.35,
+        'weight_decay': 0.1,
+        'N_epochs': 20,
+        'noise_pct': 10,
+        'log_fname': 'test12345',
+    }
+
+    logger = Logger(parameters)
+
+    net = FFNN(parameters)
+
     data_loader_train = torch.utils.data.DataLoader(
-        dataset_train,
-        batch_size=batch_size,
+        EEGDataset('train', parameters),
+        batch_size=parameters['batch_size'],
         shuffle=True,
     )
-    dataset_test = EEGDataset(
-        'validation', determine_area, determine_amplitude, N_samples, N_dipoles
-    )
     data_loader_val = torch.utils.data.DataLoader(
-        dataset_test,
-        batch_size=batch_size,
+        EEGDataset('validation', parameters),
+        batch_size=parameters['batch_size'],
         shuffle=False,
     )
 
-    # criterion = custom_loss
-    # criterion = nn.L1Loss()
     criterion = nn.MSELoss()
 
+    optimizer = torch.optim.SGD(
+        net.parameters(),
+        parameters['learning_rate'],
+        parameters['momentum'],
+        parameters['weight_decay']
+    )
 
-    # lr = 1.5 # Works best for 1 dipole, with amplitude (no radi)
-    # lr = 0.001 # Works best for population of dipoles, with amplitude and radii
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2,
+                                patience=50, verbose=True, threshold=0.0001,
+                                threshold_mode='rel', cooldown=0, min_lr=0,
+                                eps=1e-08)
 
-    # PREDICTS THE BEST
-    # lr = 1.5
-    # momentum = 0.35
-    # weight_decay = 0.1
+    train_loss = np.zeros(parameters['N_epochs'])
+    test_loss = np.zeros_like(train_loss)
 
-    # lr = 0.9
-    # momentum = 1e-4
-    # weight_decay = 1e-5
-
-    # lr = 0.001
-    # momentum = 0.35
-    # weight_decay = 0.1
-
-    # weight_decay > 0 --> l2/ridge penalty
-
-    # lr = 0.001
-    # momentum = 0.35
-
-    lr = 0.001
-    momentum = 0.35
-    # weight_decay = 0.1
-    weight_decay = 0
-
-    # save_file_name: str = f'simple_dipole_l2_less_complicated_network_radius_tanh_{N_samples}_19july_mseloss_MSE_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_mom{momentum}_wd_{weight_decay}_bs{batch_size}'
-    save_file_name: str = f'test123'
-
-    # save_file_name: str = f'adam'
-    # lr = 0.001
-
-
-    optimizer = torch.optim.SGD(net.parameters(), lr, momentum) #, weight_decay)
-    # optimizer = optim.Adam(net.parameters(), lr)
-
-    # This one works for radii + amplitude, and amplitude
-    # scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.9, patience=10,
-    #                           verbose=True, threshold=0.00000001, threshold_mode='rel',
-    #                           cooldown=0, min_lr=0, eps=1e-08)
-
-    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=50,
-                              verbose=True, threshold=0.0001, threshold_mode='rel',
-                              cooldown=0, min_lr=0, eps=1e-08)
-
-
-
-    train_loss = np.zeros(N_epochs)
-    test_loss = np.zeros(N_epochs)
-
-    MSE_x = np.zeros(N_epochs)
-    MSE_y = np.zeros(N_epochs)
-    MSE_z = np.zeros(N_epochs)
-    MSE_A = np.zeros(N_epochs)
-
-    log_file_name = os.path.join(log_dir, save_file_name + '.txt')
-
-    with open(log_file_name, 'w') as f:
-        f.write(f'Samples: {N_samples}, Batch size: {batch_size}, Epochs: {N_epochs}, Noise: {noise_pct} %\n')
-        f.write(f'Learning rate: {lr}') #, Momentum: {momentum}, Weight decay: {weight_decay} %\n \n')
-
-        f.write(f'\nEeg Data: data/dipole_area_eeg_{N_samples}_{N_dipoles}.npy')
-        f.write(f'\nTarget Data: data/dipole_area_locations_{N_samples}_{N_dipoles}.npy')
-        f.write('\n--------------------------------------------------------------\n')
+    MSE_x = np.zeros(parameters['N_epochs'])
+    MSE_y = np.zeros_like(MSE_x)
+    MSE_z = np.zeros_like(MSE_x)
+    MSE_A = np.zeros_like(MSE_x)
 
     # Train the model
-    status_line = 'Epoch {:4d}/{:4d} | Train: {:6.10f} | Test: {:6.10f} \n'
-    for epoch in range(N_epochs):
+    for epoch in range(parameters['N_epochs']):
         train_loss[epoch] = train_epoch(
             data_loader_train, optimizer, net, criterion)
         test_loss[epoch] = test_epoch(
             data_loader_val, net, criterion, scheduler)
-
-        line = status_line.format(
-            epoch, N_epochs - 1, train_loss[epoch], test_loss[epoch]
-        )
-        print(line)
-        with open(log_file_name, 'a') as f:
-            f.write(line)
+        logger.status(epoch, train_loss[epoch], test_loss[epoch])
 
         for i, (signal, target) in enumerate(data_loader_val):
             pred = net(signal)
@@ -189,39 +161,36 @@ def main(
 
         # print target and predicted values
         if epoch % 100 == 0:
-            for i, (signal, target) in enumerate(data_loader_val):
-                pred = net(signal)
-                line = f'\n Target: {target[0]} \n'
-                line += f'Predicted: {pred[0]} \n'
-                print(line)
-                with open(log_file_name, 'a') as f:
-                    f.write(line)
-
+            preds = []
+            targets = []
+            for i, (eeg, target) in enumerate(data_loader_val):
+                pred = net(eeg)
+                preds.append(pred[0])
+                targets.append(target[0])
                 if i == 2:
-                    with open(log_file_name, 'a') as f:
-                        f.write('\n')
                     break
+            logger.print_predictions(preds, targets)
 
-    plot_MSE_NN(
-        train_loss,
-        test_loss,
-        save_file_name,
-        'tanh',
-        batch_size,
-        N_epochs,
-        N_dipoles
-    )
+    # plot_MSE_NN(
+        # train_loss,
+        # test_loss,
+        # save_file_name,
+        # 'tanh',
+        # batch_size,
+        # N_epochs,
+        # N_dipoles
+    # )
 
-    plot_MSE_targets(
-        MSE_x,
-        MSE_y,
-        MSE_z,
-        MSE_A,
-        'tanh',
-        batch_size,
-        save_file_name,
-        N_dipoles
-    )
+    # plot_MSE_targets(
+        # MSE_x,
+        # MSE_y,
+        # MSE_z,
+        # MSE_A,
+        # 'tanh',
+        # batch_size,
+        # save_file_name,
+        # N_dipoles
+    # )
 
     # plot_MSE_single_target(
     #     MSE_A,
@@ -231,16 +200,8 @@ def main(
     #     N_dipoles
     # )
 
-    torch.save(net, f'trained_models/july/{save_file_name}.pt')
+    torch.save(net, f'trained_models/july/{parameters["log_fname"]}.pt')
 
 
 if __name__ == '__main__':
-    main(
-        N_samples=70000,
-        N_dipoles=1,
-        determine_area=True,
-        determine_amplitude=True,
-        N_epochs=20,
-        noise_pct=10,
-        log_dir='results'
-    )
+    main()
