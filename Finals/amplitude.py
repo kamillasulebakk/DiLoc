@@ -2,13 +2,14 @@ from model_runner import run_model
 
 
 def main():
-    batch_sizes = [64]
+    batch_sizes = [32, 64]
     weight_decay = [0.1, 0.5]
+    l1_lambda = [0, 0.000001]
 
     parameters = {
         'N_samples': 70_000,
         'N_dipoles': 1,
-        'determine_amplitude': False,
+        'determine_amplitude': True,
         'determine_area': False,
         'hidden_layers': [512, 256, 128, 64, 32],
         'batch_size': 32,
@@ -16,7 +17,7 @@ def main():
         'momentum': 0.35,
         'l1_lambda': 0.0,
         'weight_decay': 0.1,
-        'N_epochs': 1000,
+        'N_epochs': 3000,
         'noise_pct': 10
     }
 
@@ -24,7 +25,9 @@ def main():
         parameters['batch_size'] = size
         for weight in weight_decay:
             parameters['weight_decay'] = weight
-            run_model(parameters)
+            for lmbda in l1_lambda:
+                parameters['l1_lambda'] = lmbda
+                run_model(parameters)
 
 
 if __name__ == '__main__':

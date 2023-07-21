@@ -83,7 +83,7 @@ def plot_MSE_targets_2_dipoles(
 
 def plot_MSE_targets(targets, batch_size, filename, N_dipoles):
     fig, ax = plt.subplots()
-    labels = ['$x$ position [mm]', '$y$ position [mm]', '$z$ position [mm]', r'Amplitude [nA $\mu$m]']
+    labels = ['$x$ position [mm]', '$y$ position [mm]', '$z$ position [mm]', r'Amplitude [nA $\mu$m]', 'Radius']
     for target, label in zip(targets.T, labels):
         ax.plot(np.log(target), label=label)
     set_ax_info(
@@ -96,29 +96,19 @@ def plot_MSE_targets(targets, batch_size, filename, N_dipoles):
     fig.savefig(f'plots/mse_targets_{filename}.pdf')
     plt.close(fig)
 
-def plot_MSE_single_target(target_1, act_func, batch_size, NN, N_dipoles):
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.set_title(f'MSE for test data using {act_func} with {batch_size} batches', fontsize=20)
-    ax.set_xlabel('Number of epochs', fontsize=18)
-    ax.set_ylabel('ln(MSE)', fontsize=18)
-    ax.tick_params(axis='both', which='major', labelsize=18)
-    ax.plot(target_1, label='Amplitude [nA um]')
-    ax.legend(fontsize=18)
-    fig.savefig(f'plots/mse_amplitude_{NN}.png')
-
-
-def plot_MSE_NN(train_loss, test_loss, NN, act_func, batch_size, num_epochs, N_dipoles):
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.set_title(f'MSE for train and test data using {act_func} with {batch_size} batches', fontsize=20)
-    ax.set_xlabel('Number of epochs', fontsize=18)
-    ax.set_ylabel('ln(MSE)', fontsize=18)
-    ax.tick_params(axis='both', which='major', labelsize=18)
+def plot_MSE_NN(train_loss, test_loss, filename, act_func, batch_size, num_epochs, N_dipoles):
+    fig, ax = plt.subplots()
     ax.plot(np.log(train_loss), label='Train')
-    ax.plot(np.log(test_loss), label='Test')
-    ax.legend(fontsize=18)
-    fig.savefig(f'plots/MSE_{NN}_{act_func}_{batch_size}_{num_epochs}_N_dipoles_{N_dipoles}.png')
+    ax.plot(np.log(test_loss), label='Validation')
+    set_ax_info(
+        ax,
+        xlabel='Number of epochs',
+        ylabel='ln(MSE)',
+        title=f'MSE for train and validation data with batch size {batch_size}',
+    )
+    fig.tight_layout()
+    fig.savefig(f'plots/mse_{filename}.pdf')
+    plt.close(fig)
 
 def plot_R2_NN(train_R2, test_R2, NN, act_func, batch_size, num_epochs, name = "NN"):
     fig = plt.figure()
