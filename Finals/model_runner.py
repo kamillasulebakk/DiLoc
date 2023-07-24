@@ -1,4 +1,5 @@
 import os
+import time
 
 import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -14,7 +15,7 @@ def train_epoch(data_loader, optimizer, net, criterion):
     for eeg, target in data_loader:
         optimizer.zero_grad()
         pred = net(eeg)
-        loss = criterion(pred, target)#, net, is_training=True)
+        loss = criterion(pred, target, net, is_training=True)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
@@ -29,7 +30,7 @@ def val_epoch(data_loader, net, criterion, scheduler):
     with torch.no_grad():
         for eeg, target in data_loader:
             pred = net(eeg)
-            loss = criterion(pred, target)#, net, is_training=False)
+            loss = criterion(pred, target, net, is_training=False)
             total_loss += loss
 
             SE_targets += ((target - pred)**2).sum(dim=0)
@@ -50,6 +51,7 @@ class Logger:
             'results', parameters['log_fname'] + '.txt'
         )
         self._write_line(self._header_line())
+        self._start_time = time.perf_counter()
 
     def _header_line(self):
         lines = [f'{key}: {value}' for key, value in self._parameters.items()]
@@ -62,12 +64,13 @@ class Logger:
             f.write(line)
 
     def status(self, epoch: int, loss: float, val: float):
-        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Validation: {:13.8f}\n'
+        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Validation: {:13.8f} | Time: {:10.3} s\n'
         line = status_line.format(
             epoch,
             self._parameters['N_epochs'] - 1,
             loss,
-            val
+            val,
+            (time.perf_counter() - self._start_time)*1000   # convert to seconds
         )
         self._write_line(line)
 
@@ -171,4 +174,4 @@ def run_model(parameters):
         parameters['N_dipoles']
     )
 
-    torch.save(net, f'trained_models/july/{parameters["log_fname"]}.pt')
+    torch.save(net, f'trained_models/{parameters["log_fname"]}.pt')

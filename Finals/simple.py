@@ -16,7 +16,7 @@ def main():
         'momentum': 0.35,
         'l1_lambda': 0.0,
         'weight_decay': 0.1,
-        'N_epochs': 1000,
+        'N_epochs': 500,
         'noise_pct': 10
     }
 
