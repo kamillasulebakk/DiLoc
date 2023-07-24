@@ -14,7 +14,7 @@ def train_epoch(data_loader, optimizer, net, criterion):
     for eeg, target in data_loader:
         optimizer.zero_grad()
         pred = net(eeg)
-        loss = criterion(pred, target, net, is_training=True)
+        loss = criterion(pred, target)#, net, is_training=True)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
@@ -29,14 +29,14 @@ def val_epoch(data_loader, net, criterion, scheduler):
     with torch.no_grad():
         for eeg, target in data_loader:
             pred = net(eeg)
-            loss = criterion(pred, target, net, is_training=False)
+            loss = criterion(pred, target)#, net, is_training=False)
             total_loss += loss
 
             SE_targets += ((target - pred)**2).sum(dim=0)
             total_number_of_samples += target.shape[0]
 
         # Adjust the learning rate based on validation loss
-        scheduler.step(loss)
+        scheduler.step(total_loss)
 
     mean_loss = total_loss.item()/len(data_loader)
     MSE_targets = SE_targets.numpy()/total_number_of_samples

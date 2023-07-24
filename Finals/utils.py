@@ -11,8 +11,27 @@ def numpy_to_torch(a_f64):
     tensor = torch.from_numpy(a_f32)
     return tensor
 
-def normalize(x):
-    x_new = (x - np.min(x))/(np.max(x) - np.min(x))
+def normalize(x, max_x, min_x):
+    # max_targets = np.array([
+    #     72.02555727958679,
+    #     73.47751750051975,
+    #     81.150386095047,
+    #     0,
+    #     15
+    # ])
+    # min_targets = np.array([
+    #     -72.02555727958679,
+    #     -106.12010800838469,
+    #     -52.66008937358856,
+    #     10,
+    #     0
+    # ])
+    #
+    # N = len(x)
+    # x_new = (x - min_targets[:N])/(max_targets[:N] - min_targets[:N])
+
+    x_new = (x - min_x)/(max_x - min_x)
+
     return x_new
 
 def denormalize(x, max_x, min_x):

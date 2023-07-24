@@ -3,9 +3,11 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from NN_dipole_w_amplitude import Net
+# from NN_dipole_w_amplitude import Net
 # from NN_costum_loss import Net
 # from NN_simple_network_amplitude import Net
+from ffnn import FFNN
+
 
 from utils import numpy_to_torch, normalize, denormalize, MSE, MAE, xz_plane_idxs
 from load_data import load_data_files
@@ -30,7 +32,6 @@ def plot_mse_amplitude(amplitude_dict):
     ax.plot(labels, values)
     fig.savefig(f'plots/amplitude_mse_lr_1.8.png')
 
-N_samples = 3000
 N_dipoles = 1
 name = 'dipole_w_amplitude'
 
@@ -39,7 +40,7 @@ name = 'dipole_w_amplitude'
 
 # print('amplitude 0.9')
 # model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
-model = torch.load('trained_models/7.july_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_bs32.pt')
+# model = torch.load('trained_models/7.july_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_bs32.pt')
 
 # simple mpodel with relu and parameters euqal to simple dipole
 # model = torch.load('trained_models/july/simple_network_relu_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
@@ -47,19 +48,20 @@ model = torch.load('trained_models/7.july_dipole_w_amplitude_3000_SGD_lr0.001_wd
 # simple mpodel with tanh and sigmoid and parameters eqal to simple dipole
 # model = torch.load('trained_models/july/simple_network_tanh_sigmoid_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
 
+model = torch.load('trained_models/july/amplitudes_32_0.001_0.35_0.1_(5).pt')
+
+
+
 print('finished loading model')
 
 nyhead = NYHeadModel()
 
-eeg = np.load('data/dipoles_w_amplitudes_eeg_70000_1.npy')
-target = np.load('data/dipoles_w_amplitudes_locations_70000_1.npy')
+eeg = np.load('data/amplitudes_70000_1_eeg_test.npy')
+target = np.load('data/amplitudes_70000_1_targets_test.npy')
 
 # eeg = np.load('data/multiple_dipoles_eeg_70000_2.npy')
 # target = np.load('data/multiple_dipoles_locations_70000_2.npy')
 print('finished loading data')
-
-eeg = eeg[:N_samples*N_dipoles, :]
-target = target[:, :N_samples*N_dipoles]
 
 # target = target.reshape(N_samples, 4*N_dipoles)
 

@@ -75,9 +75,28 @@ class EEGDataset(torch.utils.data.Dataset):
         )
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
-        if parameters['determine_area'] or parameters['determine_amplitude']:
+        max_targets = np.array([
+            72.02555727958679,
+            73.47751750051975,
+            81.150386095047,
+            10,
+            15
+        ])
+        min_targets = np.array([
+            -72.02555727958679,
+            -106.12010800838469,
+            -52.66008937358856,
+            1,
+            0
+        ])
+
+        if parameters['determine_area']:
+            min_targets[3] = 10/899
             for i in range(target.shape[1]):
-                target[:, i] = normalize(target[:, i])
+                target[:, i] = normalize(target[:, i], max_targets[i], min_targets[i])
+        elif parameters['determine_amplitude']:
+            for i in range(target.shape[1]):
+                target[:, i] = normalize(target[:, i], max_targets[i], min_targets[i])
 
         eeg = numpy_to_torch(eeg)
         target = numpy_to_torch(target)

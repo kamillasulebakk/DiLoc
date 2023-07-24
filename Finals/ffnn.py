@@ -14,10 +14,7 @@ def number_of_output_values(amp: bool, area: bool):
 
 
 class FFNN(nn.Module):
-    def __init__(
-        self,
-        parameters
-    ):
+    def __init__(self, parameters):
         super().__init__()
         hidden_layers: List[int] = parameters['hidden_layers']
         N_dipoles: int = parameters['N_dipoles']
@@ -26,7 +23,7 @@ class FFNN(nn.Module):
         self.dropout = nn.Dropout(p=0.5)
 
         self.first_layer = nn.Linear(231, hidden_layers[0])
-        self.hidden_layers = []
+        self.hidden_layers = nn.ModuleList()
         for i in range(len(hidden_layers) - 1):
             self.hidden_layers.append(
                 nn.Linear(hidden_layers[i], hidden_layers[i+1])

@@ -7,11 +7,12 @@ from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
 
 from load_data import load_data_files
-from plot import plot_MSE_NN, plot_MSE_targets, plot_MSE_single_target
+from plot import plot_MSE_NN, plot_MSE_targets
 from utils import numpy_to_torch, normalize, custom_loss_dipoles_w_amplitudes
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.nn.init as init
 
+"""
 class Net(nn.Module):
     def __init__(self, N_dipoles: int, determine_area: bool = False):
         self.determine_area = determine_area
@@ -29,6 +30,8 @@ class Net(nn.Module):
             self.fc6 = nn.Linear(32, 4*N_dipoles)
 
         self.initialize_weights()
+        print(self)
+        quit()
 
     def initialize_weights(self):
         for m in self.modules():
@@ -44,44 +47,9 @@ class Net(nn.Module):
         x = torch.sigmoid(self.fc6(x))
 
         return x
+"""
 
-# class Net(nn.Module):
-#     def __init__(self, N_dipoles: int, determine_area: bool = True):
-#         self.determine_area = determine_area
-#         super().__init__()
-#         self.dropout = nn.Dropout(p=0.5)
-#         self.fc1 = nn.Linear(231, 128*4)
-#         self.fc2 = nn.Linear(128*4, 128*8)
-#         self.fc3 = nn.Linear(128*8, 128*4)
-#         self.fc4 = nn.Linear(128*4, 64*4)
-#         self.fc5 = nn.Linear(64*4, 32*4)
-#         self.fc6 = nn.Linear(32*4, 16*4)
-#         self.fc7 = nn.Linear(16*4, 32)
-#
-#         if determine_area:
-#             self.fc8 = nn.Linear(32, 5*N_dipoles)
-#         else:
-#             self.fc8 = nn.Linear(32, 4*N_dipoles)
-#         self.sigmoid = nn.Sigmoid()
-#
-#         self.initialize_weights()
-#
-#     def initialize_weights(self):
-#         for m in self.modules():
-#             if isinstance(m, nn.Linear):
-#                 init.xavier_normal_(m.weight)
-#
-#     def forward(self, x: torch.Tensor):
-#         x = F.relu(self.fc1(x))
-#         x = torch.relu(self.fc2(x))
-#         x = torch.relu(self.fc3(x))
-#         x = torch.relu(self.fc4(x))
-#         x = torch.relu(self.fc5(x))
-#         x = torch.relu(self.fc6(x))
-#         x = torch.relu(self.fc7(x))
-#         x = self.sigmoid(self.fc8(x)) # apply sigmoid to scale the outputs to [0, 1]
-#
-#         return x
+from ffnn import FFNN, number_of_output_values
 
 
 class EEGDataset(torch.utils.data.Dataset):
@@ -93,8 +61,12 @@ class EEGDataset(torch.utils.data.Dataset):
             name = 'dipole_area'
         else:
             name = 'dipoles_w_amplitudes'
+        #
+        eeg = np.load('data/amplitudes_70000_1_eeg_train-validation.npy')
+        target = np.load('data/amplitudes_70000_1_targets_train-validation.npy')
 
-        eeg, target = load_data_files(N_samples, name, num_dipoles=N_dipoles)
+        # eeg = np.load('data/train_test_dipoles_w_amplitudes_eeg_70000_1.npy')
+        # target = np.load('data/train_test_dipoles_w_amplitudes_locations_70000_1.npy')
 
         # TODO: move this to the generating function in
         # produce_and_load_eeg_data.py
@@ -108,9 +80,24 @@ class EEGDataset(torch.utils.data.Dataset):
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
         target = target
 
+        max_targets = np.array([
+            72.02555727958679,
+            73.47751750051975,
+            81.150386095047,
+            10,
+            15
+        ])
+        min_targets = np.array([
+            -72.02555727958679,
+            -106.12010800838469,
+            -52.66008937358856,
+            1,
+            0
+        ])
+
         if determine_area:
             for i in range(np.shape(target)[1]):
-                target[:, i] = normalize(target[:, i])
+                target[:, i] = normalize(target[:, i], max_targets[i], min_targets[i])
             # normalize target coordinates
             # target[:, 0] = normalize(target[:, 0])
             # target[:, 1] = normalize(target[:, 1])
@@ -122,7 +109,7 @@ class EEGDataset(torch.utils.data.Dataset):
 
         else:
             for i in range(np.shape(target)[1]):
-                target[:, i] = normalize(target[:, i])
+                target[:, i] = normalize(target[:, i], max_targets[i], min_targets[i])
                 # # normalize target coordinates
                 # target[:, 1] = normalize(target[:, 1])
                 # target[:, 2] = normalize(target[:, 2])
@@ -156,7 +143,7 @@ class EEGDataset(torch.utils.data.Dataset):
     def __len__(self):
         return self.eeg.shape[0]
 
-
+"""
 def train_epoch(data_loader_train, optimizer, net, criterion):
     losses = np.zeros(len(data_loader_train))
     for idx, (signal, target_train) in enumerate(data_loader_train):
@@ -191,7 +178,8 @@ def test_epoch(data_loader_test, net, criterion, scheduler):
         scheduler.step(losses[idx])
 
     return mean_loss
-
+"""
+from model_runner import train_epoch, val_epoch
 
 def main(
     N_samples: int = 10_000,
@@ -214,8 +202,23 @@ def main(
 
     batch_size = 32
 
+    parameters = {
+        'N_samples': 70_000,
+        'N_dipoles': 1,
+        'determine_amplitude': True,
+        'determine_area': False,
+        'hidden_layers': [512, 256, 128, 64, 32],
+        'batch_size': 32,
+        'learning_rate': 0.001,
+        'momentum': 0.35,
+        'l1_lambda': 0.0,
+        'weight_decay': 0.1,
+        'N_epochs': 100,
+        'noise_pct': 10
+    }
 
-    net = Net(N_dipoles, determine_area)
+    net = FFNN(parameters)
+    # net = Net(parameters['N_dipoles'], parameters['determine_area'])
     dataset_train = EEGDataset('train', determine_area, N_samples, N_dipoles)
     data_loader_train = torch.utils.data.DataLoader(
         dataset_train,
@@ -240,7 +243,7 @@ def main(
     momentum = 0.35
     weight_decay = 0.1
 
-    save_file_name: str = f'7.july_dipole_w_amplitude_{N_epochs}_SGD_lr{lr}_wd{weight_decay}_bs{batch_size}'
+    save_file_name: str = f'24_june_amplitude_{N_epochs}'
 
 
     optimizer = torch.optim.SGD(net.parameters(), lr, momentum, weight_decay)
@@ -272,7 +275,7 @@ def main(
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(
             data_loader_train, optimizer, net, criterion)
-        test_loss[epoch] = test_epoch(
+        test_loss[epoch], _ = val_epoch(
             data_loader_test, net, criterion, scheduler)
 
         line = status_line.format(
@@ -307,6 +310,11 @@ def main(
                         f.write('\n')
                     break
 
+
+
+    torch.save(net, f'trained_models/{save_file_name}.pt')
+
+
     plot_MSE_NN(
         train_loss,
         test_loss,
@@ -317,26 +325,16 @@ def main(
         N_dipoles
     )
 
-    plot_MSE_targets(
-        MSE_x,
-        MSE_y,
-        MSE_z,
-        MSE_A,
-        'TanH',
-        batch_size,
-        save_file_name,
-        N_dipoles
-    )
-
-    plot_MSE_single_target(
-        MSE_x,
-        'TanH',
-        batch_size,
-        save_file_name,
-        N_dipoles
-    )
-
-    torch.save(net, f'trained_models/{save_file_name}.pt')
+    # plot_MSE_targets(
+    #     MSE_x,
+    #     MSE_y,
+    #     MSE_z,
+    #     MSE_A,
+    #     'TanH',
+    #     batch_size,
+    #     save_file_name,
+    #     N_dipoles
+    # )
 
 
 if __name__ == '__main__':
@@ -344,7 +342,7 @@ if __name__ == '__main__':
         N_samples=50000,
         N_dipoles=1,
         determine_area=False,
-        N_epochs=1000,
+        N_epochs=100,
         noise_pct=10,
         log_dir='results'
     )

@@ -3,7 +3,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from lfpykit.eegmegcalc import NYHeadModel
 import os
-# import h5py
+import h5py
 
 plt.style.use('seaborn')
 plt.rcParams.update({

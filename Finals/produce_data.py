@@ -54,7 +54,6 @@ def return_simple_dipole(num_samples:int, num_dipoles: int = 1):
     return eeg, dipole_locations
 
 
-
 def return_dipoles_w_amplitudes(num_samples: int, num_dipoles: int, create_plot: bool = True):
     """
     Produce eeg data from multiple dipole moments for num_samples
@@ -92,8 +91,8 @@ def return_dipoles_w_amplitudes(num_samples: int, num_dipoles: int, create_plot:
 
         eeg[i, :] = eeg_i
 
-        if i < 5 and create_plot == True:
-            plot_dipoles(nyhead, "dipoles_w_amplitudes", eeg[i], dipole_pos_list, i)
+        # if i < 5 and create_plot == True:
+        #     plot_dipoles(nyhead, "dipoles_w_amplitudes", eeg[i], dipole_pos_list, i)
 
     target = np.concatenate((dipole_locations, dipole_amplitudes), axis=0)
 
@@ -167,7 +166,7 @@ def return_dipole_area(num_samples: int, radii_range: int = 20):
     return eeg, target
 
 
-def return_dipole_area_const_A(num_samples: int, radii_range: int = 20):
+def return_dipole_area_const_A(num_samples: int, radii_range: int = 15):
     """
     Produce eeg data from population of dipoles for num_samples
     and provides plots of the 10 first samples
@@ -191,46 +190,40 @@ def return_dipole_area_const_A(num_samples: int, radii_range: int = 20):
     nyhead = NYHeadModel()
 
     rng = np.random.default_rng(seed=136)
-    # Center of dipoles
-    centers = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
+    dipole_centers = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
     radii = rng.uniform(low=1, high=radii_range, size=num_samples) # [mm]
 
     eeg = np.zeros((num_samples, 231))
-    dipole_locations_and_radii = np.zeros((4, num_samples))
-    dipole_amplitudes = np.zeros((1, num_samples))
+    dipole_amplitudes = np.zeros(num_samples)
 
-    A = 1 # every dipole has constant amplitude
+    # max number of dipoles inside dipole population is 899
+    # every dipole has constant amplitude
+    A = 10/899 # max total amplitude for dipole population is 10
 
     for i in range(num_samples):
-        dipole_locations_and_radii[0,i] = centers[0,i]
-        dipole_locations_and_radii[1,i] = centers[1,i]
-        dipole_locations_and_radii[2,i] = centers[2,i]
-        dipole_locations_and_radii[3,i] = radii[i]
-        # pos index consist of multiple dipoles within a defined radius
-        pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
+        pos_indices = return_dipole_population_indices(
+            nyhead, dipole_centers[:,i], radii[i]
+        )
 
-        A_sum = 0
-
-        while len(pos_idx) < 1:
+        # ensure that population consists of at least one dipole
+        while len(pos_indices) < 1:
             radii[i] += 1
-            pos_idx = return_dipole_population(nyhead, centers[:,i], radii[i])
+            pos_idx = return_dipole_population_indices(nyhead, dipole_centers[:,i], radii[i])
 
-        eeg_i = np.zeros((1,231))
+        dipole_amplitudes[i] = A*len(pos_indices)
+        for idx in pos_indices:
+            nyhead.set_dipole_pos(nyhead.cortex[:, idx])
+            eeg[i] += calculate_eeg(nyhead, A)
 
-        for idx in pos_idx:
-            nyhead.set_dipole_pos(nyhead.cortex[:,idx])
-            eeg_i += calculate_eeg(nyhead, A).T
-            A_sum += A
-
-        eeg[i, :] = eeg_i
-        dipole_amplitudes[:,i] = A_sum
-
-        target = np.concatenate((dipole_locations_and_radii, dipole_amplitudes), axis=0)
         # if i < 6:
-        #     plot_active_region(eeg[i], centers[:,i], radii[i], pos_idx, i)
+        #     plot_active_region(eeg[i], dipole_centers[:, i], radii[i], pos_indices, i)
         #     print(f'Finished producing figure {i}')
-        print(i)
+        # print(i)
 
+    target = np.concatenate(
+        (dipole_centers, dipole_amplitudes.reshape(1, -1), radii.reshape(1, -1)),
+        axis=0
+    )
 
     return eeg, target
 
@@ -292,26 +285,24 @@ def calculate_eeg(nyhead, A: int = 1.0):
     p = nyhead.rotate_dipole_to_surface_normal(p)
     # Generates the EEG signal that belongs to the dipole moment
     eeg_i = M @ p * 1E3 # [mV] -> muV unit conversion (eeg_i between 10 og 100)
+    return eeg_i.ravel()
 
-    return eeg_i
 
-
-def return_dipole_population(nyhead, center, radius):
+def return_dipole_population_indices(nyhead, center, radius):
     """
     Find the indices of the positions in the brain within a given radius.
     input:
-    center : array of length (3)
-        [x, y, z] of the center of the dipole_population, given in mm
-    radius: int
-        Radius of dipole population, given in mm
+        center : array of length (3)
+            [x, y, z] of the center of the dipole_population, given in mm
+        radius: int
+            Radius of dipole population, given in mm
     returns:
-    pos_idx : list with ints
-        Indices of the positions in the brain within the given radius
+        pos_idx : list with ints
+            Indices of the positions in the brain within the given radius
     """
-
     dist = np.sqrt((nyhead.cortex[0] - center[0])**2 + (nyhead.cortex[1] - center[1])**2 + (nyhead.cortex[2] - center[2])**2)
+    # TODO: dist = np.linalg.norm(nyhead.cortex - center)
     pos_idx = np.where(dist < radius)[0]
-
     return pos_idx
 
 
@@ -367,8 +358,7 @@ def prepare_and_save_data(num_samples, name, num_dipoles : int = 1):
         np.save(f'data/amplitudes_{num_samples}_{num_dipoles}_targets_complete', target)
 
     elif name == 'dipole_area':
-        # "new" refers to data with smaller amplitudes
-        eeg, target = return_dipole_area(num_samples)
+        eeg, target = return_dipole_area_const_A(num_samples)
         np.save(f'data/area_{num_samples}_{num_dipoles}_eeg_complete', eeg)
         np.save(f'data/area_{num_samples}_{num_dipoles}_targets_complete', target)
 
@@ -412,6 +402,7 @@ def split_data_set(eeg_filename, target_list_filename, N_dipoles):
 
 
 if __name__ == '__main__':
+
     # num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
     # num_dipoles = 1
@@ -422,17 +413,12 @@ if __name__ == '__main__':
     # pos_list_filename = 'dipoles_w_amplitudes_locations_70000_1.npy'
     # split_data_set(eeg_filename, pos_list_filename, 1)
     # print('Finished')
-    #
-    # num_samples = 70_000
-    # name = 'dipole_area'
-    # num_dipoles = 1
-    # prepare_and_save_data(num_samples, name, num_dipoles)
-    # print('Finished')
 
-    # eeg_filename = 'new_A_dipole_area_eeg_70000_1.npy'
-    # pos_list_filename = 'new_A_dipole_area_locations_70000_1.npy'
-    # split_data_set(eeg_filename, pos_list_filename, 1)
-    # print('Finished')
+
+    target = np.load('data/area_70000_1_targets_train-validation.npy')
+    print(np.shape(target))
+    print(target)
+    print('Finished')
 
     # num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
@@ -455,3 +441,19 @@ if __name__ == '__main__':
     # pos_list_filename = 'const_A_dipole_area_const_A_locations_70000_1.npy'
     # split_data_set(eeg_filename, pos_list_filename, 1)
     # print('Finished')
+
+# big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
+#
+#
+# nyhead_file = os.path.join(big_data_path, "sa_nyhead.mat")
+# head_data = h5py.File(nyhead_file, 'r')["sa"]
+# cortex = np.array(head_data["cortex75K"]["vc"]) # Locations of every vertex in cortex
+#
+# print(np.shape(cortex))
+#
+# print(np.max(cortex[0]))
+# print(np.max(cortex[1]))
+# print(np.max(cortex[2]))
+# print(np.min(cortex[0]))
+# print(np.min(cortex[1]))
+# print(np.min(cortex[2]))
