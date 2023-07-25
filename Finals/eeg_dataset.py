@@ -24,6 +24,7 @@ def generate_log_filename(parameters):
     )
     result += f'_{parameters["batch_size"]}_{parameters["learning_rate"]}'
     result += f'_{parameters["momentum"]}_{parameters["weight_decay"]}'
+    result += f'_{parameters["l1_lambda"]}_{parameters["N_epochs"]}'
     i = 0
     while os.path.isfile(os.path.join('results', result + f'_({i}).txt')):
         i += 1

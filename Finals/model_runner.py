@@ -64,13 +64,13 @@ class Logger:
             f.write(line)
 
     def status(self, epoch: int, loss: float, val: float):
-        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Validation: {:13.8f} | Time: {:10.3} s\n'
+        status_line = 'Epoch {:4d}/{:4d} | Train: {:13.8f} | Validation: {:13.8f} | Time: {:9.1f} s\n'
         line = status_line.format(
             epoch,
             self._parameters['N_epochs'] - 1,
             loss,
             val,
-            (time.perf_counter() - self._start_time)*1000   # convert to seconds
+            time.perf_counter() - self._start_time
         )
         self._write_line(line)
 
