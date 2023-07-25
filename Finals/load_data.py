@@ -1,8 +1,6 @@
 import numpy as np
-from lfpykit.eegmegcalc import NYHeadModel
 import matplotlib.pyplot as plt
 from scipy import interpolate
-from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region
 import utils
 
 def load_data_files(num_samples: int, name: str, shape: str = "1d", num_dipoles: int = 1):
