@@ -1,7 +1,5 @@
 import torch        # type: ignore
 import numpy as np  # type: ignore
-# import tensorflow.keras.backend as K
-# import tensorflow as tf
 import load_data
 
 
@@ -12,24 +10,6 @@ def numpy_to_torch(a_f64):
     return tensor
 
 def normalize(x, max_x, min_x):
-    # max_targets = np.array([
-    #     72.02555727958679,
-    #     73.47751750051975,
-    #     81.150386095047,
-    #     0,
-    #     15
-    # ])
-    # min_targets = np.array([
-    #     -72.02555727958679,
-    #     -106.12010800838469,
-    #     -52.66008937358856,
-    #     10,
-    #     0
-    # ])
-    #
-    # N = len(x)
-    # x_new = (x - min_targets[:N])/(max_targets[:N] - min_targets[:N])
-
     x_new = (x - min_x)/(max_x - min_x)
 
     return x_new

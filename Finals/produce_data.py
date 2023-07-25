@@ -2,11 +2,13 @@ import numpy as np
 from lfpykit.eegmegcalc import NYHeadModel
 import matplotlib.pyplot as plt
 from scipy import interpolate
-from plot import plot_dipoles, plot_interpolated_eeg_data, plot_active_region, plot_normalized_population, plot_neighbour_dipoles
 import utils
 import os
 import h5py
 from matplotlib.widgets import Slider
+
+# from produce_plots import plot_dipoles, plot_interpolated_eeg_data, plot_active_region, plot_normalized_population, plot_neighbour_dipoles
+
 
 big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
 

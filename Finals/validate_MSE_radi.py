@@ -4,10 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from ffnn import FFNN
+from eeg_dataset import EEGDataset
 
-from produce_data import calculate_eeg
+from produce_data import calculate_eeg, return_dipole_population_indices
 from utils import numpy_to_torch, normalize, denormalize, MSE, MAE
-import produce_plots_and_data
 import matplotlib as mpl
 
 import os
@@ -62,6 +62,7 @@ def plot_MSE_error(MSE, dipole_locs, name, numbr):
 
     plt.savefig(f"plots/MSE_dipole_area_{name}_{numbr}.pdf")
 
+data = EEGDataset()
 model = torch.load('trained_models/area_32_0.001_0.35_0.1_0.0_5000_(0).pt')
 
 eeg = np.load('data/area_70000_1_eeg_test.npy')
@@ -91,106 +92,83 @@ planes = [xz_plane_idxs, xy_plane_idxs, yz_plane_idxs]
 sulci_error_location = []
 gyri_error_location = []
 
-# sulci_error_radius = []
-# gyri_error_radius = []
-#
-# sulci_error_amplitude = []
-# gyri_error_amplitude = []
-
 for numbr, plane in enumerate(planes):
     error_locations = []
     error_x = []
     error_y = []
     error_z = []
-    # error_radius = []
-    # error_amplitude = []
 
     pred_list = np.zeros((len(plane),3))
     x_target_list = np.zeros(len(plane))
     y_target_list = np.zeros(len(plane))
     z_target_list = np.zeros(len(plane))
-    # radius_target_list = np.zeros(len(plane))
-    # amplitude_target_list = np.zeros(len(plane))
 
 
     for i, idx in enumerate(plane):
-        nyhead.set_dipole_pos(nyhead.cortex[:,idx])
-        return_dipole_area_const_A()
-        eeg = calculate_eeg(nyhead)
-        
+        num_samples = len(nyhead.cortex[:,idx])
+
+        eeg = np.zeros((num_samples, 231))
+
+        A = 10/899 # max total amplitude for dipole population is 10
+
+        for i in range(num_samples):
+            pos_indices = return_dipole_population_indices(
+                nyhead, dipole_centers[:,i], 10
+            )
+
+            # ensure that population consists of at least one dipole
+            while len(pos_indices) < 1:
+                radii[i] += 1
+                pos_idx = return_dipole_population_indices(nyhead, dipole_centers[:,i], radii[i])
+
+            dipole_amplitudes[i] = A*len(pos_indices)
+            for idx in pos_indices:
+                nyhead.set_dipole_pos(nyhead.cortex[:, idx])
+                eeg[i] += calculate_eeg(nyhead, A)
+
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
         eeg = numpy_to_torch(eeg.T)
 
         pred = model(eeg)
         pred = pred.detach().numpy().flatten()
 
-        # radius_pred = pred_list[i, 3] = pred[3]
-        # amplitude_pred = pred_list[i, 4] = pred[4]
-
-
         x_target = x_target_list[i] = nyhead.cortex[0,idx]
         y_target = y_target_list[i] = nyhead.cortex[1,idx]
         z_target = z_target_list[i] = nyhead.cortex[2,idx]
 
-        x_pred =  pred_list[i, 0] = denormalize(pred[0], np.max(target[:,0]), np.min(target[:,0]))
-        y_pred =  pred_list[i, 1] = denormalize(pred[1], np.max(target[:,1]), np.min(target[:,1]))
-        z_pred =  pred_list[i, 2] = denormalize(pred[2], np.max(target[:,2]), np.min(target[:,2]))
+        pred_list[i, 0] = denormalize(pred[0], data.max_targets[0], data.min_targets[0])
+        pred_list[i, 1] = denormalize(pred[1], data.max_targets[1], data.min_targets[2])
+        pred_list[i, 2] = denormalize(pred[2], data.max_targets[2], data.min_targets[2])
 
-        # radius_target = radius_target_list[i] = nyhead.cortex[3,idx]
-        # amplitude_target = amplitude_target_list[i] = nyhead.cortex[4,idx]
-
-        error_i_x = np.abs(x_target - x_pred)
+        error_i_x = MSE(x_target, x_pred)
         error_x.append(error_i_x)
 
-        error_i_y = np.abs(y_target - y_pred)
+        error_i_y = MSE(y_target, y_pred)
         error_y.append(error_i_y)
 
-        error_i_z = np.abs(z_target - z_pred)
+        error_i_z = MSE(z_target, z_pred)
         error_z.append(error_i_z)
 
         error_i_locations = (error_i_x + error_i_y + error_i_z)/3
         error_locations.append(error_i_locations)
 
-        # error_i_radius = np.abs(radius_target - radius_pred)
-        # error_radius.append(error_i_radius)
-        #
-        # error_i_amplitude = np.abs(amplitude_target - amplitude_pred)
-        # error_amplitude.append(error_i_amplitude)
-
         if sulci_map[idx] == 1:
             sulci_error_location.append(error_i_locations)
-            # sulci_error_radius.append(error_i_radius)
-            # sulci_error_amplitude.append(error_i_amplitude)
         else:
             gyri_error_location.append(error_i_locations)
-            # gyri_error_radius.append(error_i_radius)
-            # gyri_error_amplitude.append(error_i_amplitude)
 
 
     target = np.concatenate((x_target_list, y_target_list, z_target_list))
     target = target.reshape((np.shape(pred_list)[1], np.shape(pred_list)[0]))
     target = target.T
 
-    MSE_x = MSE(x_target_list, pred_list[:,0])
-    MSE_y = MSE(y_target_list, pred_list[:,1])
-    MSE_z = MSE(z_target_list, pred_list[:,2])
-
-    MSE_locations = MSE(target, pred_list[:,:3])
-
-    # MSE_radius = MSE(radius_target_list, pred_list[:,3])
-    #
-    # MSE_amplitude = MSE(amplitude_target_list, pred_list[:,4])
-
-    print(f'MSE x-coordinates:{MSE_x}')
-    print(f'MSE y-coordinates:{MSE_y}')
-    print(f'MSE z-coordinates:{MSE_z}')
-    print(f'MSE location:{MSE_locations}')
+    print(f'MSE x-coordinates:{error_x}')
+    print(f'MSE y-coordinates:{error_y}')
+    print(f'MSE z-coordinates:{error_z}')
+    print(f'MSE location:{error_locations}')
     print('')
-    # print(f'MSE radius:{MSE_radius}')
-    # print(f'MSE amplitude:{MSE_amplitude}')
 
-    plot_MSE_error(MSE_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
-
+    plot_MSE_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
 
 
 print(np.mean(sulci_error_location))

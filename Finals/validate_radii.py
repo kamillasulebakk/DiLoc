@@ -66,6 +66,6 @@ for i in range(predictions.shape[1]):
     predictions_denormalized[:, i] = denormalize(predictions[:, i], max_targets[i], min_targets[i])
 
 test_results = tm.generate_test_results(predictions_denormalized, target)
-# test_results = tm.ßgenerate_test_results(predictions, target)
+# test_results = tm.generate_test_results(predictions, target)
 tm.print_test_results(test_results)
 tm.save_test_results(test_results, filename='simple')
