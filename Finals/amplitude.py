@@ -25,7 +25,9 @@ def main():
         parameters['batch_size'] = size
         for weight in weight_decay:
             parameters['weight_decay'] = weight
-            run_model(parameters)
+            for l1 in l1_lambda:
+                parameters['l1_lambda'] = l1
+                run_model(parameters)
 
 
 if __name__ == '__main__':

@@ -3,11 +3,9 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-# from NN_simple_network_radius  import Net
-from NN_dipole_area_working import Net
+from ffnn import FFNN
 
-
-from produce_plots_and_data import calculate_eeg
+from produce_data import calculate_eeg
 from utils import numpy_to_torch, normalize, denormalize, MSE, MAE
 import produce_plots_and_data
 import matplotlib as mpl
@@ -64,12 +62,13 @@ def plot_MSE_error(MSE, dipole_locs, name, numbr):
 
     plt.savefig(f"plots/MSE_dipole_area_{name}_{numbr}.pdf")
 
-# model = torch.load('trained_models/july/new_dataset_simple_network_radius_tanh_sigmoid_50000_12july_MSEloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_wd_0.1_bs32.pt')
-model = torch.load('trained_models/50000_26junemseloss_MSE_area_w_amplitude_5000_SGD_lr0.001_wd0.1_mom0.35_bs64.pt')
+model = torch.load('trained_models/area_32_0.001_0.35_0.1_0.0_5000_(0).pt')
 
-eeg = np.load('data/validate_const_A_dipole_area_const_A_eeg_70000_1.npy')
-target = np.load('data/validate_const_A_dipole_area_const_A_locations_70000_1.npy')
-print('finished loading data')
+eeg = np.load('data/area_70000_1_eeg_test.npy')
+eeg = (eeg - np.mean(eeg))/np.std(eeg)
+eeg = numpy_to_torch(eeg)
+target = np.load('data/area_70000_1_targets_test.npy')
+print('Test data loaded')
 
 nyhead = NYHeadModel()
 sulci_map = np.array(nyhead.head_data["cortex75K"]["sulcimap"], dtype=int)[0]
@@ -116,9 +115,12 @@ for numbr, plane in enumerate(planes):
 
     for i, idx in enumerate(plane):
         nyhead.set_dipole_pos(nyhead.cortex[:,idx])
+        return_dipole_area_const_A()
         eeg = calculate_eeg(nyhead)
+        
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
         eeg = numpy_to_torch(eeg.T)
+
         pred = model(eeg)
         pred = pred.detach().numpy().flatten()
 
@@ -187,14 +189,16 @@ for numbr, plane in enumerate(planes):
     # print(f'MSE radius:{MSE_radius}')
     # print(f'MSE amplitude:{MSE_amplitude}')
 
+    plot_MSE_error(MSE_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
+
+
 
 print(np.mean(sulci_error_location))
 print(np.mean(gyri_error_location))
 
-    # plot_MSE_error(error_x, nyhead.cortex[:,plane], 'x', numbr)
-    # plot_MSE_error(error_y, nyhead.cortex[:,plane], 'y', numbr)
-    # plot_MSE_error(error_z, nyhead.cortex[:,plane], 'z', numbr)
-    # plot_MSE_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
+# plot_MSE_error(error_x, nyhead.cortex[:,plane], 'x', numbr)
+# plot_MSE_error(error_y, nyhead.cortex[:,plane], 'y', numbr)
+# plot_MSE_error(error_z, nyhead.cortex[:,plane], 'z', numbr)
 
 
 
