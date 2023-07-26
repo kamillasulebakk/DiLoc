@@ -131,7 +131,7 @@ def run_model(parameters):
     val_loss = np.zeros_like(train_loss)
     MSE_targets = np.zeros((
         parameters['N_epochs'],
-        number_of_output_values(
+        parameters['N_dipoles']*number_of_output_values(
             parameters['determine_amplitude'],
             parameters['determine_area']
         )

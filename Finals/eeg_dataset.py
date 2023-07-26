@@ -97,7 +97,8 @@ class EEGDataset(torch.utils.data.Dataset):
                 target[:, i] = normalize(target[:, i], self.max_targets[i], self.min_targets[i])
         elif parameters['determine_amplitude']:
             for i in range(target.shape[1]):
-                target[:, i] = normalize(target[:, i], self.max_targets[i], self.min_targets[i])
+                # indexed modulo 4 to work for multiple dipole sources
+                target[:, i] = normalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
 
         eeg = numpy_to_torch(eeg)
         target = numpy_to_torch(target)
