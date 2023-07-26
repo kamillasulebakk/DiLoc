@@ -62,7 +62,22 @@ def plot_MSE_error(MSE, dipole_locs, name, numbr):
 
     plt.savefig(f"plots/MSE_dipole_area_{name}_{numbr}.pdf")
 
-data = EEGDataset()
+parameters = {
+    'N_samples': 70_000,
+    'N_dipoles': 1,
+    'determine_amplitude': True,
+    'determine_area': True,
+    'hidden_layers': [512, 256, 128, 64, 32],
+    'batch_size': 32,
+    'learning_rate': 0.001,
+    'momentum': 0.35,
+    'l1_lambda': 0.0,
+    'weight_decay': 0.1,
+    'N_epochs': 5000,
+    'noise_pct': 10
+}
+
+data = EEGDataset('test', parameters)
 model = torch.load('trained_models/area_32_0.001_0.35_0.1_0.0_5000_(0).pt')
 
 eeg = np.load('data/area_70000_1_eeg_test.npy')
@@ -105,7 +120,7 @@ for numbr, plane in enumerate(planes):
 
 
     for i, idx in enumerate(plane):
-        num_samples = len(nyhead.cortex[:,idx])
+        num_samples = len(plane)
 
         eeg = np.zeros((num_samples, 231))
 
@@ -113,21 +128,20 @@ for numbr, plane in enumerate(planes):
 
         for i in range(num_samples):
             pos_indices = return_dipole_population_indices(
-                nyhead, dipole_centers[:,i], 10
+                nyhead, nyhead.cortex[:,idx], 10
             )
 
             # ensure that population consists of at least one dipole
             while len(pos_indices) < 1:
                 radii[i] += 1
-                pos_idx = return_dipole_population_indices(nyhead, dipole_centers[:,i], radii[i])
+                pos_idx = return_dipole_population_indices(nyhead, nyhead.cortex[:,idx], radii[i])
 
-            dipole_amplitudes[i] = A*len(pos_indices)
             for idx in pos_indices:
                 nyhead.set_dipole_pos(nyhead.cortex[:, idx])
                 eeg[i] += calculate_eeg(nyhead, A)
 
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
-        eeg = numpy_to_torch(eeg.T)
+        eeg = numpy_to_torch(eeg)
 
         pred = model(eeg)
         pred = pred.detach().numpy().flatten()
@@ -140,13 +154,13 @@ for numbr, plane in enumerate(planes):
         pred_list[i, 1] = denormalize(pred[1], data.max_targets[1], data.min_targets[2])
         pred_list[i, 2] = denormalize(pred[2], data.max_targets[2], data.min_targets[2])
 
-        error_i_x = MSE(x_target, x_pred)
+        error_i_x = MSE(x_target, pred[0])
         error_x.append(error_i_x)
 
-        error_i_y = MSE(y_target, y_pred)
+        error_i_y = MSE(y_target, pred[1])
         error_y.append(error_i_y)
 
-        error_i_z = MSE(z_target, z_pred)
+        error_i_z = MSE(z_target, pred[2])
         error_z.append(error_i_z)
 
         error_i_locations = (error_i_x + error_i_y + error_i_z)/3

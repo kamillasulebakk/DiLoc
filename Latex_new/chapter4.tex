@@ -43,14 +43,14 @@ where $\boldsymbol{w}^{(i)} = (w_1^{(i)}, w_2^{(i)}, ..., w_n^{(i)})$ and $b^{(i
 The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes.
 
 
-\subsection{DiLoc}
-The FFNN that are trained to solve the inverse problem of ours has an input layer of 231 neurons, corresponding to the M = 231 electrode measures of the potentials. The input layer is followed by three hidden layers with 120, 84 and 16 hidden neurons, respectively. When the aim is to estimate the localization of the current dipole, \emph{only}, the final output layer holds the predicted x-, y- and z- position of the desired dipole source.  However, if the interest lies in determining the size of the dipole population, an alternative output layer is incorporated in the network architecture providing the radius of the dipole(s), in addition to the location coordinates. This enables the model to provide a more comprehensive understanding of the dipole source(s) being analyzed.
-
-\begin{figure}
-  \includegraphics[width=\linewidth]{figures/NN_simple_dipole_architecture.pdf}
-  \caption{A caption here is needed.}
-  \label{fig:NN_architecture.png}
-\end{figure}
+% \subsection{DiLoc}
+% The FFNN that are trained to solve the inverse problem of ours has an input layer of 231 neurons, corresponding to the M = 231 electrode measures of the potentials. The input layer is followed by three hidden layers with 120, 84 and 16 hidden neurons, respectively. When the aim is to estimate the localization of the current dipole, \emph{only}, the final output layer holds the predicted x-, y- and z- position of the desired dipole source.  However, if the interest lies in determining the size of the dipole population, an alternative output layer is incorporated in the network architecture providing the radius of the dipole(s), in addition to the location coordinates. This enables the model to provide a more comprehensive understanding of the dipole source(s) being analyzed.
+%
+% \begin{figure}
+%   \includegraphics[width=\linewidth]{figures/NN_simple_dipole_architecture.pdf}
+%   \caption{A caption here is needed.}
+%   \label{fig:NN_architecture.png}
+% \end{figure}
 
 \subsection{Validation accuracy}
 In Figure \ref{fig:single_dipole_accuracy} we have provided the validation accuray, using mean squared error (MSE) and the coefficient of determination (R2-score).
@@ -93,7 +93,9 @@ As was pointed out in the previous section, the optimal dipole orientation (in t
 
 
 \subsection{Training, testing and evaluation}
-In order to make an ANN that generalizes well to new data we split our data into training and testing sets. Randomly selecting 80 percent of the rows in the full dataset, we put this into a separate one and call it our training set. The remaining 20 percent is put into the test set. In practice, the training data set consists of pairs of an input vector with EEG signals and the corresponding output vector, where the answer key is the x-, y- and z coordinate of the dipole source. The neural network is then feed with the training data and produces an estimation of the localization of the dipole. The estimation is found by the network through optimizing the parameters $\beta$ minimizing the cost function, or said in other words, through finding parameters for the function that produces the smallest outcomes, meaning the smallest errors. The result provided by the network is then compared with the target, for each input vector in the training data. Adjustment of parameters...
+% In order to make an ANN that generalizes well to new data we split our data into training and testing sets. Randomly selecting 80 percent of the rows in the full dataset, we put this into a separate one and call it our training set. The remaining 20 percent is put into the test set. In practice, the training data set consists of pairs of an input vector with EEG signals and the corresponding output vector, where the answer key is the x-, y- and z coordinate of the dipole source. The neural network is then feed with the training data and produces an estimation of the localization of the dipole. 
+
+The estimation is found by the network through optimizing the parameters $\beta$ minimizing the cost function, or said in other words, through finding parameters for the function that produces the smallest outcomes, meaning the smallest errors. The result provided by the network is then compared with the target, for each input vector in the training data. Adjustment of parameters...
 
 When the network is fully trained, we have a final model fit on the training data set. Feeding the network with the test data set, we can assess the performance of the network. The predictions of the fully trained network can now be compared to the holdout data's true values to determine the model's accuracy.
 
