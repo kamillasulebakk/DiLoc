@@ -11,7 +11,6 @@ def numpy_to_torch(a_f64):
 
 def normalize(x, max_x, min_x):
     x_new = (x - min_x)/(max_x - min_x)
-
     return x_new
 
 def denormalize(x, max_x, min_x):

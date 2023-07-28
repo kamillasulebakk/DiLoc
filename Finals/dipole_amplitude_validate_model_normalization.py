@@ -30,41 +30,23 @@ def plot_mse_amplitude(amplitude_dict):
     ax.set_ylabel('Error [mm]', fontsize=18)
     ax.tick_params(axis='both', which='major', labelsize=18)
     ax.plot(labels, values)
-    fig.savefig(f'plots/amplitude_mse_lr_1.8.png')
+    # fig.savefig(f'plots/.png')
 
-N_dipoles = 1
+N_dipoles = 2
 name = 'dipole_w_amplitude'
 
-# NN_costum_loss
-# model = torch.load('trained_models/tanh_50000_3july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_mom0.35_bs64.pt')
-
-# print('amplitude 0.9')
-# model = torch.load('trained_models/TEST_dipole_w_amplitude_500_SGD_lr0.9_wd1e-05_bs32.pt')
-# model = torch.load('trained_models/7.july_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_bs32.pt')
-
-# simple mpodel with relu and parameters euqal to simple dipole
-# model = torch.load('trained_models/july/simple_network_relu_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
-
-# simple mpodel with tanh and sigmoid and parameters eqal to simple dipole
-# model = torch.load('trained_models/july/simple_network_tanh_sigmoid_50000_6july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_mom0.35_bs32.pt')
-
-model = torch.load('trained_models/july/amplitudes_32_0.001_0.35_0.1_(5).pt')
-
-
+model = torch.load('trained_models/amplitudes_64_0.001_0.35_0.1_1e-05_3000_(1).pt')
 
 print('finished loading model')
 
 nyhead = NYHeadModel()
 
-eeg = np.load('data/amplitudes_70000_1_eeg_test.npy')
-target = np.load('data/amplitudes_70000_1_targets_test.npy')
-
-# eeg = np.load('data/multiple_dipoles_eeg_70000_2.npy')
-# target = np.load('data/multiple_dipoles_locations_70000_2.npy')
+eeg = np.load('data/amplitudes_70000_2_eeg_test.npy')
+target = np.load('data/amplitudes_70000_2_targets_test.npy')
 print('finished loading data')
 
 # target = target.reshape(N_samples, 4*N_dipoles)
-
+N_samples = 20000
 target = target.T.reshape(N_samples, 4*N_dipoles)
 
 eeg = (eeg - np.mean(eeg))/np.std(eeg)
@@ -108,6 +90,8 @@ for dipole_num in range(N_dipoles):
 
 
 for i in range(N_dipoles):
+    print(x_target.shape)
+    print(pred_list[i, :, 0].shape)
     MAE_x = MAE(x_target, pred_list[i, :, 0])
     MAE_y = MAE(y_target, pred_list[i, :, 1])
     MAE_z = MAE(z_target, pred_list[i, :, 2])

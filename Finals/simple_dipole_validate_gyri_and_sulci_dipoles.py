@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 
 from NN_simple_dipole import Net
 
-from produce_plots_and_data import calculate_eeg
-from utils import numpy_to_torch, normalize, denormalize, MSE, MAE
-import produce_plots_and_data
+from produce_data import calculate_eeg
+from utils import numpy_to_torch, normalize, denormalize, MSE, MSE
+import produce_data
 import matplotlib as mpl
 
 import os
@@ -24,7 +24,7 @@ mpl.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 import matplotlib.gridspec as gridspec
 
-def plot_MAE_error(mse, dipole_locs, name, numbr):
+def plot_MSE_error(mse, dipole_locs, name, numbr):
     fig = plt.figure(figsize=[10, 8])  # Increase the figure size
 
     fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
@@ -34,19 +34,19 @@ def plot_MAE_error(mse, dipole_locs, name, numbr):
     scatter_params = dict(cmap="hot", vmin=0, vmax=15, s=10)
 
     if numbr == 0:
-        fig.suptitle(f'MAE for dipole locations in y cross-section', fontsize=20)
+        fig.suptitle(f'MSE for dipole locations in y cross-section', fontsize=20)
         ax = fig.add_subplot(111, aspect=1)
         img = ax.scatter(dipole_locs[0], dipole_locs[2], c=mse, **scatter_params)
         ax.set_xlabel("x [mm]", fontsize=16)
         ax.set_ylabel("z [mm]", fontsize=16)
     elif numbr == 1:
-        fig.suptitle(f'MAE for dipole locations in z cross-section', fontsize=20)
+        fig.suptitle(f'MSE for dipole locations in z cross-section', fontsize=20)
         ax = fig.add_subplot(111, aspect=1)
         img = ax.scatter(dipole_locs[0], dipole_locs[1], c=mse, **scatter_params)
         ax.set_xlabel("x [mm]", fontsize=16)
         ax.set_ylabel("y [mm]", fontsize=16)
     else:
-        fig.suptitle(f'MAE for dipole locations in x cross-section', fontsize=20)
+        fig.suptitle(f'MSE for dipole locations in x cross-section', fontsize=20)
         ax = fig.add_subplot(111, aspect=1)
         img = ax.scatter(dipole_locs[1], dipole_locs[2], c=mse, **scatter_params)
         ax.set_xlabel("y [mm]", fontsize=16)
@@ -63,7 +63,7 @@ def plot_MAE_error(mse, dipole_locs, name, numbr):
     plt.savefig(f"plots/NEW_simple_dipole_error_{name}_{numbr}.pdf")
 
 # x, y, z - coordinates
-model = torch.load('trained_models/simple_dipole_lr0.001_RELU_500_50000.pt')
+model = torch.load('trained_models/simple_32_0.001_0.35_0.5_0.0_500_(0).pt')
 
 nyhead = NYHeadModel()
 sulci_map = np.array(nyhead.head_data["cortex75K"]["sulcimap"], dtype=int)[0]
@@ -101,7 +101,9 @@ for numbr, plane in enumerate(planes):
         nyhead.set_dipole_pos(nyhead.cortex[:,idx])
         eeg = calculate_eeg(nyhead)
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
-        eeg = numpy_to_torch(eeg.T)
+        eeg = np.expand_dims(eeg, axis=1)
+        eeg = numpy_to_torch(eeg)
+        eeg = eeg.flatten()
         pred = model(eeg)
         pred = pred.detach().numpy().flatten()
 
@@ -114,16 +116,16 @@ for numbr, plane in enumerate(planes):
         y_target = y_target_list[i] = nyhead.cortex[1,idx]
         z_target = z_target_list[i] = nyhead.cortex[2,idx]
 
-        error_i_x = np.abs(x_target - x_pred)
+        error_i_x = (x_target - x_pred) ** 2
         error_x.append(error_i_x)
 
-        error_i_y = np.abs(y_target - y_pred)
+        error_i_y = (y_target - y_pred) ** 2
         error_y.append(error_i_y)
 
-        error_i_z = np.abs(z_target - z_pred)
+        error_i_z = (z_target - z_pred) ** 2
         error_z.append(error_i_z)
 
-        error_i_locations = (error_i_x + error_i_y + error_i_z)/3
+        error_i_locations = (error_i_x + error_i_y + error_i_z) / 3
         error_locations.append(error_i_locations)
 
         if sulci_map[idx] == 1:
@@ -136,23 +138,24 @@ for numbr, plane in enumerate(planes):
     target = target.reshape((np.shape(pred_list)[1], np.shape(pred_list)[0]))
     target = target.T
 
-    MAE_x = MAE(x_target_list, pred_list[:,0])
-    MAE_y = MAE(y_target_list, pred_list[:,1])
-    MAE_z = MAE(z_target_list, pred_list[:,2])
-    MAE_locations = MAE(target, pred_list)
+    MSE_x = MSE(x_target_list, pred_list[:,0])
+    MSE_y = MSE(y_target_list, pred_list[:,1])
+    MSE_z = MSE(z_target_list, pred_list[:,2])
+    MSE_locations = MSE(target, pred_list)
 
-    print(f'MAE x-coordinates:{MAE_x}')
-    print(f'MAE y-coordinates:{MAE_y}')
-    print(f'MAE z-coordinates:{MAE_z}')
-    print(f'MAE location:{MAE_locations}')
+    print(f'MSE x-coordinates:{MSE_x}')
+    print(f'MSE y-coordinates:{MSE_y}')
+    print(f'MSE z-coordinates:{MSE_z}')
+    print(f'MSE location:{MSE_locations}')
+
+    plot_MSE_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
 
 
 print(np.mean(sulci_error))
 print(np.mean(gyri_error))
-    # plot_MAE_error(error_x, nyhead.cortex[:,plane], 'x', numbr)
-    # plot_MAE_error(error_y, nyhead.cortex[:,plane], 'y', numbr)
-    # plot_MAE_error(error_z, nyhead.cortex[:,plane], 'z', numbr)
-    # plot_MAE_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
+    # plot_MSE_error(error_x, nyhead.cortex[:,plane], 'x', numbr)
+    # plot_MSE_error(error_y, nyhead.cortex[:,plane], 'y', numbr)
+    # plot_MSE_error(error_z, nyhead.cortex[:,plane], 'z', numbr)
 
 
 
