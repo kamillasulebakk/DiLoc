@@ -18,7 +18,7 @@ def basic_parameters():
 def main():
     batch_sizes = [32]
     weight_decay = [0.5, 0.9]
-    l1_lambdas = [0]
+    momentum = [0.35, 0.9]
 
     parameters = basic_parameters()
 
