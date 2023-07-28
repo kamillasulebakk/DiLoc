@@ -1,0 +1,24 @@
+N_samples: 70000
+N_dipoles: 1
+determine_amplitude: False
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 500
+noise_pct: 10
+l1_lambda: 0
+batch_size: 32
+weight_decay: 0.5
+log_fname: simple_32_0.001_0.35_0.5_0_500_(0)
+------------------------------------------------------------
+Epoch    0/ 499 | Train:  126.20846355 | Validation:   28.01166571 | Time:       6.1 s
+Predicted: [ 23.322548 -23.013832  -8.796847]
+Target:    [ 22.28531  -24.038597  -9.578612]
+
+Predicted: [ 22.714846 -92.65635    5.236857]
+Target:    [ 25.232157  -97.77904     4.5215373]
+
+Predicted: [ 4.997557  -6.3147755 48.327465 ]
+Target:    [ 6.163237  2.593288 43.872375]
+

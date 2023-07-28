@@ -1,14 +1,11 @@
 import torch.nn as nn
 import torch.nn.functional as F
 import torch
-from torchvision import transforms
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-
-
 
 from load_data import load_data_files
 from plot import plot_MSE_CNN

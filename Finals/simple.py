@@ -21,13 +21,14 @@ def main():
     momentum = [0.35, 0.9]
 
     parameters = basic_parameters()
+    parameters['l1_lambda'] = 0
 
     for size in batch_sizes:
         parameters['batch_size'] = size
         for weight in weight_decay:
             parameters['weight_decay'] = weight
-            for l1_lambda in l1_lambdas:
-                parameters['l1_lambda'] = l1_lambda
+            for mom in momentum:
+                parameters['momentum'] = mom
                 run_model(parameters)
 
 
