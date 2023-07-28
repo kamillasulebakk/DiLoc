@@ -6,6 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import numpy as np
 import matplotlib.pyplot as plt
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+
 
 
 from load_data import load_data_files
@@ -30,12 +32,19 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(120, 64)
         self.fc3 = nn.Linear(64, 3)
 
+        self.initialize_weights()
+
+    def initialize_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Linear):
+                nn.init.xavier_normal_(m.weight)
+
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = torch.flatten(x, 1)     # flatten all dimensions except batch
-        x = F.relu(self.fc1(x))
-        x = F.relu(self.fc2(x))
+        x = torch.tanh(self.fc1(x))
+        x = torch.tanh(self.fc2(x))
         x = self.fc3(x)
         return x
 
@@ -87,29 +96,40 @@ class EEGDataset(torch.utils.data.Dataset):
         return self.eeg_matrix.shape[0]
 
 
-def train_epoch(data_loader_train, noise_pct, optimizer, net, criterion):
-    losses = np.zeros(len(data_loader_train))
-    for idx, (signal, position) in enumerate(data_loader_train):
+def train_epoch(data_loader, noise_pct, optimizer, net, criterion):
+    total_loss = 0.0
+    for eeg, target in data_loader:
+        eeg = eeg.unsqueeze(1)
         optimizer.zero_grad()
-        signal = signal.unsqueeze(1)
-        pred = net(signal)
-        loss = criterion(pred, position)
+        pred = net(eeg)
+        loss = criterion(pred, target)
         loss.backward()
         optimizer.step()
-        losses[idx] = loss.item()
-    mean_loss = np.mean(losses)
+        total_loss += loss.item()
+    mean_loss = total_loss/len(data_loader)
     return mean_loss
 
 
-def test_epoch(data_loader_test, optimizer, net, criterion):
-    losses = np.zeros(len(data_loader_test))
+def test_epoch(data_loader, optimizer, net, criterion, scheduler):
+    total_loss = 0.0    # NB! Will turn into torch.Tensor
+    SE_targets = 0.0    # NB! Will turn into torch.Tensor
+    total_number_of_samples = 0
     with torch.no_grad():
-        for idx, (signal, position) in enumerate(data_loader_test):
-            signal = signal.unsqueeze(1)
-            pred = net(signal)
-            loss = criterion(pred, position)
-            losses[idx] = loss.item()
-        mean_loss = np.mean(losses)
+        for eeg, target in data_loader:
+            eeg = eeg.unsqueeze(1)
+            pred = net(eeg)
+            loss = criterion(pred, target)
+            total_loss += loss
+
+            SE_targets += ((target - pred)**2).sum(dim=0)
+            total_number_of_samples += target.shape[0]
+
+        # Adjust the learning rate based on validation loss
+        scheduler.step(total_loss)
+
+    mean_loss = total_loss.item()/len(data_loader)
+    MSE_targets = SE_targets.numpy()/total_number_of_samples
+
     return mean_loss
 
 
@@ -134,8 +154,12 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
     )
 
     criterion = nn.MSELoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=1e-6)
-    # optimizer = torch.optim.Adam(net.parameters(), betas=(0.9, 0.999), eps=1e-08)
+    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=0.009)
+
+    scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2,
+                                patience=50, verbose=True, threshold=0.0001,
+                                threshold_mode='rel', cooldown=0, min_lr=0,
+                                eps=1e-08)
 
     train_loss = np.zeros(N_epochs)
     test_loss = np.zeros(N_epochs)
@@ -150,7 +174,7 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
     # Train the model
     for epoch in range(N_epochs):
         train_loss[epoch] = train_epoch(data_loader_train, noise_pct, optimizer, net, criterion)
-        test_loss[epoch] = test_epoch(data_loader_test, optimizer, net, criterion)
+        test_loss[epoch] = test_epoch(data_loader_test, optimizer, net, criterion, scheduler)
         line = f'epoch {epoch:6d}, train loss: {train_loss[epoch]:9.3f}'
         line += f', test loss: {test_loss[epoch]:9.3f}'
         print(line)
@@ -166,7 +190,7 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
 
 if __name__ == '__main__':
     N_samples = 50_000
-    N_epochs = 300
+    N_epochs = 500
     noise_pct = 10
 
     net = main('interpolated', N_samples, N_epochs, noise_pct)

@@ -11,11 +11,10 @@
 In this chapter we will present the results from training and performance of the neural networks presented in chapter 4. Section 1 deal with the results and discussion of the simple feed forward neural network, while section 2 will discuss how the alternative convolution neural network performe some of the same results.
 
 \section{Localizing Single Dipole Sources}
-% One example on coordinate prediction
-% include the neural net that has been used
 
 We begin by introducing the standard inverse problem for our neural network, DiLoc. In this context, the standard inverse problem refers to the task of predicting the x-, y-, and z-coordinates of dipole current sources responsible for generating measured EEG signals. The goal is to feed the network with EEG data corresponding to the electrical activity from randomly distributed dipoles in the cerebral cortex and have the network accurately output the locations of these current dipoles.
 
+\subsection{Performance Evaluation}
 For this specific problem, the network demonstrates remarkable performance even without the use of L1 regularization. However, we include L2 penalty with a value of 0.5 to promote more generalizable solutions. The network is trained for 500 epochs, with each epoch completing in approximately 11.5 seconds. It is worth noting that the validation loss does not decrease significantly after approximately 350 epochs. As a result, fully training the network (for 350 epochs) would not require more than 4025 seconds, or roughly 1 hour and 7 minutes. Despite the validation loss stabilizing, we continued training for the full 500 epochs to ensure that there would be no further improvements in the validation data's performance. By training for a few more epochs beyond the point of loss stabilization, we could confirm that the network had reached its convergence and had effectively learned to generalize well on the given task.
 
 Figure \ref{fig:single_dipole_accuracy} illustrates the network's loss as a function of training epochs. A clear trend of decreasing loss can be observed, indicating the network effectively learns the patterns in the data. The validation loss stabilizes around 350 epochs, while the training loss continues to decrease until a point between 400 and 500 epochs. Additionally, Figure \ref{fig:single_dipole_accuracy_targets} provides insight into the development of the validation loss for separate target coordinates plotted against training epochs. The figure most of all confirms that all separate target coordinates have been equally weighted, resulting in similar loss values for each of them. Moreover, it showcases that the small fluctuations in the loss, noticeable before 350 epochs, disappear beyond this threshold, indicating a stabilization of the loss for all three target coordinates.This observation aligns with the trend of the validation loss stabilizing at approximately 350 epochs as seen in the previously mentioned figure.
@@ -36,8 +35,6 @@ Figure \ref{fig:single_dipole_accuracy} illustrates the network's loss as a func
 \end{figure}
 
 
-%\subsection{Performance Evaluation}
-
 The DiLoc network's performance is evaluated using a variety of error metrics for the x-, y-, and z-coordinates. The x-coordinate ranges from -72 to 72 mm, the y-coordinate from -106 to 73 mm, and the z-coordinate from -52.66 to 81.15 mm.
 
 Table \ref{table:error_simple_dipole} presents the results for the mean absolute error (MAE) in the DiLoc network's predictions. The MAE values for the x-, y-, and z-coordinates range from 0.645 mm to 0.678 mm. These findings indicate that, on average, the network's predictions exhibit an error smaller than 1 mm in each coordinate, showcasing a high level of accuracy. The MAE metric is robust and resilient to outliers, making it a suitable measure for assessing the network's general performance.
@@ -46,7 +43,7 @@ The mean squared error (MSE) values, ranging from 0.747 mm$^2$ to 0.824 mm$^2$, 
 
 The root mean squared error (RMSE) values, ranging from 0.864 mm to 0.908 mm, represent the average magnitude of errors in the original units (mm). RMSE is the square root of MSE and is slightly higher than the corresponding MSE values, as taking the square root of numbers smaller than 1 results in slightly higher values. Nevertheless, all RMSE values are below 1 mm, further attesting to the network's exceptional accuracy. RMSE provides a measure of the standard deviation of errors around the mean and complements the MSE by assessing the spread of errors in the original units.
 
-The error metrics for the Euclidean distance, derived from the three-dimensional space coordinates, are also calculated and presented in Table \ref{table:error_simple_dipole}. The values for MAE, MSE, and RMSE are smaller than 1 mm, indicating accurate predictions by the DiLoc network for the inverse problem. The performance metrics for the Euclidean distance corroborate the network's ability to predict the dipole location with a high level of precision and accuracy.
+The error metrics for the Euclidean distance, derived from the three-dimensional space coordinates, are also calculated and presented in Table \ref{table:error_simple_dipole}. The values for MAE, MSE, and RMSE are smaller than 1 mm, indicating accurate predictions by the DiLoc network for the inverse problem. The performance metrics for the Euclidean distance corroborate the network's ability to predict the dipole location with a high level of precision and accuracy. To showcase the networks performance, we can look at one specific prediction of the network. For a dipole located at (x, y, z) coordinates of (66.9 mm, -26.1 mm, 41.7 mm) the network predicted the coordinates to be (66.5 mm, -26.4 mm, 41.9 mm). The predicted values were very close to the true values, with an error of only 0.4 mm in the x-coordinate, 0.3 mm in the y-coordinate, and 0.2 mm in the z-coordinate.
 
 It is worth mentioning that among the three coordinates, the z-coordinate exhibits the highest error values. This observation suggests that the DiLoc network encounters more challenges in accurately predicting the z-coordinate of the dipole source. One plausible explanation for this discrepancy could be attributed to the nature of the inverse problem, where EEG patterns for dipole sources do not produce significant changes in the pattern of electrical potential recording, but rather in magnitude. Additionally, the smaller representation of z-values compared to x- and y-coordinates could contribute to the consistent larger errors in the z-direction. However, despite these challenges, the overall error metrics indicate that the DiLoc network is capable of predicting the dipole location with a reasonable level of accuracy, signifying its practical viability for real-world applications.
 
@@ -71,7 +68,7 @@ Network performance on test dataset consisting of 20000 samples. The errors are 
 \label{table:error_simple_dipole}
 \end{table}
 
-
+\subsection{Detailed Analysis of Performance at Different Brain Structures}
 In order to conduct a detailed analysis of the network's performance, Figure \ref{fig:MAE_crossections} presents the Mean Squared Error (MSE) for various dipole locations within the New York head model cortex matrix. The figure provides valuable insights into the distribution of errors across different regions of the cortex, with three cross-sections—front, top, and side—depicted for examination. It is important to note that these cross-sections include data points from the training, validation, and test datasets, making these results indicative of the network's overall performance rather than real-world scenarios. However, the analysis aims to examine the distribution of errors and identify potential areas where the network's performance may be weaker, helping to gain valuable insights into its predictive capabilities.
 
 The MSE values presented in the panels are consistently below 1 mm, which indicates a high level of accuracy in the network's predictions. These results are promising and demonstrate the network's ability to estimate dipole locations with a high level of precision. The panels also offer an opportunity to assess whether the network performs differently for dipoles located in the gyrus compared to the sulcus.
@@ -98,10 +95,39 @@ In conclusion, the detailed analysis of the network's performance through cross-
 \end{figure}
 
 
+%
+% \section{Convolution Neural Network Approach for localizing single dipole sources}
+% In this section we will see how a Diloc would have perfomed the same task of localizing simple current dipoles from EEG recorings, if it were designed as a convolutional neural network. The convolutional neural network (CNN) is a sligtly more complicated network than the one presented in the previous section, however, it is still classified as a type of feed forward neural network.
+%
+% \subsection{Purpose...}
+% The purpose of testing how a convolutional neural network will perform the same task is to see if the use of spatial information in images will help the network analyze EEG recordings better and thus give more accurate predictions for the localization of the sorces generating the signal.
+%
+% \subsection{Data set}
+% Convoltuinal Neural Networks takes images as input data, and learn several local features in order to produce final predictions. Starting from the orignal dataset presentesd in Chapter 4, image data were produced by the use of interpolation. The tequniqe of interpolation is commonly used to insert an intermediate value between two other values. By interpolating one dimensional EEG data we can convert orignial electrode positions to a regular 2D grid, creating image data, where spatial structures as conserved.
+%
+%
+% This image data works as the new data set for the convolutional network. Data consist of three dimensional matrix, and before beeing fed into the network it needs to be reshaped so that it gets the shape of one sigle coloumn.
 
-\section{Convolution Neural Network Approach for localizing single dipole sources}
+\section{Convolutional Neural Network Approach for Localizing Single Dipole Sources}
 
-Some results for the prediction of location for single current dipoles.
+In this section, we explore the utilization of a Convolutional Neural Network (CNN) for the task of localizing simple current dipoles from EEG recordings. The CNN is a sophisticated type of feed-forward neural network that excels at learning spatial features from images.
+
+\subsection{Purpose}
+
+The objective of this investigation is to assess whether leveraging spatial information in EEG recordings as images can enhance the network's ability to analyze the data and yield more accurate predictions for localizing the sources generating the neural signals.
+
+\subsection{Data Set}
+
+Convolutional Neural Networks are designed to process image data. To adapt EEG recordings for use with the CNN, we convert the original dataset from Chapter 4 into image data through the application of interpolation. Interpolation is a common technique used to estimate values between known data points. By performing interpolation on the one-dimensional EEG data, we transform the original electrode positions into a regular 2D grid, effectively creating image-like data while preserving spatial structures.
+
+The resulting image data constitutes the new dataset for the convolutional network. This data comprises three-dimensional matrices, and before being fed into the CNN, it requires reshaping to form a single-column shape.
+
+In summary, the CNN will be trained and tested on the transformed EEG data in image format, allowing it to exploit spatial relationships and patterns, potentially leading to improved performance in localizing single dipole sources compared to the previous approach.
+
+
+\subsubsection{Architecture, Hyperparameters and Training}
+As for the orignal DiLoc network, the convolutional approach
+
 
 
 \begin{figure}[!htb]

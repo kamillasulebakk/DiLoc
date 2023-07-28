@@ -23,11 +23,11 @@ def load_data_files(num_samples: int, name: str, shape: str = "1d", num_dipoles:
         # eeg = np.load(f'data/train_test_const_A_{name}_const_A_eeg_70000_{num_dipoles}.npy')
         # pos_list = np.load(f'data/train_test_const_A_{name}_const_A_locations_70000_{num_dipoles}.npy')
 
-        # eeg = np.load(f'data/train_test_{name}_eeg_70000_{num_dipoles}.npy')
-        # pos_list = np.load(f'data/train_test_{name}_locations_70000_{num_dipoles}.npy')
+        eeg = np.load(f'data/train_test_{name}_eeg_70000_{num_dipoles}.npy')
+        pos_list = np.load(f'data/train_test_{name}_locations_70000_{num_dipoles}.npy')
 
-        eeg = np.load(f'data/train_test_const_A_{name}_const_A_eeg_70000_{num_dipoles}.npy')
-        pos_list = np.load(f'data/train_test_const_A_{name}_const_A_locations_70000_{num_dipoles}.npy')
+        # eeg = np.load(f'data/train_test_const_A_{name}_const_A_eeg_70000_{num_dipoles}.npy')
+        # pos_list = np.load(f'data/train_test_const_A_{name}_const_A_locations_70000_{num_dipoles}.npy')
 
     except FileNotFoundError as e:
         print(f'The eeg data you seek (num_samples = {num_samples}, name = {name}, shape = {shape}) has not yet been produced.')
