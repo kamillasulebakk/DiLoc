@@ -9,16 +9,16 @@ def basic_parameters():
         'determine_area': False,
         'hidden_layers': [512, 256, 128, 64, 32],
         'learning_rate': 0.001,
-        'momentum': 0.35,
+        'momentum': 0.9,
         'N_epochs': 500,
         'noise_pct': 10
     }
 
 
 def main():
-    batch_sizes = [32, 64]
-    weight_decay = [0.1, 0.5]
-    l1_lambdas = [0, 0.000001]
+    batch_sizes = [32]
+    weight_decay = [0.5, 0.9]
+    l1_lambdas = [0]
 
     parameters = basic_parameters()
 
