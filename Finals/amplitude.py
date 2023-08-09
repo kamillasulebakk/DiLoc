@@ -4,7 +4,7 @@ from model_runner import run_model
 def basic_parameters():
     return {
         'N_samples': 70_000,
-        'N_dipoles': 1,
+        'N_dipoles': 2,
         'determine_amplitude': True,
         'determine_area': False,
         'hidden_layers': [512, 256, 128, 64, 32],

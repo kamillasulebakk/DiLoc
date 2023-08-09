@@ -17,12 +17,19 @@ def validate_network(model, parameters):
     name = 'area'
     data = EEGDataset('test', parameters)
     predictions =  data.denormalize(model(data.eeg)).detach().numpy()
-    target = data.denormalize(data.target).detach().numpy()
+    targets = data.denormalize(data.target).detach().numpy()
+
+    norms = np.linalg.norm(predictions[:,:3] - targets[:,:3], axis=1)
+    # within_threshold = sum(norms < 10)
+
+    amplitude_absolute_error = np.abs(predictions[:,3] - targets[:,3])
+    within_threshold = sum((norms < 10) & (amplitude_absolute_error < 0.6))
+
 
     if name == 'amplitude':
-        plot_error_amplitude(predictions, target)
+        plot_error_amplitude(predictions, targets)
 
-    test_results = tm.generate_test_results(predictions, target)
+    test_results = tm.generate_test_results(predictions, targets)
     tm.print_test_results(test_results)
     tm.save_test_results(test_results, name)
 

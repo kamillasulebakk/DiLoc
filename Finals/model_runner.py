@@ -8,7 +8,6 @@ import numpy as np
 from plot import plot_MSE_NN, plot_MSE_targets
 from ffnn import FFNN, number_of_output_values
 from eeg_dataset import EEGDataset, generate_log_filename
-from utils import custom_loss_dipoles_w_amplitudes
 
 
 def train_epoch(data_loader, optimizer, net, criterion):
@@ -84,15 +83,35 @@ class Logger:
 
 
 class Loss:
-    def __init__(self, l1_lambda, num_dipoles):
+    def __init__(self, l1_lambda, use_custom: bool, N_dipoles):
         self._lambda = l1_lambda
-        self._num_dipoles = num_dipoles
-        self._mse = torch.nn.MSELoss()
-        self._loss = custom_loss_dipoles_w_amplitudes
+        self._loss = self._custom_loss if use_custom else torch.nn.MSELoss()
+        self._num_dipoles = N_dipoles
+
+    def _custom_loss(self, predicted, target):
+        assert predicted.dim() == 2
+        assert target.dim() == 2
+
+        result = 0
+        for i in range(self._num_dipoles):
+            start = 4*i
+            stop = start + 3
+            euc_dist_error = torch.linalg.norm(
+                predicted[:, start:stop] - target[:, start:stop],
+                dim=1
+            )
+            absolute_error_amp = (predicted[:, stop] - target[:, stop]).abs()
+            result += euc_dist_error + absolute_error_amp
+
+        if predicted.shape[1] == 5:
+            assert self._num_dipoles == 1
+            absolute_error_radius = (predicted[:, 4] - target[:, 4]).abs()
+            result += absolute_error_radius
+
+        return result.mean()
 
     def __call__(self, predicted, target, net, is_training: bool):
-        # result = self._mse(predicted, target)
-        result = self._loss(predicted, target, self._num_dipoles)
+        result = self._loss(predicted, target)
         if is_training:
             # TODO: fix this list -> tensor hack
             l1_norm = torch.sum(
@@ -117,7 +136,7 @@ def run_model(parameters):
         shuffle=False,
     )
 
-    criterion = Loss(parameters['l1_lambda'], parameters['N_dipoles'])
+    criterion = Loss(parameters['l1_lambda'], True, parameters['N_dipoles'])
 
     optimizer = torch.optim.SGD(
         net.parameters(),
