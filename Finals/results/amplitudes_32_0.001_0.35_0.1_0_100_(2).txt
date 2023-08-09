@@ -1,0 +1,14 @@
+N_samples: 70000
+N_dipoles: 2
+determine_amplitude: True
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 100
+noise_pct: 10
+weight_decay: 0.1
+l1_lambda: 0
+log_fname: amplitudes_32_0.001_0.35_0.1_0_100_(2)
+------------------------------------------------------------

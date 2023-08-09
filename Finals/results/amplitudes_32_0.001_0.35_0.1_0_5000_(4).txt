@@ -1,0 +1,26 @@
+N_samples: 70000
+N_dipoles: 1
+determine_amplitude: True
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 5000
+noise_pct: 10
+weight_decay: 0.1
+l1_lambda: 0
+log_fname: amplitudes_32_0.001_0.35_0.1_0_5000_(4)
+------------------------------------------------------------
+Epoch    0/4999 | Train:           nan | Validation:           nan | Time:       3.6 s
+Predicted: [nan nan nan nan]
+Target:    [0.65470415 0.45703006 0.32195893 0.19977401]
+
+Predicted: [nan nan nan nan]
+Target:    [0.6751611  0.04644312 0.42733297 0.84237146]
+
+Predicted: [nan nan nan nan]
+Target:    [0.54278505 0.60531646 0.7214119  0.9858402 ]
+
+Epoch    1/4999 | Train:           nan | Validation:           nan | Time:       6.6 s
+Epoch    2/4999 | Train:           nan | Validation:           nan | Time:       9.7 s

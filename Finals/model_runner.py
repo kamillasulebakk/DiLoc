@@ -8,6 +8,7 @@ import numpy as np
 from plot import plot_MSE_NN, plot_MSE_targets
 from ffnn import FFNN, number_of_output_values
 from eeg_dataset import EEGDataset, generate_log_filename
+from utils import custom_loss_dipoles_w_amplitudes
 
 
 def train_epoch(data_loader, optimizer, net, criterion):
@@ -48,7 +49,7 @@ class Logger:
     def __init__(self, parameters):
         self._parameters = parameters
         self._log_fname = os.path.join(
-            'results', parameters['log_fname'] + '.txt'
+            'results', 'custom_loss' + parameters['log_fname'] + '.txt'
         )
         self._write_line(self._header_line())
         self._start_time = time.perf_counter()
@@ -83,12 +84,15 @@ class Logger:
 
 
 class Loss:
-    def __init__(self, l1_lambda):
+    def __init__(self, l1_lambda, num_dipoles):
         self._lambda = l1_lambda
+        self._num_dipoles = num_dipoles
         self._mse = torch.nn.MSELoss()
+        self._loss = custom_loss_dipoles_w_amplitudes
 
     def __call__(self, predicted, target, net, is_training: bool):
-        result = self._mse(predicted, target)
+        # result = self._mse(predicted, target)
+        result = self._loss(predicted, target, self._num_dipoles)
         if is_training:
             # TODO: fix this list -> tensor hack
             l1_norm = torch.sum(
@@ -113,7 +117,7 @@ def run_model(parameters):
         shuffle=False,
     )
 
-    criterion = Loss(parameters['l1_lambda'])
+    criterion = Loss(parameters['l1_lambda'], parameters['N_dipoles'])
 
     optimizer = torch.optim.SGD(
         net.parameters(),

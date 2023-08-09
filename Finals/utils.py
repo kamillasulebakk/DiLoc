@@ -21,12 +21,16 @@ def MSE(Y_true, Y_pred):
     error = np.square(np.subtract(Y_true,Y_pred)).mean()
     return error
 
-# def relative_change(Y_true, Y_pred):
-#     error = np.abs((Y_true - Y_pred)/(Y_true))*100
-#     return error
-
 def MAE(Y_true, Y_pred):
     error = np.abs(Y_pred - Y_true).mean()
+    return error
+
+def MAPE(Y_true, Y_pred):
+    error = np.abs((Y_pred - Y_true) / Y_true).mean()
+    print(Y_pred)
+    print(Y_true)
+    print(np.abs((Y_pred-Y_true)/Y_true).mean())
+    input()
     return error
 
 
@@ -111,16 +115,25 @@ def custom_loss(y_true, y_pred):
 
 
 def custom_loss_dipoles_w_amplitudes(Y_true, Y_pred, N_dipoles):
-
-    eeg, target = load_data.load_data_files(10000, 'dipoles_w_amplitudes', '1d', N_dipoles)
-    # target = target.T.reshape(10000, 4*N_dipoles)
-
     total_loss = 0
 
-    for i in range(N_dipoles):
+    max_targets = np.array([
+        72.02555727958679,
+        73.47751750051975,
+        81.150386095047,
+        10,
+        15
+    ])
 
-        x_max, y_max, z_max, a_max = target[:, 0 + (i*4)].max(), target[:, 1 + (i*4)].max(), target[:, 2 + (i*4)].max(), target[:, 3 + (i*4)].max()
-        x_min, y_min, z_min, a_min = target[:, 0 + (i*4)].min(), target[:, 1 + (i*4)].min(), target[:, 2 + (i*4)].min(), target[:, 3 + (i*4)].min()
+    min_targets = np.array([
+        -72.02555727958679,
+        -106.12010800838469,
+        -52.66008937358856,
+        1,
+        0
+    ])
+
+    for i in range(N_dipoles):
 
         # Extract the individual target variables
         x_true, y_true, z_true, amplitude_true = Y_true[:, 0 + (i*4)], Y_true[:, 1 + (i*4)], Y_true[:, 2 + (i*4)], Y_true[:, 3 + (i*4)]
@@ -131,10 +144,10 @@ def custom_loss_dipoles_w_amplitudes(Y_true, Y_pred, N_dipoles):
         z_loss = torch.nn.functional.mse_loss(z_pred, z_true)
         amplitude_loss = torch.nn.functional.mse_loss(amplitude_pred, amplitude_true)
 
-        w_x = 1 / (x_max - x_min)
-        w_y = 1 / (y_max - y_min)
-        w_z = 1 / (z_max - z_min)
-        w_a = 1 / (a_max - a_min)
+        w_x = 1 / (max_targets[0] - min_targets[0])
+        w_y = 1 / (max_targets[1] - min_targets[1])
+        w_z = 1 / (max_targets[2] - min_targets[2])
+        w_a = 1 / (max_targets[3] - min_targets[3])
 
         # Compute the total loss as a weighted sum of the individual losses
         loss = w_x * x_loss + w_y * y_loss + w_z * z_loss + w_a * amplitude_loss

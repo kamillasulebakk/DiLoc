@@ -10,17 +10,17 @@ def basic_parameters():
         'hidden_layers': [512, 256, 128, 64, 32],
         'learning_rate': 0.001,
         'momentum': 0.35,
-        'N_epochs': 5000,
+        'N_epochs': 10000,
         'noise_pct': 10
     }
 
 
 def main():
-    batch_sizes = [32, 64]
+    batch_sizes = [32]
     weight_decay = [0.1, 0.5]
-    l1_lambda = [0, 0.00001]
+    l1_lambda = [0]
 
-
+    parameters = basic_parameters()
 
     for size in batch_sizes:
         parameters['batch_size'] = size

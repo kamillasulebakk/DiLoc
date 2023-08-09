@@ -6,6 +6,7 @@ from ffnn import FFNN
 from eeg_dataset import EEGDataset
 
 from utils import numpy_to_torch, denormalize
+from investigate_amplitude import plot_error_amplitude
 import test_models as tm
 import simple
 import amplitude
@@ -13,31 +14,42 @@ import area
 
 
 def validate_network(model, parameters):
+    name = 'area'
     data = EEGDataset('test', parameters)
     predictions =  data.denormalize(model(data.eeg)).detach().numpy()
     target = data.denormalize(data.target).detach().numpy()
 
-    print(predictions)
-    print(target)
-    input()
+    if name == 'amplitude':
+        plot_error_amplitude(predictions, target)
 
     test_results = tm.generate_test_results(predictions, target)
     tm.print_test_results(test_results)
-    tm.save_test_results(test_results, 'simple')
+    tm.save_test_results(test_results, name)
 
 def main():
-    model = torch.load('trained_models/simple_32_0.001_0.35_0.5_0.0_500_(0).pt')
+    # Simple
+    # model = torch.load('trained_models/simple_32_0.001_0.35_0.1_0.0_500_(0).pt')
+    # model = torch.load('trained_models/simple_32_0.001_0.35_0.5_0.0_500_(0).pt')
 
+    # Amplitude
     # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.1_0.0_3000_(0).pt')
+    # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.1_0_6000_(0).pt')
 
     # Two dipoles
+    # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.5_0_6000_(1).pt')
     # model = torch.load('trained_models/amplitudes_64_0.001_0.35_0.1_1e-05_3000_(1).pt')
+    # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.5_0_6000_(2).pt')
+    # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.1_0_10000_(0).pt')
+    # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.1_0_6000_(3).pt')
 
-    # model = torch.load('trained_models/area_32_0.001_0.35_0.1_0.0_5000_(0).pt')
+    # Area
+    # model = torch.load('trained_models/area_32_0.001_0.35_0.1_0_10000_(0).pt')
+    model = torch.load('trained_models/area_32_0.001_0.35_0.1_0.0_5000_(0).pt')
+    # model = torch.load('trained_models/area_64_0.001_0.35_0.1_0_10000_(0).pt')
     # model = torch.load('trained_models/area_64_0.001_0.35_0.5_1e-05_5000_(0).pt')
 
     print('Pretrained model loaded')
-    validate_network(model, simple.basic_parameters())
+    validate_network(model, area.basic_parameters())
 
 if __name__ == '__main__':
     main()

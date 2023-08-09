@@ -76,19 +76,19 @@ def plot_MSE_targets_2_dipoles(
     ax.plot(np.log(MSE_A2), label='no 2, Amplitude [nA um]')
     ax.legend(fontsize=18)
     plt.tight_layout()
-    fig.savefig(f'plots/mse_targets_{NN}_2_dipoles.pdf')
+    fig.savefig(f'plots/custom_loss_targets_{NN}_2_dipoles.pdf')
 
 
 def plot_MSE_targets(targets, batch_size, filename, N_dipoles):
     fig, ax = plt.subplots()
-    labels = ['$x$ position [mm]', '$y$ position [mm]', '$z$ position [mm]', r'Amplitude [nA $\mu$m]', 'Radius']
+    labels = ['$x$ position', '$y$ position', '$z$ position', r'Amplitude', 'Radius']
     for target, label in zip(targets.T, labels):
         ax.plot(np.log(target), label=label)
     set_ax_info(
         ax,
         xlabel='Number of epochs',
         ylabel='ln(MSE)',
-        title=f'MSE for validation data with batch size {batch_size}'
+        title=f'Custom loss for normalized validation data'
     )
     fig.tight_layout()
     fig.savefig(f'plots/mse_targets_{filename}.pdf')
@@ -102,10 +102,10 @@ def plot_MSE_NN(train_loss, test_loss, filename, act_func, batch_size, num_epoch
         ax,
         xlabel='Number of epochs',
         ylabel='ln(MSE)',
-        title=f'MSE for train and validation data with batch size {batch_size}',
+        title=f'Custom loss for normalized train and validation data',
     )
     fig.tight_layout()
-    fig.savefig(f'plots/mse_{filename}.pdf')
+    fig.savefig(f'plots/custom_loss_{filename}.pdf')
     plt.close(fig)
 
 def plot_R2_NN(train_R2, test_R2, NN, act_func, batch_size, num_epochs, name = "NN"):

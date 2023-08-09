@@ -4,21 +4,3 @@ Eeg Data: data/single_dipole_eeg_50000.npy
 Location Data: data/single_dipole_locations_50000.npy
 Mean and std Data: data/single_dipole_eeg_mean_std_50000.npy
 --------------------------------------------------------------
-epoch  0, train loss:   556.637, test loss:   197.291 
-epoch  1, train loss:   110.034, test loss:   126.092 
-epoch  2, train loss:    42.845, test loss:    29.940 
-epoch  3, train loss:    23.831, test loss:    21.659 
-epoch  4, train loss:    16.634, test loss:    15.524 
-epoch  5, train loss:    13.108, test loss:    25.477 
-epoch  6, train loss:    10.827, test loss:    18.276 
-epoch  7, train loss:     9.301, test loss:     8.375 
-epoch  8, train loss:     8.316, test loss:     9.179 
-epoch  9, train loss:     7.605, test loss:     8.535 
-epoch 10, train loss:     7.088, test loss:     9.793 
-epoch 11, train loss:     6.718, test loss:     6.507 
-epoch 12, train loss:     6.362, test loss:     5.576 
-epoch 13, train loss:     6.021, test loss:     7.962 
-epoch 14, train loss:     5.760, test loss:     5.346 
-epoch 15, train loss:     5.583, test loss:    10.726 
-epoch 16, train loss:     5.553, test loss:     6.826 
-epoch 17, train loss:     5.346, test loss:     5.285 

@@ -40,8 +40,8 @@ class CNN(nn.Module):
         x = self.pool(F.relu(self.conv1(x)))
         x = self.pool(F.relu(self.conv2(x)))
         x = torch.flatten(x, 1)     # flatten all dimensions except batch
-        x = torch.tanh(self.fc1(x))
-        x = torch.tanh(self.fc2(x))
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
         x = self.fc3(x)
         return x
 
@@ -96,7 +96,11 @@ class EEGDataset(torch.utils.data.Dataset):
 def train_epoch(data_loader, noise_pct, optimizer, net, criterion):
     total_loss = 0.0
     for eeg, target in data_loader:
+        print(eeg.shape)
+        input()
         eeg = eeg.unsqueeze(1)
+        print(eeg.shape)
+        input()
         optimizer.zero_grad()
         pred = net(eeg)
         loss = criterion(pred, target)
@@ -134,7 +138,7 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
     print(f'You are now training the CNN with {N_samples} samples,')
     print(f'and {noise_pct} % noise for {N_epochs} epochs.\n')
 
-    batch_size = 30
+    batch_size = 32
 
     net = CNN()
     dataset_train = EEGDataset('train', name, N_samples, noise_pct)
@@ -151,10 +155,10 @@ def main(name: str, N_samples = 10_000, N_epochs = 2000, noise_pct = 10):
     )
 
     criterion = nn.MSELoss()
-    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=0.009)
+    optimizer = torch.optim.SGD(net.parameters(), lr=0.0001, momentum=0.009, weight_dacay=0.5)
 
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.2,
-                                patience=50, verbose=True, threshold=0.0001,
+                                patience=25, verbose=True, threshold=0.0001,
                                 threshold_mode='rel', cooldown=0, min_lr=0,
                                 eps=1e-08)
 

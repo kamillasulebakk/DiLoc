@@ -10,7 +10,7 @@
 
 In this chapter we will present the results from training and performance of the neural networks presented in chapter 4. Section 1 deal with the results and discussion of the simple feed forward neural network, while section 2 will discuss how the alternative convolution neural network performe some of the same results.
 
-\section{Localizing Single Dipole Sources}
+\section{Localizing Single Dipole Sources using DiLoc}
 
 We begin by introducing the standard inverse problem for our neural network, DiLoc. In this context, the standard inverse problem refers to the task of predicting the x-, y-, and z-coordinates of dipole current sources responsible for generating measured EEG signals. The goal is to feed the network with EEG data corresponding to the electrical activity from randomly distributed dipoles in the cerebral cortex and have the network accurately output the locations of these current dipoles.
 
@@ -69,6 +69,18 @@ Network performance on test dataset consisting of 20000 samples. The errors are 
 \end{table}
 
 \subsection{Detailed Analysis of Performance at Different Brain Structures}
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{figures/NEW_simple_dipole_error_Euclidean Distance_00.pdf}
+    \vspace{10pt} % Adjust the vertical spacing between the images
+    \includegraphics[width=0.7\linewidth]{figures/NEW_simple_dipole_error_Euclidean Distance_10.pdf}
+    \vspace{10pt} % Adjust the vertical spacing between the images
+    \includegraphics[width=0.7\linewidth]{figures/NEW_simple_dipole_error_Euclidean Distance_20.pdf}
+    \caption{Different cross-sections of the cortex from the New York head model, seen from front, top and side. Each point represents a possible position in the cortex matrix. The color of the each point indicates the mean absolute error (MAE) of the neural network when predicting that specific dipole location.}
+    \label{fig:MAE_crossections}
+\end{figure}
+
 In order to conduct a detailed analysis of the network's performance, Figure \ref{fig:MAE_crossections} presents the Mean Squared Error (MSE) for various dipole locations within the New York head model cortex matrix. The figure provides valuable insights into the distribution of errors across different regions of the cortex, with three cross-sections—front, top, and side—depicted for examination. It is important to note that these cross-sections include data points from the training, validation, and test datasets, making these results indicative of the network's overall performance rather than real-world scenarios. However, the analysis aims to examine the distribution of errors and identify potential areas where the network's performance may be weaker, helping to gain valuable insights into its predictive capabilities.
 
 The MSE values presented in the panels are consistently below 1 mm, which indicates a high level of accuracy in the network's predictions. These results are promising and demonstrate the network's ability to estimate dipole locations with a high level of precision. The panels also offer an opportunity to assess whether the network performs differently for dipoles located in the gyrus compared to the sulcus.
@@ -82,52 +94,21 @@ Furthermore, the figures reveal a noticeable concentration of data points with r
 In conclusion, the detailed analysis of the network's performance through cross-sectional representations provides valuable insights into its predictive capabilities. The consistently low MSE values across different cortical regions demonstrate the network's remarkable accuracy in estimating dipole locations. Moreover, the absence of a clear correlation between MSE values and brain structural characteristics suggests that the network performs robustly across diverse cortical structures. These results have significant implications for the network's potential clinical and research applications, as it showcases its ability to accurately predict dipole locations within the human brain, regardless of their depth and orientation within the cortex.
 
 
-
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=0.7\linewidth]{figures/NEW_simple_dipole_error_Euclidean Distance_00.pdf}
-    \vspace{10pt} % Adjust the vertical spacing between the images
-    \includegraphics[width=0.7\linewidth]{figures/NEW_simple_dipole_error_Euclidean Distance_10.pdf}
-    \vspace{10pt} % Adjust the vertical spacing between the images
-    \includegraphics[width=0.7\linewidth]{figures/NEW_simple_dipole_error_Euclidean Distance_20.pdf}
-    \caption{Different cross-sections of the cortex from the New York head model, seen from front, top and side. Each point represents a possible position in the cortex matrix. The color of the each point indicates the mean absolute error (MAE) of the neural network when predicting that specific dipole location.}
-    \label{fig:MAE_crossections}
-\end{figure}
-
-
-%
-% \section{Convolution Neural Network Approach for localizing single dipole sources}
-% In this section we will see how a Diloc would have perfomed the same task of localizing simple current dipoles from EEG recorings, if it were designed as a convolutional neural network. The convolutional neural network (CNN) is a sligtly more complicated network than the one presented in the previous section, however, it is still classified as a type of feed forward neural network.
-%
-% \subsection{Purpose...}
-% The purpose of testing how a convolutional neural network will perform the same task is to see if the use of spatial information in images will help the network analyze EEG recordings better and thus give more accurate predictions for the localization of the sorces generating the signal.
-%
-% \subsection{Data set}
-% Convoltuinal Neural Networks takes images as input data, and learn several local features in order to produce final predictions. Starting from the orignal dataset presentesd in Chapter 4, image data were produced by the use of interpolation. The tequniqe of interpolation is commonly used to insert an intermediate value between two other values. By interpolating one dimensional EEG data we can convert orignial electrode positions to a regular 2D grid, creating image data, where spatial structures as conserved.
-%
-%
-% This image data works as the new data set for the convolutional network. Data consist of three dimensional matrix, and before beeing fed into the network it needs to be reshaped so that it gets the shape of one sigle coloumn.
+\newpage
 
 \section{Convolutional Neural Network Approach for Localizing Single Dipole Sources}
 
-In this section, we explore the utilization of a Convolutional Neural Network (CNN) for the task of localizing simple current dipoles from EEG recordings. The CNN is a sophisticated type of feed-forward neural network that excels at learning spatial features from images.
-
-\subsection{Purpose}
-
-The objective of this investigation is to assess whether leveraging spatial information in EEG recordings as images can enhance the network's ability to analyze the data and yield more accurate predictions for localizing the sources generating the neural signals.
+In this section, we explore the utilization of a Convolutional Neural Network (CNN) for the task of localizing simple current dipoles from EEG recordings. The CNN is a sophisticated type of feed-forward neural network that excels at learning spatial features from images. The objective of this investigation is to assess whether leveraging spatial information in EEG recordings as images can enhance Dilocs's ability to analyze the data and yield more accurate predictions for localizing the sources generating the neural signals.
 
 \subsection{Data Set}
 
-Convolutional Neural Networks are designed to process image data. To adapt EEG recordings for use with the CNN, we convert the original dataset from Chapter 4 into image data through the application of interpolation. Interpolation is a common technique used to estimate values between known data points. By performing interpolation on the one-dimensional EEG data, we transform the original electrode positions into a regular 2D grid, effectively creating image-like data while preserving spatial structures.
+Convolutional Neural Networks (CNNs) are well-known for their effectiveness in processing image data. To harness the potential of CNNs for EEG data analysis, we convert the original dataset presented in Chapter 4 into image-like data through interpolation. Interpolation, a widely-used mathematical technique, estimates values between known data points. This transformation results in a regular 2D grid representation of the original one-dimensional EEG data, effectively creating EEG data with image-like characteristics and preserving spatial structures.
 
-The resulting image data constitutes the new dataset for the convolutional network. This data comprises three-dimensional matrices, and before being fed into the CNN, it requires reshaping to form a single-column shape.
+The resulting data is represented as a 20x20 matrix, where each element holds the intensity value of the EEG potential recorded at the corresponding electrode location. We construct this matrix to resemble the shape of a grayscale image, with a single channel added to represent the spatial distribution of the measured EEG signals. However, unlike typical grayscale images where each pixel represents color intensity, in this context, each pixel's value denotes the intensity of the recorded EEG signal at that specific electrode location. This unique representation enables the CNN to leverage the spatial arrangement of the EEG data and learn relevant patterns and local relationships, much like how CNNs process traditional image data.
 
-In summary, the CNN will be trained and tested on the transformed EEG data in image format, allowing it to exploit spatial relationships and patterns, potentially leading to improved performance in localizing single dipole sources compared to the previous approach.
+The preserved spatial structures enable the network to exploit local relationships between neighboring recording electrodes. For instance, when neighboring electrodes record high EEG values, it suggests that the specific electrode should also record a relatively high EEG value due to their close spatial proximity. These spatial relationships may contribute to faster training times for the network, as it can efficiently learn meaningful representations by leveraging these patterns.
 
-
-\subsubsection{Architecture, Hyperparameters and Training}
-As for the orignal DiLoc network, the convolutional approach
-
+Figure \ref{ref:eeg_dipole_pos_0} illustrates the process of interpolation. The right panel shows the original data, representing the cortex seen from above (x-y-plane). Each measuring electrode is depicted as a circle holding the EEG recording at that specific electrode. The middle and left panels display the contour plots of the original EEG data and the interpolated data, respectively. The contour plot of the interpolated data illustrates how the input data for the convolutional neural network appears in an image-like manner.
 
 
 \begin{figure}[!htb]
@@ -137,11 +118,34 @@ As for the orignal DiLoc network, the convolutional approach
 \includegraphics[width=\linewidth]{../Code/plots/finals/new_eeg_dipole_pos_6.png}
 
 \caption{\newline
-\textbf{Right}: EEG measure for 3 different samples measured in $\mu V$. \newline
-\textbf{Middle and Left}: Illustration of the interpolation of the EEG data into two-dimensional matrix.}
+\textbf{Right Panel:} EEG measures for three different samples, expressed in microvolts ($\mu V$). Each sample represents an EEG recording at specific electrode positions. \newline
+\textbf{Middle and Left Panels:} Illustration of the interpolation of the EEG data into a two-dimensional matrix. The interpolated data represents the transformation of original electrode recordings into a regular 2D grid, effectively converting the one-dimensional EEG data into an image-like format. The contour plots visualize the spatial distribution of EEG potential intensities, with each point in the matrix corresponding to a specific electrode location.}
 \label{fig:eeg_dipole_pos_0}
 
 \end{figure}
+
+\subsubsection{Architecture, Hyperparameters and Training}
+
+% REWRITE; FIND SOURCES OF WHAT EACH LAYER DOES (this is not your work)
+As explained in Chapter 3, Convolutional Neural Networks (CNNs) are structured as a sequence of interconnected layers designed to process and extract meaningful features from the input data. In the case of EEG input data, we adopt a specialized CNN architecture tailored to handle image-like data representations. The data transformation involves constructing a 20x20 matrix, akin to the shape of a grayscale image, with a single channel added to represent the spatial distribution of the measured EEG signals.
+
+The first layer in the network, is a 2D convolutional layer. It takes the input image with one channel and applies six distinct filters, each of size 5x5. These filters are responsible for learning specific spatial patterns and detecting relevant features within the input image. As a result of this convolutional operation, the output tensor's spatial dimensions reduce to 16x16, and the depth becomes six, signifying the extraction of six distinct feature maps. Following the convolution layer, a Max Pooling layer, with kernal size 2x2 and stride 1 is employed. This pooling layer aims to downsample the spatial dimensions of the feature maps while preserving the most salient features. The pooling operation reduces the spatial resolution to 15x15, and the depth remains unchanged at six. Next, a second 2D convolutional layer, takes the six-channel output from the previous pooling layer. This layer employs 16 filters of size 5x5, extracting a more complex hierarchy of features from the input data. The output tensor from this layer has spatial dimensions of 11x11 and a depth of 16, signifying the presence of 16 distinct feature maps. Following another Max Pooling layer is employed. Similar to the previous pooling operation, this layer further downsamples the spatial dimensions while preserving the depth, resulting in a feature map size of 10x10 with 16 channels. Further, the output from the last pooling layer is flattened into a one-dimensional vector. This process collapses the spatial dimensions of the feature maps, resulting in a 1D tensor of size 1600 (10x10x16). After flattening, the network proceeds with three fully connected, dense, layers. These layers are responsible for incorporating global context and making high-level abstractions from the learned features. The first fully connected layer, consists of 120 neurons, followed by 64 neurons. Lastly,we have the output layer with three neurons, corresponding to the three coordinates of the source generating the eeg signal. In Figure \ref{fig:architecture_CNN}, we have provided an illusration of the architecture of the Convolutional Neural Network.
+
+The activation function ReLU is applied after each convolutional and pooling layer, introducing non-linearity to the network and enabling it to learn complex relationships within the data. The fully connected layers use the hyperbolic tangent activation function, which introduces non-linearity and scales the output between -1 and 1. Finally, in the output layer, we opted for a linear transformation without the use of any activation function. This setup allows the neural network to provide direct and unconstrained predictions for the x-, y-, and z-positions of the desired dipole source, as required in our application.Throughout the network, the weights of the fully connected layers are initialized using the Xavier normal distribution, a widely used technique to set initial weights in deep neural networks, promoting better convergence during training.
+
+% On later point, discuss how batch size = 64 might have led to less loiser convergence.
+The training process for the specialized convolutional neural network (CNN) followed similar techniques to the original DiLoc network, as described in detail in Chapter 5. To ensure effective learning and accurate predictions, stochastic gradient descent (SGD) with momentum was utilized as the optimizer, and mean squared error (MSE) served as the chosen cost function. Additionally, L1 and L2 regularization techniques were incorporated to mitigate overfitting and enhance the network's ability to generalize to new data. During training, mini-batches of size 32 were employed to introduce variability in the data and prevent the network from becoming stuck in local minima. Notably, the CNN employed specific hyperparameters, setting the learning rate to 0.001 and the momentum to 0.009, which were tailored to accommodate the processing requirements of image-like EEG data. To facilitate convergence, a learning rate scheduling approach was adopted, gradually reducing the learning rate during training, striking a balance between rapid initial convergence and fine-tuning towards the later stages. Subsequently, the CNN's performance was rigorously evaluated on an independent test dataset to provide an unbiased assessment of its predictive accuracy and generalization capabilities to novel data.
+
+\begin{figure}[!htb]
+    \hspace*{-3cm} % Adjust the value here to move the figure more to the left
+    \centering
+    \includegraphics[scale=0.52]{figures/CNN.png}
+    \caption{The architecture of the Convolutional Neural Network.}
+    \label{fig:architecture_CNN}
+\end{figure}
+
+
+\subsection{Performance Evaluation}
 
 \begin{figure}[!htb]
     \centering

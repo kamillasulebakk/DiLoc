@@ -20,16 +20,13 @@ print("\nStandard deviation: ",std)
 print(len(data))
 print(len(outliers))
 
-data_max = 5.184234611059114
-data_min = -2.991739110502122
-
 # Create a scatter plot
 plt.scatter(range(len(data)), data, color='b', label='Data Points')
 
 # Plot the mean and threshold lines
 plt.axhline(mean, color='r', linestyle='dashed', linewidth=2, label='Mean')
-plt.axhline(mean + 10 * std, color='g', linestyle='dotted', linewidth=2, label='Upper Threshold')
-plt.axhline(mean - 10 * std, color='g', linestyle='dotted', linewidth=2, label='Lower Threshold')
+plt.axhline(mean + threshold * std, color='g', linestyle='dotted', linewidth=2, label='Upper Threshold')
+plt.axhline(mean - threshold * std, color='g', linestyle='dotted', linewidth=2, label='Lower Threshold')
 
 # Add labels and legend
 plt.xlabel('Data Points')
