@@ -4,107 +4,240 @@
 \usepackage[subpreambles=true]{standalone}
 \usepackage[table,xcdraw]{xcolor}
 
-
 % MSE as loss function
 % Training and testing, lr ?
 
 \begin{document}
-\chapter{DiLoc - A NN Apporach for Source Localization}
-As mentioned in Chapter 1, an important topic in EEG signal analysis is the inverse problem, which aims to map measured EEG signals to localized equivalent current dipoles. This process is commonly referred to as source localization. In this chapter, we will introduce our feedforward neural network, named "DiLoc", created to solve such prosesses. We will provide a comprehensive overview of its parameters, architecture and training process. Moreover we will go through the simulation of the EEG signals for the the final dataset used for training. Additionally, we will present an alternative approach using a convolutional neural network for the same source localization.
+\rednote{}
+\chapter{Training the DiLoc Neural Network}
+This chapter will explore the training process of the DiLoc neural network, outlining the decisions made during its training. Carefully choosing and adjusting elements of the training process ensures DiLoc's ability to make accurate predictions, establishing it as a valuable tool for solving the inverse EEG problem. Subsequent chapters will delve into the results and outcomes of this training, providing insights into the model's effectiveness.
+\rednote{Many choise are based on observation from trial and errors}
 
-\section{Architecture}
-% Dropout 0.5
-% Inializer ?
-% Include neurons 
-The development of DiLoc commenced with a deliberate and cautious approach, focusing on simplicity without compromising on accuracy in tackling diverse versions of the inverse problem. As a natural starting point, we adopted a fully connected, feed-forward neural network architecture, which eventually proved to be the most suitable framework for our purposes.
+\section{Training Methodology Overview}
+Having constructed the DiLoc neural network architecture, we now embark on the phase of training the model to effectively localize equivalent current dipoles from EEG signals. This chapter delves into the process of training DiLocc and addresses various crucial aspects that influence the performance of the network. Training a neural network requires careful consideration and tuning of several key factors to achieve optimal results. In the process of training DiLoc, we will explore the following essential elements:
 
-The input layer of DiLoc incorporates Rectified Linear Units (ReLU) as the activation function. This activation function introduces non-linearity into the model, enabling it to capture complex relationships and patterns within the data effectively. For the hidden layers, we employed the hyperbolic tangent (tanh) activation function. This decision was driven by its ability to squash input values into a range between -1 and 1, ensuring a smooth and differentiable transition during backpropagation. Conversely, in the output layer, we opted for a linear transformation without the use of any activation function. This setup allows the neural network to provide direct and unconstrained predictions for the x-, y-, and z-positions of the desired dipole source, as required in our application.
+\begin{description}
+   \item [Data Preparation:]
 
-The determination of the number of hidden layers and neurons was carried out through a meticulous trial-and-error process. By experimenting with networks of varying complexities, i.e., small, medium, and large, we ultimately settled on the medium-sized network configuration. This choice, in conjunction with the selected activation functions, yielded the most promising results in terms of prediction accuracies.
+   \item [Cost Function:] We begin by discussing the significance of the cost function in guiding the network towards convergence. Understanding how to choose the appropriate cost function tailored to the problem is essential.
 
-The input layer is designed with 231 neurons, corresponding to the number of features in our dataset, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 62, and 32 neurons, respectively. Finally, the output layer encompasses the three-dimensional coordinates (x, y, and z) representing the predicted position of the desired dipole source. Figure \ref{fig:FFNN_architecture} visualizes the construction of the fully connected neural network.
+   \item[Back Propagation:] As the backbone of neural network training, the backpropagation algorithm merits our attention for its role in propagating error gradients through the network, refining the model's weights and biases.
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=\linewidth]{figures/FFNN_architecture.pdf}
-    \caption{Architecture.}
-    \label{fig:FFNN_architecture}
-\end{figure}
+   \item[Optimization Algorithm:] The choice of optimization algorithm plays an important role in training efficiency and convergence speed. We delve into the tequniqe of grasdient decent and its implications in the context of DiLoc. \rednote{Here it would be natural to mention the batch size we have choosen.}
 
-\section{Simulation of EEG Signals}
-The cortex matrix of the New York Head Model (NYHM) consists of 74,382 points, representing possible positions for localizing dipole sources. For training the neural networks, we utilize a dataset of self-simulated EEG measurements that correspond to the electromagnetic fields generated by these dipole sources. The dipole sources are randomly positioned within the cortex matrix. To simplify our problem, the amplitude of each dipole is fixed at $10^7$ nA $\mu$m. Additionally, in the case of single dipole source localization, the direction of the dipole moment is always rotated so that it is normal to the cerebral cortex. In some cases this will result in a dipole moment pointing perpendicular to the skull (directed towards an EEG electorde), while in other cases, due to the structure of the cortex, the dipole moment will point back into the cortex (but eventually towards an EEG electorde). The reason for this is that the human cortex is strongly folded, and the contribution to the EEG signal from a neural population (dipole moment) will depend on whether a dipole is located in a sulcus or a gyrus \cite{naess2021biophysically}. It is important to note that the EEG recordings capture a time series; however, for our analysis, we focus solely on the signal at t = 1, corresponding to the first time step. This allows us to examine the initial snapshot of the EEG signal's spatial distribution and its relationship to the dipole source locations within the cortex.
-% Explain how this is done IR, looking for specific frequency ...
+   \item[Regularization Techniques:] Overfitting is a common challenge in neural network training. We examine regularization techniques like dropout and weight decay to mitigate this issue.
 
-\subsection{The Effect of dipole location and orientation}
-According to Naess et al. (2021) \cite{naess2021biophysically}, EEG signals are not particularly sensitive to small variations in the precise location of neural current dipoles. Despite the common belief that neurons in the upper cortical layers would dominate the EEG due to their proximity to the electrode compared to neurons in deeper layers, such location differences do not significantly affect the EEG signals. This phenomenon can be explained by the fact that the low conductivity of the skull introduces a spatial low-pass filtering effect, which mitigates the impact of location discrepancies.
-% Maybe what is meant here is that we therefore only consider the outer corical surface
+   \item[Learning Rate Scheduling:] Learning rates significantly influence training dynamics. We discuss methods for scheduling learning rates during training to ensure steady convergence.
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=\linewidth]{figures/neighbour_dipoles.png}
-    \caption{EEG signal for neighbouring dipoles.}
-    \label{fig:neighbour_dipoles}
-\end{figure}
+\end{description}
 
-However, when considering the orientation of the dipoles relative to the EEG electrodes, the effect becomes noteworthy. To illustrate this, we present in Figure \ref{fig:gyrus_and_sulcus_EEG} the EEG signals obtained from two manually selected dipole locations within the New York head model. These dipoles are situated in a gyrus and a sulcus, respectively, resulting in distinct EEG outcomes. In general, the contribution of an individual current dipole to the EEG signal is maximized when the dipole is located perpendicularly within a gyrus, as depicted in Figure \ref{fig:gyrus_and_sulcus_EEG}B. On the other hand, if a dipole is placed in a sulcus with a perpendicular orientation, a significant EEG contribution can still be observed, but unlike the dipole in the gyrus, it exhibits a more dipolar pattern, as shown in Figure \ref{fig:gyrus_and_sulcus_EEG}C.
+\section{Data Preparation}
+\subsection{Data Segmentation}
+\rednote{Standardization assumes that your observations fit a Gaussian distribution (bell curve) with a well behaved mean and standard deviation. You can still standardize your data if this expectation is not met, but you may not get reliable results.}
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=\linewidth]{figures/gyrus_and_sulcus_EEG.png}
-    \caption{A: Two selected dipole locations in the New York head model: one in a gyrus (red) and one in a sulcus (blue). The head model is viewed from the side (x, z-plane). Close to the chosen cross-section plane, EEG electrode locations are marked in light blue. Available dipole locations near the cortical cross-section form an outline of the cortical sheet and are marked in pink. The current dipole moment for all cases was $10^7$ nA$\mu$m. B: Interpolated color plot of EEG signal from the gyrus dipole, viewed from the top (x, y-plane). The plotted EEG signal is normalized, with a maximum value of 1.1 $\mu$V. C: Interpolated color plot of EEG signal from the sulcus dipole. The plotted EEG signal is normalized, with a maximum value of 0.7 $\mu$V. \cite{naess2021biophysically}}
-    \label{fig:gyrus_and_sulcus_EEG}
-\end{figure}
+The first step in prepering to \emph{fit} a machine learning model, is to perform a data splkit, segregating the data set $\mathcal{D}$ into distinct sets for training, validation, and testing. This partitioning is done in order to make a model robust and compatible with multiple data sets. The size of each set commonly dependent on the size of the data set avaible, however a general guideline is that the majority of the data are allocated into the trainng set with the remainder going into the test set \cite{mehta2019high}.
 
-With other words, the EEG outcome is genuinely influenced by the orientation of the current dipole moment generating the signal, as variations in dipole orientation can impact both the direction and distribution of electrical potentials. In Figure \ref{fig:dipole_orientation}, we present the EEG signals obtained from four identical current dipoles with different orientations, situated in distinct hypothetical folding patterns of the cortical surface. Firstly, Figure \ref{fig:dipole_orientation}A and \ref{fig:dipole_orientation}C provide an expanded illustration of the aforementioned scenarios, incorporating additional dipole moments located in a gyrus and a sulcus, respectively. In Figure \ref{fig:dipole_orientation}B, where a collection of dipoles points randomly upwards and downwards, the EEG signal contribution appears to diminish significantly. Conversely, when the dipoles align in the depth direction of the cortex and are distributed across both gyrus and sulcus, we can expect an EEG contribution in between what we saw from Figure \ref{fig:dipole_orientation}A and \ref{fig:dipole_orientation}B, as depicted in Figure \ref{fig:dipole_orientation}D. Lastly, Figure \ref{fig:dipole_orientation}E demonstrates the minimal EEG contribution observed when the dipoles are divided between two opposing sulci.
+In the case of DiLoc's input data, we deal with 70 000 samples of EEG signals. Out of these, 50 000 samples are designated for the train and validation data. To ensure a representative and unbiased allocation, 80 percent of these 50 000 samples are randomly assigned to the training set. This training set serves as the core data that the network utilizes during the training process. The remaining 20 percent of the 50 000 samples form the validation set. This will play the role in preventing \emph{overfitting}, the phenomenon where the network becomes excessively attuned to the training data and consequently performs poorly on new data. By independently evaluating the model's performance on the validation set throughout training, we have fine-tuned the network's parameters to achieve better generalization to unseen data.
+Upon completion of the training process, the test set comes into play. Comprising 20 000 samples, this set serves as the ultimate benchmark for evaluating the model's capacity to generalize and make accurate predictions on new instances of data. By adhering to this train-validation-test data partitioning, we ensure a robust evaluation of DiLoc's performance and its capacity to effectively handle real-world scenarios with previously unseen data.
+
+\subsection{Data Scaling}
+\rednote{Ask Vegard. Featurewise or whole data set?}
+Having addressed the data segmentation, we proceed to the task of \emph{data scaling}, which is a highly recommended procedure within machine learning. \emph{Data standarizartion} is one out of two types of data scaling that involves centering the data around the mean $\mu$ and scaling it to achieve unit variance $\sigma$:
+
+\begin{equation}
+\mathcal{D}' = \frac{\mathcal{D} - \mu}{\sigma}
+\end{equation}
+
+After standarization, the mean of the data set $\mathcal{D}'$  is 0 and the standard deviation is 1. By standarising the EEG inputs, we ensure that the distribution of the data becomes more uniform in all directions within the feature space, contributiong to more effective EEG signal analysis.
 
 
-\begin{figure}[!htb]
-    \centering
-    \includegraphics[width=\linewidth]{figures/dipole_orientation.png}
-    \caption{Different folding patterns of the cortical surface are represented by white dashed lines. EEG signals are calculated from four identical current dipoles with varying orientations. A: Dipoles aligned in the same direction within a gyrus. B: Dipoles pointing in opposite directions within a gyrus. C: Dipoles aligned in the same direction within a sulcus. D: Dipoles distributed between a gyrus and a sulcus, pointing towards the cortical surface. E: Dipoles divided between opposing sulci, pointing towards the cortical surface.
-    All panels have a dipole moment magnitude of 10 nAm, and the dipoles are positioned at the centers of the arrows in the top row.}
-    \label{fig:dipole_orientation}
-\end{figure}
-
-% This is not the case for a simple dipole moment, but might be an issue when giving the populations a radii
-% In our analysis, we simplify the scenario by considering one current dipole at a time, which allows us to avoid cancellations of potentials and obtain simpler EEG potentials. While this simplification may not capture the full complexity of neural activity, it provides us with a clearer understanding of the relationship between dipole orientation and EEG signals.
+\section{Cost Function}
+In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions evaluate how well models make predictions by measuring the discrepancy between predicted outcomes and actual target values. This evaluation results in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions. When using the expression \emph{fitting a model} one commonly refer to the prosess of finding optimal parameters $\boldsymbol{\theta}$ that minimize a chosen cost function. The process utilizes training data and iteratively updates the parameters to fine-tune the model's internal representations, making it more adept at accurate predictions.
 
 
-\subsection{Noise}
-Experimental EEG recordings inevitably contain noise, which can interfere with the accurate analysis of brain activity. Artifacts, which are signals recorded by EEG but originating from sources other than the human brain, pose a particular challenge. Some artifacts can mimic genuine epileptiform abnormalities or seizures, underscoring the importance of identifying and distinguishing them from true brain waves \cite{sazgar2019eeg}.
+Selecting the appropriate cost function is important when addressing machine learning challenges. In regression tasks like ours, the mean squared error (MSE) is a widely used cost function. The MSE is preferred due to its simplicity and continuous measure of model performance during training. It calculates the squared differences between the model's predictions and target values, then takes the mean across the entire dataset:
 
-Artifacts can be classified into two categories based on their origin. Physiological artifacts arise from the patient's own physiological processes, including ocular activity, muscle activity, cardiac activity, perspiration, and respiration. Technical artifacts, on the other hand, originate from external factors such as cable and body movements or electromagnetic interferences \cite{bitbrain}.
+\begin{equation}
+\text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
+\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
+\label{eq:MSE}
+%MSE(\textbf{y},\mathbf{\tilde{y}}) =
+\end{equation}
 
-Filtering techniques are commonly employed to remove artifacts from EEG recordings prior to analysis. However, in the case of simulated EEG data, the need for artifact removal is eliminated as the data inherently lacks noise. Simulated EEG data can be considered as pre-filtered and preprocessed, ensuring a high signal-to-noise ratio (SNR) \cite{wiki-snr}. Nevertheless, to avoid overfitting and account for technical considerations, it is necessary to introduce noise to the data before feeding it into the neural network. This introduction of the noise is vital in order to make the trained neural network more likely to accurately handle real EEG recordings.
+Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $y_i$ stands for the predicted value and $\tilde{y}_i$ is the corresponding true value.
 
-In our approach, we recognize that the introduction of noise to the simulated EEG data is an essential step to enhance the robustness of the trained neural network and ensure its ability to handle real EEG recordings effectively. Although the specific characteristics and quantity of noise have not been the primary focus of our study, we have opted for a straightforward approach. Our final dataset incorporates normally distributed noise with a mean of 0 and a standard deviation equal to 10$\%$ of the standard deviation observed in the simulated EEG recordings. By introducing this noise, we introduce random variations around each data point while preserving the overall normalization properties of the dataset.
+Due to the squaring step in the MSE function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
+
+In our simulation-driven context, devised to accommodate a spectrum of diverse EEG variations, it is noteworthy that the presence of apparent outliers is not rooted in sampling errors, but rather random fluctuations and indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a dataset. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the dataset. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It is crucial to underscore that these data points do not emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the dataset's representational fidelity within authentic real-world contexts.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{figures/simple_dipole_eeg_field_noise_10.png}
-    \caption{EEG for a sample containing one single current dipole source at a random position within the celebral cortex. As for all samples, 10 percent of normally distributed noise has been added to the original signal. The EEG measure is seen from both sides (x-, z-plane and y-, z-plane) and above (the x-, y-plane). EEG electrode locations are presented as filled circels, where the color of the fill represents the amplitude of the measured signal for the given electrode. The position of the current dipole moment is marked with a yellow star.}
-    \label{fig:eeg_field_1_dipole_example}
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
+    \end{subfigure}
+    \caption{\textbf{Visualization of data set.} The panels visualize the maximum and minimum EEG measures for each sample within the data set.}
+    \label{fig:outliers}
 \end{figure}
 
-\subsection{Final Dataset}
-The final dataset comprises 70 000 rows, where each row corresponds to a single sample or patient. Within the dataset, there are 231 columns representing the features, which denote the EEG measurements recorded at each electrode. Consequently, the design matrix has a size of 70 000 x 231. In practice, the design matrix consists of pairs of input vectors with EEG signals and corresponding output vectors, where the answer key is the x-, y- and z coordinate of different dipole sources.
-
-Figure \ref{fig:eeg_field_1_dipole_example} presents an example of the input EEG data for a single sample, with 10$\%$ noise added. The illustration showcases the EEG results obtained from a sample containing a solitary current dipole source positioned randomly within the cerebral cortex. The dipolar pattern in the figure indicates that the dipole is located within a sulcus. The EEG measure is visualized from multiple perspectives, including the x-z plane, y-z plane, and the x-y plane. The electrode locations are represented by filled circles, with the color of the fill indicating the amplitude of the measured signal at each electrode. The position of the current dipole moment is denoted by a yellow star. As observed from the figure, the EEG signal for this specific sample ranges from -1 to 1 $\mu$V.
-
-% Before being feed to the DiLoc network for training, the data is splitted into train, validation and test parts. The train- and validation data are the batches of the data set that the network uses during training. Out of the 70 000 samples in the final dateset, 50000 is set off to the purpose of train and validation data. Out of these 50000 sampes, randomly selected 80 percent of the rows are put into the training set. The remaining 20 percent operates as the validation set, which is useful in order to prevent the network to overfit during training. The test set which contains the final 20 000 samples will be used after the training prosess for the purpose of testing how well the model generalizes to new, unseen data.
-
-Prior to being fed into the DiLoc network for training, the dataset was splittied into distinct segments: the train, validation, and test sets. This partitioning is vital for assessing and optimizing the network's performance. Among the 70 000 samples in the final dataset, 50 000 samples are designated for the train and validation data. To ensure a representative and unbiased allocation, 80 percent of these 50 000 samples are randomly assigned to the training set. This training set serves as the core data that the network utilizes during the training process. The remaining 20 percent of the 50 000 samples form the validation set. This set plays the role in preventing overfitting, the phenomenon where the network becomes excessively attuned to the training data and consequently performs poorly on new data. By independently evaluating the model's performance on the validation set throughout training, we can fine-tune the network's parameters to achieve better generalization to unseen data. Once the network completes its training process, the test set comes into play. Comprising 20 000 samples, the test set serves as the benchmark for assessing the model's ability to generalize and make accurate predictions on new data instances. By adhering to this rigorous train-validation-test data partitioning, we ensure a robust evaluation of the DiLoc model's performance and its capacity to effectively handle real-world scenarios with previously unseen data.
 
 
-\section{Training the DiLoc Network}
-To train the DiLoc network efficiently, several key techniques are employed, including stochastic gradient descent (SGD), mean squared error (MSE) as the cost function, learning rate scheduling, and L1 and L2 regularization. Detailed explanations of these techniques can be found in the Chapter 3.
+
+\section{Back propagation algorithm}
+The back propagation algorithm is a fundamental tequniqe used in nenural networks in order to adjust the weights for the purpose of minimizing the cost function. To explain the implementation details of this technique, we follow the guidance provided in the book 'A high-bias, low-variance introduction to machine learning for physicists' (Pankaj Mehta, et al., 2019) as it offers a comprehensive treatment of the topic. The back propogation tequniqe leverages the chain rule from calculus to compute gradients for weight adjustments and can be summarized using four equations.
+
+Before introducing the equations, Mehta et al. establish some useful notation. They start by concidering a total of $L$ layers within the neural network, with each layer identified by an idec $l$ ranging from 1 to $L$. For each layer, they further assign weights denoted as $\mathbf{w}^l_{ik}$, which represent the connections between the $k$-th neuron in the previous layer, $l-1$, and the $i$-th neuron in the current layer, $l$. Additionally, they assign a bias value $b^l_i$ to each neuron in the current layer.
+
+The first eqation setting up the algorithm is the definition of the error $\delta_i^l$ of the $i$-th neuron in the $l$-th layer:
+
+\begin{equation}
+    \delta_i^l = \frac{\partial C}{\partial(z_i^l)},
+\label{eq:I}
+\end{equation}
+where $(z)$ denotes the weighted input. This equation can be thought of as the change to the cost function by increasing $z_i^L$ infinitesimally. The cost function quantifies the discrepancy between the network's output and the target data. If the error $\delta_i^L$ is large, it indicates that the cost function has not yet reached its minimum.
+
+The error $\delta^l_i$ can also be interpreted as the partial derivative of the cost function with respect to the bias $b^l_i$. This gives us the analogously defined error:
+
+\begin{equation}
+    \delta_i^l = \frac{\partial C}{\partial(z_i^l)} = \frac{\partial C}{\partial(b_i^l)}\frac{\partial C}{\partial(z_i^l)} = \frac{\partial C}{\partial(b_i^l)}
+\label{eq:II}
+\end{equation}
+where it in the last line has been used that the derivative of the activation function with respect to its input evaluates to 1, $\partial b^l_i / \partial z_i^l = 1$, meaning that the rate of change of the activation function does not depend on the specific value of the weighted input $z_i^l$.
+
+By applying the chain rule, we can express the error $\delta_i^l$ in Equation \ref{eq:I} in terms of the equations for layer $l+1$. This forms the basis of the third equation used in the backpropagation algorithm:
+
+\begin{align}
+\delta_i^l = \frac{\partial C}{\partial z^l_{i}}
+&= \sum_j \frac{\partial C}{\partial z_j^{l+1}}\frac{\partial z_j^{l+1}}{\partial z_i^l} \nonumber \\
+&= \sum_j \delta_j^{l+1} \frac{\partial z_j^{l+1}}{\partial z_i^l} \nonumber \\
+&= \sum_j \delta_j^{l+1}w_{ij}^{l+1}f'(z_i^l) \label{eq:III}
+\end{align}
+
+Finally the last equation of the four back propagation equations is the derivative of the cost function in terms of the weights:
+
+\begin{equation}
+    \frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}
+\label{eq:IV}
+\end{equation}
+
+With these four equations in hand we can now calculate the gradient of the cost function, starting from the output layer, and calculating the error of each layer backwards. We then have a way of adjusting all the weights and biases to better fit the target data. The back propagation algorithm then goes as follows:
+
+\begin{enumerate}
+  \item \textbf{Activation at input layer:} calculate the activations $a_i^1$ of all the neurons in the input layer.
+  \item \textbf{Feed forward:} starting with the first layer, utilize the feed-forward algorithm through \ref{eq:FFNN} to compute $z^{l}$ and $a^{l}$ for each subsequent layer.
+  \item \textbf{Error at top layer:} calculate the error of the top layer using equation \ref{eq:I}. This requires to know the expression for the derivative of both the cost function $C(\boldsymbol{W}) = C(\boldsymbol{a}^L)$ and the activation function $f(z)$.
+  \item \textbf{"Backpropagate" the error:} use equation \ref{eq:III} to propagate the error backwards and calculate $\delta_j^l$ for all layers.
+  \item \textbf{Calculate gradient:} use equation \ref{eq:II} and \ref{eq:IV} to calculate $\frac{\partial C}{\partial z^l_{i}}$ and $\frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}$. \newline
+  \item \textbf{Update weights and biases:} \\[2pt] $w^l_{jk}=w^l_{jk}-\eta\delta^l_ja^{l-1}_k$ \\[2pt] $b_j^l = b_j^l - \eta \delta_j^l$
+\end{enumerate}
+
+\rednote{Fix ending and cite}
+This description makes clear the incredible utility and computational efficiency of the backpropagation algorithm. We can calculate all the derivatives using a single “forward” and “backward” pass of the neural network. This computational efficiency is crucial since we must calculate the gradient with respect to all parameters of the neural net at each step of \emph{gradient descent}, an optimalization algorithm that we will be delving into in the next section.
+
+
+\section{Optimization Algorithm}
+\rednote{Go through and cite with \cite{mehta2019high}}
+In order to minimize the cost function and find the optimal values for the model parameters, $\boldsymbol{\theta}$, an optimization alorithm is typically employed. One widely used optimization algorithm is \emph{gradient descent}, which iteratively updates the parameters based on the negative gradient of the cost function.
+
+Gradient Descent is an iterative optimization algorithm used to locate a local minima of a differentiable function. The core concept of the algorithm is based on the observation that a function $F(\textbf{x})$ will decrease most rapidly if we repeatedly move in the direction of the negative gradient of the function at a given point $\textbf{w}$, $-\nabla F(\textbf{a})$. This means that if
+
+\begin{equation}
+\textbf{w}_{n+1} = \textbf{w}_n - \eta\nabla F(\textbf{w}_n)
+\end{equation}
+
+for a sufficiently small \emph{learning rate} $\eta$, we are always moving towars a minimum, since $F(\textbf(w)_n) \ge F(\textbf(w)_{n+1})$ \cite{wiki-gradient-descent}. After each update, the gradient is recalculated for the updated weight vector $\textbf{w}$, and the process is repeated \cite{bishop2006pattern}. Based on this observation, the iterative process begins with an initial guess $x_0$ for a local minimum of the function $F$. It then generates a sequence $\textbf{x}_0, \textbf{x}_1, \textbf{x}_2, ..., \textbf{x}_n$ such that each element in the sequence is upated according to the rule:
+
+\begin{equation}
+\textbf{x}_{n+1} = \textbf{x}_{n} - \eta_n\nabla F(\textbf{x}_n), n \ge 0,
+\end{equation}
+
+where $\eta_n \ge 0$. This process the forms a strictly decreasing process:
+
+\begin{equation}
+F(\textbf{x}_0) \ge F(\textbf{x}_1) \ge F(\textbf{x}_2) \ge ... \ge F(\textbf{x}_n).
+\end{equation}
+
+Hence, with this iterative process, it is hoped that the sequence $(\textbf{x}_n)$ converges to the desired local minimum \cite{wiki-gradient-descent}.
+
+However, it is important to note that the error function in gradient descent is computed based on the training set, so that each step requires that the entire training set, reffered to as the \emph{batch}, is processed in order to evaluate the new gradient. In that sense, gradient descent is generally considered a suboptimal algorithm. This perception aligns with the algorithms sensitivity to the initial condition, $\textbf{w}_0$, and the choice of the learning rate $\eta$. The sensitivity to initial conditions can be explained by the fact that we to a large extent most often deal with high-dimensional, non-convex cost functions with numerous local minima - where the risk of getting stuck in local minimums if the initial guess is not accurate. Additionally, guessing on a too large learning rate may result in overshooting the global minimum, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum point, thereby increasing computational time. Stochastic gradient descent, however, is a version of gradient descent that has provided useful in practise for training machine learning algorithms on large data sets, and is the optimalization algorithm we have choosen when training DiLoc \cite{bishop2006pattern}.
+
+\subsubsection{Stochastic Gradient Descent}
+The Stochastic Gradient Descent (SGD) method, as applied in the context of training DiLoc \cite{bishop2006pattern}, is a powerful optimization technique that diverges from traditional gradient descent by randomly selecting subsets of the data during each iteration, as opposed to considering the entire dataset. This approach is particularly beneficial when dealing with extensive datasets. The update step in SGD can be expressed as:
+
+\begin{equation}
+\textbf{w}{\tau+1} = \textbf{w}{\tau} - \eta\nabla F_n(\textbf{w}_\tau)
+\end{equation}
+
+Here, $\textbf{w}{\tau}$ represents the weight vector at iteration $\tau$, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}{\tau})$ is the gradient of the cost function $F_n$ computed on a mini-batch, which refers to a randomly selected subset of the complete dataset.
+
+In essence, SGD mirrors regular gradient descent but restricts its focus to a single mini-batch at each iteration. The introduction of this stochastic element, achieved by sampling from subsets of the data, offers a valuable advantage: it allows the algorithm to explore and potentially escape from local minima, promoting the discovery of superior solutions.
+
+Furthermore, the incorporation of \emph{momentum} into the SGD algorithm enhances convergence speed. Momentum introduces a form of memory into the optimization process by accumulating information about previous movements in parameter space. Specifically, momentum is realized through the following equations:
+
+\begin{equation}
+\textbf{v}{\tau} = \gamma\textbf{v}{\tau-1} - \eta\nabla F_n(\textbf{w}_{\tau})
+\end{equation}
+
+\begin{equation}
+\textbf{w}{\tau} = \textbf{w}{\tau-1} + \textbf{v}_{\tau}
+\end{equation}
+
+In these equations, $\textbf{v}{\tau}$ represents the momentum vector at iteration $\tau$, $\gamma$ is the momentum coefficient, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}{\tau})$ signifies the gradient of the cost function $F_n$ computed on the mini-batch.
+
+During the training of DiLoc, we observed that a learning rate of 0.001 yielded the most favorable results. Moreover, a mini-batch size of 32 was employed. The momentum coefficient was set to 0.35, a value that struck an optimal balance between convergence speed and sensitivity to the initial learning rate parameter.
+
+
+% The method of Stochastic Gradient Descent (SGD) allows us to compute the gradient by randomly selecting subsets of the data at each iteration, rather than using the entire dataset \cite{bishop2006pattern}. The update can be written as:
+%
+% \begin{equation}
+% \textbf{w}_{\tau+1} = \textbf{w}_{\tau} - \eta\nabla F_n(\textbf{w}_\tau)
+% \end{equation}
+%
+% These smaller subsets taken from the entire dataset are commonly reffered to as mini-batches. In other words, SGD is just like regular GD, except it only looks at one mini-batch for each step. Introducing fluctuation by only taking the gradient on a subset of the data, is beneficial as it enables the algorithm to jump to a new and potentially better local minima, rather that getting stuck in a local minimum point.
+%
+% Morover, adding \emph{momentum}, to the algorithm, leads to faster converging, due to stronger acceleration of the gradient vectors in the relevant directions, and also improves the algorithms sensitivity to initial guess of the learning rate $\eta$. The momentum can be understood as a memory of the direction of the movement in parameter space, which is done by adding a fraction $\gamma$ of the weight vector of the past time step to the current weight vector:
+%
+% \begin{equation}
+% \textbf{v}_{\tau} = \gamma\textbf{v}_{\tau-1} - \eta\nabla F_n(\textbf{w}_{\tau})
+% \end{equation}
+%
+% \begin{equation}
+% \textbf{w}_{\tau} = \textbf{w}_{\tau-1} + \textbf{v}_{\tau}
+% \end{equation}
+%
+% Here, $\textbf{w}{\tau}$ represents the updated weight vector at iteration $\tau$, $\textbf{w}_{\tau-1}$ is the previous weight vector, $\textbf{v}_{\tau}$ is the updated momentum vector at iteration $\tau$, $\gamma$ is the momentum coefficient, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}_{\tau})$ is the gradient of the cost function $F_n$ computed on the mini-batch.
+%
+% A learning rate of 0.001 proved the best when training DiLoc. Moreover a mini-batch size of 32 were utialized. The momentum hold a value of 0.35.
+
+
+
+\section{Regularization Techniques}
+% weight decay L2 pentalty
+% dropout
+Regularization techniques are methods within machine learning that helps in avoiding overfitting while also incresing model interpretability. One common regularization technique is pentaly term known as the \emph{L2-norm}. In this tequnice one add an extra term to the cost function which is proportional to the size of the weights. By doing so, one simply constrain the size of the weigts, so that they never will grow arbitrarilt large to fit the training data. This way, the regularization technique, reduces the chances of overitting the model \cite{Hjorth-Jensen2022}.
+
+The size of the weights can be measured using the L2-norm, meaning the cost function will take the form:
+
+\begin{equation}
+{C}(\theta) = \frac{1}{N-1}
+\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 + \lambda\sum_{ij}w^2_{ij}.
+\label{eq:L2}
+%MSE(\textbf{y},\mathbf{\tilde{y}}) =
+\end{equation}
+
+
 
 The objective during training is to find the optimal parameters $\beta$ that minimize the cost function. The cost function represents the discrepancy between the network's predictions and the actual target values. By iteratively updating the parameters to minimize the cost function, the network fine-tunes its internal representations to make more accurate predictions. MSE is chosen as the cost function for the DiLoc network, as it provides a smooth and continuous measure of the model's performance during training, penalizing larger errors more heavily.
 
 % Include why we went for batch size 32 and mom = 0.35 (instead of 0.9)
 Optimizers play a crucial role in reducing the network's loss and providing accurate results. In this case, SGD with momentum is utilized as the network's optimizer. SGD with momentum enhances the sensitivity of the network to initialized weights and provides fast convergence. The algorithm uses mini-batches of size 32, introducing fluctuation to the data and preventing the network from getting stuck in local minima or saddle points. The momentum hyperparameter, set to 0.35 in this context, helps reduce high variances in the optimization process and accelerates convergence towards the right direction, leading to faster training.
 
-To improve the training process further, learning rate scheduling is employed. This technique adjusts the learning rate over time, allowing the network to take larger steps in the early stages and gradually decrease the learning rate as it approaches convergence. The initial learning rate is set to 0.001, and is further decreased, which provides balance between rapid convergence in the initial phases and fine-tuning towards the end.
+
 
 Additionally, L1 and L2 regularization techniques are incorporated as optional parameters into the DiLoc network. These regularization methods help prevent overfitting and improve generalization to unseen data. By adding penalty terms to the cost function, L1 and L2 regularization encourage the model to favor simpler and more generalizable solutions.
 
@@ -112,6 +245,144 @@ After the DiLoc network is fully trained on the training dataset, it has learned
 
 In the upcoming chapters, we will present different approaches to the inverse problem and showcase the performance of the DiLoc network across these approaches. The evaluation results will demonstrate the effectiveness and utility of the trained model in solving the localization task for various scenarios.
 
-\section{Diloc as Convolutional Neural Network}
+\section{Learning Rate Scheduling}
+To improve the training process further, learning rate scheduling is employed. This technique adjusts the learning rate over time, allowing the network to take larger steps in the early stages and gradually decrease the learning rate as it approaches convergence. The initial learning rate is set to 0.001, and is further decreased, which provides balance between rapid convergence in the initial phases and fine-tuning towards the end.
+
+
+
+
+% Final chapter/ or first one in results , how do we know if the network performs well.
+% In results, include histogram and tables :)
+\section{Metrics of success}
+In the realm of DiLoc, our neural network tailored for EEG source localization, assessing network performance through standard loss plots becomes less informative due to the normalization of target values. As a result, we turn to a separate, unseen test dataset comprising 20 000 samples to evaluate the network's accuracy. Before comparison, the predictions outputted by DiLoc are denormalized to facilitate a meaningful evaluation against true target values.
+
+To comprehensively gauge the network's predictive abilities on this test dataset, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
+
+While metrics such as MAE, NMAE, MSE, and RMSE offer insights into the network's performance and predictions, their clinical interpretation can be intricate in the problems of ours. To address this, we establish threshold values that represent acceptable errors for a majority of predictions. In particular, we are interested in determining the percentage of samples for which the network predicts the Euclidean distance of one or more dipoles within specific thresholds—3 mm, 5 mm, 10 mm, and 15 mm, where 3 mm is considered optimal.
+
+Regarding amplitude and radius predictions, the analysis involves studying the percentage of samples where the network provides predictions with absolute errors equal to 1, 2, and 3 mA$\mu$ m, and 1, 3, and 5 mm. Providing a MAE for the amplitude equal to 3 mA$\mu$ m corresponds to an error of 30$\%$,and a MAE for the radius equal to 5 mm corresponds to an error of 33$\%$, both of which are intuitively considered large errors. However, if we consider these target values in relation to potential clinical significance, a different perspective emerges. In real-world clinical cases, it could be of significant interest to discern whether a neuron source exhibits the characteristic of a small amplitude (ranging from 1 to 3 mA$\mu$ m), a medium amplitude (ranging from 3 to 6 mA$\mu$ m), or a strong amplitude (ranging from 4 to 10 mA$\mu$ m). Similarly, the radius values of a small radius (ranging from 1 to 5 mm), a medium radius (ranging from 5 to 10 mm), or a large radius (ranging from 5 to 10 mm) might hold clinical significance when considering the underlying neuronal mechanisms.
+
+This shift in perspective highlights the nuanced interpretation of errors and underlines the importance of clinical context in evaluating the performance of DiLoc. In this light, even what might initially appear as substantial errors can offer valuable insights into the behavior of neuronal sources within real-world scenarios.
+
+In sum, the suite of error metrics, coupled with threshold-based assessments, facilitates an in-depth evaluation of the network's capabilities. This multi-faceted approach bridges the realms of machine learning principles and clinical applicability, encapsulating the overarching goal of achieving accurate, meaningful, and real-world clinical predictions.
+
+
+
+
+
+
+\section{Method that not belong here, but rather for the extended problems}
+
+\subsection{Choosing an Optimal Cost Function}
+% Include data distribution (min/max)
+In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions compare predicted outcomes to actual values, resulting in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions.
+
+Selecting the appropriate cost function is pivotal in addressing machine learning challenges. In regression tasks like ours, the mean squared error (MSE) is a widely used cost function, particularly suitable for linear regression. The MSE is preferred due to its simplicity and continuous measure of model performance during training. It calculates the squared differences between the model's predictions and target values, then takes the mean across the entire dataset:
+
+\begin{equation}
+\text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
+\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
+\label{eq:MSE}
+%MSE(\textbf{y},\mathbf{\tilde{y}}) =
+\end{equation}
+
+Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $y_i$ stands for the predicted value and $\tilde{y}_i$ is the corresponding true value.
+
+Due to the squaring step in the MSE function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
+
+% include how we do this in our thesis.
+
+In our simulation-driven context, devised to accommodate a spectrum of diverse variations, it's noteworthy that the presence of apparent outliers is not rooted in random fluctuations, but rather indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a dataset. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the dataset. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It's crucial to underscore that these data points don't emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the dataset's representational fidelity within authentic real-world contexts.
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
+    \end{subfigure}
+    \caption{\textbf{Visualization of data set.} Both panels visualize the maximum EEG measures for each sample within the data set.}
+    \label{fig:outliers}
+\end{figure}
+
+When having clear understandings of desired model outcomes, customized cost functions, designed to align precisely with specific objectives may potentially outperform the MSE cost function. Our objective is to create a model that first of all is capable of accurately predicting single dipole posistions, and as extensions also multiple dipole positions, amplitudes of dipole signals and radii of extended dipole populations.  To achieve this, the ideal cost function should minimize the Euclidean distance between target dipole localizations ${\theta}_{x,y,z}$ and true values $\tilde{\theta}_{x,y,z}$:
+
+\begin{equation}
+    \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) = \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x,i} - \tilde{\theta}_{x,i})^2 + (\theta_{y,i} - \tilde{\theta}_{y,i})^2 + (\theta_{z,i} - \tilde{\theta}_{z,i})^2},
+\label{eq:MED}
+\end{equation}
+
+Additionally, the cost function should minimize the absolute error between predicted ${\theta}_{\text{A}}$ and true amplitude $\tilde{\theta}_{\text{A}}$:
+
+\begin{equation}
+    \text{MAE}_{\text{A}}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{A,i} - \tilde{\theta}_{A,i} \|,
+\label{eq:MED}
+\end{equation}
+
+Similarly, it should minimize the error between predicted ${\theta}_{\text{r}}$ and true radius$\tilde{\theta}_{\text{r}}$:
+
+\begin{equation}
+    \text{MAE}_{\text{r}}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{r,i} - \tilde{\theta}_{r,i} \|,
+\label{eq:MED}
+\end{equation}
+
+
+Finally, the cost function should minimize the Euclidean distance among a set of $m$ dipoles:
+
+\begin{equation}
+\begin{aligned}
+    \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}) = \\
+    &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_1,i} - \tilde{\theta}_{x_1,i})^2 + (\theta_{y_1,i} - \tilde{\theta}_{y_1,i})^2 + (\theta_{z_1,i} - \tilde{\theta}_{z_1,i})^2} \right) + \\
+    &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_2,i} - \tilde{\theta}_{x_2,i})^2 + (\theta_{y_2,i} - \tilde{\theta}_{y_2,i})^2 + (\theta_{z_2,i} - \tilde{\theta}_{z_2,i})^2} \right)
+    + \ldots + \\
+    &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_m,i} - \tilde{\theta}_{x_m,i})^2 + (\theta_{y_m,i} - \tilde{\theta}_{y_m,i})^2 + (\theta_{z_m,i} - \tilde{\theta}_{z_m,i})^2} \right)
+\end{aligned}
+\label{eq:MED}
+\end{equation}
+
+While the built-in MSE cost function compares predicted and target values linearly, the customized cost function should calculate all possible permutations, ensuring the correct combinations are used for loss calculation.
+
+Whereas the standard built-in MSE cost function calculates the mean squared error between each of the target values, we require the customized cost function to map the predictions of each location for the set of dipoles, effectively minimizing the Euclidean distance. Utilizing Python's built-in MSE cost function, the algorithm simply matches predicted locations with the target locations in the order that the vectors have been arranged. However, this technique lacks exploration of other combinations, potentially misleading the network's weight updates if certain accurate locations are paired with non-preferable targets. By enabling the customized cost function to compute all possible permutations, we ensure that the correct target and predicted location values are paired during loss calculation. To achieve this, the cost function calculates all permutations and selects the one yielding the minimum loss.
+
+For all terms within the cost function, comprehensive unit tests have been developed to confirm its intended functionality. Each problem introduced for the network corresponds to a distinct form of the customized cost function:
+
+\begin{equation}
+    C(\boldsymbol{\theta}) =
+    \begin{cases}
+      \begin{array}{l}
+      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}),
+      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 3\\
+      \\
+      \begin{array}{l}
+      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}),
+      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 4\\
+      \\
+      \begin{array}{l}
+      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}) + MAE_{\text{r}}(\boldsymbol{\theta}),
+      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 5\\
+      \\
+      \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}), & \text{otherwise}
+    \end{cases}
+    \label{eq:cost_function}
+\end{equation}
+
+Here, $| \boldsymbol{\theta} |$ signifies the length of the target vector. When $| \boldsymbol{\theta} | = 3$, the simplest problem is considered, where the network predicts the coordinates of a single-point current dipole. If $| \boldsymbol{\theta} | = 4$, the network predicts the x, y, and z-coordinates of a single dipole, in addition to the amplitude of the signal strength. When $| \boldsymbol{\theta} | = 5$, the target vector encompasses all previously mentioned values, along with the size of a current dipole population with radius. Finally, for $| \boldsymbol{\theta} |$ greater than 5, the multiple dipole problem is addressed, where the network predicts the locations for two or more point source dipoles situated at distinct positions within the cortex.
+
+In crafting our customized cost function, it is important to acknowledge that, like the built-in Mean Squared Error (MSE) cost function, our formulation inherently treats all target values equally during the optimization process. In other words, the algorithm assigns the same weight to each target value when striving to reduce the overall loss. This approach ensures that errors of equal percentage magnitude in different target values are treated on a level playing field. Consequently, a 1$\%$ error for one target value is considered as important as a 1$\%$ error for another target value, regardless of the specific range or scale of these values.
+
+It is worth noting that our choice to uniformly weight all target values is an intentional design decision. While alternative approaches, such as assigning different weights to different target values, could have been explored, we prioritize the creation of a balanced model that can accurately predict all facets of our target values. This approach stems from our objective of achieving a comprehensive understanding of EEG signal sources through a holistic and equitable modeling approach.
+
+Moreover, this uniform weighting approach aligns with our broader modeling philosophy, emphasizing the creation of a model that is versatile and adaptable across a spectrum of EEG data variations. Our aim is not only to develop a model capable of accurately predicting target values but also to ensure that its predictive capabilities are unbiased and comprehensive, covering the multifaceted aspects of EEG signal analysis.
+
+In this way, our customized cost function showcases the fusion of machine learning principles with the nuanced requirements of clinical medicine, as we strive to bridge the gap between technical prowess and real-world medical applications.
+
+
+
+
+
 
 \end{document}

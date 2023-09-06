@@ -1,5 +1,6 @@
 import os
 import time
+import itertools
 
 import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -48,7 +49,7 @@ class Logger:
     def __init__(self, parameters):
         self._parameters = parameters
         self._log_fname = os.path.join(
-            'results', 'custom_loss' + parameters['log_fname'] + '.txt'
+            'results', parameters['log_fname'] + '.txt'
         )
         self._write_line(self._header_line())
         self._start_time = time.perf_counter()
@@ -82,33 +83,48 @@ class Logger:
         self._write_line('\n'.join(lines) + '\n')
 
 
-class Loss:
-    def __init__(self, l1_lambda, use_custom: bool, N_dipoles):
-        self._lambda = l1_lambda
-        self._loss = self._custom_loss if use_custom else torch.nn.MSELoss()
-        self._num_dipoles = N_dipoles
+class CustomLoss:
+    def __init__(self, N_dipoles, euc_dist_weight: float):
+        self._N_dipoles = N_dipoles
+        assert 0 < euc_dist_weight <= 1
+        self._weight = euc_dist_weight
 
-    def _custom_loss(self, predicted, target):
+    def __call__(self, predicted, target):
         assert predicted.dim() == 2
         assert target.dim() == 2
-
+        num_samples = predicted.shape[0]
         result = 0
-        for i in range(self._num_dipoles):
-            start = 4*i
-            stop = start + 3
-            euc_dist_error = torch.linalg.norm(
-                predicted[:, start:stop] - target[:, start:stop],
-                dim=1
-            )
-            absolute_error_amp = (predicted[:, stop] - target[:, stop]).abs()
-            result += euc_dist_error + absolute_error_amp
+        for i in range(num_samples):
+            result += self._one_sample(predicted[i], target[i])
+        return result/num_samples
 
-        if predicted.shape[1] == 5:
-            assert self._num_dipoles == 1
-            absolute_error_radius = (predicted[:, 4] - target[:, 4]).abs()
-            result += absolute_error_radius
+    def _one_sample(self, predicted, target):
+        N_outputs = len(predicted) // self._N_dipoles
+        combinations = itertools.permutations(range(self._N_dipoles), self._N_dipoles) # [(1, 2, 3), (1, 3, 2), (2, 1, 3), (2, 3, 1), (3, 1, 2), (3, 2, 1)]
+        result = 1e99
+        for pred_indices in combinations:
+            tmp = 0
+            for i, j in enumerate(pred_indices):
+                tmp += self._one_dipole(
+                    predicted[N_outputs*j:N_outputs*(j + 1)],
+                    target[N_outputs*i:N_outputs*(i + 1)]
+                )
+            result = min(result, tmp)
+        return result
 
-        return result.mean()
+    def _one_dipole(self, predicted, target):
+        # euc_dist = torch.linalg.norm(predicted - target)
+        euc_dist = torch.linalg.norm(predicted[:3] - target[:3])
+        absolute_error = (predicted[3:] - target[3:]).abs().sum()
+        # return euc_dist + absolute_error
+        return 2*self._weight*euc_dist + (2 - 2*self._weight)*absolute_error
+        # return euc_dist
+
+
+class Loss:
+    def __init__(self, l1_lambda, use_custom: bool, N_dipoles, weights):
+        self._lambda = l1_lambda
+        self._loss = CustomLoss(N_dipoles, weights) if use_custom else torch.nn.MSELoss()
 
     def __call__(self, predicted, target, net, is_training: bool):
         result = self._loss(predicted, target)
@@ -136,7 +152,7 @@ def run_model(parameters):
         shuffle=False,
     )
 
-    criterion = Loss(parameters['l1_lambda'], True, parameters['N_dipoles'])
+    criterion = Loss(parameters['l1_lambda'], parameters['custom_loss'], parameters['N_dipoles'], parameters['weights'])
 
     optimizer = torch.optim.SGD(
         net.parameters(),

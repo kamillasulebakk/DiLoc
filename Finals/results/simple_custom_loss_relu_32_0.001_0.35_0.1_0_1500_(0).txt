@@ -1,0 +1,30 @@
+N_samples: 70000
+N_dipoles: 2
+determine_amplitude: False
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 1500
+noise_pct: 10
+custom_loss: True
+hl_act_func: relu
+weights: [1, 1]
+weight_decay: 0.1
+l1_lambda: 0
+log_fname: simple_custom_loss_relu_32_0.001_0.35_0.1_0_1500_(0)
+------------------------------------------------------------
+Epoch    0/1499 | Train:    0.74709680 | Validation:    0.63754248 | Time:      25.2 s
+Predicted: [0.35426474 0.35247415 0.5574793  0.46261322 0.5794049  0.52659327]
+Target:    [0.46811008 0.12957196 0.69163454 0.8711869  0.74470544 0.33434597]
+
+Predicted: [0.6277207  0.31890163 0.5255871  0.36224553 0.34685448 0.3822263 ]
+Target:    [0.43978313 0.54009515 0.8642947  0.48359686 0.4034979  0.24333139]
+
+Predicted: [0.68345463 0.4758768  0.5064007  0.43782026 0.6565964  0.41498518]
+Target:    [0.7513162  0.37727633 0.756971   0.47580668 0.72511476 0.32869822]
+
+Epoch    1/1499 | Train:    0.59712278 | Validation:    0.56855491 | Time:      51.5 s
+Epoch    2/1499 | Train:    0.54930599 | Validation:    0.53724826 | Time:      78.4 s
+Epoch    3/1499 | Train:    0.52290422 | Validation:    0.51738571 | Time:     108.0 s

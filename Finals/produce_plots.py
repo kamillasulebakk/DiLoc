@@ -5,9 +5,11 @@ from scipy import interpolate
 import utils
 import os
 import h5py
+import seaborn as sns
 from matplotlib.widgets import Slider
 
 from plot import set_ax_info
+from produce_data import calculate_eeg
 
 
 plt.style.use('seaborn')
@@ -16,6 +18,8 @@ plt.rcParams.update({
     "font.family": "DejaVu Sans",
     "font.serif": ["Computer Modern"]}
 )
+palette = sns.color_palette("deep")
+sns.set_palette(palette)
 
 def plot_simple_example(A):
     nyhead = NYHeadModel()
@@ -28,24 +32,19 @@ def plot_simple_example(A):
 
     # We rotate current dipole moment to be oriented along the normal vector of cortex
     p = nyhead.rotate_dipole_to_surface_normal(p)
-    eeg = M @ p * 1E9 # [mV] -> [pV] unit conversion
+    eeg = M @ p * 1E3 # [mV] -> [pV] unit conversion
+
+    eeg = eeg + np.random.normal(0, np.std(eeg) * 10/100, eeg.shape)
 
     x_lim = [-100, 100]
     y_lim = [-130, 100]
     z_lim = [-160, 120]
 
-    plt.close("all")
     fig = plt.figure(figsize=[19, 10])
     fig.subplots_adjust(top=0.96, bottom=0.05, hspace=0.17, wspace=0.3, left=0.1, right=0.99)
-    ax1 = fig.add_subplot(245, aspect=1, xlabel="x (mm)", ylabel='y (mm)', xlim=x_lim, ylim=y_lim)
-    ax2 = fig.add_subplot(246, aspect=1, xlabel="x (mm)", ylabel='z (mm)', xlim=x_lim, ylim=z_lim)
-    ax3 = fig.add_subplot(247, aspect=1, xlabel="y (mm)", ylabel='z (mm)', xlim=y_lim, ylim=z_lim)
-    # ax_eeg = fig.add_subplot(244, xlabel="Time (ms)", ylabel='pV', title='EEG at all electrodes')
-    #
-    # ax_cdm = fig.add_subplot(248, xlabel="Time (ms)", ylabel='nA$\cdot \mu$m',
-    #                          title='Current dipole moment')
-    # dist, closest_elec_idx = nyhead.find_closest_electrode()
-    # print("Closest electrode to dipole: {:1.2f} mm".format(dist))
+    ax1 = fig.add_subplot(245, aspect=1, ylabel='y (mm)', xlim=x_lim, ylim=y_lim)
+    ax2 = fig.add_subplot(246, aspect=1, ylabel='z (mm)', xlim=x_lim, ylim=z_lim)
+    ax3 = fig.add_subplot(247, aspect=1, ylabel='z (mm)', xlim=y_lim, ylim=z_lim)
 
     max_elec_idx = np.argmax(np.std(eeg, axis=1))
     time_idx = np.argmax(np.abs(eeg[max_elec_idx]))
@@ -53,17 +52,6 @@ def plot_simple_example(A):
     max_eeg_idx = np.argmax(np.abs(eeg[:, time_idx]))
 
     max_eeg_pos = nyhead.elecs[:3, max_eeg_idx]
-    # fig.text(0.01, 0.25, "Cortex", va='center', rotation=90, fontsize=22)
-    # fig.text(0.03, 0.25,
-    #          "Dipole pos: {:1.1f}, {:1.1f}, {:1.1f}\nDipole moment: {:1.2f} {:1.2f} {:1.2f}".format(
-    #     nyhead.dipole_pos[0], nyhead.dipole_pos[1], nyhead.dipole_pos[2],
-    #     p[0, time_idx], p[1, time_idx], p[2, time_idx]
-    # ), va='center', rotation=90, fontsize=14)
-
-    # fig.text(0.01, 0.75, "EEG", va='center', rotation=90, fontsize=22)
-    # fig.text(0.03, 0.75, "Max: {:1.2f} pV at idx {}\n({:1.1f}, {:1.1f} {:1.1f})".format(
-    #          max_eeg, max_eeg_idx, max_eeg_pos[0], max_eeg_pos[1], max_eeg_pos[2]), va='center',
-    #          rotation=90, fontsize=14)
 
     ax7 = fig.add_subplot(241, aspect=1, xlabel="x (mm)", ylabel='y (mm)',
                           xlim=x_lim, ylim=y_lim)
@@ -71,10 +59,6 @@ def plot_simple_example(A):
                           xlim=x_lim, ylim=z_lim)
     ax9 = fig.add_subplot(243, aspect=1, xlabel="y (mm)", ylabel='z (mm)',
                           xlim=y_lim, ylim=z_lim)
-
-    # ax_cdm.plot(t, p[2, :], 'k')
-    # [ax_eeg.plot(t, eeg[idx, :], c='gray') for idx in range(eeg.shape[0])]
-    # ax_eeg.plot(t, eeg[closest_elec_idx, :], c='green', lw=2)
 
     vmax = np.max(np.abs(eeg[:, time_idx]))
     v_range = vmax
@@ -105,9 +89,6 @@ def plot_simple_example(A):
     img.figure.axes[0].tick_params(axis="both", labelsize=20)
     img.figure.axes[1].tick_params(axis="x", labelsize=20)
 
-        # img = ax3.imshow([[], []], origin="lower", cmap=plt.cm.bwr)
-        # cb = plt.colorbar(img).
-
 
     ax1.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=12, color='orange', zorder=1000)
     ax2.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
@@ -117,7 +98,13 @@ def plot_simple_example(A):
     ax8.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
     ax9.plot(nyhead.dipole_pos[1], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
 
-    # plt.savefig(f"plots/dipole_area/dipole_area_reduced_{numbr}.pdf")
+    for ax in fig.axes:
+        ax.set_xlabel(ax.get_xlabel(), fontsize=24)  # Set x-label font size
+        ax.set_ylabel(ax.get_ylabel(), fontsize=24)  # Set y-label font size
+        ax.tick_params(axis='both', which='major', labelsize=20)
+        ax.tick_params(axis='both', which='minor', labelsize=20)
+
+    plt.savefig(f"plots/simple_example.pdf")
 
 
 def plot_different_amplitudes(A1, A2):
@@ -134,8 +121,8 @@ def plot_different_amplitudes(A1, A2):
     p1 = nyhead.rotate_dipole_to_surface_normal(p1)
     p2 = nyhead.rotate_dipole_to_surface_normal(p2)
 
-    eeg1 = M @ p1 * 1E9  # [mV] -> [pV] unit conversion
-    eeg2 = M @ p2 * 1E9
+    eeg1 = M @ p1 * 1E3  # [mV] -> [pV] unit conversion
+    eeg2 = M @ p2 * 1E3
 
     x_lim = [-100, 100]
     y_lim = [-130, 100]
@@ -318,38 +305,52 @@ def plot_and_find_neighbour_dipole():
 
     if sulci_map_dipole == 1:
         print('Dipole is located in sulcus')
-        corex_loc = 'sulcus'
+        cortex_loc = 'sulcus'
     else:
         print('Dipole is located in gyrus')
-        corex_loc = 'gyrus'
+        cortex_loc = 'gyrus'
 
     # Doing the same for the neighbouring dipole
-    x = dipole_location[0] + 45 # mm
+    # distance = -2
+
+    x = dipole_location[0] # mm
     y = dipole_location[1] # mm
     z = dipole_location[2] # mm
 
-    neighbour_idx = nyhead.return_closest_idx([x,y,z])
+    neighbour_idx_1 = nyhead.return_closest_idx([x-2,y,z])
+    neighbour_idx_2 = nyhead.return_closest_idx([x+2,y,z])
 
+    neighbour_idx = [neighbour_idx_1, neighbour_idx_2]
     # idx for dipole located in sulcus
     # neighbour_idx = 53550
-    neighbour_location = nyhead.cortex[:, neighbour_idx]
+    neighbour_locations = []
+    eeg_neighbours = []
+    sulci_map_neighbours = []
+    normal_vec_neighbours = []
+    cortex_loc_neighbours = []
+    correlation_coefficients = []
 
-    nyhead.set_dipole_pos(neighbour_location)
-    eeg_neighbour = calculate_eeg(nyhead)
+    for i, neighbour in enumerate(neighbour_idx):
+        neighbour_locations.append(nyhead.cortex[:, neighbour])
+        nyhead.set_dipole_pos(neighbour_locations[i])
+        eeg_neighbours.append(calculate_eeg(nyhead))
 
-    sulci_map_neighbour = sulci_map[neighbour_idx]
-    normal_vec_neighbour = cortex_normals[:,neighbour_idx]
+        sulci_map_neighbours.append(sulci_map[neighbour])
+        normal_vec_neighbours.append(cortex_normals[:,neighbour])
 
-    if sulci_map_neighbour == 1:
-        print('Dipole is located in sulcus')
-        corex_loc_neighbour = 'sulcus'
-    else:
-        print('Dipole is located in gyrus')
-        corex_loc_neighbour = 'gyrus'
+        if sulci_map_neighbours == 1:
+            print('Dipole is located in sulcus')
+            cortex_loc_neighbours.append('sulcus')
+        else:
+            print('Dipole is located in gyrus')
+            cortex_loc_neighbours.append('gyrus')
 
-    plot_neighbour_dipoles(dipole_location, neighbour_location,
-                            eeg, eeg_neighbour, corex_loc, corex_loc_neighbour,
-                            normal_vec, normal_vec_neighbour
+        correlation_coefficients.append(np.corrcoef(eeg, eeg_neighbours[i])[0, 1])
+        print(f'The correlation coefficient between the EEG signals is {correlation_coefficients[i]}')
+
+    plot_neighbour_dipoles(dipole_location, neighbour_locations,
+                            eeg, eeg_neighbours, cortex_loc, cortex_loc_neighbours,
+                            normal_vec, normal_vec_neighbours, correlation_coefficients
                           )
 
 
@@ -586,9 +587,9 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
 
     plt.close(fig)
 
-def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg,
-                            neighbour_eeg, corex_loc, corex_loc_neighbour,
-                            normal_vec, normal_vec_neighbour
+def plot_neighbour_dipoles(dipole_loc, neighbour_locs, dipole_eeg,
+                            neighbour_eegs, cortex_loc, cortex_loc_neighbours,
+                            normal_vec, normal_vec_neighbours, correlation_coefficients
                             ):
     nyhead = NYHeadModel()
     head_colors = ["#ffb380", "#74abff", "#b3b3b3", "#c87137"]
@@ -602,13 +603,13 @@ def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg,
 
     ax_dict = dict(frameon=False, xticks=[], yticks=[], aspect=1)
 
-    ax0_NY = fig.add_subplot(221, xlabel="x (mm)", ylabel='z (mm)',
+    ax0_NY = fig.add_subplot(331, xlabel="x (mm)", ylabel='z (mm)',
                              xlim=x_lim, ylim=z_lim, **ax_dict)
-    ax1_NY = fig.add_subplot(222, xlabel="x (mm)", ylabel='z (mm)',
-                             xlim=x_lim, ylim=y_lim, **ax_dict)
-    ax = fig.add_subplot(212, xlabel='Electrode number', ylabel='eeg [uV]')
+    ax1_NY = fig.add_subplot(332, xlim=x_lim, ylim=y_lim, **ax_dict)
+    ax2_NY = fig.add_subplot(333, xlim=x_lim, ylim=y_lim, **ax_dict)
 
-    # print(normal_vec, normal_vec_neighbour)
+    ax0 = fig.add_subplot(312, ylabel=r'EEG [$\mu$V]')
+    ax1 = fig.add_subplot(313, xlabel='Electrode number', ylabel=r'EEG [$\mu$V]')
 
     threshold = 1
     xz_plane_idxs = np.where(np.abs(nyhead.cortex[1, :] -
@@ -616,149 +617,78 @@ def plot_neighbour_dipoles(dipole_loc, neighbour_loc, dipole_eeg,
     cortex_x, cortex_z = nyhead.cortex[0, xz_plane_idxs], nyhead.cortex[2, xz_plane_idxs]
     ax0_NY.scatter(cortex_x, cortex_z, s=4, c=head_colors[0])
     ax1_NY.scatter(cortex_x, cortex_z, s=4, c=head_colors[0])
-
+    ax2_NY.scatter(cortex_x, cortex_z, s=4, c=head_colors[0])
 
     p = np.array([0, 0, 1])
 
     nyhead.set_dipole_pos(dipole_loc)
     dipole_loc_arrow = nyhead.rotate_dipole_to_surface_normal(p)
 
-    nyhead.set_dipole_pos(neighbour_loc)
-    neighbour_loc_arrow = nyhead.rotate_dipole_to_surface_normal(p)
+    nyhead.set_dipole_pos(neighbour_locs[0])
+    neighbour_loc_arrow_1 = nyhead.rotate_dipole_to_surface_normal(p)
+
+    nyhead.set_dipole_pos(neighbour_locs[1])
+    neighbour_loc_arrow_2 = nyhead.rotate_dipole_to_surface_normal(p)
 
     arrow_plot_params = dict(lw=2, head_width=3, zorder=1000)
 
     dipole_arrow = dipole_loc_arrow / np.linalg.norm(dipole_loc_arrow) * 10
     ax0_NY.arrow(dipole_loc[0], dipole_loc[2],
-                  dipole_arrow[0], dipole_arrow[2], color='blue', **arrow_plot_params,
-                  label=f'Normal vector: ({normal_vec[0]:.2f}, \
-                  {normal_vec[1]:.2f}, {normal_vec[2]:.2f} )')
+                  dipole_arrow[0], dipole_arrow[2], color=palette[0], **arrow_plot_params,
+                  label=r'$\newline \hat{\textbf{n}}$ = ' + f'({normal_vec[0]:.2f}, \
+                  {normal_vec[1]:.2f}, {normal_vec[2]:.2f} )'
+                  + r'\newline $\hat{\textbf{r}}$ = ' + f'({dipole_loc[0]:.2f}, \
+                  {dipole_loc[1]:.2f}, {dipole_loc[2]:.2f} )')
 
-    neighbour_arrow = neighbour_loc_arrow / np.linalg.norm(neighbour_loc_arrow) * 10
-    ax1_NY.arrow(neighbour_loc[0], neighbour_loc[2],
-                  neighbour_arrow[0], neighbour_arrow[2], color='green', **arrow_plot_params,
-                  label=f'Normal vector: ({normal_vec_neighbour[0]:.2f}, \
-                  {normal_vec_neighbour[1]:.2f}, {normal_vec_neighbour[2]:.2f} )')
-
-
-    ax.plot(dipole_eeg, label=f'Blue dipole located in {corex_loc} \
-                                with coordinates ({dipole_loc[0]:.2f}, \
-                                {dipole_loc[1]:.2f}, {dipole_loc[2]:.2f} ) ')
-
-    ax.plot(neighbour_eeg, label=f'Green dipole located in {corex_loc} \
-                                with coordinates ({neighbour_loc[0]:.2f}, \
-                                {neighbour_loc[1]:.2f}, {neighbour_loc[2]:.2f} )')
-
-    ax0_NY.legend(fontsize=10, loc='upper left')
-    ax1_NY.legend(fontsize=10, loc='upper right')
-    ax.legend(bbox_to_anchor=(0.5, 1.15), loc='lower center', fontsize=10)
-
-    fig.savefig(f'plots/compare_dipoles.png')
+    neighbour_arrow_1 = neighbour_loc_arrow_1 / np.linalg.norm(neighbour_loc_arrow_1) * 10
+    neighbour_arrow_2 = neighbour_loc_arrow_2 / np.linalg.norm(neighbour_loc_arrow_2) * 10
 
 
-def plot_simple_example(A):
-    nyhead = NYHeadModel()
+    ax1_NY.arrow(neighbour_locs[0][0], neighbour_locs[0][2],
+                  neighbour_arrow_1[0], neighbour_arrow_1[2], color=palette[2], **arrow_plot_params,
+                  label=r'$\newline \hat{\textbf{n}}$ = ' + f'({normal_vec_neighbours[0][0]:.2f}, \
+                  {normal_vec_neighbours[0][1]:.2f}, {normal_vec_neighbours[0][2]:.2f} )'
+                  + r'\newline $\hat{\textbf{r}}$ = ' + f'({neighbour_locs[0][0]:.2f}, \
+                  {neighbour_locs[0][1]:.2f}, {neighbour_locs[0][2]:.2f} )'
+                  )
 
-    dipole_location = 'motorsensory_cortex'  # predefined location from NYHead class
-    nyhead.set_dipole_pos(dipole_location)
-    M = nyhead.get_transformation_matrix()
-
-    p = np.array(([0.0], [0.0], [A])) * 1E7 # Ganske sterk dipol --> målbart resultat [nA* u m]
-
-    # We rotate current dipole moment to be oriented along the normal vector of cortex
-    p = nyhead.rotate_dipole_to_surface_normal(p)
-    eeg = M @ p * 1E9 # [mV] -> [pV] unit conversion
-
-    x_lim = [-100, 100]
-    y_lim = [-130, 100]
-    z_lim = [-160, 120]
-
-    input()
-
-    plt.close("all")
-    fig = plt.figure(figsize=[19, 10])
-    fig.subplots_adjust(top=0.96, bottom=0.05, hspace=0.17, wspace=0.3, left=0.1, right=0.99)
-    ax1 = fig.add_subplot(245, aspect=1, xlabel="x (mm)", ylabel='y (mm)', xlim=x_lim, ylim=y_lim)
-    ax2 = fig.add_subplot(246, aspect=1, xlabel="x (mm)", ylabel='z (mm)', xlim=x_lim, ylim=z_lim)
-    ax3 = fig.add_subplot(247, aspect=1, xlabel="y (mm)", ylabel='z (mm)', xlim=y_lim, ylim=z_lim)
-    # ax_eeg = fig.add_subplot(244, xlabel="Time (ms)", ylabel='pV', title='EEG at all electrodes')
-    #
-    # ax_cdm = fig.add_subplot(248, xlabel="Time (ms)", ylabel='nA$\cdot \mu$m',
-    #                          title='Current dipole moment')
-    # dist, closest_elec_idx = nyhead.find_closest_electrode()
-    # print("Closest electrode to dipole: {:1.2f} mm".format(dist))
-
-    max_elec_idx = np.argmax(np.std(eeg, axis=1))
-    time_idx = np.argmax(np.abs(eeg[max_elec_idx]))
-    max_eeg = np.max(np.abs(eeg[:, time_idx]))
-    max_eeg_idx = np.argmax(np.abs(eeg[:, time_idx]))
-
-    max_eeg_pos = nyhead.elecs[:3, max_eeg_idx]
-    # fig.text(0.01, 0.25, "Cortex", va='center', rotation=90, fontsize=22)
-    # fig.text(0.03, 0.25,
-    #          "Dipole pos: {:1.1f}, {:1.1f}, {:1.1f}\nDipole moment: {:1.2f} {:1.2f} {:1.2f}".format(
-    #     nyhead.dipole_pos[0], nyhead.dipole_pos[1], nyhead.dipole_pos[2],
-    #     p[0, time_idx], p[1, time_idx], p[2, time_idx]
-    # ), va='center', rotation=90, fontsize=14)
-
-    # fig.text(0.01, 0.75, "EEG", va='center', rotation=90, fontsize=22)
-    # fig.text(0.03, 0.75, "Max: {:1.2f} pV at idx {}\n({:1.1f}, {:1.1f} {:1.1f})".format(
-    #          max_eeg, max_eeg_idx, max_eeg_pos[0], max_eeg_pos[1], max_eeg_pos[2]), va='center',
-    #          rotation=90, fontsize=14)
-
-    ax7 = fig.add_subplot(241, aspect=1, xlabel="x (mm)", ylabel='y (mm)',
-                          xlim=x_lim, ylim=y_lim)
-    ax8 = fig.add_subplot(242, aspect=1, xlabel="x (mm)", ylabel='z (mm)',
-                          xlim=x_lim, ylim=z_lim)
-    ax9 = fig.add_subplot(243, aspect=1, xlabel="y (mm)", ylabel='z (mm)',
-                          xlim=y_lim, ylim=z_lim)
-
-    # ax_cdm.plot(t, p[2, :], 'k')
-    # [ax_eeg.plot(t, eeg[idx, :], c='gray') for idx in range(eeg.shape[0])]
-    # ax_eeg.plot(t, eeg[closest_elec_idx, :], c='green', lw=2)
-
-    vmax = np.max(np.abs(eeg[:, time_idx]))
-    v_range = vmax
-    cmap = lambda v: plt.cm.bwr((v + vmax) / (2*vmax))
-
-    threshold = 2
-
-    xz_plane_idxs = np.where(np.abs(nyhead.cortex[1, :] - nyhead.dipole_pos[1]) < threshold)[0]
-    xy_plane_idxs = np.where(np.abs(nyhead.cortex[2, :] - nyhead.dipole_pos[2]) < threshold)[0]
-    yz_plane_idxs = np.where(np.abs(nyhead.cortex[0, :] - nyhead.dipole_pos[0]) < threshold)[0]
-
-    ax1.scatter(nyhead.cortex[0, xy_plane_idxs], nyhead.cortex[1, xy_plane_idxs], s=5)
-    ax2.scatter(nyhead.cortex[0, xz_plane_idxs], nyhead.cortex[2, xz_plane_idxs], s=5)
-    ax3.scatter(nyhead.cortex[1, yz_plane_idxs], nyhead.cortex[2, yz_plane_idxs], s=5)
-
-    for idx in range(eeg.shape[0]):
-        c = cmap(eeg[idx, time_idx])
-        ax7.plot(nyhead.elecs[0, idx], nyhead.elecs[1, idx], 'o', ms=10, c=c,
-                 zorder=nyhead.elecs[2, idx])
-        ax8.plot(nyhead.elecs[0, idx], nyhead.elecs[2, idx], 'o', ms=10, c=c,
-                 zorder=nyhead.elecs[1, idx])
-        ax9.plot(nyhead.elecs[1, idx], nyhead.elecs[2, idx], 'o', ms=10, c=c,
-                 zorder=-nyhead.elecs[0, idx])
-
-    img = ax3.imshow([[], []], origin="lower", vmin=-vmax,
-                     vmax=vmax, cmap=plt.cm.bwr)
-    plt.colorbar(img, ax=ax9, shrink=0.5).set_label(label='µV',size=20, weight='bold')
-    img.figure.axes[0].tick_params(axis="both", labelsize=20)
-    img.figure.axes[1].tick_params(axis="x", labelsize=20)
-
-        # img = ax3.imshow([[], []], origin="lower", cmap=plt.cm.bwr)
-        # cb = plt.colorbar(img).
+    ax2_NY.arrow(neighbour_locs[1][0], neighbour_locs[1][2],
+                  neighbour_arrow_2[0], neighbour_arrow_2[2], color=palette[3], **arrow_plot_params,
+                  label=r'$\newline \hat{\textbf{n}}$ = ' + f'({normal_vec_neighbours[1][0]:.2f}, \
+                  {normal_vec_neighbours[1][1]:.2f}, {normal_vec_neighbours[1][2]:.2f} )'
+                  + r'\newline $\hat{\textbf{r}}$ = ' + f'({neighbour_locs[1][0]:.2f}, \
+                  {neighbour_locs[1][1]:.2f}, {neighbour_locs[1][2]:.2f})'
+                  )
 
 
-    ax1.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=12, color='orange', zorder=1000)
-    ax2.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
-    ax3.plot(nyhead.dipole_pos[1], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
+    ax0.plot(dipole_eeg, color=palette[0])
 
-    ax7.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=12, color='orange', zorder=1000)
-    ax8.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
-    ax9.plot(nyhead.dipole_pos[1], nyhead.dipole_pos[2], '*', ms=12, color='orange', zorder=1000)
+    ax0.plot(neighbour_eegs[0], color=palette[2])
 
-    plt.show()
+    ax1.plot(dipole_eeg, color=palette[0])
+
+    ax1.plot(neighbour_eegs[1], color=palette[3])
+
+    ax0.set_yticks([-0.5, 0, 0.5, 1])  # Set ticks at the specified positions
+    ax1.set_yticks([-0.5, 0, 0.5, 1])  # Set ticks at the specified positions
+
+    ax0.text(0.5, 0.9, f'Correlation coefficient: {correlation_coefficients[0]:.2f}', transform=ax0.transAxes,
+         horizontalalignment='right', verticalalignment='top',
+         fontsize=10, color='black')
+
+    ax1.text(0.5, 0.9, f'Correlation coefficient: {correlation_coefficients[1]:.2f}', transform=ax1.transAxes,
+         horizontalalignment='right', verticalalignment='top',
+         fontsize=10, color='black')
+
+    ax0_NY.legend(fontsize=10) #, loc='upper left')
+    ax1_NY.legend(fontsize=10) #, loc='upper right')
+    ax2_NY.legend(fontsize=10)
+
+
+    plt.tight_layout()
+    fig.savefig(f'plots/compare_dipoles.pdf')
+
+
 
 def plot_normalized_population(eeg, activity_center, activity_radius, active_idxs):
     eeg = (eeg - np.mean(eeg))/np.std(eeg)
@@ -849,6 +779,29 @@ def plot_normalized_population(eeg, activity_center, activity_radius, active_idx
     ax6.tick_params(axis='both', which='major', labelsize=23)
 
     plt.savefig(f"plots/dipole_area/large_dipole_area_normalized.pdf")
+
+
+
+# plot_different_amplitudes(5, 10)
+# plot_and_find_neighbour_dipole()
+plot_simple_example(1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

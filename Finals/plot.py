@@ -87,11 +87,11 @@ def plot_MSE_targets(targets, batch_size, filename, N_dipoles):
     set_ax_info(
         ax,
         xlabel='Number of epochs',
-        ylabel='ln(MSE)',
+        ylabel='ln(Loss)',
         title=f'Custom loss for normalized validation data'
     )
     fig.tight_layout()
-    fig.savefig(f'plots/mse_targets_{filename}.pdf')
+    fig.savefig(f'plots/Custom_Loss_mse_targets_{filename}.pdf')
     plt.close(fig)
 
 def plot_MSE_NN(train_loss, test_loss, filename, act_func, batch_size, num_epochs, N_dipoles):
@@ -101,11 +101,11 @@ def plot_MSE_NN(train_loss, test_loss, filename, act_func, batch_size, num_epoch
     set_ax_info(
         ax,
         xlabel='Number of epochs',
-        ylabel='ln(MSE)',
+        ylabel='ln(Loss)',
         title=f'Custom loss for normalized train and validation data',
     )
     fig.tight_layout()
-    fig.savefig(f'plots/custom_loss_{filename}.pdf')
+    fig.savefig(f'plots/Custom_Loss_{filename}.pdf')
     plt.close(fig)
 
 def plot_R2_NN(train_R2, test_R2, NN, act_func, batch_size, num_epochs, name = "NN"):

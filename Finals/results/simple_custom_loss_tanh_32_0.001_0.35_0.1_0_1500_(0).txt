@@ -1,0 +1,28 @@
+N_samples: 70000
+N_dipoles: 2
+determine_amplitude: False
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 1500
+noise_pct: 10
+custom_loss: True
+hl_act_func: tanh
+weights: [1, 1]
+weight_decay: 0.1
+l1_lambda: 0
+log_fname: simple_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0)
+------------------------------------------------------------
+Epoch    0/1499 | Train:    0.66263949 | Validation:    0.57099617 | Time:      28.2 s
+Predicted: [0.6238548  0.45872706 0.15661488 0.59698766 0.28808743 0.6806317 ]
+Target:    [0.46811008 0.12957196 0.69163454 0.8711869  0.74470544 0.33434597]
+
+Predicted: [0.5949459  0.35048392 0.32254452 0.26005253 0.31543958 0.4490149 ]
+Target:    [0.43978313 0.54009515 0.8642947  0.48359686 0.4034979  0.24333139]
+
+Predicted: [0.628247   0.58888364 0.38153028 0.7035134  0.5256229  0.59489167]
+Target:    [0.7513162  0.37727633 0.756971   0.47580668 0.72511476 0.32869822]
+
+Epoch    1/1499 | Train:    0.54501493 | Validation:    0.52682207 | Time:      56.1 s

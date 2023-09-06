@@ -4,6 +4,7 @@
 \usepackage[subpreambles=true]{standalone}
 \usepackage[table,xcdraw]{xcolor}
 \usepackage{hyperref}
+\usepackage{xcolor}
 
 \begin{document}
 
@@ -12,18 +13,18 @@ In this chapter, we explore how various extensions and small modifications of th
 
 \section{Predicting Single Dipole Sources with Amplitudes}
 
-In this section, we introduce the concept of various amplitudes for single current dipole sources, which adds an additional dimension to our network's output. Besides predicting the coordinates of the dipoles for each sample, the network now also estimates the magnitude of the dipole signals. In real-world scenarios, it might be of interest to not only pinpoint the source of the abnormal activity but also comprehend the extent of abnormality. By incorporating amplitude prediction into our network, we gain valuable insights into the problem at hand and achieve a deeper understanding of the underlying brain activity.
+In this section, we introduce the concept of various amplitudes for single current dipole sources, which adds an additional dimension to the output of DiLoc. Besides predicting the coordinates of the dipoles for each sample, the network now also estimates the magnitude of the dipole signals. In real-world scenarios, it might be of interest to not only pinpoint the source of the abnormal activity but also comprehend the extent of abnormality. By incorporating amplitude prediction into our network, we gain valuable insights into the problem at hand and achieve a deeper understanding of the underlying brain activity.
 
 % amplitude is too small ...  % include some sort of calculation of the stenght of the recording signal
 
 \subsection{Adjustments in Data Set and Architecture}
 
-We assign amplitudes to each dipole ranging between 1 and 10 nA$\mu$m. By now the dataset still has the same number of features, however as a the number of target values increases by 1. Figure \ref{fig:dipole_w_amplitude_example} provides two examples from the dataset, where the dipole location remains constant while the amplitude of the dipole signal varies. In such cases, the shape of the EEG signal will remain consistent, but the magnitude of the EEG signal will be highest for the dipole with the largest amplitude. It should therefor not be a problem for the network to separate such cases and shold be able to provide accurate predictions for the amplitude in both cases.
+We assign amplitudes to each dipole ranging between 1 and 10 nA$\mu$m. By now the dataset still has the same number of features, however the number of target values increases by 1. Figure \ref{fig:dipole_w_amplitude_example} provides two examples from the dataset, where the dipole location remains constant while the amplitude of the dipole signal varies. We observe that the shape of the EEG signal remain consistent, while the magnitude of the EEG signal is highest for the dipole with the largest amplitude. It should therefor not be a problem for the network to separate such cases and the network shold be able to provide accurate predictions for the amplitude in both cases. From the Figure it is also apperent that the EEG recordings ranges between -10 and 10 $\mu$V. \rednote{Can I find litterature that support the range?}
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/dipole_w_amplitude_example.pdf}
-    \caption{EEG data for two samples with current dipole amplitude equal to 5 and 10.}
+    \caption{EEG data for two samples with current dipole amplitude equal to 5 and 10 nA$\mu$m. The EEG recordings have a range between -10 and 10 $\mu$V.}
     \label{fig:dipole_w_amplitude_example}
 \end{figure}
 
@@ -36,8 +37,7 @@ In figure \ref{fig:NN_dipole_w_amplitude_architecture} we have depiced the const
     \label{fig:NN_dipole_w_amplitude_architecture}
 \end{figure}
 
-% someplace include that the input data is still standarized / scaled !
-As was done for the previous problem, the input data is scaled by subtracting the mean and dividing on the variance. However, as DiLoc deals with multipole output units, specifically millimeters (mm) and nanoampere-micrometers (nA$\mu$m), a scaling process is implemented also on the output targets to effectively minimize the mean squared cost function. The mean squared cost function calculates the average of the squared differences between the predicted output and the actual target values. When output values have different ranges and units, there is a risk that certain dimensions of the target values may dominate the overall error calculation, while others with smaller ranges might be neglected. Consequently, the neural network might overly prioritize reducing errors in the larger range values, hindering its ability to accurately learn patterns and generalize well for the smaller range values.
+As was done for the previous problem, the input data is scaled by subtracting the mean and dividing on the variance. However, as DiLoc deals with multipole output units, specifically millimeters (mm) and nanoampere-micrometers (nA$\mu$m), a scaling process is implemented also on the output targets to effectively minimize the cost function. The cost function calculates the differences between the predicted output and the actual target values. When output values have different ranges and units, there is a risk that certain dimensions of the target values may dominate the overall error calculation, while others with smaller ranges might be neglected. Consequently, the neural network might overly prioritize reducing errors in the larger range values, hindering its ability to accurately learn patterns and generalize well for the smaller range values.
 
 To address this issue, the output values are normalized to a common range of 0 to 1 using the following normalization formula:
 
@@ -48,17 +48,13 @@ z_i = \frac{x_i - \text{min}(x)}{\text{max}(x) - \text{min}(x)}
 
 Here, $z_i$ represents the i$^{\text{th}}$ normalized value in the dataset for a specific target category, $x_i$ is the i$^{\text{th}}$ value in the corresponding target dataset, and min($x$) and max($x$) are the minimum and maximum values in that specific target dataset.
 
-It is important to perform this normalization separately for each target category. Doing so allows the neural network to effectively train and discern patterns using only one cost function. Without this normalization, employing a single cost function for a set of different target values with distinct units would not be feasible.
-
-By applying this normalization, we aim to provide a more balanced cost function where all target values contribute equally to the overall error calculation. Consequently, the network can learn effectively from the data and achieve better results in its tasks.
+It is important to perform this normalization separately for each target category. Doing so allows the neural network to effectively train and discern patterns using only one cost function. Without this normalization, employing a single cost function for a set of different target values with distinct units would not be feasible. By applying this normalization, we aim to provide a more balanced cost function where all target values contribute equally to the overall error calculation. Consequently, the network can learn effectively from the data and achieve better results in its tasks.
 
 % Is it true that sigmoid helpt the efficentcy of the lerning process for the network? For improvements, it would be beneficial to elaborate on the rationale behind using hyperbolic tangent for the hidden layers and ReLU for the first layer.
-In the extension of the DiLoc network, we maintain the use of ReLU as the activation function in the first layer, and hyperbolic tangent for the hidden layers. However, considering that the output data has been normalized to a range from 0 to 1, we deem it appropriate to employ the Sigmoid activation function in the output layer. The Sigmoid function maps the output values to a range between 0 and 1, which aligns with our desired output range. This choice may potentially facilitate the training process, as it enables the network to converge more effectively towards the desired outputs. %Nonetheless, it is important to emphasize that the efficacy of this activation function in improving the learning process should be further validated through empirical experiments or referenced studies.
+In the extension of the DiLoc network, we maintain the use of ReLU as the activation function in the first layer, and hyperbolic tangent for the hidden layers, as this architecture, combined with the choise of parameter valued gave the best results. However, considering that the output data has been normalized to a range from 0 to 1, we deem it appropriate to employ the Sigmoid activation function in the output layer. The Sigmoid function maps the output values to a range between 0 and 1, which aligns with our desired output range. This choice may potentially facilitate the training process, as it enables the network to converge more effectively towards the desired outputs. %Nonetheless, it is important to emphasize that the efficacy of this activation function in improving the learning process should be further validated through empirical experiments or referenced studies.
 
 As for the simple DiLoc model, we continue to utilize the technique of adaptive learning rate, which can be advantageous for optimizing the network's parameters more efficiently. For an overview of the overall parameters employed in the model, please refer to Table \ref{table:parameters}, which provides a summary of these essential elements.
 
-% \usepackage[table,xcdraw]{xcolor}
-% \usepackage[table,xcdraw]{xcolor}
 \begin{table}[]
 \begin{tabular}{|lc|}
 \hline
@@ -71,18 +67,19 @@ As for the simple DiLoc model, we continue to utilize the technique of adaptive 
 \multicolumn{1}{|l|}{Learning rate (initial)}                          & 0.001                                                       \\ \hline
 \multicolumn{1}{|l|}{Momentum}                                         & 0.35                                                        \\ \hline
 \multicolumn{1}{|l|}{Weight decay}                                     & 0.1                                                         \\ \hline
-\multicolumn{1}{|l|}{Minibatch size}                                   & 64                                                          \\ \hline
+\multicolumn{1}{|l|}{Minibatch size}                                   & 32                                                          \\ \hline
 \multicolumn{1}{|l|}{Epochs}                                           & 5000                                                        \\ \hline
 \multicolumn{1}{|l|}{Dropout}                                          & 0.5                                                         \\ \hline
-\multicolumn{1}{|l|}{Last layer act.func}                                          & Sigmoid                                                         \\ \hline
+\multicolumn{1}{|l|}{Act.func in first layer}                                          & ReLU                                                         \\ \hline
+\multicolumn{1}{|l|}{Act.func in hidden layers}                                          & Tanh                                                         \\ \hline
+\multicolumn{1}{|l|}{Act.func in last layer}                                          & Sigmoid                                                         \\ \hline
 \end{tabular}
-\end{table}
 \label{tab:parameters}
 \end{table}
 
 \subsection{Performance Evaluation}
 
-To assess the network's performance, we analyze the accuracy in relation to training epochs, as depicted in Figure \ref{fig:dipole_w_amplitude_loss}. It is important to note that the target values have been normalized, resulting in a unitless loss measurement. Therefore, the figure provides a qualitative representation of the network's training progress rather than precise loss values. The plot clearly demonstrates a consistent pattern of decreasing loss as the number of epochs increases, indicating that the network effectively captures the underlying data patterns. Moreover, both the training and validation loss stabilize after approximately 2000 epochs, suggesting that the network may have reached its optimal performance level. In Figure \ref{fig:dipole_w_amplitude_targets}, we present the loss development for different target values. Once again, we observe that the loss stabilizes at around 2000 epochs. Notably, for the x-, z-, and y-coordinates, the stabilized loss corresponds to the minimum value reached during the training period. However, for the amplitude target value, this is not the case. From the provided figure, it is apparent that the smallest loss value occurs in a sharp dip just before reaching 500 epochs. This observation implies that if we solely aimed to minimize the loss function with respect to the amplitude value, the most optimal model would have emerged by terminating the training process at that epoch. However, since our objective is to develop a model that accurately predicts both the location and amplitude of the current dipole, we strive to train the model until the total loss is minimized, encompassing both aspects.
+To assess the network's performance, we start by analyzing the accuracy in relation to training epochs, as depicted in Figure \ref{fig:dipole_w_amplitude_loss}. It is important to note that the target values have been normalized, resulting in a unitless loss measurement. Therefore, the figure provides a qualitative representation of the network's training progress rather than precise loss values. The plot clearly demonstrates a consistent pattern of decreasing loss as the number of epochs increases, indicating that the network effectively captures the underlying data patterns. Moreover, both the training and validation loss stabilize after approximately 2000 epochs, suggesting that the network may have reached its optimal performance level. In Figure \ref{fig:dipole_w_amplitude_targets}, we present the loss development for different target values. Once again, we observe that the loss stabilizes at around 2000 epochs. Notably, for the x-, z-, and y-coordinates, the stabilized loss corresponds to the minimum value reached during the training period. However, for the amplitude target value, this is not the case. From the provided figure, it is apparent that the smallest loss value occurs in a sharp dip just before reaching 500 epochs. This observation implies that if we solely aimed to minimize the loss function with respect to the amplitude value, the most optimal model would have emerged by terminating the training process at that epoch. However, since our objective is to develop a model that accurately predicts both the location and amplitude of the current dipole, we strive to train the model until the total loss is minimized, encompassing both aspects.
 
 \begin{figure}[!htb]
     \centering
@@ -131,7 +128,7 @@ In order to further enhance the complexity of our problem, we extend the DiLoc n
 \subsection{Adjustments in Data Set and Architecture}
 % Include that with this arcitecture the amplitude/radius is more weighted than position (maybe)...
 
-For the purpose of enabling the network to predict the areas of dipole populations, we make adjustments to the dataset. The dipole populations are represented as spherical volumes in the NY head cortex, with the radius for each population ranging from 1 mm to 15 mm. To ensure realism, we maintain the maximum amplitude strength of the total populations at 10 mAμm. Consequently, we calculate the maximum number of points within a volume sphere with a radius of 15 mm and reduce this number by 10 to determine the strength of each dipole within the given area. This leaves us with a strength of 10/899 for each dipole. The strength of a dipole population is thus directly proportional to the size of the dipole population. While this may not perfectly represent real-world scenarios, it provides a reasonable approximation for our model.
+For the purpose of enabling the network to predict the areas of dipole populations, we make adjustments to the dataset. The dipole populations are represented as spherical volumes in the NY head cortex, with the radius for each population ranging from 1 mm to 15 mm. To ensure realism, we maintain the maximum amplitude strength of the total populations at 10 mA$\mu$m. Consequently, we calculate the maximum number of points within a volume sphere with a radius of 15 mm and reduce this number by 10 to determine the strength of each dipole within the given area. This leaves us with a strength of 10/899 for each dipole. The strength of a dipole population is thus directly proportional to the size of the dipole population. While this may not perfectly represent real-world scenarios, it provides a reasonable approximation for our model.
 
 In Figure \ref{fig:dipole_area}, we present an example of a dipole population and the corresponding EEG signal. The yellow filled circles in the plots in the upper panel represents the diple populations, i.e. positions within the cortex where dipoles have been placed. The lower panel shows the EEG signals for the specific sample, with EEG electrode locations presented as filled circles, where the color of the fill represents the amplitude of the measured signal for the given electrode. The plots within the figure are seen from both the x-z plane, x-y plane, and the y-z plane.
 
@@ -180,29 +177,13 @@ Figure \ref{fig:dipole_area_target_result} displays the validation loss for each
 
 To assess the extent to which the network can predict the center of the dipole populations, in addition to amplitude and radius, we utilize the same evaluation metrics as described in chapter 6. Table \ref{table:error_dipole_area} presents the Mean Absolute Error (MAE), Normalized MEan Absolute Error (NMAE), Mean Squared Error (MSE), and Root Mean Squared Error (RMSE) for the different sets of target parameters.
 
-The MAEs for all coordinates and the Euclidean distance lie between 4 and 5 millimeters. Looking at the NMAE, we observe that the loss for the z-coordinate is somewhat larger than for the other coordinates, with 3 $\%$, similar to our observations when testing DiLoc's ability to predict amplitude in addition to location. However, this slightly larger error is not significant and may as well be attributed to randomness. What is worth mentioning is that all cordinates 
+The MAEs for all coordinates and the Euclidean distance lie between 4 and 5 millimeters. Looking at the NMAE, we observe that the loss for the z-coordinate is somewhat larger than for the other coordinates, with 3 $\%$, similar to our observations when testing DiLoc's ability to predict amplitude in addition to location. However, this slightly larger error is not significant and may as well be attributed to randomness. What is worth mentioning is that all cordinates
 
 
 As for the amplitude and radius targets, the MAEs are remarkably small. For amplitude, ranging from 1 to 10 mA$\mu$m, the absolute error is approximately 4.33$\%$ of the range of the actual amplitude values, indicating that the model's amplitude predictions are reasonably close to the true amplitude values. Similarly, the MAE for the radius, with a range from 1 to 15 mm, is approximately 6.07$\%$, suggesting that the model's predictions are relatively accurate for radius.
 
 Regarding the MSE, we observe relatively small errors for the amplitude and radius, with values of 0.364 and 1.291 (mm$^2$) respectively. However, as for the coordinate target values, we encounter relatively larger MSE values. This difference in scale between the MAE and MSE suggests the presence of outliers.
 
-
-max_targets = np.array([
-        72.02555727958679,
-        73.47751750051975,
-        81.150386095047,
-        10,
-        15
-    ])
-
-    min_targets = np.array([
-        -72.02555727958679,
-        -106.12010800838469,
-        -52.66008937358856,
-        1,
-        0
-    ])
 
 
 
@@ -253,7 +234,7 @@ We will now evaluate the ability of ConvDip to estimate the correct size of sour
 
 \subsection{Adjustments in Data Set and Architecture}
 
-To begin with, we simulate EEG data corresponding to the electrical signals originating from multiple individual dipoles located in the brain. Initially, we allow unrestricted distances between the dipole sources. However, to avoid overcomplicating the problem, we assign each dipole within a sample with the same magnitude of amplitude. Consequently, for the dipole population problem, the total amplitude for a set of dipoles is fixed at 10 mAμm. Figure \ref{fig:multiple_dipoles_data} displays two plots of randomly selected samples, illustrating the simulated EEG data when multiple dipoles generate the signal. In the first sample, two dipoles generate the EEG signal, each having an amplitude of 2.4 mA$\mu$m. In the second sample, three dipoles generate the EEG signal, and each dipole has an amplitude of 1.13 mA$\mu$m.
+To begin with, we simulate EEG data corresponding to the electrical signals originating from multiple individual dipoles located in the brain. Initially, we allow unrestricted distances between the dipole sources. However, to avoid overcomplicating the problem, we assign each dipole within a sample with the same magnitude of amplitude. Consequently, for the dipole population problem, the total amplitude for a set of dipoles is fixed at 10 mA$\mu$m. Figure \ref{fig:multiple_dipoles_data} displays two plots of randomly selected samples, illustrating the simulated EEG data when multiple dipoles generate the signal. In the first sample, two dipoles generate the EEG signal, each having an amplitude of 2.4 mA$\mu$m. In the second sample, three dipoles generate the EEG signal, and each dipole has an amplitude of 1.13 mA$\mu$m.
 
 \begin{figure}[!htb]
 \centering

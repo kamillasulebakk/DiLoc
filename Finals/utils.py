@@ -25,15 +25,6 @@ def MAE(Y_true, Y_pred):
     error = np.abs(Y_pred - Y_true).mean()
     return error
 
-def MAPE(Y_true, Y_pred):
-    error = np.abs((Y_pred - Y_true) / Y_true).mean()
-    print(Y_pred)
-    print(Y_true)
-    print(np.abs((Y_pred-Y_true)/Y_true).mean())
-    input()
-    return error
-
-
 def indices_from_positions(positions: np.ndarray, max_index: int) -> np.ndarray:
     pos = positions.copy()
     pos -= pos.min()

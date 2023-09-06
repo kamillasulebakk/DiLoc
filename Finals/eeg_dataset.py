@@ -22,9 +22,13 @@ def generate_log_filename(parameters):
         parameters['determine_area'],
         parameters['determine_amplitude']
     )
+    if parameters['custom_loss']:
+        result += '_new_custom_loss'
+    result += f'_{parameters["hl_act_func"]}'
     result += f'_{parameters["batch_size"]}_{parameters["learning_rate"]}'
     result += f'_{parameters["momentum"]}_{parameters["weight_decay"]}'
     result += f'_{parameters["l1_lambda"]}_{parameters["N_epochs"]}'
+
     i = 0
     while os.path.isfile(os.path.join('results', result + f'_({i}).txt')):
         i += 1
@@ -38,8 +42,10 @@ def load_data_files(
     N_samples: int,
     N_dipoles: int
     ):
-    name = determine_fname_prefix(determine_area, determine_amplitude)
-    filename_base = f'data/{name}_{N_samples}_{N_dipoles}'
+    # name = determine_fname_prefix(determine_area, determine_amplitude)
+    # filename_base = f'data/{name}_{N_samples}_{N_dipoles}'
+    name = 'amplitudes'
+    filename_base = f'data/{name}_constA_{N_samples}_{N_dipoles}'
     if data_split == 'test':
         filename_suffix = 'test'
     else:
@@ -72,10 +78,10 @@ class EEGDataset(torch.utils.data.Dataset):
                 raise ValueError(
                     'determine_area should be False when N_dipoles > 1'
                 )
-            if not parameters['determine_amplitude']:
-                raise ValueError(
-                    'determine_amplitude should be True when N_dipoles > 1'
-                )
+            # if not parameters['determine_amplitude']:
+            #     raise ValueError(
+            #         'determine_amplitude should be True when N_dipoles > 1'
+            #     )
 
         self.determine_area = parameters['determine_area']
         self.determine_amplitude = parameters['determine_amplitude']
@@ -88,6 +94,8 @@ class EEGDataset(torch.utils.data.Dataset):
             parameters['N_dipoles']
         )
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
+        print(eeg)
+        input()
 
         self.max_targets = np.array([
             72.02555727958679,
@@ -127,6 +135,11 @@ class EEGDataset(torch.utils.data.Dataset):
             for i in range(target.shape[1]):
                 # indexed modulo 4 to work for multiple dipole sources
                 target[:, i] = normalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
+        elif target.shape[1] == 6:
+            print('hello')
+            for i in range(target.shape[1]):
+                target[:, i] = normalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
+
         return target
 
     def denormalize(self, target):
@@ -137,6 +150,11 @@ class EEGDataset(torch.utils.data.Dataset):
             for i in range(target.shape[1]):
                 # indexed modulo 4 to work for multiple dipole sources
                 target[:, i] = denormalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
+        elif target.shape[1] == 6:
+            print('hello')
+            for i in range(target.shape[1]):
+                target[:, i] = denormalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
+
         return target
 
     def add_noise(self, noise_pct):

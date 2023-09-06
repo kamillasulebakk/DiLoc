@@ -7,11 +7,11 @@
 \usepackage{csquotes}
 \usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
 \usepackage{hyperref}
+\usepackage{graphicx}    % Required for including images
+\usepackage{subcaption}  % Required for subfigures
+\newcommand{\rednote}[1]{\textcolor{red}{#1}}
 
-% \bibliographystyle{plain}
 \bibliography{kilder.bib}
-
-\addbibresource{kilder.bib}
 
 \author{Kamilla Ida Julie Sulebakk}
 \title{Localization and identification of Neural Sources from simulated EEG Signals}
@@ -51,8 +51,10 @@ dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}]
 % results extended network
 \input{chapter7}
 
-\printbibliography
+\input{chapter8}
 
 \backmatter
+\printbibliography
+
 
 \end{document}
