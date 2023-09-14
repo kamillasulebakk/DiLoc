@@ -121,30 +121,30 @@ def generate_test_results(predictions: np.ndarray, targets: np.ndarray):
         'MAE_x': results.MAE_x,
         'MAE_y': results.MAE_y,
         'MAE_z': results.MAE_z,
-        'MAE_amplitude': results.MAE_amplitude,
+        # 'MAE_amplitude': results.MAE_amplitude,
         # 'MAE_radius': results.MAE_radius,
         'MAE_position': results.MAE_position,
 
-        'MAE_x2': results.MAE_x2,
-        'MAE_y2': results.MAE_y2,
-        'MAE_z2': results.MAE_z2,
+        # 'MAE_x2': results.MAE_x2,
+        # 'MAE_y2': results.MAE_y2,
+        # 'MAE_z2': results.MAE_z2,
         # 'MAE_amplitude2': results.MAE_amplitude2,
         # # # 'MAE_radius': results.MAE_radius,
-        'MAE_position2': results.MAE_position2,
+        # 'MAE_position2': results.MAE_position2,
 
         'MSE_x': results.MSE_x,
         'MSE_y': results.MSE_y,
         'MSE_z': results.MSE_z,
-        'MSE_amplitude': results.MSE_amplitude,
+        # 'MSE_amplitude': results.MSE_amplitude,
         # 'MSE_radius': results.MSE_radius,
         'MSE_position': results.MSE_position,
 
-        'MSE_x2': results.MSE_x2,
-        'MSE_y2': results.MSE_y2,
-        'MSE_z2': results.MSE_z,
+        # 'MSE_x2': results.MSE_x2,
+        # 'MSE_y2': results.MSE_y2,
+        # 'MSE_z2': results.MSE_z,
         # 'MSE_amplitude2': results.MSE_amplitude2,
         # # # 'MSE_radius': results.MSE_radius,
-        'MSE_position2': results.MSE_position2
+        # 'MSE_position2': results.MSE_position2
     }
     return d
 
@@ -158,10 +158,10 @@ def print_test_results(d):
         ['Position', f'{d["MAE_position"]:.3f}', f'{d["MSE_position"]:.3f}', f'{np.sqrt(d["MSE_position"]):.3f}'],
         # ['Amplitude', f'{d["MAE_amplitude"]:.3f}', f'{d["MSE_amplitude"]:.3f}', f'{np.sqrt(d["MSE_amplitude"]):.3f}'],
         # ['Radius', f'{d["MAE_radius"]:.3f}', f'{d["MSE_radius"]:.3f}', f'{np.sqrt(d["MSE_radius"]):.3f}'],
-        ['x2', f'{d["MAE_x2"]:.3f}', f'{d["MSE_x2"]:.3f}', f'{np.sqrt(d["MSE_x2"]):.3f}'],
-        ['y2', f'{d["MAE_y2"]:.3f}', f'{d["MSE_y2"]:.3f}', f'{np.sqrt(d["MSE_y2"]):.3f}'],
-        ['z2', f'{d["MAE_z2"]:.3f}', f'{d["MSE_z2"]:.3f}', f'{np.sqrt(d["MSE_z2"]):.3f}'],
-        ['Position2', f'{d["MAE_position2"]:.3f}', f'{d["MSE_position2"]:.3f}', f'{np.sqrt(d["MSE_position2"]):.3f}'],
+        # ['x2', f'{d["MAE_x2"]:.3f}', f'{d["MSE_x2"]:.3f}', f'{np.sqrt(d["MSE_x2"]):.3f}'],
+        # ['y2', f'{d["MAE_y2"]:.3f}', f'{d["MSE_y2"]:.3f}', f'{np.sqrt(d["MSE_y2"]):.3f}'],
+        # ['z2', f'{d["MAE_z2"]:.3f}', f'{d["MSE_z2"]:.3f}', f'{np.sqrt(d["MSE_z2"]):.3f}'],
+        # ['Position2', f'{d["MAE_position2"]:.3f}', f'{d["MSE_position2"]:.3f}', f'{np.sqrt(d["MSE_position2"]):.3f}'],
         # ['Amplitude2', f'{d["MAE_amplitude2"]:.3f}', f'{d["MSE_amplitude2"]:.3f}', f'{np.sqrt(d["MSE_amplitude2"]):.3f}'],
     ]
     table = Table(l)
@@ -221,7 +221,7 @@ def test_criterea(predictions, targets, name):
 
     print(f'Mean Euclidean Distance (MED) is {np.mean(norms)}')
 
-    thresholds = [3, 5, 10, 15]
+    thresholds = [3, 5, 10, 12]
     results = np.zeros(4)
     for i, threshold in enumerate(thresholds):
         results[i] = sum(norms < threshold)
@@ -229,7 +229,7 @@ def test_criterea(predictions, targets, name):
     results = results/np.shape(predictions)[0]*100
 
     l = [
-        ['', 'MED < 3 mm', 'MED < 5 mm', 'MED < 10 mm', 'MED < 15 mm'],
+        ['', 'MED < 3 mm', 'MED < 5 mm', 'MED < 10 mm', 'MED < 12 mm'],
         ['pos', f'{results[0]:.3f}',
                 f'{results[1]:.3f}',
                 f'{results[2]:.3f}',
@@ -241,7 +241,7 @@ def test_criterea(predictions, targets, name):
     make_histogram(28, norms, thresholds, 'Euclidean Distance (mm)', f'position_{name}')
 
 
-    if name == 'amplitude' or 'area':
+    if name == 'amplitude' or name == 'area':
         amplitude_absolute_error = np.abs(predictions[:,3] - targets[:,3])
         print(f'Mean Absolute Error (MAE) for amplitude is {np.mean(amplitude_absolute_error)}')
         # within_threshold = sum((norms < 15) & (amplitude_absolute_error < 1.0))

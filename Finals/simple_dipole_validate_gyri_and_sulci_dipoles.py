@@ -24,7 +24,7 @@ mpl.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 import matplotlib.gridspec as gridspec
 
-def plot_MSE_error(mse, dipole_locs, name, numbr):
+def plot_MED_error(med, dipole_locs, name, numbr):
     fig = plt.figure(figsize=[10, 8])  # Increase the figure size
 
     fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
@@ -34,21 +34,21 @@ def plot_MSE_error(mse, dipole_locs, name, numbr):
     scatter_params = dict(cmap="hot", vmin=0, vmax=15, s=10)
 
     if numbr == 0:
-        fig.suptitle(f'MSE for dipole locations in y cross-section', fontsize=20)
+        fig.suptitle(f'MED for dipole locations in y cross-section', fontsize=20)
         ax = fig.add_subplot(111, aspect=1)
-        img = ax.scatter(dipole_locs[0], dipole_locs[2], c=mse, **scatter_params)
+        img = ax.scatter(dipole_locs[0], dipole_locs[2], c=med, **scatter_params)
         ax.set_xlabel("x [mm]", fontsize=16)
         ax.set_ylabel("z [mm]", fontsize=16)
     elif numbr == 1:
-        fig.suptitle(f'MSE for dipole locations in z cross-section', fontsize=20)
+        fig.suptitle(f'MED for dipole locations in z cross-section', fontsize=20)
         ax = fig.add_subplot(111, aspect=1)
-        img = ax.scatter(dipole_locs[0], dipole_locs[1], c=mse, **scatter_params)
+        img = ax.scatter(dipole_locs[0], dipole_locs[1], c=med, **scatter_params)
         ax.set_xlabel("x [mm]", fontsize=16)
         ax.set_ylabel("y [mm]", fontsize=16)
     else:
-        fig.suptitle(f'MSE for dipole locations in x cross-section', fontsize=20)
+        fig.suptitle(f'MED for dipole locations in x cross-section', fontsize=20)
         ax = fig.add_subplot(111, aspect=1)
-        img = ax.scatter(dipole_locs[1], dipole_locs[2], c=mse, **scatter_params)
+        img = ax.scatter(dipole_locs[1], dipole_locs[2], c=med, **scatter_params)
         ax.set_xlabel("y [mm]", fontsize=16)
         ax.set_ylabel("z [mm]", fontsize=16)
 
@@ -60,7 +60,7 @@ def plot_MSE_error(mse, dipole_locs, name, numbr):
     ax.xaxis.label.set_fontsize(16)  # Set x-label font size
     ax.yaxis.label.set_fontsize(16)  # Set y-label font size
 
-    plt.savefig(f"plots/NEW_simple_dipole_error_{name}_{numbr}.pdf")
+    plt.savefig(f"plots/MED_simple_dipole_error_{name}_{numbr}.pdf")
 
 # x, y, z - coordinates
 model = torch.load('trained_models/simple_32_0.001_0.35_0.5_0.0_500_(0).pt')
@@ -125,7 +125,7 @@ for numbr, plane in enumerate(planes):
         error_i_z = (z_target - z_pred) ** 2
         error_z.append(error_i_z)
 
-        error_i_locations = (error_i_x + error_i_y + error_i_z) / 3
+        error_i_locations = np.sqrt((error_i_x + error_i_y + error_i_z))
         error_locations.append(error_i_locations)
 
         if sulci_map[idx] == 1:
@@ -148,7 +148,7 @@ for numbr, plane in enumerate(planes):
     print(f'MSE z-coordinates:{MSE_z}')
     print(f'MSE location:{MSE_locations}')
 
-    plot_MSE_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
+    plot_MED_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
 
 
 print(np.mean(sulci_error))

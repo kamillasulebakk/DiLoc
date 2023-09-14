@@ -11,23 +11,22 @@
 \rednote{}
 \chapter{Training the DiLoc Neural Network}
 This chapter will explore the training process of the DiLoc neural network, outlining the decisions made during its training. Carefully choosing and adjusting elements of the training process ensures DiLoc's ability to make accurate predictions, establishing it as a valuable tool for solving the inverse EEG problem. Subsequent chapters will delve into the results and outcomes of this training, providing insights into the model's effectiveness.
-\rednote{Many choise are based on observation from trial and errors}
 
 \section{Training Methodology Overview}
 Having constructed the DiLoc neural network architecture, we now embark on the phase of training the model to effectively localize equivalent current dipoles from EEG signals. This chapter delves into the process of training DiLocc and addresses various crucial aspects that influence the performance of the network. Training a neural network requires careful consideration and tuning of several key factors to achieve optimal results. In the process of training DiLoc, we will explore the following essential elements:
 
 \begin{description}
-   \item [Data Preparation:]
+   \item [Data Preparation:] We begin by preparing the data, which serves as the essential foundation for our machine learning model. This involves tasks such as data segmentation and standardization, ensuring the dataset is well-structured and representative.
 
-   \item [Cost Function:] We begin by discussing the significance of the cost function in guiding the network towards convergence. Understanding how to choose the appropriate cost function tailored to the problem is essential.
+   \item [Cost Function:] Moving forward, we explore the significance of the cost function in guiding the network towards convergence. Understanding how to choose the appropriate cost function tailored to the problem is essential.
 
-   \item[Back Propagation:] As the backbone of neural network training, the backpropagation algorithm merits our attention for its role in propagating error gradients through the network, refining the model's weights and biases.
+   \item[Back Propagation:] The backpropagation algorithm plays an essential role in propagating error gradients through the network, refining the model's weights and biases. We explain the algortihm.
 
-   \item[Optimization Algorithm:] The choice of optimization algorithm plays an important role in training efficiency and convergence speed. We delve into the tequniqe of grasdient decent and its implications in the context of DiLoc. \rednote{Here it would be natural to mention the batch size we have choosen.}
+   \item[Optimization Algorithm:] The choice of optimization algorithm plays an important role in training efficiency and convergence speed. We delve into the tequniqe of gradient decent and its implications in the context of DiLoc.
 
    \item[Regularization Techniques:] Overfitting is a common challenge in neural network training. We examine regularization techniques like dropout and weight decay to mitigate this issue.
 
-   \item[Learning Rate Scheduling:] Learning rates significantly influence training dynamics. We discuss methods for scheduling learning rates during training to ensure steady convergence.
+   \item[Learning Rate Scheduling:] Finally we present the method of adaptive learning rates. We discuss how learning rates significantly influence training dynamics, and how the method for scheduling learning rates during training ensure steady convergence.
 
 \end{description}
 
@@ -41,7 +40,7 @@ In the case of DiLoc's input data, we deal with 70 000 samples of EEG signals. O
 Upon completion of the training process, the test set comes into play. Comprising 20 000 samples, this set serves as the ultimate benchmark for evaluating the model's capacity to generalize and make accurate predictions on new instances of data. By adhering to this train-validation-test data partitioning, we ensure a robust evaluation of DiLoc's performance and its capacity to effectively handle real-world scenarios with previously unseen data.
 
 \subsection{Data Scaling}
-\rednote{Ask Vegard. Featurewise or whole data set?}
+\rednote{Need some modification. Scaling is not done correctly in code. Scaling shoyld be done featurewise. Fix in code and write more detailed here.}
 Having addressed the data segmentation, we proceed to the task of \emph{data scaling}, which is a highly recommended procedure within machine learning. \emph{Data standarizartion} is one out of two types of data scaling that involves centering the data around the mean $\mu$ and scaling it to achieve unit variance $\sigma$:
 
 \begin{equation}
@@ -52,21 +51,26 @@ After standarization, the mean of the data set $\mathcal{D}'$  is 0 and the stan
 
 
 \section{Cost Function}
-In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions evaluate how well models make predictions by measuring the discrepancy between predicted outcomes and actual target values. This evaluation results in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions. When using the expression \emph{fitting a model} one commonly refer to the prosess of finding optimal parameters $\boldsymbol{\theta}$ that minimize a chosen cost function. The process utilizes training data and iteratively updates the parameters to fine-tune the model's internal representations, making it more adept at accurate predictions.
+In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions evaluate how well models make predictions by measuring the discrepancy between predicted outcomes and actual target values. This evaluation results in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions. When using the expression \emph{fitting a model} one commonly refer to the prosess of finding optimal parameters $\boldsymbol{\theta}$ that minimize a chosen cost function. This iterative process utilizes training data to fine-tune the model's internal representations, improving its predictive accuracy.
 
 
-Selecting the appropriate cost function is important when addressing machine learning challenges. In regression tasks like ours, the mean squared error (MSE) is a widely used cost function. The MSE is preferred due to its simplicity and continuous measure of model performance during training. It calculates the squared differences between the model's predictions and target values, then takes the mean across the entire dataset:
+Selecting the appropriate cost function is important when addressing machine learning challenges. In our regression task, where the objective is to predict x, y, and z coordinates of single current dipoles accurately, we commonly employ the Mean Squared Error (MSE) as a straightforward cost function for its continuous measure of model performance during training. However, given that our aim is to minimize the Euclidean distance between predicted dipole localizations (${x_i, y_i, z_i}$) and true values ($\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$), we aptly refer to MSE as the Mean Euclidean Distance (MED). In essence, when predicting Euclidean coordinates, MSE and MED are conceptually equivalent, as they both aim to minimize the squared differences between predicted and true values, but MED explicitly emphasizes the Euclidean nature of the coordinates, providing a more accurate reflection of our optimization goal:
 
 \begin{equation}
-\text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
-\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
-\label{eq:MSE}
-%MSE(\textbf{y},\mathbf{\tilde{y}}) =
+\text{MED}(\boldsymbol{\theta}) = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} \left((x_i - \tilde{x}_i)^2 + (y_i - \tilde{y}_i)^2 + (z_i - \tilde{z}_i)^2\right)}
+\label{eq:MED}
 \end{equation}
+%
+% \begin{equation}
+% \text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
+% \sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
+% \label{eq:MSE}
+% %MSE(\textbf{y},\mathbf{\tilde{y}}) =
+% \end{equation}
 
-Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $y_i$ stands for the predicted value and $\tilde{y}_i$ is the corresponding true value.
+Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $x_i, y_i and z_i$ stand for the predicted values and $\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$ are the corresponding true values.
 
-Due to the squaring step in the MSE function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
+Due to the squaring step in the function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
 
 In our simulation-driven context, devised to accommodate a spectrum of diverse EEG variations, it is noteworthy that the presence of apparent outliers is not rooted in sampling errors, but rather random fluctuations and indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a dataset. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the dataset. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It is crucial to underscore that these data points do not emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the dataset's representational fidelity within authentic real-world contexts.
 
@@ -81,7 +85,7 @@ In our simulation-driven context, devised to accommodate a spectrum of diverse E
         \centering
         \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
     \end{subfigure}
-    \caption{\textbf{Visualization of data set.} The panels visualize the maximum and minimum EEG measures for each sample within the data set.}
+    \caption{\textbf{Visualization of data set.} The panels visualize the maximum and minimum EEG measures for each sample within the data set. \rednote{The plots need modification. Remove threshold etc...}}
     \label{fig:outliers}
 \end{figure}
 
@@ -136,13 +140,12 @@ With these four equations in hand we can now calculate the gradient of the cost 
   \item \textbf{Update weights and biases:} \\[2pt] $w^l_{jk}=w^l_{jk}-\eta\delta^l_ja^{l-1}_k$ \\[2pt] $b_j^l = b_j^l - \eta \delta_j^l$
 \end{enumerate}
 
-\rednote{Fix ending and cite}
 This description makes clear the incredible utility and computational efficiency of the backpropagation algorithm. We can calculate all the derivatives using a single “forward” and “backward” pass of the neural network. This computational efficiency is crucial since we must calculate the gradient with respect to all parameters of the neural net at each step of \emph{gradient descent}, an optimalization algorithm that we will be delving into in the next section.
-
+\rednote{Check with cite.}
 
 \section{Optimization Algorithm}
-\rednote{Go through and cite with \cite{mehta2019high}}
-In order to minimize the cost function and find the optimal values for the model parameters, $\boldsymbol{\theta}$, an optimization alorithm is typically employed. One widely used optimization algorithm is \emph{gradient descent}, which iteratively updates the parameters based on the negative gradient of the cost function.
+\rednote{Doublecheck citing.}
+In order to minimize the cost function and find the optimal values for the model parameters, $\boldsymbol{\theta}$, an optimization alorithm is typically employed. One widely used optimization algorithm is \emph{gradient descent}, which iteratively updates the parameters based on the negative gradient of the cost function \cite{mehta2019high}.
 
 Gradient Descent is an iterative optimization algorithm used to locate a local minima of a differentiable function. The core concept of the algorithm is based on the observation that a function $F(\textbf{x})$ will decrease most rapidly if we repeatedly move in the direction of the negative gradient of the function at a given point $\textbf{w}$, $-\nabla F(\textbf{a})$. This means that if
 
@@ -219,166 +222,181 @@ During the training of DiLoc, we observed that a learning rate of 0.001 yielded 
 \section{Regularization Techniques}
 % weight decay L2 pentalty
 % dropout
-Regularization techniques are methods within machine learning that helps in avoiding overfitting while also incresing model interpretability. One common regularization technique is pentaly term known as the \emph{L2-norm}. In this tequnice one add an extra term to the cost function which is proportional to the size of the weights. By doing so, one simply constrain the size of the weigts, so that they never will grow arbitrarilt large to fit the training data. This way, the regularization technique, reduces the chances of overitting the model \cite{Hjorth-Jensen2022}.
+Regularization techniques in machine learning help prevent overfitting and improve model interpretability. One common regularization technique is called the L2-norm penalty. In this technique, we add an extra term to our cost function that depends on the size of the model's weights. This added term ensures that the weights do not become excessively large while fitting the training data. By doing this, regularization reduces the risk of the model fitting the training data too closely, which can lead to overfitting. \cite{Hjorth-Jensen2022}.
 
-The size of the weights can be measured using the L2-norm, meaning the cost function will take the form:
+We can measure the size of the weights using the L2-norm, which results in our cost function taking this form:
 
 \begin{equation}
-{C}(\theta) = \frac{1}{N-1}
-\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 + \lambda\sum_{ij}w^2_{ij}.
+C(\theta) = \frac{1}{N-1}
+\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 + \lambda\sum_{i,j = 1}^{M, K}w^2_{ij}.
 \label{eq:L2}
 %MSE(\textbf{y},\mathbf{\tilde{y}}) =
 \end{equation}
 
+Here, $M$ represents nodes in a specific layer, $K$ is the number of input features considered for each node and $\lambda$ is the tuning parameter that controls how much we penalize the flexibility of our DiLoc model. Here, flexibility means how much the model can adjust its coefficients to fit the data precisely. When $\lambda = 0$, the L2-norm has no effect, and the estimates produced will be equal to when the cost function is simply MSE. On the other hand, as $\lambda$ approaches larger values, the impact of the shrinkage pentalty grows, and the coefficients estimates will approach smaller values. With smaller coefficients the model becomes less flexible, and the model will try to find simples pattern in the data, which in turn reduces the chances of overfitting \cite{gupta2017regularization}.
 
-
-The objective during training is to find the optimal parameters $\beta$ that minimize the cost function. The cost function represents the discrepancy between the network's predictions and the actual target values. By iteratively updating the parameters to minimize the cost function, the network fine-tunes its internal representations to make more accurate predictions. MSE is chosen as the cost function for the DiLoc network, as it provides a smooth and continuous measure of the model's performance during training, penalizing larger errors more heavily.
-
-% Include why we went for batch size 32 and mom = 0.35 (instead of 0.9)
-Optimizers play a crucial role in reducing the network's loss and providing accurate results. In this case, SGD with momentum is utilized as the network's optimizer. SGD with momentum enhances the sensitivity of the network to initialized weights and provides fast convergence. The algorithm uses mini-batches of size 32, introducing fluctuation to the data and preventing the network from getting stuck in local minima or saddle points. The momentum hyperparameter, set to 0.35 in this context, helps reduce high variances in the optimization process and accelerates convergence towards the right direction, leading to faster training.
-
-
-
-Additionally, L1 and L2 regularization techniques are incorporated as optional parameters into the DiLoc network. These regularization methods help prevent overfitting and improve generalization to unseen data. By adding penalty terms to the cost function, L1 and L2 regularization encourage the model to favor simpler and more generalizable solutions.
-
-After the DiLoc network is fully trained on the training dataset, it has learned the optimal parameters to make accurate predictions. The model's performance is evaluated using a separate test dataset, which the network has not seen during training. This test data provides an unbiased assessment of the model's accuracy and its generalization capabilities to unseen data.
-
-In the upcoming chapters, we will present different approaches to the inverse problem and showcase the performance of the DiLoc network across these approaches. The evaluation results will demonstrate the effectiveness and utility of the trained model in solving the localization task for various scenarios.
 
 \section{Learning Rate Scheduling}
-To improve the training process further, learning rate scheduling is employed. This technique adjusts the learning rate over time, allowing the network to take larger steps in the early stages and gradually decrease the learning rate as it approaches convergence. The initial learning rate is set to 0.001, and is further decreased, which provides balance between rapid convergence in the initial phases and fine-tuning towards the end.
+The learning rate plays a critical role in the iterative Stochastic Gradient Descent procedure used to update model parameters during training, influencing the size of steps taken to minimize the cost function. To simplify the process of selecting an appropriate learning rate—neither too high nor too small—we employ a \emph{learning rate scheduler}. This scheduler dynamically adjusts the learning rate during gradient descent optimization, enhancing both performance and training efficiency.
+
+Various methods can be used to make the learning rate adaptive, but a common approach involves starting with a higher learning rate at the beginning of training. This allows for larger steps during the initial phases, speeding up progress. As training progresses and the model performance approaches convergence, smaller steps are taken to fine-tune the parameters near the minimum, preventing overshooting. This strategy balances rapid initial convergence with meticulous fine-tuning later on \cite{pytorch_learning_rate_schedule}.
+
+For our model we have used the build-in PyTorch scheduler, ReduceLROnPlateau. This learning rate scheduler adjusts the learning rate when DiLoc's loss stops improving after a specified number of epochs. In other words, the learning rate remains unchanged as long as it enhances model performance but is reduced when results starts converging.
+
+The scheduler offers several tunable arguments. We have set the \emph{factor} to 0.2 in DiLoc, indicating the reduction factor for the learning rate when the loss plateaus. After the first update, the new learning rate becomes $\eta_{\text{new}} = 0.001 \cdot 0.2$, and this pattern continues for subsequent updates. The \emph{patience} argument, set to 50, determines the number of epochs with no improvements before reducing the learning rate. The remaining arguments retain their default values and can be explored in greater detail, along with additional information about the scheduler, at https://hasty.ai/docs/mp-wiki/scheduler/reducelronplateau.
 
 
 
 
-% Final chapter/ or first one in results , how do we know if the network performs well.
+
+% \section{Method that not belong here, but rather for the extended problems}
+
+
+% The objective during training is to find the optimal parameters $\beta$ that minimize the cost function. The cost function represents the discrepancy between the network's predictions and the actual target values. By iteratively updating the parameters to minimize the cost function, the network fine-tunes its internal representations to make more accurate predictions. MSE is chosen as the cost function for the DiLoc network, as it provides a smooth and continuous measure of the model's performance during training, penalizing larger errors more heavily.
+%
+% % Include why we went for batch size 32 and mom = 0.35 (instead of 0.9)
+% Optimizers play a crucial role in reducing the network's loss and providing accurate results. In this case, SGD with momentum is utilized as the network's optimizer. SGD with momentum enhances the sensitivity of the network to initialized weights and provides fast convergence. The algorithm uses mini-batches of size 32, introducing fluctuation to the data and preventing the network from getting stuck in local minima or saddle points. The momentum hyperparameter, set to 0.35 in this context, helps reduce high variances in the optimization process and accelerates convergence towards the right direction, leading to faster training.
+%
+%
+%
+% Additionally, L1 and L2 regularization techniques are incorporated as optional parameters into the DiLoc network. These regularization methods help prevent overfitting and improve generalization to unseen data. By adding penalty terms to the cost function, L1 and L2 regularization encourage the model to favor simpler and more generalizable solutions.
+%
+% After the DiLoc network is fully trained on the training dataset, it has learned the optimal parameters to make accurate predictions. The model's performance is evaluated using a separate test dataset, which the network has not seen during training. This test data provides an unbiased assessment of the model's accuracy and its generalization capabilities to unseen data.
+%
+% In the upcoming chapters, we will present different approaches to the inverse problem and showcase the performance of the DiLoc network across these approaches. The evaluation results will demonstrate the effectiveness and utility of the trained model in solving the localization task for various scenarios.
+
+
+
+
+%
+% \subsection{Choosing an Optimal Cost Function}
+% % Include data distribution (min/max)
+% In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions compare predicted outcomes to actual values, resulting in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions.
+%
+% Selecting the appropriate cost function is pivotal in addressing machine learning challenges. In regression tasks like ours, the mean squared error (MSE) is a widely used cost function, particularly suitable for linear regression. The MSE is preferred due to its simplicity and continuous measure of model performance during training. It calculates the squared differences between the model's predictions and target values, then takes the mean across the entire dataset:
+%
+% \begin{equation}
+% \text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
+% \sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
+% \label{eq:MSE}
+% %MSE(\textbf{y},\mathbf{\tilde{y}}) =
+% \end{equation}
+%
+% Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $y_i$ stands for the predicted value and $\tilde{y}_i$ is the corresponding true value.
+%
+% Due to the squaring step in the MSE function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
+%
+% % include how we do this in our thesis.
+%
+% In our simulation-driven context, devised to accommodate a spectrum of diverse variations, it's noteworthy that the presence of apparent outliers is not rooted in random fluctuations, but rather indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a dataset. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the dataset. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It's crucial to underscore that these data points don't emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the dataset's representational fidelity within authentic real-world contexts.
+%
+% \begin{figure}[!htb]
+%     \centering
+%     \begin{subfigure}[b]{0.45\linewidth}
+%         \centering
+%         \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.45\linewidth}
+%         \centering
+%         \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
+%     \end{subfigure}
+%     \caption{\textbf{Visualization of data set.} Both panels visualize the maximum EEG measures for each sample within the data set.}
+%     \label{fig:outliers}
+% \end{figure}
+%
+% When having clear understandings of desired model outcomes, customized cost functions, designed to align precisely with specific objectives may potentially outperform the MSE cost function. Our objective is to create a model that first of all is capable of accurately predicting single dipole posistions, and as extensions also multiple dipole positions, amplitudes of dipole signals and radii of extended dipole populations.  To achieve this, the ideal cost function should minimize the Euclidean distance between target dipole localizations ${\theta}_{x,y,z}$ and true values $\tilde{\theta}_{x,y,z}$:
+%
+% \begin{equation}
+%     \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) = \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x,i} - \tilde{\theta}_{x,i})^2 + (\theta_{y,i} - \tilde{\theta}_{y,i})^2 + (\theta_{z,i} - \tilde{\theta}_{z,i})^2},
+% \label{eq:MED}
+% \end{equation}
+%
+% Additionally, the cost function should minimize the absolute error between predicted ${\theta}_{\text{A}}$ and true amplitude $\tilde{\theta}_{\text{A}}$:
+%
+% \begin{equation}
+%     \text{MAE}_{\text{A}}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{A,i} - \tilde{\theta}_{A,i} \|,
+% \label{eq:MED}
+% \end{equation}
+%
+% Similarly, it should minimize the error between predicted ${\theta}_{\text{r}}$ and true radius$\tilde{\theta}_{\text{r}}$:
+%
+% \begin{equation}
+%     \text{MAE}_{\text{r}}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{r,i} - \tilde{\theta}_{r,i} \|,
+% \label{eq:MED}
+% \end{equation}
+%
+%
+% Finally, the cost function should minimize the Euclidean distance among a set of $m$ dipoles:
+%
+% \begin{equation}
+% \begin{aligned}
+%     \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}) = \\
+%     &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_1,i} - \tilde{\theta}_{x_1,i})^2 + (\theta_{y_1,i} - \tilde{\theta}_{y_1,i})^2 + (\theta_{z_1,i} - \tilde{\theta}_{z_1,i})^2} \right) + \\
+%     &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_2,i} - \tilde{\theta}_{x_2,i})^2 + (\theta_{y_2,i} - \tilde{\theta}_{y_2,i})^2 + (\theta_{z_2,i} - \tilde{\theta}_{z_2,i})^2} \right)
+%     + \ldots + \\
+%     &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_m,i} - \tilde{\theta}_{x_m,i})^2 + (\theta_{y_m,i} - \tilde{\theta}_{y_m,i})^2 + (\theta_{z_m,i} - \tilde{\theta}_{z_m,i})^2} \right)
+% \end{aligned}
+% \label{eq:MED}
+% \end{equation}
+%
+% While the built-in MSE cost function compares predicted and target values linearly, the customized cost function should calculate all possible permutations, ensuring the correct combinations are used for loss calculation.
+%
+% Whereas the standard built-in MSE cost function calculates the mean squared error between each of the target values, we require the customized cost function to map the predictions of each location for the set of dipoles, effectively minimizing the Euclidean distance. Utilizing Python's built-in MSE cost function, the algorithm simply matches predicted locations with the target locations in the order that the vectors have been arranged. However, this technique lacks exploration of other combinations, potentially misleading the network's weight updates if certain accurate locations are paired with non-preferable targets. By enabling the customized cost function to compute all possible permutations, we ensure that the correct target and predicted location values are paired during loss calculation. To achieve this, the cost function calculates all permutations and selects the one yielding the minimum loss.
+%
+% For all terms within the cost function, comprehensive unit tests have been developed to confirm its intended functionality. Each problem introduced for the network corresponds to a distinct form of the customized cost function:
+%
+% \begin{equation}
+%     C(\boldsymbol{\theta}) =
+%     \begin{cases}
+%       \begin{array}{l}
+%       \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}),
+%       \end{array} & \text{if } \| \boldsymbol{\theta} \| = 3\\
+%       \\
+%       \begin{array}{l}
+%       \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}),
+%       \end{array} & \text{if } \| \boldsymbol{\theta} \| = 4\\
+%       \\
+%       \begin{array}{l}
+%       \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}) + MAE_{\text{r}}(\boldsymbol{\theta}),
+%       \end{array} & \text{if } \| \boldsymbol{\theta} \| = 5\\
+%       \\
+%       \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}), & \text{otherwise}
+%     \end{cases}
+%     \label{eq:cost_function}
+% \end{equation}
+%
+% Here, $| \boldsymbol{\theta} |$ signifies the length of the target vector. When $| \boldsymbol{\theta} | = 3$, the simplest problem is considered, where the network predicts the coordinates of a single-point current dipole. If $| \boldsymbol{\theta} | = 4$, the network predicts the x, y, and z-coordinates of a single dipole, in addition to the amplitude of the signal strength. When $| \boldsymbol{\theta} | = 5$, the target vector encompasses all previously mentioned values, along with the size of a current dipole population with radius. Finally, for $| \boldsymbol{\theta} |$ greater than 5, the multiple dipole problem is addressed, where the network predicts the locations for two or more point source dipoles situated at distinct positions within the cortex.
+%
+% In crafting our customized cost function, it is important to acknowledge that, like the built-in Mean Squared Error (MSE) cost function, our formulation inherently treats all target values equally during the optimization process. In other words, the algorithm assigns the same weight to each target value when striving to reduce the overall loss. This approach ensures that errors of equal percentage magnitude in different target values are treated on a level playing field. Consequently, a 1$\%$ error for one target value is considered as important as a 1$\%$ error for another target value, regardless of the specific range or scale of these values.
+%
+% It is worth noting that our choice to uniformly weight all target values is an intentional design decision. While alternative approaches, such as assigning different weights to different target values, could have been explored, we prioritize the creation of a balanced model that can accurately predict all facets of our target values. This approach stems from our objective of achieving a comprehensive understanding of EEG signal sources through a holistic and equitable modeling approach.
+%
+% Moreover, this uniform weighting approach aligns with our broader modeling philosophy, emphasizing the creation of a model that is versatile and adaptable across a spectrum of EEG data variations. Our aim is not only to develop a model capable of accurately predicting target values but also to ensure that its predictive capabilities are unbiased and comprehensive, covering the multifaceted aspects of EEG signal analysis.
+%
+% In this way, our customized cost function showcases the fusion of machine learning principles with the nuanced requirements of clinical medicine, as we strive to bridge the gap between technical prowess and real-world medical applications.
+%
+%
+
+% % Final chapter/ or first one in results , how do we know if the network performs well.
 % In results, include histogram and tables :)
-\section{Metrics of success}
-In the realm of DiLoc, our neural network tailored for EEG source localization, assessing network performance through standard loss plots becomes less informative due to the normalization of target values. As a result, we turn to a separate, unseen test dataset comprising 20 000 samples to evaluate the network's accuracy. Before comparison, the predictions outputted by DiLoc are denormalized to facilitate a meaningful evaluation against true target values.
-
-To comprehensively gauge the network's predictive abilities on this test dataset, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
-
-While metrics such as MAE, NMAE, MSE, and RMSE offer insights into the network's performance and predictions, their clinical interpretation can be intricate in the problems of ours. To address this, we establish threshold values that represent acceptable errors for a majority of predictions. In particular, we are interested in determining the percentage of samples for which the network predicts the Euclidean distance of one or more dipoles within specific thresholds—3 mm, 5 mm, 10 mm, and 15 mm, where 3 mm is considered optimal.
-
-Regarding amplitude and radius predictions, the analysis involves studying the percentage of samples where the network provides predictions with absolute errors equal to 1, 2, and 3 mA$\mu$ m, and 1, 3, and 5 mm. Providing a MAE for the amplitude equal to 3 mA$\mu$ m corresponds to an error of 30$\%$,and a MAE for the radius equal to 5 mm corresponds to an error of 33$\%$, both of which are intuitively considered large errors. However, if we consider these target values in relation to potential clinical significance, a different perspective emerges. In real-world clinical cases, it could be of significant interest to discern whether a neuron source exhibits the characteristic of a small amplitude (ranging from 1 to 3 mA$\mu$ m), a medium amplitude (ranging from 3 to 6 mA$\mu$ m), or a strong amplitude (ranging from 4 to 10 mA$\mu$ m). Similarly, the radius values of a small radius (ranging from 1 to 5 mm), a medium radius (ranging from 5 to 10 mm), or a large radius (ranging from 5 to 10 mm) might hold clinical significance when considering the underlying neuronal mechanisms.
-
-This shift in perspective highlights the nuanced interpretation of errors and underlines the importance of clinical context in evaluating the performance of DiLoc. In this light, even what might initially appear as substantial errors can offer valuable insights into the behavior of neuronal sources within real-world scenarios.
-
-In sum, the suite of error metrics, coupled with threshold-based assessments, facilitates an in-depth evaluation of the network's capabilities. This multi-faceted approach bridges the realms of machine learning principles and clinical applicability, encapsulating the overarching goal of achieving accurate, meaningful, and real-world clinical predictions.
 
 
+% \section{Metrics of success}
+% In the realm of DiLoc, our neural network tailored for EEG source localization, assessing network performance through standard loss plots becomes less informative due to the normalization of target values. As a result, we turn to a separate, unseen test dataset comprising 20 000 samples to evaluate the network's accuracy. Before comparison, the predictions outputted by DiLoc are denormalized to facilitate a meaningful evaluation against true target values.
+%
+% To comprehensively gauge the network's predictive abilities on this test dataset, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
+%
+% While metrics such as MAE, NMAE, MSE, and RMSE offer insights into the network's performance and predictions, their clinical interpretation can be intricate in the problems of ours. To address this, we establish threshold values that represent acceptable errors for a majority of predictions. In particular, we are interested in determining the percentage of samples for which the network predicts the Euclidean distance of one or more dipoles within specific thresholds—3 mm, 5 mm, 10 mm, and 15 mm, where 3 mm is considered optimal.
+%
+% Regarding amplitude and radius predictions, the analysis involves studying the percentage of samples where the network provides predictions with absolute errors equal to 1, 2, and 3 mA$\mu$ m, and 1, 3, and 5 mm. Providing a MAE for the amplitude equal to 3 mA$\mu$ m corresponds to an error of 30$\%$,and a MAE for the radius equal to 5 mm corresponds to an error of 33$\%$, both of which are intuitively considered large errors. However, if we consider these target values in relation to potential clinical significance, a different perspective emerges. In real-world clinical cases, it could be of significant interest to discern whether a neuron source exhibits the characteristic of a small amplitude (ranging from 1 to 3 mA$\mu$ m), a medium amplitude (ranging from 3 to 6 mA$\mu$ m), or a strong amplitude (ranging from 4 to 10 mA$\mu$ m). Similarly, the radius values of a small radius (ranging from 1 to 5 mm), a medium radius (ranging from 5 to 10 mm), or a large radius (ranging from 5 to 10 mm) might hold clinical significance when considering the underlying neuronal mechanisms.
+%
+% This shift in perspective highlights the nuanced interpretation of errors and underlines the importance of clinical context in evaluating the performance of DiLoc. In this light, even what might initially appear as substantial errors can offer valuable insights into the behavior of neuronal sources within real-world scenarios.
+%
+% In sum, the suite of error metrics, coupled with threshold-based assessments, facilitates an in-depth evaluation of the network's capabilities. This multi-faceted approach bridges the realms of machine learning principles and clinical applicability, encapsulating the overarching goal of achieving accurate, meaningful, and real-world clinical predictions.
 
 
 
-
-\section{Method that not belong here, but rather for the extended problems}
-
-\subsection{Choosing an Optimal Cost Function}
-% Include data distribution (min/max)
-In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions compare predicted outcomes to actual values, resulting in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions.
-
-Selecting the appropriate cost function is pivotal in addressing machine learning challenges. In regression tasks like ours, the mean squared error (MSE) is a widely used cost function, particularly suitable for linear regression. The MSE is preferred due to its simplicity and continuous measure of model performance during training. It calculates the squared differences between the model's predictions and target values, then takes the mean across the entire dataset:
-
-\begin{equation}
-\text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
-\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
-\label{eq:MSE}
-%MSE(\textbf{y},\mathbf{\tilde{y}}) =
-\end{equation}
-
-Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $y_i$ stands for the predicted value and $\tilde{y}_i$ is the corresponding true value.
-
-Due to the squaring step in the MSE function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
-
-% include how we do this in our thesis.
-
-In our simulation-driven context, devised to accommodate a spectrum of diverse variations, it's noteworthy that the presence of apparent outliers is not rooted in random fluctuations, but rather indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a dataset. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the dataset. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It's crucial to underscore that these data points don't emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the dataset's representational fidelity within authentic real-world contexts.
-
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[b]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
-    \end{subfigure}
-    \caption{\textbf{Visualization of data set.} Both panels visualize the maximum EEG measures for each sample within the data set.}
-    \label{fig:outliers}
-\end{figure}
-
-When having clear understandings of desired model outcomes, customized cost functions, designed to align precisely with specific objectives may potentially outperform the MSE cost function. Our objective is to create a model that first of all is capable of accurately predicting single dipole posistions, and as extensions also multiple dipole positions, amplitudes of dipole signals and radii of extended dipole populations.  To achieve this, the ideal cost function should minimize the Euclidean distance between target dipole localizations ${\theta}_{x,y,z}$ and true values $\tilde{\theta}_{x,y,z}$:
-
-\begin{equation}
-    \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) = \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x,i} - \tilde{\theta}_{x,i})^2 + (\theta_{y,i} - \tilde{\theta}_{y,i})^2 + (\theta_{z,i} - \tilde{\theta}_{z,i})^2},
-\label{eq:MED}
-\end{equation}
-
-Additionally, the cost function should minimize the absolute error between predicted ${\theta}_{\text{A}}$ and true amplitude $\tilde{\theta}_{\text{A}}$:
-
-\begin{equation}
-    \text{MAE}_{\text{A}}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{A,i} - \tilde{\theta}_{A,i} \|,
-\label{eq:MED}
-\end{equation}
-
-Similarly, it should minimize the error between predicted ${\theta}_{\text{r}}$ and true radius$\tilde{\theta}_{\text{r}}$:
-
-\begin{equation}
-    \text{MAE}_{\text{r}}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{r,i} - \tilde{\theta}_{r,i} \|,
-\label{eq:MED}
-\end{equation}
-
-
-Finally, the cost function should minimize the Euclidean distance among a set of $m$ dipoles:
-
-\begin{equation}
-\begin{aligned}
-    \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}) = \\
-    &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_1,i} - \tilde{\theta}_{x_1,i})^2 + (\theta_{y_1,i} - \tilde{\theta}_{y_1,i})^2 + (\theta_{z_1,i} - \tilde{\theta}_{z_1,i})^2} \right) + \\
-    &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_2,i} - \tilde{\theta}_{x_2,i})^2 + (\theta_{y_2,i} - \tilde{\theta}_{y_2,i})^2 + (\theta_{z_2,i} - \tilde{\theta}_{z_2,i})^2} \right)
-    + \ldots + \\
-    &\left( \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x_m,i} - \tilde{\theta}_{x_m,i})^2 + (\theta_{y_m,i} - \tilde{\theta}_{y_m,i})^2 + (\theta_{z_m,i} - \tilde{\theta}_{z_m,i})^2} \right)
-\end{aligned}
-\label{eq:MED}
-\end{equation}
-
-While the built-in MSE cost function compares predicted and target values linearly, the customized cost function should calculate all possible permutations, ensuring the correct combinations are used for loss calculation.
-
-Whereas the standard built-in MSE cost function calculates the mean squared error between each of the target values, we require the customized cost function to map the predictions of each location for the set of dipoles, effectively minimizing the Euclidean distance. Utilizing Python's built-in MSE cost function, the algorithm simply matches predicted locations with the target locations in the order that the vectors have been arranged. However, this technique lacks exploration of other combinations, potentially misleading the network's weight updates if certain accurate locations are paired with non-preferable targets. By enabling the customized cost function to compute all possible permutations, we ensure that the correct target and predicted location values are paired during loss calculation. To achieve this, the cost function calculates all permutations and selects the one yielding the minimum loss.
-
-For all terms within the cost function, comprehensive unit tests have been developed to confirm its intended functionality. Each problem introduced for the network corresponds to a distinct form of the customized cost function:
-
-\begin{equation}
-    C(\boldsymbol{\theta}) =
-    \begin{cases}
-      \begin{array}{l}
-      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}),
-      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 3\\
-      \\
-      \begin{array}{l}
-      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}),
-      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 4\\
-      \\
-      \begin{array}{l}
-      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}) + MAE_{\text{r}}(\boldsymbol{\theta}),
-      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 5\\
-      \\
-      \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}), & \text{otherwise}
-    \end{cases}
-    \label{eq:cost_function}
-\end{equation}
-
-Here, $| \boldsymbol{\theta} |$ signifies the length of the target vector. When $| \boldsymbol{\theta} | = 3$, the simplest problem is considered, where the network predicts the coordinates of a single-point current dipole. If $| \boldsymbol{\theta} | = 4$, the network predicts the x, y, and z-coordinates of a single dipole, in addition to the amplitude of the signal strength. When $| \boldsymbol{\theta} | = 5$, the target vector encompasses all previously mentioned values, along with the size of a current dipole population with radius. Finally, for $| \boldsymbol{\theta} |$ greater than 5, the multiple dipole problem is addressed, where the network predicts the locations for two or more point source dipoles situated at distinct positions within the cortex.
-
-In crafting our customized cost function, it is important to acknowledge that, like the built-in Mean Squared Error (MSE) cost function, our formulation inherently treats all target values equally during the optimization process. In other words, the algorithm assigns the same weight to each target value when striving to reduce the overall loss. This approach ensures that errors of equal percentage magnitude in different target values are treated on a level playing field. Consequently, a 1$\%$ error for one target value is considered as important as a 1$\%$ error for another target value, regardless of the specific range or scale of these values.
-
-It is worth noting that our choice to uniformly weight all target values is an intentional design decision. While alternative approaches, such as assigning different weights to different target values, could have been explored, we prioritize the creation of a balanced model that can accurately predict all facets of our target values. This approach stems from our objective of achieving a comprehensive understanding of EEG signal sources through a holistic and equitable modeling approach.
-
-Moreover, this uniform weighting approach aligns with our broader modeling philosophy, emphasizing the creation of a model that is versatile and adaptable across a spectrum of EEG data variations. Our aim is not only to develop a model capable of accurately predicting target values but also to ensure that its predictive capabilities are unbiased and comprehensive, covering the multifaceted aspects of EEG signal analysis.
-
-In this way, our customized cost function showcases the fusion of machine learning principles with the nuanced requirements of clinical medicine, as we strive to bridge the gap between technical prowess and real-world medical applications.
 
 
 

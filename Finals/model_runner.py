@@ -113,12 +113,12 @@ class CustomLoss:
         return result
 
     def _one_dipole(self, predicted, target):
-        # euc_dist = torch.linalg.norm(predicted - target)
-        euc_dist = torch.linalg.norm(predicted[:3] - target[:3])
-        absolute_error = (predicted[3:] - target[3:]).abs().sum()
-        # return euc_dist + absolute_error
-        return 2*self._weight*euc_dist + (2 - 2*self._weight)*absolute_error
-        # return euc_dist
+        euc_dist = torch.linalg.norm(predicted - target)
+        # euc_dist = torch.linalg.norm(predicted[:3] - target[:3])
+        # absolute_error = (predicted[3:] - target[3:]).abs().sum()
+        # # return euc_dist + absolute_error
+        # return 2*self._weight*euc_dist + (2 - 2*self._weight)*absolute_error
+        return euc_dist
 
 
 class Loss:

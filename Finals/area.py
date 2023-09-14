@@ -14,7 +14,7 @@ def basic_parameters():
         'noise_pct': 10,
         'custom_loss': True,
         'hl_act_func': 'tanh',
-        'weights': [0.7, 0.3]
+        'weights': 0.5
     }
 
 

@@ -9,17 +9,18 @@ def basic_parameters():
         'determine_area': False,
         'hidden_layers': [512, 256, 128, 64, 32],
         'learning_rate': 0.001,
-        'momentum': 0.9,
         'N_epochs': 500,
-        'noise_pct': 10
+        'noise_pct': 10,
+        # 'custom_loss': True,
+        # 'hl_act_func': 'tanh',
+        # 'weights': 1
     }
 
 
 def main():
     batch_sizes = [32]
-    weight_decay = [0.5, 0.9]
-    momentum = [0.35, 0.9]
-
+    weight_decay = [0.5]
+    momentum = [0.35]
     parameters = basic_parameters()
     parameters['l1_lambda'] = 0
 
