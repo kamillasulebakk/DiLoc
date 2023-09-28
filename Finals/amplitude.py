@@ -10,7 +10,7 @@ def basic_parameters():
         'batch_size': 32,
         'learning_rate': 0.001,
         'momentum': 0.35,
-        'N_epochs': 3000,
+        'N_epochs': 1500,
         'noise_pct': 10,
         'custom_loss': True,
         'hl_act_func': 'tanh',

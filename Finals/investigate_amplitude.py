@@ -3,6 +3,18 @@ from lfpykit.eegmegcalc import NYHeadModel
 import matplotlib.pyplot as plt
 
 from plot import set_ax_info
+import seaborn as sns
+
+
+plt.style.use('seaborn')
+plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "DejaVu Sans",
+    "font.serif": ["Computer Modern"]}
+)
+
+palette = sns.color_palette("deep")
+sns.set_palette(palette)
 
 def sort_arrays(predictions, target):
     # Get the indices that would sort the target array based on the fourth element in each row
@@ -27,25 +39,26 @@ def plot_error_amplitude(predictions, targets):
 
     fig, ax = plt.subplots()
      # Plot the MSE against the amplitude
-    ax.scatter(amplitude, mse_values)
+    ax.scatter(amplitude, mse_values, c=palette[3])
     set_ax_info(
         ax,
-        xlabel='Amplitude',
+        xlabel=r'Magnitude [mA$\mu$m]',
         ylabel='MSE',
-        title=f'MSE between Predictions and Target as function of Amplitude'
+        title=f'MSE between Predictions and Target as function of Magnitude'
     )
     fig.tight_layout()
+    ax.set_yscale('log')
     fig.savefig(f'plots/mse_amplitude.pdf')
     plt.close(fig)
 
     fig, ax = plt.subplots()
      # Plot the MAE against the amplitude
-    ax.scatter(amplitude, mae_values)
+    ax.scatter(amplitude, mae_values, c=palette[3])
     set_ax_info(
         ax,
-        xlabel='Amplitude',
+        xlabel=r'Magnitude [mA$\mu$m]',
         ylabel='MAE',
-        title=f'MAE between Predictions and Target as function of Amplitude'
+        title=f'MAE between Predictions and Target as function of Magnitude'
     )
     fig.tight_layout()
     fig.savefig(f'plots/mae_amplitude.pdf')

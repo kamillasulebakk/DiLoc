@@ -1,0 +1,30 @@
+N_samples: 70000
+N_dipoles: 1
+determine_amplitude: True
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 2500
+noise_pct: 10
+custom_loss: True
+hl_act_func: tanh
+weights: 0.5
+weight_decay: 0.1
+l1_lambda: 0
+log_fname: amplitudes_today_new_standarization_relu_tanh_sigmoid_tanh_32_0.001_0.35_0.1_0_2500_(0)
+------------------------------------------------------------
+Epoch    0/2499 | Train:    0.53516880 | Validation:    0.40473000 | Time:      29.0 s
+Predicted: [0.57465476 0.4908124  0.341023   0.38005894]
+Target:    [0.65470415 0.45703006 0.32195893 0.19977401]
+
+Predicted: [0.6674053  0.32845113 0.56167215 0.5770592 ]
+Target:    [0.6751611  0.04644312 0.42733297 0.84237146]
+
+Predicted: [0.58455193 0.61667    0.45831102 0.66841954]
+Target:    [0.54278505 0.60531646 0.7214119  0.9858402 ]
+
+Epoch    1/2499 | Train:    0.31823811 | Validation:    0.25771668 | Time:      54.6 s
+Epoch    2/2499 | Train:    0.23438666 | Validation:    0.21922214 | Time:      85.2 s
+Epoch    3/2499 | Train:    0.21022992 | Validation:    0.20347690 | Time:     117.7 s

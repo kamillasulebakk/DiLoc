@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
 
 from utils import numpy_to_torch
+from produce_data import return_interpolated_eeg_data
 
 
 def determine_fname_prefix(determine_area: bool, determine_amplitude: bool):
@@ -23,9 +24,9 @@ def generate_log_filename(parameters):
         parameters['determine_amplitude']
     )
     if parameters['custom_loss']:
-        # result += '_new_custom_loss'
-        result += '_new_new_standarization'
-    result += f'_{parameters["hl_act_func"]}'
+        result += '_today_new_cnn'
+        # result += '_today_tanh_all_the_way_custom_new_standarization'
+    # result += f'_{parameters["hl_act_func"]}'
     result += f'_{parameters["batch_size"]}_{parameters["learning_rate"]}'
     result += f'_{parameters["momentum"]}_{parameters["weight_decay"]}'
     result += f'_{parameters["l1_lambda"]}_{parameters["N_epochs"]}'
@@ -41,7 +42,8 @@ def load_data_files(
     determine_area: bool,
     determine_amplitude: bool,
     N_samples: int,
-    N_dipoles: int
+    N_dipoles: int,
+    interpolate: bool,
     ):
     name = determine_fname_prefix(determine_area, determine_amplitude)
     filename_base = f'data/{name}_{N_samples}_{N_dipoles}'
@@ -53,6 +55,12 @@ def load_data_files(
         filename_suffix = 'train-validation'
     eeg = np.load(filename_base + '_eeg_' + filename_suffix + '.npy')
     target = np.load(filename_base + '_targets_' + filename_suffix + '.npy')
+
+    # new function
+    if interpolate:
+        print(f'You are now interpolating the EEG data with {N_dipoles} dipoles')
+        eeg = return_interpolated_eeg_data(eeg)
+
     return eeg, target
 
 
@@ -92,13 +100,14 @@ class EEGDataset(torch.utils.data.Dataset):
             self.determine_area,
             self.determine_amplitude,
             parameters['N_samples'],
-            parameters['N_dipoles']
+            parameters['N_dipoles'],
+            parameters['interpolate']
         )
 
 
         # BIG RED NOTE IS THIS WRONG ???
-        # eeg = (eeg - np.mean(eeg, axis = 0))/np.std(eeg, axis = 0)
-        eeg = (eeg - np.mean(eeg))/np.std(eeg)
+        eeg = (eeg - np.mean(eeg, axis = 0))/np.std(eeg, axis = 0)
+        # eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
 
 
@@ -132,6 +141,7 @@ class EEGDataset(torch.utils.data.Dataset):
         if data_split != 'test':
             self.add_noise(parameters['noise_pct'])
 
+
     def normalize(self, target):
         if self.determine_area:
             for i in range(target.shape[1]):
@@ -140,10 +150,10 @@ class EEGDataset(torch.utils.data.Dataset):
             for i in range(target.shape[1]):
                 # indexed modulo 4 to work for multiple dipole sources
                 target[:, i] = normalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
-        elif target.shape[1] == 6:
-            print('hello')
-            for i in range(target.shape[1]):
-                target[:, i] = normalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
+        # elif target.shape[1] == 6:
+        #     print('hello')
+        #     for i in range(target.shape[1]):
+        #         target[:, i] = normalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
 
         return target
 
@@ -155,10 +165,10 @@ class EEGDataset(torch.utils.data.Dataset):
             for i in range(target.shape[1]):
                 # indexed modulo 4 to work for multiple dipole sources
                 target[:, i] = denormalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
-        elif target.shape[1] == 6:
-            print('hello')
-            for i in range(target.shape[1]):
-                target[:, i] = denormalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
+        # elif target.shape[1] == 6:
+        #     print('hello')
+        #     for i in range(target.shape[1]):
+        #         target[:, i] = denormalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
 
         return target
 

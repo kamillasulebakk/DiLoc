@@ -9,51 +9,168 @@
 \begin{document}
 
 \chapter{Extending the DiLoc Network}
-In this chapter, we explore how various extensions and small modifications of the DiLoc network enhance its capability to address intricate and demanding inverse problems. We delve into three challenging scenarios, each designed to push the boundaries of DiLoc's predictive performance. The first extension involves assigning individual amplitudes to each dipole source, presenting the network with the task of predicting both the source locations and their corresponding amplitudes. Subsequently, the second scenario transitions from predicting the location of a single dipole source to estimating the center and radius of a population of dipoles, alongside the amplitude of the electrical signals generated. This extension introduces additional complexities to the localization process. Lastly, we investigate DiLoc's ability to predict the locations and amplitudes of two individual dipole sources that jointly contribute to the EEG signals recorded by the electrodes. These extensions aim to comprehensively evaluate the network's adaptability and generalization to increasingly intricate real-world situations. Throughout the chapter, we systematically evaluate the network's performance, providing insights into its strengths and limitations when confronted with these novel challenges.
+In this chapter, we explore various extensions and small modifications to the DiLoc network aimed at enhancing its capability to identify characteristics of current dipoles besides also addressing the inverse problem. We delve into three distinct extensions of the initial inverse problem, challenging DiLoc's predictive capabilities in handling more complex scenarios.
 
-\section{Predicting Single Dipole Sources with Amplitudes}
+The first case involves extending the dataset by assigning individual magnitudes to each dipole source. This extension presents the network with the task of predicting both location of the source and its corresponding magnitude. Subsequently, the second scenario transitions from predicting the location of a single dipole source to estimating the center and radius of a population of dipoles, alongside the magnitude of the electrical signals generated. This extension introduces additional complexities to the localization process. Lastly, we investigate DiLoc's ability to predict the positions of two individual dipole sources located at different areas within the cortex, jointly contributing to the EEG signals recorded by the scalp electrodes. These extensions aim to comprehensively evaluate the network's adaptability and generalization to more intricate problems that might be of interest in real-world applications.
 
-In this section, we introduce the concept of various amplitudes for single current dipole sources, which adds an additional dimension to the output of DiLoc. Besides predicting the coordinates of the dipoles for each sample, the network now also estimates the magnitude of the dipole signals. In real-world scenarios, it might be of interest to not only pinpoint the source of the abnormal activity but also comprehend the extent of abnormality. By incorporating amplitude prediction into our network, we gain valuable insights into the problem at hand and achieve a deeper understanding of the underlying brain activity.
+\section{Method: Adjustments in Data Set and Architecture}
+Throughout the chapter, we methodically introduce distinct modifications to DiLoc for each problem, assess the network's performance, and offer insights into its strengths and limitations when addressing these novel challenges. However, before delving into the results, we will first address important considerations that apply to all extensions. This encompasses ensuring DiLoc effectively handles varying units in its output, selecting an optimal cost function tailored to our specific problems, and establishing criteria for assessing DiLoc's performance in the context of its intended tasks.
 
-% amplitude is too small ...  % include some sort of calculation of the stenght of the recording signal
+\subsection{Scaling of Target Values}
+\rednote{Do we scale multiple dipoles even withiot magnutide???}
+In addressing the extended problems within DiLoc, the network is tasked with predicting target values with significant variations in both range and units. This necessitates an essential preprocessing step: the scaling of target data. The importance of this scaling stems from the fact that the traditional cost function calculates differences between predicted output and actual target values, and add together the distinct terms within the loss. When the target values exhibit disparities in their ranges and units, several challenges arise.
 
-\subsection{Adjustments in Data Set and Architecture}
+Firstly, it is imperative to acknowledge that attempting to aggregate \rednote{add together} losses from distinct target values with varying units lacks a straightforward and intuitive approach. Combining values with different units into a single loss function can lead to an ambiguous interpretation and hinder the meaningful evaluation of the network's performance.
 
-We assign amplitudes to each dipole ranging between 1 and 10 nA$\mu$m. By now the dataset still has the same number of features, however the number of target values increases by 1. Figure \ref{fig:dipole_w_amplitude_example} provides two examples from the dataset, where the dipole location remains constant while the amplitude of the dipole signal varies. We observe that the shape of the EEG signal remain consistent, while the magnitude of the EEG signal is highest for the dipole with the largest amplitude. It should therefor not be a problem for the network to separate such cases and the network shold be able to provide accurate predictions for the amplitude in both cases. From the Figure it is also apperent that the EEG recordings ranges between -10 and 10 $\mu$V. \rednote{Can I find litterature that support the range?}
+Secondly, the variation in the range of target values poses a potential issue. Variations can result in certain dimensions being imbalanced in their influence on the overall error, potentially overshadowing dimensions with smaller ranges. This asymmetry in the error calculation can lead to a biased optimization process and hinder the network's ability to effectively learn from the data.
 
-\begin{figure}[!htb]
+To mitigate these challenges, we employ a normalization technique that transforms the output values into a consistent range, specifically ranging from 0 to 1. This normalization is achieved using the following formula:
+
+\begin{equation}
+\tilde{y_i} = \frac{\tilde{x_i} - \tilde{\text{min}(x)}}{\tilde{\text{max}(x)} - \tilde{\text{min}(x)}}
+\label{eq:scale_target}
+\end{equation}
+
+Here, $\tilde{y_i}$ represents the i$^{\text{th}}$ normalized value in the dataset for a specific target category, $x_i$ is the i$^{\text{th}}$ value in the corresponding target dataset, and min($x$) and max($x$) denote the minimum and maximum target values for the specific target category.
+
+It is essential to emphasize that this normalization process is performed separately for each target category. By normalizing the target values in this manner, we strive to create a more equitable cost function where all target values contribute equally to the overall error calculation. Consequently, DiLoc can harness its learning capabilities more effectively and hopefully perform better in its tasks.
+
+
+% Similar to the initial inverse EEG problem, input data is scaled by subtracting the mean and dividing by the variance. However, in the extended problems addressed by DiLoc, the network faces the task of predicting target values with significant variations in ranges and units. This situation necessitates a crucial step: scaling the target data. Scaling the target data is essential because the traditional cost function calculates the differences between predicted output and actual target values. When these target values have different ranges and units, potential issues arises. Firstly, attempting to add together losses from distinct target values with varying units does not make any intuitive approach. Secondly, range variations might leed to certain dimensions disproportionately affect the overall error calculation, while others with smaller ranges might be overlooked.
+%
+% To address this challenge, we normalize the output values to a common range of 0 to 1 using the following formula:
+%
+% \begin{equation}
+% z_i = \frac{x_i - \text{min}(x)}{\text{max}(x) - \text{min}(x)}
+% \label{eq:scale_target}
+% \end{equation}
+%
+% Here, $z_i$ represents the i$^{\text{th}}$ normalized value in the dataset for a specific target category, $x_i$ is the i$^{\text{th}}$ value in the corresponding target dataset, and min($x$) and max($x$) are the minimum and maximum target values for the specific target category.
+%
+% It is crucial to perform this normalization separately for each target category. This approach enables the neural network to train effectively and recognize patterns using a single cost function. Through this normalization, we aim to create a more equitable cost function where all target values contribute equally to the overall error calculation. Consequently, the network can learn effectively from the data and achieve superior results in its tasks.
+
+\subsection{Sigmoid as Last Layer Activation Function}
+In the problem concerned with predicting the postion of a single dipole source, DiLoc did not have any activation function in the last layer.
+However, considering that the output data has been normalized to a range from 0 to 1, we deem it appropriate to employ the \emph{Sigmoid} activation function in the output layer.
+
+The Sigmoid function is known as one of the more biologically plausible activation functions as the ouput of inactivated neurons returns zero \cite{Jensen2022}. More precised it is a logistic mathematic function meaning that it maps its input to a value between 0 and 1:
+
+\begin{equation}
+  f(x) = \frac{1}{1 + e^{-x}}
+\label{eq:Sigmoid}
+\end{equation}
+
+The Sigmoid function maps the output values to a range between 0 and 1, which aligns with our desired output range, for the exteded problems. This choice of last layer output function may potentially facilitate the training process, as it enables the network to converge more effectively towards the desired outputs, and resticts the network from outputting values outside the desired rarget range.
+
+\begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{figures/dipole_w_amplitude_example.pdf}
-    \caption{EEG data for two samples with current dipole amplitude equal to 5 and 10 nA$\mu$m. The EEG recordings have a range between -10 and 10 $\mu$V.}
-    \label{fig:dipole_w_amplitude_example}
+    \includegraphics[width=\linewidth]{figures/Sigmoid.pdf}
+    \caption{\rednote{Need cite and figure text.} Sigmoid activation function.}
+    \label{fig:sigmoid}
 \end{figure}
 
-In figure \ref{fig:NN_dipole_w_amplitude_architecture} we have depiced the construction of the extended DiLoc network, that now also provides for the amplitude. We see that DiLoc still takes an input of 231 data points corresponding to the number of recoring electrodes, however, the number of output nodes is increased by 1; x-coordinate, y-coordinate, z-coordinate and amplitude corresponding to the strenght of the signal for the current dipole moment in the cortex.
+
+\subsection{Choosing an Optimal Cost Function}
+% Include data distribution (min/max)
+Selecting an appropriate cost function for is pivotal in addressing machine learning challenges. In regression tasks like ours, the mean squared error (MSE) is a widely used cost function, particularly suitable for linear regression. The MSE is preferred due to its simplicity and continuous measure of model performance during training. It calculates the squared differences between the model's predictions and target values, then takes the mean across the entire dataset:
+
+Having a clear understanding of our desired model outcomes, we aim to develop a customized cost function that aligns precisely with our specific objectives. This tailored cost function may potentially outperform the Mean Squared Error (MSE) cost function, which we previously utilized.
+
+Our new objective is to create a model capable of accurately predicting not only the positions of individual dipoles but also various aspects of dipole signals, including their magnitudes, the radii of extended dipole populations, and the positions of dipole pairs where both contribute to the complete EEG signal.
+
+To achieve this objective, our ideal cost function is composed of several components. Firstly, it should minimize the Euclidean distance between target dipole localizations ${\theta}{x,y,z}$ and their true values $\tilde{\theta}{x,y,z}$:
+
+\begin{equation}
+    \text{MED}_{x,y,z}(\boldsymbol{\theta}) = \frac{1}{n}\sum_{i=0}^{n-1}\sqrt{(\theta_{x,i} - \tilde{\theta}_{x,i})^2 + (\theta_{y,i} - \tilde{\theta}_{y,i})^2 + (\theta_{z,i} - \tilde{\theta}_{z,i})^2},
+\label{eq:MED}
+\end{equation}
+
+Additionally, the cost function should minimize the absolute error between the predicted magnitude ${\theta}{A}$ and the true magnitude $\tilde{\theta}{A}$:
+
+\begin{equation}
+    \text{MAE}_{A}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{A,i} - \tilde{\theta}_{A,i} \|,
+\label{eq:MAE_A}
+\end{equation}
+
+Similarly, it should minimize the error between the predicted radius ${\theta}{\text{r}}$ and the true radius $\tilde{\theta}{\text{r}}$:
+
+\begin{equation}
+    \text{MAE}_{r}(\boldsymbol{\theta}) = \frac{1}{n} \sum_{i=0}^{n-1} \| \theta_{r,i} - \tilde{\theta}_{r,i} \|,
+\label{eq:MAE_r}
+\end{equation}
+
+Finally, the cost function should minimize the Euclidean distance among a set of $m$ dipoles in the $x-$, $y-$ and $z-$ dimensions. This is expressed by the equation:
+
+\begin{equation}
+\begin{aligned}
+    \text{MED}_{x_1, y_1, z_1,\ldots, x_m, y_m, z_m}(\boldsymbol{\theta}) = \frac{1}{n}\sum_{i=0}^{n-1}&\Biggl( \sqrt{(\theta_{x_1,i} - \tilde{\theta}_{x_1,i})^2 + (\theta_{y_1,i} - \tilde{\theta}_{y_1,i})^2 + (\theta_{z_1,i} - \tilde{\theta}_{z_1,i})^2} \\
+    & + \quad \sqrt{(\theta_{x_2,i} - \tilde{\theta}_{x_2,i})^2 + (\theta_{y_2,i} - \tilde{\theta}_{y_2,i})^2 + (\theta_{z_2,i} - \tilde{\theta}_{z_2,i})^2}
+   \\ & + \quad \ldots \\
+    & + \quad \sqrt{(\theta_{x_m,i} - \tilde{\theta}_{x_m,i})^2 + (\theta_{y_m,i} - \tilde{\theta}_{y_m,i})^2 + (\theta_{z_m,i} - \tilde{\theta}_{z_m,i})^2} \Biggr)
+\end{aligned}
+\label{eq:MED_multiple_dipoles}
+\end{equation}
+
+\rednote{Deside wether or not it should be two or more dipoles.}
+We note, that in the context of our problem involving multiple dipoles, the target vector comprises two sets of coordinates corresponding to the positions of the dipoles we aim to predict. Similarly, the output vector contains two sets of coordinates. Traditional cost functions, such as Mean Squared Error (MSE), straightforwardly map the first set of coordinate vectors in the target with the first set of coordinates in the output, assuming that the order is correct and that every element should align perfectly. However, this approach can overlook the possibility that another permutation could represent the correct mapping.
+
+Our network's primary task is to decipher patterns and learn from EEG data. It may not inherently grasp the correct order in which to place the coordinates of two dipoles (i.e., which should come first or second in the output vector), potentially leading to suboptimal mappings that misguide the network's weight updates during loss calculation. This limitation could increase computational time or, in the worst case, hinder the network's learning process.
+
+This step involves systematically evaluating all possible permutations of target and output vectors  This approach ensures that we consider all valid combinations while still maintaining the clarity and simplicity of our cost function equatio
+
+To overcome this challenge, our customized cost function systematically explores all possible permutations of target and output vectors, ensuring that the network explores all valid combinations and determine which combination yields the minimum loss. Once we identify the optimal permutation, we use it to calculate the cost using the equation above \ref{eq:MED_multiple_dipoles}. This approach fosters more effective learning and adaptation to various scenarios, enabling the network to capture the genuine underlying patterns in the data. By enabling the cost function to compute all permutations and select the one yielding the minimum loss, we provide the network with the necessary flexibility to excel in this complex task.
+
+\rednote{Add where unit tests can be found?}
+For all terms within the cost function, comprehensive unit tests have been developed to confirm its intended functionality. Each problem introduced for the network corresponds to a distinct form of the customized cost function:
+
+\begin{equation}
+    C(\boldsymbol{\theta}) =
+    \begin{cases}
+      \begin{array}{l}
+      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}),
+      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 3\\
+      \\
+      \begin{array}{l}
+      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}),
+      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 4\\
+      \\
+      \begin{array}{l}
+      \text{MED}_{\text{x,y,z}}(\boldsymbol{\theta}) + MAE_{\text{A}}(\boldsymbol{\theta}) + MAE_{\text{r}}(\boldsymbol{\theta}),
+      \end{array} & \text{if } \| \boldsymbol{\theta} \| = 5\\
+      \\
+      \text{MED}_{\text{x}_1,\text{y}_1,\text{z}_1,\ldots,\text{x}_m,\text{y}_m,\text{z}_m}(\boldsymbol{\theta}), & \text{otherwise}
+    \end{cases}
+    \label{eq:cost_function}
+\end{equation}
+
+Here, $| \boldsymbol{\theta} |$ signifies the length of the target vector. When $| \boldsymbol{\theta} | = 3$, the simplest problem is considered, where the network predicts the coordinates of a single-point current dipole, as explored in the previous chapter(s). If $| \boldsymbol{\theta} | = 4$, the network predicts the $x$-, $y$-, and $z$-coordinates of a single dipole, in addition to the magnitude of the signal strength. When $| \boldsymbol{\theta} | = 5$, the target vector encompasses all previously mentioned values, along with the size of a current dipole population with radius. Finally, for $| \boldsymbol{\theta} |$ greater than 5, the multiple dipole problem is addressed, where the network predicts the locations for two or more point source dipoles situated at distinct positions within the cortex.
+
+\rednote{IMPORTANT: This need modifications!}
+In crafting our customized cost function, it is important to acknowledge that, like the built-in Mean Squared Error (MSE) cost function, our formulation inherently treats all target values equally during the optimization process. In other words, the algorithm assigns the same weight to each target value when striving to reduce the overall loss. This approach ensures that errors of equal percentage magnitude in different target values are treated on a level playing field. Consequently, a 1$\%$ error for one target value is considered as important as a 1$\%$ error for another target value, regardless of the specific range or scale of these values.
+
+It is worth noting that our choice to uniformly weight all target values is an intentional design decision. While alternative approaches, such as assigning different weights to different target values, could have been explored, we prioritize the creation of a balanced model that can accurately predict all facets of our target values. This approach stems from our objective of achieving a comprehensive understanding of EEG signal sources through a holistic and equitable modeling approach.
+
+Moreover, this uniform weighting approach aligns with our broader modeling philosophy, emphasizing the creation of a model that is versatile and adaptable across a spectrum of EEG data variations. Our aim is not only to develop a model capable of accurately predicting target values but also to ensure that its predictive capabilities are unbiased and comprehensive, covering the multifaceted aspects of EEG signal analysis.
+
+In this way, our customized cost function showcases the fusion of machine learning principles with the nuanced requirements of clinical medicine, as we strive to bridge the gap between technical prowess and real-world medical applications.
+
+
+
+\rednote{Another title, fex, new architecte?}
+\subsection{Overview on Arcitecture and Hyperparameters}
+In figure \ref{fig:NN_dipole_w_amplitude_architecture} we have illustraded the architecte of the extended DiLoc network, outputting $m$ target values, depending on the problem to solve. We see that DiLoc still takes an input of 231 data points corresponding to the number of recoring electrodes, and still has the same number of layers and nodes in each layes, except from the output layer.
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{figures/NN_dipole_w_amplitude_architecture.pdf}
+    \includegraphics[width=\linewidth]{figures/NN_multiple_outputs.pdf}
     \caption{Architecture dipole with amplitude.}
     \label{fig:NN_dipole_w_amplitude_architecture}
 \end{figure}
 
-As was done for the previous problem, the input data is scaled by subtracting the mean and dividing on the variance. However, as DiLoc deals with multipole output units, specifically millimeters (mm) and nanoampere-micrometers (nA$\mu$m), a scaling process is implemented also on the output targets to effectively minimize the cost function. The cost function calculates the differences between the predicted output and the actual target values. When output values have different ranges and units, there is a risk that certain dimensions of the target values may dominate the overall error calculation, while others with smaller ranges might be neglected. Consequently, the neural network might overly prioritize reducing errors in the larger range values, hindering its ability to accurately learn patterns and generalize well for the smaller range values.
-
-To address this issue, the output values are normalized to a common range of 0 to 1 using the following normalization formula:
-
-\begin{equation}
-z_i = \frac{x_i - \text{min}(x)}{\text{max}(x) - \text{min}(x)}
-\label{eq:scale_target}
-\end{equation}
-
-Here, $z_i$ represents the i$^{\text{th}}$ normalized value in the dataset for a specific target category, $x_i$ is the i$^{\text{th}}$ value in the corresponding target dataset, and min($x$) and max($x$) are the minimum and maximum values in that specific target dataset.
-
-It is important to perform this normalization separately for each target category. Doing so allows the neural network to effectively train and discern patterns using only one cost function. Without this normalization, employing a single cost function for a set of different target values with distinct units would not be feasible. By applying this normalization, we aim to provide a more balanced cost function where all target values contribute equally to the overall error calculation. Consequently, the network can learn effectively from the data and achieve better results in its tasks.
-
 % Is it true that sigmoid helpt the efficentcy of the lerning process for the network? For improvements, it would be beneficial to elaborate on the rationale behind using hyperbolic tangent for the hidden layers and ReLU for the first layer.
-In the extension of the DiLoc network, we maintain the use of ReLU as the activation function in the first layer, and hyperbolic tangent for the hidden layers, as this architecture, combined with the choise of parameter valued gave the best results. However, considering that the output data has been normalized to a range from 0 to 1, we deem it appropriate to employ the Sigmoid activation function in the output layer. The Sigmoid function maps the output values to a range between 0 and 1, which aligns with our desired output range. This choice may potentially facilitate the training process, as it enables the network to converge more effectively towards the desired outputs. %Nonetheless, it is important to emphasize that the efficacy of this activation function in improving the learning process should be further validated through empirical experiments or referenced studies.
+In the extension of the DiLoc network, we maintain the use of ReLU as the activation function in the first layer, and hyperbolic tangent for the hidden layers, as this architecture, combined with the chosen hyperparameter for all problems considered gave the most promising results. However, as explained above, we deem it appropriate to employ the Sigmoid activation function in the output layer.
 
-As for the simple DiLoc model, we continue to utilize the technique of adaptive learning rate, which can be advantageous for optimizing the network's parameters more efficiently. For an overview of the overall parameters employed in the model, please refer to Table \ref{table:parameters}, which provides a summary of these essential elements.
+For an overview of the overall parameters employed in the extended model, please refer to Table \ref{table:parameters}, which provides a summary of these essential elements.
 
 \begin{table}[]
 \begin{tabular}{|lc|}
@@ -62,13 +179,12 @@ As for the simple DiLoc model, we continue to utilize the technique of adaptive 
 \multicolumn{2}{|c|}{\cellcolor[HTML]{CBCEFB}{\color[HTML]{000000} \textbf{DiLoc for localizing current dipoles with amplitude}}}    \\ \hline
 \rowcolor[HTML]{EFEFEF}
 \multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}\textbf{Hyperparameters}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\textbf{Value}} \\ \hline
-\multicolumn{1}{|l|}{Hidden layers}                                    & 6                                                           \\ \hline
+\multicolumn{1}{|l|}{Hidden layers}                                    & 5                                                           \\ \hline
 \multicolumn{1}{|l|}{Optimizer}                                        & SGD                                                         \\ \hline
 \multicolumn{1}{|l|}{Learning rate (initial)}                          & 0.001                                                       \\ \hline
 \multicolumn{1}{|l|}{Momentum}                                         & 0.35                                                        \\ \hline
 \multicolumn{1}{|l|}{Weight decay}                                     & 0.1                                                         \\ \hline
 \multicolumn{1}{|l|}{Minibatch size}                                   & 32                                                          \\ \hline
-\multicolumn{1}{|l|}{Epochs}                                           & 5000                                                        \\ \hline
 \multicolumn{1}{|l|}{Dropout}                                          & 0.5                                                         \\ \hline
 \multicolumn{1}{|l|}{Act.func in first layer}                                          & ReLU                                                         \\ \hline
 \multicolumn{1}{|l|}{Act.func in hidden layers}                                          & Tanh                                                         \\ \hline
@@ -77,29 +193,81 @@ As for the simple DiLoc model, we continue to utilize the technique of adaptive 
 \label{tab:parameters}
 \end{table}
 
-\subsection{Performance Evaluation}
 
-To assess the network's performance, we start by analyzing the accuracy in relation to training epochs, as depicted in Figure \ref{fig:dipole_w_amplitude_loss}. It is important to note that the target values have been normalized, resulting in a unitless loss measurement. Therefore, the figure provides a qualitative representation of the network's training progress rather than precise loss values. The plot clearly demonstrates a consistent pattern of decreasing loss as the number of epochs increases, indicating that the network effectively captures the underlying data patterns. Moreover, both the training and validation loss stabilize after approximately 2000 epochs, suggesting that the network may have reached its optimal performance level. In Figure \ref{fig:dipole_w_amplitude_targets}, we present the loss development for different target values. Once again, we observe that the loss stabilizes at around 2000 epochs. Notably, for the x-, z-, and y-coordinates, the stabilized loss corresponds to the minimum value reached during the training period. However, for the amplitude target value, this is not the case. From the provided figure, it is apparent that the smallest loss value occurs in a sharp dip just before reaching 500 epochs. This observation implies that if we solely aimed to minimize the loss function with respect to the amplitude value, the most optimal model would have emerged by terminating the training process at that epoch. However, since our objective is to develop a model that accurately predicts both the location and amplitude of the current dipole, we strive to train the model until the total loss is minimized, encompassing both aspects.
+
+% Final chapter/ or first one in results , how do we know if the network performs well.
+% In results, include histogram and tables :)
+\subsection{Metrics of success}
+In this extended version of DiLoc, assessing network performance through standard train-validation-loss plots becomes less informative due to the normalization of target values and a more complex cost function. Reading off unitless loss values from plots, where the cost function value is plotted against epochs, provides little insight beyond whether the network is capable of decreasing the loss with an increasing number of training iterations.
+
+When evaluating the network's performance on the test dataset, which still comprises 20,000 samples, it is therefore essential that the predictions outputted by DiLoc undergo denormalization. This enables us to facilitate a meaningful evaluation against the true target values. The denormalization process takes a straight forward approach, where we simply do the opposite operations from the once performed during normalization \ref{eq:scale_target}:
+
+\begin{equation}
+y_i = \left(x_i + \text{min}(x)\right) \left(\text{max}(x) - \text{min}(x)\right)
+\label{eq:de_scale_target}
+\end{equation}
+%
+% To comprehensively gauge the network's predictive abilities on this test dataset, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
+
+To address the performance of DiLoc, we establish threshold values that represent acceptable errors for a majority of predictions. In particular, we are interested in determining the percentage of samples for which the network predicts the Euclidean distance of one or more dipoles within specific thresholds—3 mm, 5 mm, 10 mm, and 15 mm, where 3 mm is considered optimal.
+
+\rednote{This you need to ask Torbjørn....}
+\rednote{Mention/ add histograms}
+Regarding amplitude and radius predictions, the analysis involves studying the percentage of samples where the network provides predictions with absolute errors equal to 1, 2, and 3 mA$\mu$ m, and 1, 3, and 5 mm. Providing a MAE for the amplitude equal to 3 mA$\mu$ m corresponds to an error of 30$\%$,and a MAE for the radius equal to 5 mm corresponds to an error of 33$\%$, both of which are intuitively considered large errors. However, if we consider these target values in relation to potential clinical significance, a different perspective emerges. In real-world clinical cases, it could be of significant interest to discern whether a neuron source exhibits the characteristic of a small magnitude (ranging from 1 to 3 mA$\mu$ m), a medium magnitude (ranging from 3 to 6 mA$\mu$ m), or a strong magnitude (ranging from 4 to 10 mA$\mu$ m). Similarly, a small radius (ranging from 1 to 5 mm), a medium radius (ranging from 5 to 10 mm), or a large radius (ranging from 5 to 10 mm) might hold clinical significance when considering the underlying neuronal mechanisms.
+
+This shift in perspective highlights the nuanced interpretation of errors and underlines the importance of clinical context in evaluating the performance of DiLoc. In this light, even what might initially appear as substantial errors can offer valuable insights into the behavior of neuronal sources within real-world scenarios.
+
+In sum, the suite of error metrics, coupled with threshold-based assessments, facilitates an in-depth evaluation of the network's capabilities. This multi-faceted approach bridges the realms of machine learning principles and clinical applicability, encapsulating the overarching goal of achieving accurate, meaningful, and real-world clinical predictions.
+
+
+
+
+
+\section{Predicting Single Dipole Sources with Varying Magnitudes}
+
+In this section, we introduce the concept of various magnitudes for single current dipole sources, which adds an additional dimension to the output of DiLoc. Besides predicting the coordinates of the dipoles for each sample, the network now also estimates the magnitude of the dipole signals. In real-world scenarios, it might be of interest to not only pinpoint the source of the abnormal activity but also comprehend the extent of abnormality. By incorporating magnitude prediction into our network, we gain valuable insights into the problem at hand and achieve a deeper understanding of the underlying brain activity.
+
+\rednote{magnitude is too small ? include some sort of calculation of the stenght of the recording signal. Alternatively, explain that we find it good enough that magnitude is in the same scale/størrelsesskala.}
+\rednote{Weight decay is adjusted to 0.1.}
+\subsection{Adjusting Data Set and Hyperparameters}
+We assign magnitudes to each dipole ranging between 1 and 10 nA$\mu$m. By now the dataset still has the same number of features, however the number of target values increases by 1. Figure \ref{fig:dipole_w_amplitude_example} provides two examples from the dataset, where the dipole location remains constant while the magnitude of the dipole signal varies. While we observe that the shape of the EEG signal remain consistent, the strenght of the EEG signal is significanly higher for the dipole with the largest initiated magnitude. It should therefor not be a problem for the network to separate such cases and it is fair to expect that the network is able to provide accurate predictions for the magnitude in both cases. From the figure it is also apperent that the EEG recordings ranges between -10 and 10 $\mu$V. \rednote{Can I find litterature that support the range?}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{figures/MSE_tanh_50000_3july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_mom0.35_bs64_Tanh_64_3000_N_dipoles_1.png}
+    \includegraphics[width=\linewidth]{figures/dipole_w_amplitude_example.pdf}
+    \caption{EEG data for two samples with current dipole amplitude equal to 5 and 10 nA$\mu$m. The EEG recordings have a range between -10 and 10 $\mu$V.}
+    \label{fig:dipole_w_amplitude_example}
+\end{figure}
+
+
+\subsection{Performance Evaluation}
+To assess the network's performance, we start by analyzing the accuracy in relation to training epochs, as depicted in Figure \ref{fig:dipole_w_amplitude_loss}. Once again we emphasize that it is important to note that the target values have been normalized, resulting in a unitless loss measurements. Therefore, the figure provides a qualitative representation of the network's training progress rather than precise loss values. The plot clearly demonstrates a consistent pattern of decreasing loss as the number of epochs increases, indicating that the network effectively captures the underlying data patterns. Moreover, both the training and validation loss stabilize after approximately 1100 epochs, suggesting that the network has reached its optimal performance level. Each epoch takes about 20 seconds to finish, leaving us with a training time of roughly 8.5 hours in total.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/NN_magnitude/Custom_Loss_amplitudes_test_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0).pdf}
     \caption{The loss for the extended DiLoc network with 50 000 samples and hyperbolic tangent activation function.}
     \label{fig:dipole_w_amplitude_loss}
 \end{figure}
 
+
+In Figure \ref{fig:dipole_w_amplitude_targets}, we present the progression of the loss for the target parameters. Notably, after approximately 1100 epochs, all target values, exhibit a cessation of fluctuation, suggesting potential full convergence at this juncture. It is evident that the loss for the magnitude target converges significantly earlier in the training process, compared to the target coordinates, although at a notably higher numerical value. In contrast, the x, y, and z-coordinate targets display ongoing improvement until approximately 1100 epochs, gradually converging to values that closely align with one another. Among these, the y-coordinate achieves the lowest loss, followed by the x-coordinate, and then the z-coordinate.
+
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=\linewidth]{figures/mse_targets_tanh_50000_3july_mseloss_MSE_dipole_w_amplitude_3000_SGD_lr0.001_wd0.1_mom0.35_bs64.png}
+    \includegraphics[width=\linewidth]{figures/NN_magnitude/Custom_Loss_mse_targets_amplitudes_test_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0).pdf}
     \caption{The loss developmnent for the different target values as function of epochs.}
     \label{fig:dipole_w_amplitude_targets}
 \end{figure}
 
-In Table \ref{table:error_simple_dipole} we have provided the performance of the network by concidering different error metrics. The mean absolute error (MAE) values for the x-, y-, and z- coordinates rnage from 0.8300 mm to 0.8998 mm. This means that, on average, the network's predictions have an error smaller than 1 mm in each coordinate. Considering the range of the coordinates, the MAE values represent a reasonable level of accuracy. The mean squared error penalizes larger errors/outliers more severely than MAE since it involves squaring the differences. In our case the MSE values for the different coordinates range from 1.2134 mm to 1.4110 mm. The hugher MSE values suggest that the predictions of the network may have larger errors in some cases, resulting in a higher average squared difference. However, the magnitude of the mean squared errors is still whithin a reasonable range when analyzing them in the context of the coordinates ranges. Finally the root mean squared error provides a measure of the standard deviation of the errors and helps to understand the spread of errors around the mean. The RMSE values of ours are slighly lower than the corresponding MSE values with a range from 1.1016 mm to 1.1878 mm. The table also presents the error metrics calculated for the euclidean distance. For both MAE, MSE and RMSE the value is higher than the individual coordinate errors, indicating that the errors in the x, y, and z coordinates are not perfectly aligned and contribute to the overall distance. It is worth mentioning that specific points in the cortex matrix may potentially contribute more to the errors. Further investigation could be performed to identify any specific patterns or regions in the cortex that exhibit higher error rates. However, overall the results indicate that the network is able to predict the dipole location with reasonable accuracy. While there are some errors in the predictions, the errors are generally within an acceptable range.
+In Table \ref{table:error_simple_dipole}, we present the network's performance across various target categories using distinct error metrics. Analyzing the outcomes pertaining to the target coordinates reveals a noteworthy consistency in mean absolute error, with an average deviation of less than 1.5 mm from the true values. This level of accuracy is highly satisfactory. Considering the range associated with each coordinate profile, we observe that the MAE for the $x$ coordinate, at 1.348 mm, accounts for only 0.936$\%$ of the complete range. Similarly, for the $y$-coordinate, exhibiting a MAE of 1.448 mm, the error relative to the coordinate range stands at 0.809$\%$. Lastly, the $z$ coordinate, with a MAE of 1.411 mm, represents 1.052$\%$ of the full range. This balanced distribution of errors suggests that no single dimension to a large extent exhibits higher error propensity than the others, thereby indicating robust overall performance. It is important to note, however, that the $z$ coordinate consistently exhibits the largest error, implying that specific challenges or characteristics may exist in predicting this dimension, resulting in slightly elevated errors. Moving on to the MAE for the magnitude variable, we ascertain a value of 0.539 nA$\mu$m. In the context of a magnitude range spanning from 1 to 10 nA$\mu$m, this MAE translates to a relative error of 6.00$\%$, which is noticeably larger when compared to the MAE values for the target coordinates.
 
-% Please add the following required packages to your document preamble:
-% \usepackage[table,xcdraw]{xcolor}
-% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+In addition to MAE, we look into the network's performance through the metrics of mean squared error and root mean squared error metrics, which offer complementary insights. For the $x$ coordinate, the MSE stands at 3.438 mm$^2$, while for the $y$- and $z$-coordinate, it is 3.860 mm$^2$ and 3.862 mm$^2$, respectively. MSE, due to its quadratic nature, penalizes larger errors more prominently. Despite this, the MSE values remain within reasonable bounds when contextualized within the coordinate ranges, implying a stable error profile with few significant outliers. Turning our attention to the MSE for the magnitude target, which measures 0.650 nA$^2\mu$m$^2$, we observe that it is lower than the MSE values for the coordinate targets. This is a satisfying finding, especially considering the narrower range of the magnitude target. However, it is important to recognize that the theoretical lower limit of MSE is always 0, which means there is still room for further improvement in accurately capturing variations in all the target values.
+
+Lastly, the Root Mean Squared Error (RMSE), which indicates the standard deviation of prediction errors and their distribution around the mean, reports values slightly lower than the corresponding Mean Squared Error (MSE) values. Specifically, RMSE values measure at 1.854 mm, 1.965 mm, and 1.965 mm for the distinct target coordinates, and at 0.806 nA$\mu$m for the magnitude target. These RMSE values suggest that, on average, the prediction errors align with the overall spread of errors, without significant outliers or extreme deviations from the mean error. This indicates a level of stability and predictability in the error distribution.
+
+
+
 \begin{table}[!htb]
 \begin{tabular}{l|
 >{\columncolor[HTML]{FFFFFF}}c
@@ -108,26 +276,79 @@ In Table \ref{table:error_simple_dipole} we have provided the performance of the
 >{\columncolor[HTML]{FFFFFF}}c
 >{\columncolor[HTML]{FFFFFF}}c |}
 \cline{2-6}
-                                                   & \multicolumn{5}{c|}{\cellcolor[HTML]{CBCEFB}\textbf{Error for different target values}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \\ \cline{2-6}
-                                                   & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}x-coordinate\\ {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}y-coordinate\\ {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}z-coordinate\\ {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Euclidean \\ Distance {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Amplitude\\ {[}nA$\mu$m{]}\end{tabular}} \\ \hline
-\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}MAE}  & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}3.627}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}4.006}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}3.476}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}2.949}                                                                  & 0.687                                                                                                           \\ \hline
-\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}MSE}  & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}22.595}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}28.128}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}22.006}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}18.410}                                                                 & 0.687                                                                                                           \\ \hline
-\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}RMSE} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}4.753}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}5.306}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}4.691}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}4.291}                                                                  & 0.938                                                                                                           \\ \hline
+                                                   & \multicolumn{5}{c|}{\cellcolor[HTML]{CBCEFB}\textbf{Error Metrics for Target Values}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \\ \cline{2-6}
+                                                   & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}x-coordinate\\ {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}y-coordinate\\ {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}z-coordinate\\ {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Position \\ Error {[}mm{]}\end{tabular}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}l@{}}Magnitude\\ {[}nA$\mu$m{]}\end{tabular}} \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}MAE}  & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.348}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.448}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.420}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.405}                                                                  & 0.539                                                                                                           \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}MSE}  & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}3.438}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}3.860}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}3.862}                                                          & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}3.720}                                                                 & 0.650                                                                                                           \\ \hline
+\multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}RMSE} & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.854}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.965}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.965}                                                           & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}1.929}                                                                  & 0.806                                                                                                           \\ \hline
 \end{tabular}
-\caption{\textbf{Evaluation of the network performance utializing different Error Metrics.} \newline
+\caption{\textbf{Evaluation of Diloc's performance utializing different Error Metrics.} \newline
 Performance for the extended DiLoc network on test dataset consisting of 1000 samples. The errors are measured using Mean Squared Error (MSE), Mean Absolute Error (MAE), and Root Mean Squared Error (RMSE).}
 \label{table:error_simple_dipole}
 \end{table}
+
+In Figure \ref{fig:magnitude_errors}, we present the MAE and MSE metrics computed between predicted and target magnitude values, as a function of the magnitude of the dipole strengths. The figure reveals an interesting pattern, where the occurrence of outliers and less favorable predictions is higher when dealing with identification of dipoles with smaller magnitudes.
+
+This apparent trend might initially suggest that the neural network encounters greater challenges in accurately predicting smaller magnitudes. However, we cannot rule out that these disparities might be related to alternative factorsdepth positioning, intricate cortical folding patterns, or other random fluctuations. Nevertheless, the most pronounced trend that emerges from the figure is the prevalence of predictions exhibiting a MAE smaller than 5 nA$\mu$m and a MSE smaller than 10 nA$^2 \mu$m$^2$. This trend is of particular significance, serving as a reassuring indicator. It suggests that, despite observed variations in predictions for samples with smaller magnitudes, the majority of our Diloc’s predictions consistently cluster within a range with acceptable errors.
+
+\begin{figure}
+  \hspace*{-3cm} % Adjust the value as needed to move the figures left
+  \includegraphics[width=9cm]{figures/mae_amplitude.pdf}
+  \includegraphics[width=9cm]{figures/mse_amplitude.pdf}
+  \caption{Scatter plot of Mean Abolsute Error and Mean Squared Error computed between predicted and target magnitude values, as a function of the magnitude of the dipole strengths.}
+  \label{fig:magnitude_errors}
+\end{figure}
+
+The Mean Euclidean Distance (MED) of DiLoc's predictions on the unseen test data is measured at 2.815 mm. This represents a value more than 100$\%$ larger than the MED obtained when DiLoc predicted only the dipole locations for dipoles with a constant magnitude of electrical signal. Nevertheless, it is crucial to underscore that, given the dimensions of the brain within the NYHM, this error remains relatively small and satisfactory.
+
+Table \ref{table:MED_magnitude} presents the percentages of samples falling within various MED threshold values. Notably, the network achieves an accuracy smaller than 12 mm for 99.8$\%$ of the test data. Furthermore, 64.3$\%$ of the samples exhibit a MED smaller than 3 mm, an achievement that, while robust, falls slightly short of DiLoc's performance in the previous, less complex problem.
+
+\begin{table}[]
+\begin{tabular}{|cccl|}
+\hline
+\rowcolor[HTML]{CBCEFB}
+\multicolumn{4}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Mean Euclidian Distance for Test Samples}}                                                                                                                                                                 \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}MED \textless 3 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}MED \textless 5 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}MED \textless 10 mm} & MED \textless 12 mm                                     \\ \hline
+\rowcolor[HTML]{FFFFFF}
+\multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}64.325 $\%$}        & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}90.930 $\%$}        & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.505 $\%$}         & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.820 $\%$} \\ \hline
+\end{tabular}
+\caption{\textbf{MED evaluation on test samples; Predicting Location and Magnitude} \newline
+Performance of the network on thes test dataset comprising 20,000 samples, presented as the percentage of samples falling within MED thresholds of 3 mm, 5 mm, 10 mm, and 12 mm, respectively.}
+\label{table:MED_magnitude}
+\end{table}
+
+
+
+Figure \ref{fig:histogram_magnitude} displays two panels, depicting the MED and Mean Absolute Error (MAE) for the magnitude of each test sample within bins of width 1 unit. In the left panel, representing the MED histogram, the bins corresponding to MED values of 2 and 3 mm are the most populated, containing the largest proportion of samples. This panel also illustrates that the majority of predicted locations exhibit a MED error smaller than 14 mm, which is a satisfactory outcome.
+
+Turning our attention to the right panel, which displays the MAE for predicted magnitudes, we observe that the bin holding samples with a magnitude prediction MAE less than 1 nA$\mu$m is the most populous. Within this bin, 17,014 out of the 20,000 samples fall, signifying that the network predicts the magnitude with a MED smaller than 1 nA$\mu$m for approximately 85$\%$ of the sample set.
+
+
+\begin{figure}
+  \hspace*{-2cm} % Adjust the value as needed to move the figures left
+  \includegraphics[width=9cm]{figures/new_histogram_position_amplitude.pdf}
+  \includegraphics[width=9cm]{figures/new_histogram_amplitude_amplitude.pdf}
+  \caption{Left panel illustrates the distribution of Mean Euclidean Distance for the predicted dipole locations, organized into bins of width 1 mm. Right panel holds the distribution of Mean Absolute Error for the predicted magnitude of dipole electrical signal, presented in a similar format, with bins of width 1 nA$\mu$m.}
+  \label{fig:histogram_magnitude}
+\end{figure}
+
+
+
+
+
+
+
 
 
 
 \section{Predicting Region of Active Correlated Current Dipoles with Amplitudes}
 
-In order to further enhance the complexity of our problem, we extend the DiLoc neural network to incorporate varying radii and amplitudes for the origins generating the electrical activity detected by the recording electrodes. This transformation alters the objective of the DiLoc network from predicting the location of individual current dipole moments to estimating the centers of larger spherical populations. This extension is valuable for real-life scenarios where understanding the extent of brain damage causing abnormal activity in damaged areas may be of interest. By training the DiLoc network on such complex data, we aim to enhance its ability to generalize and perform effectively in real-world clinical cases.
+In order to further enhance the complexity of our problem, we extend the DiLoc neural network to incorporate varying radii and magnitudes for the origins generating the electrical activity detected by the recording electrodes. This transformation alters the objective of the DiLoc network from predicting the location of individual current dipole moments to estimating the centers of larger spherical populations. This extension is hopefully valuable for real-life scenarios where understanding the extent of brain damage causing abnormal activity in damaged areas may be of interest. By training the DiLoc network on such complex data, we aim to enhance its ability to generalize and perform effectively in real-world clinical cases.
 
-\subsection{Adjustments in Data Set and Architecture}
+\subsection{Adjusting Data Set and Hyperparameters}
 % Include that with this arcitecture the amplitude/radius is more weighted than position (maybe)...
-
+\rednote{Ensure realism...?}
 For the purpose of enabling the network to predict the areas of dipole populations, we make adjustments to the dataset. The dipole populations are represented as spherical volumes in the NY head cortex, with the radius for each population ranging from 1 mm to 15 mm. To ensure realism, we maintain the maximum amplitude strength of the total populations at 10 mA$\mu$m. Consequently, we calculate the maximum number of points within a volume sphere with a radius of 15 mm and reduce this number by 10 to determine the strength of each dipole within the given area. This leaves us with a strength of 10/899 for each dipole. The strength of a dipole population is thus directly proportional to the size of the dipole population. While this may not perfectly represent real-world scenarios, it provides a reasonable approximation for our model.
 
 In Figure \ref{fig:dipole_area}, we present an example of a dipole population and the corresponding EEG signal. The yellow filled circles in the plots in the upper panel represents the diple populations, i.e. positions within the cortex where dipoles have been placed. The lower panel shows the EEG signals for the specific sample, with EEG electrode locations presented as filled circles, where the color of the fill represents the amplitude of the measured signal for the given electrode. The plots within the figure are seen from both the x-z plane, x-y plane, and the y-z plane.
@@ -248,10 +469,10 @@ The total number of target values for this problem has increased to 8, encompass
 
 
 \begin{figure}[!htb]
-\centering
-\includegraphics[width=\linewidth]{figures/NN_multiple_dipoles_architecture.pdf}
-\caption{Architecture of the multiple dipoles network.}
-\label{fig:NN_multiple_dipoles_architecture}
+  \centering
+  \includegraphics[width=\linewidth]{figures/NN_multiple_outputs.pdf}
+  \caption{Architecture of the multiple dipoles network.}
+  \label{fig:NN_multiple_dipoles_architecture}
 \end{figure}
 
 

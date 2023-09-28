@@ -1,5 +1,0 @@
-Samples: 50000, Batch size: 64, Epochs: 500, Noise: 10 %
-Learning rate: 0.9
-Eeg Data: data/new/multiple_dipoles_eeg_50000_1.npy
-Target Data: data/new/multiple_dipoles_locations_50000_1.npy
---------------------------------------------------------------

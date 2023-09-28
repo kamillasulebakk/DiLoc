@@ -121,7 +121,7 @@ def generate_test_results(predictions: np.ndarray, targets: np.ndarray):
         'MAE_x': results.MAE_x,
         'MAE_y': results.MAE_y,
         'MAE_z': results.MAE_z,
-        # 'MAE_amplitude': results.MAE_amplitude,
+        'MAE_amplitude': results.MAE_amplitude,
         # 'MAE_radius': results.MAE_radius,
         'MAE_position': results.MAE_position,
 
@@ -135,7 +135,7 @@ def generate_test_results(predictions: np.ndarray, targets: np.ndarray):
         'MSE_x': results.MSE_x,
         'MSE_y': results.MSE_y,
         'MSE_z': results.MSE_z,
-        # 'MSE_amplitude': results.MSE_amplitude,
+        'MSE_amplitude': results.MSE_amplitude,
         # 'MSE_radius': results.MSE_radius,
         'MSE_position': results.MSE_position,
 
@@ -156,7 +156,7 @@ def print_test_results(d):
         ['y', f'{d["MAE_y"]:.3f}', f'{d["MSE_y"]:.3f}', f'{np.sqrt(d["MSE_y"]):.3f}'],
         ['z', f'{d["MAE_z"]:.3f}', f'{d["MSE_z"]:.3f}', f'{np.sqrt(d["MSE_z"]):.3f}'],
         ['Position', f'{d["MAE_position"]:.3f}', f'{d["MSE_position"]:.3f}', f'{np.sqrt(d["MSE_position"]):.3f}'],
-        # ['Amplitude', f'{d["MAE_amplitude"]:.3f}', f'{d["MSE_amplitude"]:.3f}', f'{np.sqrt(d["MSE_amplitude"]):.3f}'],
+        ['Amplitude', f'{d["MAE_amplitude"]:.3f}', f'{d["MSE_amplitude"]:.3f}', f'{np.sqrt(d["MSE_amplitude"]):.3f}'],
         # ['Radius', f'{d["MAE_radius"]:.3f}', f'{d["MSE_radius"]:.3f}', f'{np.sqrt(d["MSE_radius"]):.3f}'],
         # ['x2', f'{d["MAE_x2"]:.3f}', f'{d["MSE_x2"]:.3f}', f'{np.sqrt(d["MSE_x2"]):.3f}'],
         # ['y2', f'{d["MAE_y2"]:.3f}', f'{d["MSE_y2"]:.3f}', f'{np.sqrt(d["MSE_y2"]):.3f}'],
@@ -172,6 +172,7 @@ def make_histogram(norms, thresholds, x_label, name):
 
     fig, ax = plt.subplots(figsize=(8, 5))
     hist, bins, _ = ax.hist(norms, bins=10, color='#607c8e', alpha=0.25)
+    ax.set_yscale('log10')
 
     for i, threshold in enumerate(thresholds):
         ax.axvline(x=threshold, color=colors[i], linestyle='--', label=f'Threshold = {threshold} mm')
@@ -191,18 +192,20 @@ def make_histogram(norms, thresholds, x_label, name):
     plt.close(fig)
 
 
-def make_histogram(num_bins, norms, thresholds, x_label, name):
+def make_histogram(num_bins, norms, thresholds, x_label, dist, name):
     color = 'steelblue'  # Choose a color for the histogram bars
     colors = ['r', 'g', 'b', 'm']
 
     fig, ax = plt.subplots(figsize=(8, 5))
-    hist, bins, _ = ax.hist(norms, bins=np.linspace(0, num_bins, num_bins + 1), color=color, alpha=0.7)  # Adjust the bins range
+
+    hist, bins, _ = ax.hist(norms, bins=np.linspace(0, num_bins, num_bins + 1), color=color, alpha=0.7, rwidth=0.5)  # Add rwidth parameter
+    ax.set_yscale('log')
 
     for i, count in enumerate(hist):
         ax.text(bins[i], count + 5, str(int(count)), ha='left', va='bottom', fontsize=10)
 
     ax.set_xlim(0, num_bins)  # Set the x-axis limits
-    ax.set_xticks(np.arange(0, num_bins + 1, 2))  # Set the x-axis ticks at 2, 4, 6, 8, ...
+    ax.set_xticks(np.arange(0, num_bins + 1, dist))  # Set the x-axis ticks at 2, 4, 6, 8, ...
     set_ax_info(
         ax,
         xlabel=f'{x_label}',
@@ -211,9 +214,8 @@ def make_histogram(num_bins, norms, thresholds, x_label, name):
     )
 
     fig.tight_layout()
-    fig.savefig(f'plots/histogram_{name}.pdf')
+    fig.savefig(f'plots/new_histogram_{name}.pdf')
     plt.close(fig)
-
 
 def test_criterea(predictions, targets, name):
     norms = np.linalg.norm(predictions[:,:3] - targets[:,:3], axis=1)
@@ -238,8 +240,7 @@ def test_criterea(predictions, targets, name):
     table = Table(l)
     table.write()
 
-    make_histogram(28, norms, thresholds, 'Euclidean Distance (mm)', f'position_{name}')
-
+    make_histogram(26, norms, thresholds, 'Euclidean Distance [mm]', 2, f'position_{name}')
 
     if name == 'amplitude' or name == 'area':
         amplitude_absolute_error = np.abs(predictions[:,3] - targets[:,3])
@@ -262,9 +263,9 @@ def test_criterea(predictions, targets, name):
         table = Table(l)
         table.write()
 
-        # make_histogram(10, amplitude_absolute_error, thresholds, r'Amplitude Absolute Error ($mA\mu m$)', f'amplitude_{name}')
+        make_histogram(10, amplitude_absolute_error, thresholds, r'Amplitude Absolute Error [mA$\mu$m]', 2, f'amplitude_{name}')
 
-        results_combined = np.zeros(3)
+        results_combined = np.zeros(len(thresholds))
         for i, threshold in enumerate(thresholds):
             results_combined[i] = sum((norms < 10) & (amplitude_absolute_error < threshold))
 
@@ -279,13 +280,13 @@ def test_criterea(predictions, targets, name):
         table = Table(l)
         table.write()
 
-        # make_histogram(results_combined, amplitude_absolute_error, thresholds, 'Amplitude Absolute Error (mm)', name)
+        # make_histogram(10, results_combined, thresholds, 'Amplitude Absolute Error (mm)', name)
 
     if name == 'area':
         area_absolute_error = np.abs(predictions[:,4] - targets[:,4])
         print(f'Mean Absolute Error (MAE) for area is {np.mean(area_absolute_error)}')
 
-        # amplitude_absolute_error = np.abs(predictions[:,3] - targets[:,3])
+        amplitude_absolute_error = np.abs(predictions[:,3] - targets[:,3])
 
         thresholds = [1, 3, 5]
         results = np.zeros(3)
@@ -301,7 +302,7 @@ def test_criterea(predictions, targets, name):
         table = Table(l)
         table.write()
 
-        make_histogram(10, area_absolute_error, thresholds, 'Area Absolute Error (mm)', f'area_{name}')
+        make_histogram(10, area_absolute_error, thresholds, 'Area Absolute Error (mm)', 2, f'area_{name}')
 
         results_combined = np.zeros(3)
         for i, threshold in enumerate(thresholds):

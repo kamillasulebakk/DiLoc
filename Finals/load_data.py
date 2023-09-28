@@ -34,9 +34,3 @@ def load_data_files(num_samples: int, name: str, shape: str = "1d", num_dipoles:
         eeg = return_2d_eeg_data(eeg, num_samples)
 
     return eeg, pos_list
-
-
-def load_electrode_positions():
-    x_pos = np.load('data/electrode_positions_x.npy')
-    y_pos = np.load('data/electrode_positions_y.npy')
-    return x_pos, y_pos

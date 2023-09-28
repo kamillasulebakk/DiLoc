@@ -7,22 +7,21 @@
 \begin{document}
 
 \chapter{Localizing Single Current Dipole Sources}
-
+\rednote{Here comes the results}
 In this chapter we will be looking at DiLoc's performance of the inverse problem. With the use of error metrics such as mean absolute error (MAE), mean euclidean distance (MED) and root mean euclidean distance (RMED) we will study how the DiLoc, as a simple feed forward neural network ables to solve the inverse EEG problem.
 
 % Section 1 deal with the results and discussion of the simple feed forward neural network, while section 2 will discuss how the alternative convolution neural network performe some of the same results.
 
 \section{Testing Methodology}
-Upon achieving full training convergence, a neural network is deemed to have successfully discerned relevant patterns within the training dataset and optimized its parameters to minimize the cost function. To rigorously assess the performance of DiLoc, we turn our attention to an independent test dataset, encompassing 20,000 samples. This distinct dataset remains entirely unexposed to the network durinf the training process, serving as an unbiased and objective measure of the model's predictive accuracy and its capacity to generalize effectively to novel, unseen data.
+Upon achieving full training convergence, a neural network is deemed to have successfully discerned relevant patterns within the training dataset and optimized its parameters to minimize the cost function. To assess the performance of DiLoc, we turn our attention to an independent test dataset, encompassing 20,000 samples. This distinct dataset remains entirely unexposed to the network during the training process, serving as an unbiased and objective measure of the model's predictive accuracy and its capacity to generalize effectively to novel, unseen data.
 
-To comprehensively evaluate the predictive capabilities of our DiLoc neural network on the test dataset, we have employed a diverse set of error metrics. Our primary objective is to ensure that DiLoc accurately predicts the locations of current dipoles in the cerebral cortex based on EEG data recorded from randomly distributed sources. While our primary focus lies on minimizing the MED as an overarching measure of performance, we recognize the importance of diving into the performance of specific target coordinates, i.e., the $x$, $y$, and $z$ values.
+To comprehensively evaluate the predictive capabilities of our DiLoc neural network on the test dataset, we have employed a diverse set of error metrics. Our primary objective is to ensure that DiLoc accurately predicts the locations of current dipoles in the cerebral cortex based on EEG data recorded from randomly distributed sources. Thus, the main focus lies on minimizing the MED as an overarching measure of performance, however we recognize the importance of diving into the performance of specific target coordinates, i.e., the $x$, $y$, and $z$ values.
 
 The MAE offers a straightforward measure of average prediction error for each individual target coordinate. When evaluating the distance between a specific target coordinate (e.g., $x$, $y$, or $z$) and the corresponding predicted value, this metric provides a clear and easily interpretable measure of the accuracy of DiLoc's predictions for each dimension. It allows us to assess whether the network gives precise predictions for all target values or if it exhibits variations in accuracy across different coordinate dimensions.
 
 In contrast, MSE introduces a squaring process that significantly penalizes larger errors across all dimensions. While this aspect helps in emphasizing and addressing significant deviations between the predicted and true coordinates, it presents values in squared units of the target values, which can be less intuitive to deal with when assessing individual coordinate components.
 
-To address the squared unit issue of MSE while still considering error spread, we have incorporated RMSE into our evaluation framework. RMSE balances the emphasis on significant errors while yielding results in units consistent with the target coordinate values, making it more suitable for assessing individual coordinate predictions (e.g., $x$, $y$ and $z$). By using these metrics alongside MED, we gain a comprehensive understanding of our model's performance, ensuring that it provides precise predictions for all target coordinate dimensions.
-
+To address the squared unit issue of MSE while still considering error spread, we have incorporated RMSE into our evaluation framework. RMSE balances the emphasis on significant errors while yielding results in units consistent with the target coordinate values, making it more suitable for evaluating individual coordinate predictions (e.g., $x$, $y$, and $z$).
 
 %
 % We begin by introducing the standard inverse problem for our neural network, DiLoc. In this context, the standard inverse problem refers to the task of predicting the x-, y-, and z-coordinates of dipole current sources responsible for generating measured EEG signals. The goal is to feed the network with EEG data corresponding to the electrical activity from randomly distributed dipoles in the cerebral cortex and have the network accurately output the locations of these current dipoles.
@@ -30,15 +29,36 @@ To address the squared unit issue of MSE while still considering error spread, w
 
 % For this specific problem, the network demonstrates remarkable performance even without the use of L1 regularization. However, we include L2 penalty with a value of 0.5 to promote more generalizable solutions.
 
+\section{Need a name}
+According to Ness et al. (2021) \cite{naess2021biophysically}, EEG signals are not particularly sensitive to minor shifts in the precise location of neural current dipoles. This insensitivity can be explained by the fact that relative to the dimensions of individual neurons and the thickness of the human cortex, EEG electrodes are located far away from cortical neural sources. Before commencing the assessment of DiLoc's performance, we aim to investigate whether it has the capability to differentiate EEG signals originating from neighboring neural dipoles and provide distinct predictions for their respective spatial locations. By .... Pearson correlation coefficient ....
+
+The \emph{Pearson correlation coefficient} is a useful statistical measure that quantifies the relationship between two variables. This coefficient is defined as the ratio between the covariance of the two variables and the product of their standard deviations. The coefficient is always a single number within the range of -1 to 1, with -1 denoting a perfect negative correlation and 1 indicating a perfect positive correlation. When the correlation coefficient equals 0, it signifies the absence of a linear relationship between the variables \cite{numpy-docs}.
+
+In our exploration of EEG insensitivity to small differences in dipole locations, we utilize the correlation coefficient as a measure. Figure \ref{fig:neighbour_dipoles} illustrates three EEG signals corresponding to dipoles positioned at neighboring points within the NYHM cortical matrix. The central blue dipole is positioned by the green and red dipoles, situated at the leftmost and rightmost positions within the cortical matrix, respectively. The Euclidean distance between the blue and green dipoles is 0.914 mm, while the blue and red dipoles are separated by 1.926 mm.
+
+The EEG signals of the blue and green dipoles in Figure \ref{fig:neighbour_dipoles} exhibit significant overlap, supported by a high correlation coefficient of 0.966, indicating a strong positive relationship between these measurements. Conversely, the EEG signals of the blue and red dipoles show less resemblance, with a correlation coefficient of 0.695, denoting a somewhat smaller linear relationship. Notably, these differences can be attributed to the rotation in the normal vector of the red dipole and the somewhat larger distance between the blue and red dipoles compared to the blue and green dipoles.
+
+The rotation of the normal vector is also evident for the green dipole but is more pronounced for the red dipole. When selecting neighboring dipoles within the NYHM based on distance, rotations in the normal vectors occur due to constraints during data generation that ensure dipole orientation is perpendicular to the cerebral cortex. Given the complex folding of the cortex, such constraints may lead to rotations in the dipole normal vector when shifting the dipole's location, as demonstrated in this example. Consequently, distinct differences in simulated EEG signals may emerge even for neighboring dipoles within the NYHM.
+
+%Despite the common belief that neurons in the upper cortical layers would dominate the EEG due to their proximity to the electrode compared to neurons in deeper layers, such location differences do not significantly affect the EEG signals. This phenomenon can be explained by the fact that the low conductivity of the skull introduces a spatial low-pass filtering effect, which mitigates the impact of location discrepancies.
+% Maybe what is meant here is that we therefore only consider the outer corical surface
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/compare_dipoles.pdf}
+    \caption{EEG signals plotted against electrode number for three neighbouring dipoles with normal vectors (-0.60, 0.11, 0.79), (-0.75, -0.15, 0.64), (-0.21, 0.32, 0.93) and positions (-12.04, 34.71, 60.07), (-12.37, 33.92, 59.75), (-10.24, 34.61, 60.75). The correlation coefficient between the blue and green dipole is 0.97, while it is 0.70 for the blue and red dipole. \rednote{Which coordinate system? Where is (0,0,0) located?}}
+    \label{fig:neighbour_dipoles}
+\end{figure}
+
 
 \section{Performance Evaluation}
-The neural network was trained for 500 epochs, with MED loss convergence depicted in Figure \ref{fig:single_dipole_accuracy}. The training time for one epoch was approximately 11.5 seconds, summing up to a total training time of more than 4025 seconds, equivalent to roughly 1 hour and 7 minutes. It's important to note that this training duration does not include data loading and preprocessing.
+The neural network was trained for 500 epochs, with MED loss convergence depicted in Figure \ref{fig:single_dipole_accuracy}. The training time for one epoch was approximately 11.00 seconds, summing up to a total training time of 5500 seconds, equivalent to roughly 1.5 hours. It's important to note that this training duration does not include data loading and preprocessing.
 
 The validation loss appeared to stabilize after approximately 350 epochs. At this point, the training could have been stopped. However, we extended the training to the full 500 epochs. This decision was made to confirm that no further improvements in the validation data's performance would occur and to emphasize that the network had fully converged when undergoing evaluation.
 
 Figure \ref{fig:single_dipole_accuracy} illustrates a clear trend of decreasing loss, indicating that the network effectively learned patterns in the data. The validation loss stabilization is noticeable around 350 epochs, while the training loss continues to decrease until it stabilizes between 400 and 500 epochs. This observation suggests that the model did not exhibit signs of overfitting, as the validation loss remained constant, and the training loss eventually stabilized.
 
-Additionally, Figure \ref{fig:single_dipole_accuracy_targets} provides insight into the development of the validation loss for the separate target coordinates, $x$, $y$, and $z$, plotted against training epochs. This figure confirms that all separate target coordinates were equally weighted, resulting in similar loss values for each. Moreover, it demonstrates that the small fluctuations in loss, observed before 350 epochs, disappeared beyond this threshold, indicating a stabilization of the loss for all three target coordinates. This observation aligns with the trend of the validation loss stabilizing at approximately 350 epochs, as seen in Figure \ref{fig:single_dipole_accuracy}.
+Additionally, Figure \ref{fig:single_dipole_accuracy_targets} provides insight into the development of the validation loss for the separate target coordinates, $x$, $y$, and $z$, plotted against training epochs. This figure confirms that all separate target coordinates were equally weighted, resulting in similar loss values for each. Moreover, it demonstrates that the small fluctuations in loss, observed before 350 epochs, disappeared beyond this threshold, indicating a stabilization of the loss for all three target coordinates. This observation aligns with the trend of the validation loss stabilizing at approximately 350 epochs, that we could see in Figure \ref{fig:single_dipole_accuracy}.
 
 \begin{figure}[!htb]
     \centering
@@ -56,10 +76,11 @@ Additionally, Figure \ref{fig:single_dipole_accuracy_targets} provides insight i
 
 
 \subsection{Position Spesific Performance}
-\rednote{Range of values should be placed somewhere else. Include errors set in perspective of the range.}
-In evaluating the DiLoc network's performance, we conducted a comprehensive analysis of its accuracy across three spatial coordinates: $x$, $y$, and $z$. These coordinates represent the positions of dipole sources in three-dimensional space. Notably, the $x$-coordinate ranges from -72 to 72 mm, the $y$-coordinate from -106 to 73 mm, and the $z$-coordinate from -53 to 82 mm, providing context for the interpretation of error metrics.
+\rednote{Range of values should be placed somewhere else. Errors should be contextualized within the range.}
+In evaluating the DiLoc network's performance, we further examined its accuracy across three spatial coordinates: $x$, $y$, and $z$. These coordinates represent the positions of dipole sources in three-dimensional space. Notably, the $x$-coordinate ranges from -72 to 72 mm, the $y$-coordinate from -106 to 73 mm, and the $z$-coordinate from -53 to 82 mm, providing context for the interpretation of error metrics.
 
-To assess DiLoc's accuracy on unseen test data, we calculated the MED, which amounts to 1.33 mm. In Table \ref{table:MED}, we have provided the percentages of samples falling within various MED threshold values. Impressively, DiLoc accuracy an accuracy smaller than 12 mm for the entirety of the samples within the test dataset. Furthermore, it is noteworthy that an impressive 96.6$\%$ of the samples exhibit a MED smaller than 3 mm, an achievement that underscores the network's exceptional precision.
+\rednote{Add histogram instead of table?}
+The MED of DiLoc's predictions on the unseen test data measures 1.33 mm. In Table \ref{table:MED}, we have provided the percentages of samples falling within various MED threshold values. Impressively, DiLoc provides an accuracy smaller than 12 mm for the entirety of the samples within the test dataset. Furthermore, it is noteworthy that an impressive 96.6$\%$ of the samples exhibit a MED smaller than 3 mm, an achievement that underscores the network's high precision.
 
 % Please add the following required packages to your document preamble:
 % \usepackage[table,xcdraw]{xcolor}
@@ -74,8 +95,8 @@ To assess DiLoc's accuracy on unseen test data, we calculated the MED, which amo
 \rowcolor[HTML]{FFFFFF}
 \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}96.595 $\%$}        & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.735 $\%$}        & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.995 $\%$}         & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}100.000$\%$} \\ \hline
 \end{tabular}
-\caption{\textbf{MED evaluation on test samples.} \newline
-Performance of the network on a test dataset comprising 20,000 samples, presented as the percentage of samples falling within MED thresholds of 3 mm, 5 mm, 10 mm, and 12 mm, respectively.}
+\caption{\textbf{MED evaluation on test samples; Predicting Location} \newline
+Performance of the network on thes test dataset comprising 20,000 samples, presented as the percentage of samples falling within MED thresholds of 3 mm, 5 mm, 10 mm, and 12 mm, respectively.}
 \label{table:MED}
 \end{table}
 

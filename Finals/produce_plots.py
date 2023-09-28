@@ -9,7 +9,7 @@ import seaborn as sns
 from matplotlib.widgets import Slider
 
 from plot import set_ax_info
-from produce_data import calculate_eeg
+# from produce_data import calculate_eeg
 
 
 plt.style.use('seaborn')
@@ -412,7 +412,6 @@ def plot_interpolated_eeg_data(nyhead, eeg_i, x_pos, y_pos, eeg_new, x_new, y_ne
     # ax_elecs.legend(fontsize=30)
     # ax_eeg.legend(fontsize=30)
     # ax_eeg_new.legend(fontsize=30)
-
     fig.savefig(f'plots/CNN/new_eeg_dipole_pos_{i}')
     plt.close(fig)
 

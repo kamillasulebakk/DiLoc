@@ -3,12 +3,15 @@
 \usepackage{lipsum}
 \usepackage[subpreambles=true]{standalone}
 \usepackage[table,xcdraw]{xcolor}
+\usepackage{graphicx}
+
+
+
 
 % MSE as loss function
 % Training and testing, lr ?
 
 \begin{document}
-\rednote{}
 \chapter{Training the DiLoc Neural Network}
 This chapter will explore the training process of the DiLoc neural network, outlining the decisions made during its training. Carefully choosing and adjusting elements of the training process ensures DiLoc's ability to make accurate predictions, establishing it as a valuable tool for solving the inverse EEG problem. Subsequent chapters will delve into the results and outcomes of this training, providing insights into the model's effectiveness.
 
@@ -53,8 +56,8 @@ After standarization, the mean of the data set $\mathcal{D}'$  is 0 and the stan
 \section{Cost Function}
 In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions evaluate how well models make predictions by measuring the discrepancy between predicted outcomes and actual target values. This evaluation results in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions. When using the expression \emph{fitting a model} one commonly refer to the prosess of finding optimal parameters $\boldsymbol{\theta}$ that minimize a chosen cost function. This iterative process utilizes training data to fine-tune the model's internal representations, improving its predictive accuracy.
 
-
-Selecting the appropriate cost function is important when addressing machine learning challenges. In our regression task, where the objective is to predict x, y, and z coordinates of single current dipoles accurately, we commonly employ the Mean Squared Error (MSE) as a straightforward cost function for its continuous measure of model performance during training. However, given that our aim is to minimize the Euclidean distance between predicted dipole localizations (${x_i, y_i, z_i}$) and true values ($\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$), we aptly refer to MSE as the Mean Euclidean Distance (MED). In essence, when predicting Euclidean coordinates, MSE and MED are conceptually equivalent, as they both aim to minimize the squared differences between predicted and true values, but MED explicitly emphasizes the Euclidean nature of the coordinates, providing a more accurate reflection of our optimization goal:
+\rednote{this need to be rewritten...}
+Selecting the appropriate cost function is important when addressing machine learning challenges. In our regression task, where the objective is to predict $x$, $y$, and $z$ coordinates of single current dipoles, we employ the commonly used Mean Squared Error (MSE) cost function, well known for its continuous measure of model performance during training. However, given that our aim is to minimize the Euclidean distance between predicted dipole localizations (${x_i, y_i, z_i}$) and true values ($\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$), we aptly refer to MSE as the Mean Euclidean Distance (MED). In essence, when predicting Euclidean coordinates, MSE and MED are conceptually equivalent, as they both aim to minimize the squared differences between predicted and true values, but MED explicitly emphasizes the Euclidean nature of the coordinates, providing a more accurate reflection of our optimization goal:
 
 \begin{equation}
 \text{MED}(\boldsymbol{\theta}) = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} \left((x_i - \tilde{x}_i)^2 + (y_i - \tilde{y}_i)^2 + (z_i - \tilde{z}_i)^2\right)}
@@ -218,7 +221,7 @@ During the training of DiLoc, we observed that a learning rate of 0.001 yielded 
 % A learning rate of 0.001 proved the best when training DiLoc. Moreover a mini-batch size of 32 were utialized. The momentum hold a value of 0.35.
 
 
-
+\rednote{Add information about the value we are using!!}
 \section{Regularization Techniques}
 % weight decay L2 pentalty
 % dropout

@@ -1,6 +1,0 @@
-Samples: 10000, Batch size: 30, Epochs: 2000, Noise: 10 %
-
-Eeg Data: data/single_dipole_eeg_10000.npy
-Location Data: data/single_dipole_locations_10000.npy
-Mean and std Data: data/single_dipole_eeg_mean_std_10000.npy
---------------------------------------------------------------

@@ -11,15 +11,15 @@ def basic_parameters():
         'learning_rate': 0.001,
         'N_epochs': 500,
         'noise_pct': 10,
-        # 'custom_loss': True,
-        # 'hl_act_func': 'tanh',
-        # 'weights': 1
+        'custom_loss': True,
+        'hl_act_func': 'tanh',
+        'weights': 1
     }
 
 
 def main():
     batch_sizes = [32]
-    weight_decay = [0.5]
+    weight_decay = [0.1]
     momentum = [0.35]
     parameters = basic_parameters()
     parameters['l1_lambda'] = 0
