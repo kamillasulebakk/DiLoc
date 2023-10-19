@@ -4,6 +4,7 @@
 \usepackage{babel, uiomasterfp}
 \usepackage[subpreambles=true]{standalone}
 \usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{csquotes}
 \usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
 \usepackage{hyperref}
@@ -22,16 +23,16 @@
 dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}]
 
 \frontmatter
-\input{acknowledgements}
-\tableofcontents
-\input{introduction}
+% \input{acknowledgements}
+% \tableofcontents
+% \input{introduction}
 
 \mainmatter
 % motivation...
 % \input{chapter0}
 
 % neuroscience stuff
-\input{chapter1}
+% \input{chapter1}
 
 % eeg, head models etc
 \input{chapter2}
@@ -40,24 +41,25 @@ dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}]
 \input{chapter3}
 
 % method, DiLoc network
-\input{chapter4}
+% \input{chapter4}
 
 % results, simple dipole
-\input{chapter5}
+% \input{chapter5}
 
 % results extended network
-\input{chapter6}
+% \input{chapter6}
 
 % results extended network
-\input{chapter_convolutional}
+% \input{chapter_convolutional}
+
+% results two dipoles, both FFNN and CNN
+% \input{multiple_dipoles}
 
 % results extended network
-\input{chapter7}
+% \input{chapter7}
 
 % \input{chapter8}
 
 \backmatter
-\printbibliography
-
-
+% \printbibliography
 \end{document}

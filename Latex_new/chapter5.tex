@@ -71,7 +71,7 @@ Selecting the appropriate cost function is important when addressing machine lea
 % %MSE(\textbf{y},\mathbf{\tilde{y}}) =
 % \end{equation}
 
-Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $x_i, y_i and z_i$ stand for the predicted values and $\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$ are the corresponding true values.
+Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $x_i, y_i \text{and} z_i$ denote for the predicted values and $\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$ are the corresponding true values.
 
 Due to the squaring step in the function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
 

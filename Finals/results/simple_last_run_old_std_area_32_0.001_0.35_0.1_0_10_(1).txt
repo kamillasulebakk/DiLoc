@@ -1,0 +1,36 @@
+N_samples: 70000
+N_dipoles: 2
+determine_amplitude: False
+determine_area: False
+learning_rate: 0.001
+N_epochs: 10
+noise_pct: 10
+weights: 0.5
+custom_loss: True
+interpolate: True
+l1_lambda: 0
+batch_size: 32
+weight_decay: 0.1
+momentum: 0.35
+log_fname: simple_last_run_old_std_area_32_0.001_0.35_0.1_0_10_(1)
+------------------------------------------------------------
+Epoch    0/   9 | Train:   69.50375501 | Validation:   54.30776250 | Time:      99.8 s
+Predicted: [-35.640335 -46.355297  23.354183  -6.621836 -17.097334   3.032454]
+Target:    [ -3.1290848  11.8975725  29.003035  -41.511765  -73.77317    30.01826  ]
+
+Predicted: [-21.582443   -53.144455    -0.49283245  -2.1631033   -8.784078
+ -13.943412  ]
+Target:    [-16.919834 -47.923996 -10.261905 -29.399445 -40.577915  -3.491689]
+
+Predicted: [  0.353474  -35.100536   40.218227  -19.77935     1.6238847  -9.413423 ]
+Target:    [ 12.735633 -51.21289   44.124508 -17.274057   9.609895  15.768173]
+
+Epoch    1/   9 | Train:   47.07938061 | Validation:   43.35034687 | Time:     127.4 s
+Epoch    2/   9 | Train:   41.34779095 | Validation:   42.84059375 | Time:     154.4 s
+Epoch    3/   9 | Train:   38.41448853 | Validation:   37.83657813 | Time:     177.4 s
+Epoch    4/   9 | Train:   36.52739942 | Validation:   35.15532812 | Time:     200.7 s
+Epoch    5/   9 | Train:   35.06376823 | Validation:   32.75691875 | Time:     223.5 s
+Epoch    6/   9 | Train:   33.93811642 | Validation:   32.84038437 | Time:     247.5 s
+Epoch    7/   9 | Train:   32.98760284 | Validation:   32.12998750 | Time:     272.5 s
+Epoch    8/   9 | Train:   32.21472632 | Validation:   31.24794375 | Time:     296.0 s
+Epoch    9/   9 | Train:   31.55389940 | Validation:   30.31018750 | Time:     319.6 s

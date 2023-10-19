@@ -3,9 +3,10 @@ import os
 import torch
 from sklearn.model_selection import train_test_split    # type: ignore
 import numpy as np
+import scipy    # type: ignore
 
 from utils import numpy_to_torch
-from produce_data import return_interpolated_eeg_data
+from produce_plots import plot_interpolated_eeg_data
 
 
 def determine_fname_prefix(determine_area: bool, determine_amplitude: bool):
@@ -24,7 +25,7 @@ def generate_log_filename(parameters):
         parameters['determine_amplitude']
     )
     if parameters['custom_loss']:
-        result += '_today_new_cnn'
+        result += '_seed_42_cnn'
         # result += '_today_tanh_all_the_way_custom_new_standarization'
     # result += f'_{parameters["hl_act_func"]}'
     result += f'_{parameters["batch_size"]}_{parameters["learning_rate"]}'
@@ -45,10 +46,13 @@ def load_data_files(
     N_dipoles: int,
     interpolate: bool,
     ):
-    name = determine_fname_prefix(determine_area, determine_amplitude)
-    filename_base = f'data/{name}_{N_samples}_{N_dipoles}'
-    # name = 'amplitudes'
-    # filename_base = f'data/{name}_constA_{N_samples}_{N_dipoles}'
+    if N_dipoles == 2:
+        name = 'amplitudes'
+        filename_base = f'data/{name}_constA_{N_samples}_{N_dipoles}'
+    else:
+        name = determine_fname_prefix(determine_area, determine_amplitude)
+        filename_base = f'data/{name}_{N_samples}_{N_dipoles}'
+
     if data_split == 'test':
         filename_suffix = 'test'
     else:
@@ -62,6 +66,39 @@ def load_data_files(
         eeg = return_interpolated_eeg_data(eeg)
 
     return eeg, target
+
+
+def load_electrode_positions():
+    x_pos = np.load('data/electrode_positions_x.npy')
+    y_pos = np.load('data/electrode_positions_y.npy')
+    return x_pos, y_pos
+
+
+def return_interpolated_eeg_data(eeg, grid_shape : int = 20):
+    num_samples = len(eeg)
+
+    eeg_matrix = np.zeros((num_samples, grid_shape, grid_shape))
+    x_pos, y_pos = load_electrode_positions()
+
+    x0 = np.min(x_pos)
+    x1 = np.max(x_pos)
+    y0 = np.min(y_pos)
+    y1 = np.max(y_pos)
+
+    for i in range(num_samples):
+        eeg_i = eeg[i,:]
+        x_grid, y_grid = np.meshgrid(np.linspace(x0, x1, grid_shape), np.linspace(y0, y1, grid_shape))
+
+        x_new = x_grid.flatten()
+        y_new = y_grid.flatten()
+
+        eeg_new = scipy.interpolate.griddata((x_pos, y_pos), eeg_i, (x_new, y_new), method='nearest')
+        eeg_matrix[i, :, :] = np.reshape(eeg_new, (grid_shape,grid_shape))
+
+        if i < 5:
+            plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i)
+
+    return eeg_matrix
 
 
 def normalize(x, max_x, min_x):
@@ -104,11 +141,9 @@ class EEGDataset(torch.utils.data.Dataset):
             parameters['interpolate']
         )
 
-
         # BIG RED NOTE IS THIS WRONG ???
-        eeg = (eeg - np.mean(eeg, axis = 0))/np.std(eeg, axis = 0)
-        # eeg = (eeg - np.mean(eeg))/np.std(eeg)
-
+        # eeg = (eeg - np.mean(eeg, axis = 0))/np.std(eeg, axis = 0)
+        eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
 
         self.max_targets = np.array([
@@ -136,7 +171,7 @@ class EEGDataset(torch.utils.data.Dataset):
         if data_split == 'test':
             self._eeg, self._target = eeg, target
         else:
-            self._eeg, self._target = self.split_data(eeg, target, data_split)
+            self._eeg, self._target = self.split_data(eeg, target, 'train')
 
         if data_split != 'test':
             self.add_noise(parameters['noise_pct'])
@@ -150,10 +185,6 @@ class EEGDataset(torch.utils.data.Dataset):
             for i in range(target.shape[1]):
                 # indexed modulo 4 to work for multiple dipole sources
                 target[:, i] = normalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
-        # elif target.shape[1] == 6:
-        #     print('hello')
-        #     for i in range(target.shape[1]):
-        #         target[:, i] = normalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
 
         return target
 
@@ -165,10 +196,6 @@ class EEGDataset(torch.utils.data.Dataset):
             for i in range(target.shape[1]):
                 # indexed modulo 4 to work for multiple dipole sources
                 target[:, i] = denormalize(target[:, i], self.max_targets[i%4], self.min_targets[i%4])
-        # elif target.shape[1] == 6:
-        #     print('hello')
-        #     for i in range(target.shape[1]):
-        #         target[:, i] = denormalize(target[:, i], self.max_targets[i%3], self.min_targets[i%3])
 
         return target
 

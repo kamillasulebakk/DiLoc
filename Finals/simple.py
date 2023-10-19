@@ -1,6 +1,7 @@
 from model_runner import run_model
 
 
+# why is not momentum here ? 
 def basic_parameters():
     return {
         'N_samples': 70_000,
@@ -13,7 +14,8 @@ def basic_parameters():
         'noise_pct': 10,
         'custom_loss': True,
         'hl_act_func': 'tanh',
-        'weights': 1
+        'weights': 1,
+        'interpolate': False
     }
 
 

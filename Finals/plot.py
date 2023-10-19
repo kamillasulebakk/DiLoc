@@ -2,6 +2,8 @@ import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import os
+import seaborn as sns
+
 
 plt.style.use('seaborn')
 plt.rcParams.update({
@@ -11,6 +13,8 @@ plt.rcParams.update({
 )
 # for e.g. \text command
 mpl.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+palette = sns.color_palette("deep")
+sns.set_palette(palette)
 
 big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
 
@@ -81,7 +85,11 @@ def plot_MSE_targets_2_dipoles(
 
 def plot_MSE_targets(targets, batch_size, filename, N_dipoles):
     fig, ax = plt.subplots()
-    labels = ['$x$ position', '$y$ position', '$z$ position', r'Amplitude', 'Radius']
+    if N_dipoles == 2:
+        labels = ['$x_1$ position', '$y_1$ position', '$z_1$ position', '$x_2$ position', '$y_2$ position', '$z_2$ position']
+    else:
+        labels = ['$x$ position', '$y$ position', '$z$ position', r'Amplitude', 'Radius']
+
     for target, label in zip(targets.T, labels):
         ax.plot(np.log(target), label=label)
     set_ax_info(
@@ -96,8 +104,8 @@ def plot_MSE_targets(targets, batch_size, filename, N_dipoles):
 
 def plot_MSE_NN(train_loss, test_loss, filename, act_func, batch_size, num_epochs, N_dipoles):
     fig, ax = plt.subplots()
-    ax.plot(np.log(train_loss), label='Train')
-    ax.plot(np.log(test_loss), label='Validation')
+    ax.plot(np.log(train_loss), label='Train', color=palette[0])
+    ax.plot(np.log(test_loss), label='Validation', color=palette[2])
     set_ax_info(
         ax,
         xlabel='Number of epochs',
@@ -108,31 +116,18 @@ def plot_MSE_NN(train_loss, test_loss, filename, act_func, batch_size, num_epoch
     fig.savefig(f'plots/Custom_Loss_{filename}.pdf')
     plt.close(fig)
 
-def plot_R2_NN(train_R2, test_R2, NN, act_func, batch_size, num_epochs, name = "NN"):
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.set_title(f'R2 score for train and test data using {act_func} with {batch_size} batches', fontsize=20)
-    ax.set_xlabel('Number of epochs', fontsize=18)
-    ax.set_ylabel('Score', fontsize=18)
-    ax.tick_params(axis='both', which='major', labelsize=18)
-    epoch_array = np.linspace(15, num_epochs, num_epochs-15)
-    ax.plot(epoch_array, train_R2[15:], label='Train')
-    ax.plot(epoch_array, test_R2[15:], label='Test')
-    ax.legend(fontsize=18)
-    fig.savefig(f'plots/R2_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
 
-
-def plot_MSE_CNN(train_loss, test_loss, NN, act_func, batch_size, num_epochs):
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.set_title(f'MSE for train and test data using {act_func} with {batch_size} batches', fontsize=20)
-    ax.set_xlabel('Number of epochs', fontsize=18)
-    ax.set_ylabel('ln(MSE) [mm]', fontsize=18)
-    ax.tick_params(axis='both', which='major', labelsize=18)
-    ax.plot(np.log(train_loss), label='Train')
-    ax.plot(np.log(test_loss), label='Test')
-    ax.legend(fontsize=18)
-    fig.savefig(f'plots/07.feb/MSE_CNN_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
+# def plot_MSE_CNN(train_loss, test_loss, NN, act_func, batch_size, num_epochs):
+#     fig = plt.figure()
+#     ax = fig.add_subplot()
+#     ax.set_title(f'MSE for train and test data using {act_func} with {batch_size} batches', fontsize=20)
+#     ax.set_xlabel('Number of epochs', fontsize=18)
+#     ax.set_ylabel('ln(MSE) [mm]', fontsize=18)
+#     ax.tick_params(axis='both', which='major', labelsize=18)
+#     ax.plot(np.log(train_loss), label='Train', color=palette[0])
+#     ax.plot(np.log(test_loss), label='Validation', color=palette[3])
+#     ax.legend(fontsize=18)
+#     fig.savefig(f'plots/07.feb/MSE_CNN_{NN}_{act_func}_{batch_size}_{num_epochs}.png')
 
 
 

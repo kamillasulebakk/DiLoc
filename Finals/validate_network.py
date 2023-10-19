@@ -5,28 +5,39 @@ import matplotlib.pyplot as plt
 from ffnn import FFNN
 from eeg_dataset import EEGDataset
 
-from utils import numpy_to_torch, denormalize
-from investigate_amplitude import plot_error_amplitude
+from utils import numpy_to_torch #, denormalize
+from investigate_amplitude import plot_error_amplitude, plot_error_area
 import test_models as tm
 import simple
 import amplitude
 import area
+import simple_cnn
 
 # palette = sns.color_palette("deep")
 # sns.set_palette(palette)
 
 def validate_network(model, parameters):
-    name = 'area'
+    name = 'amplitude'
     data = EEGDataset('test', parameters)
-    predictions =  data.denormalize(model(data.eeg)).detach().numpy()
-    targets = data.denormalize(data.target).detach().numpy()
-    # if name == 'amplitude':
-    #     plot_error_amplitude(predictions, targets)
+
+    if name == 'simple_cnn':
+        eeg = data.eeg
+        predictions = model(eeg.unsqueeze(1)).detach().numpy()
+        targets = (data.target).detach().numpy()
+    else:
+        predictions =  data.denormalize(model(data.eeg)).detach().numpy()
+        targets = data.denormalize(data.target).detach().numpy()
+
+    if name == 'amplitude':
+        plot_error_amplitude(predictions, targets)
+    if name == 'area':
+        plot_error_area(predictions, targets)
 
     criterea = tm.test_criterea(predictions, targets, name)
     test_results = tm.generate_test_results(predictions, targets)
     tm.print_test_results(test_results)
     tm.save_test_results(test_results, name)
+
 
 
 
@@ -64,7 +75,7 @@ def main():
 
     # Amplitude
     # NB, weight = '1, 1'
-    # model = torch.load('trained_models/amplitudes_test_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
+    model = torch.load('trained_models/amplitudes_test_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
     """
     Mean Euclidean Distance (MED) is 2.805983781814575
     -----------------------------------------------------------------------
@@ -168,12 +179,19 @@ def main():
     # NB, tanh all the way
     # model = torch.load('trained_models/amplitudes_new_standarization_tanh_32_0.001_0.35_0.1_0_3000_(1).pt')
 
+    # model = torch.load('trained_models/amplitudes_today_new_standarization_relu_tanh_sigmoid_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
+    # model = torch.load('trained_models/amplitudes_today_new_standarization_tanh_all_the_way_sigmoid_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
+    # model = torch.load('trained_models/amplitudes_today_new_standarization_relu_all_the_way_sigmoid_relu_32_0.001_0.35_0.1_0_1500_(0).pt')
+
+
+
 
 
 
 
 
     # Two dipoles
+    # model = torch.load('trained_models/simple_seed_42_cnn_32_0.001_0.35_0.5_0_800_(1).pt')
     # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.5_0_6000_(1).pt')
     # model = torch.load('trained_models/amplitudes_64_0.001_0.35_0.1_1e-05_3000_(1).pt')
     # model = torch.load('trained_models/amplitudes_32_0.001_0.35_0.1_0_10000_(0).pt')
@@ -203,6 +221,9 @@ def main():
 
 
     # model = torch.load('trained_models/simple_custom_loss_constA_32_0.001_0.35_0.1_0_1500_(0).pt')
+    # model = torch.load('trained_models/simple_last_run_old_std_2_dipoles_32_0.001_0.35_0.1_0_800_(0).pt') # right one
+    # model = torch.load('trained_models/simple_last_run_old_std_2_dipoles_32_0.001_0.35_0.5_0_800_(0).pt') # right one
+    # model = torch.load('trained_models/simple_last_run_old_std_2_dipoles_32_0.001_0.35_0.1_0_300_(0).pt') # may be
     """
     tanh in hidden, relu in first
     Mean Euclidean Distance (MED) is 44.69486999511719
@@ -239,12 +260,17 @@ def main():
 
     # model = torch.load('trained_models/simple_custom_sigmoid_new_standarization_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
 
+    # model = torch.load('trained_models/simple_today_new_standarization_relu_tanh_sigmoid_tanh_32_0.001_0.35_0.1_0_2500_(1).pt')
 
+    # model = torch.load('trained_models/simple_today_new_cnn_32_0.001_0.35_0.5_0_2000_(0).pt')
 
 
 
 
     # Area
+    # model = torch.load('trained_models/area_last_run_old_std_area_32_0.001_0.35_0.1_0_800_(0).pt')
+
+
     # model = torch.load('trained_models/area_32_0.001_0.35_0.1_0.0_5000_(0).pt')
     # model = torch.load('trained_models/area_custom_loss_ReLU_32_0.001_0.35_0.1_0_1500_(1).pt')
 
@@ -301,8 +327,7 @@ def main():
     # model = torch.load('trained_models/area_new_standarization_tanh_32_0.001_0.35_0.1_0_1500_(1).pt')
 
     """
-    NBNBNB!!! tanh in first layer and different standarization:
-
+    NBNBNB!!! tanh in first layer and new standarization:
         Mean Euclidean Distance (MED) is 8.009358406066895
     -----------------------------------------------------------------------
     |       |  MED < 3 mm  |  MED < 5 mm  |  MED < 10 mm  |  MED < 12 mm  |
@@ -345,59 +370,173 @@ def main():
     ---------------------------------------------------------
     """
 
-    # model = torch.load('trained_models/area_new_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
 
+    # model = torch.load('trained_models/area_new_custom_loss_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
     """
+    tanh in first layer, old standarization
     Mean Euclidean Distance (MED) is 7.43090295791626
------------------------------------------------------------------------
-|       |  MED < 3 mm  |  MED < 5 mm  |  MED < 10 mm  |  MED < 12 mm  |
-|---------------------------------------------------------------------|
-|  pos  |    27.130    |    55.665    |    85.025     |    88.590     |
------------------------------------------------------------------------
-No handles with labels found to put in legend.
-Mean Absolute Error (MAE) for amplitude is 0.32234683632850647
----------------------------------------------------------------------------------
-|             |  MAE < 1.0 mA$mu$m  |  MAE < 2.0 mA$mu$m  |  MAE < 3.0 mA$mu$m  |
-|-------------------------------------------------------------------------------|
-|  amplitude  |       92.865        |       98.585        |       99.725        |
----------------------------------------------------------------------------------
-No handles with labels found to put in legend.
----------------------------------------------------------------------------------------------------------------------------------
-|                   |  MED < 10 mm & MAE < 1.0 mA$mu$m  |  MED < 10 mm & MAE < 2.0 mA$mu$m  |  MED < 10 mm & MAE < 3.0 mA$mu$m  |
-|-------------------------------------------------------------------------------------------------------------------------------|
-|  pos & amplitude  |              79.615               |              84.195               |              84.865               |
----------------------------------------------------------------------------------------------------------------------------------
-Mean Absolute Error (MAE) for area is 0.729033887386322
--------------------------------------------------------------
-|        |  MAE < 1.0 mm  |  MAE < 3.0 mm  |  MAE < 5.0 mm  |
-|-----------------------------------------------------------|
-|  area  |     75.955     |     98.310     |     99.745     |
--------------------------------------------------------------
-No handles with labels found to put in legend.
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-|                            |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 1.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 3.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 5.0 mm  |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  pos & amplitude & radius  |                      64.775                      |                      84.090                      |                      84.825                      |
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------
-|             |  MAE (mm)  |  MSE (mm^2)  |  RMSE (mm)  |
-|-------------------------------------------------------|
-|      x      |   3.619    |    47.210    |    6.871    |
-|      y      |   3.955    |    65.432    |    8.089    |
-|      z      |   3.545    |    43.981    |    6.632    |
-|  Position   |   3.707    |    52.208    |    7.225    |
-|  Amplitude  |   0.322    |    0.308     |    0.555    |
----------------------------------------------------------
+    -----------------------------------------------------------------------
+    |       |  MED < 3 mm  |  MED < 5 mm  |  MED < 10 mm  |  MED < 12 mm  |
+    |---------------------------------------------------------------------|
+    |  pos  |    27.130    |    55.665    |    85.025     |    88.590     |
+    -----------------------------------------------------------------------
+    No handles with labels found to put in legend.
+    Mean Absolute Error (MAE) for amplitude is 0.32234683632850647
+    ---------------------------------------------------------------------------------
+    |             |  MAE < 1.0 mA$mu$m  |  MAE < 2.0 mA$mu$m  |  MAE < 3.0 mA$mu$m  |
+    |-------------------------------------------------------------------------------|
+    |  amplitude  |       92.865        |       98.585        |       99.725        |
+    ---------------------------------------------------------------------------------
+    No handles with labels found to put in legend.
+    ---------------------------------------------------------------------------------------------------------------------------------
+    |                   |  MED < 10 mm & MAE < 1.0 mA$mu$m  |  MED < 10 mm & MAE < 2.0 mA$mu$m  |  MED < 10 mm & MAE < 3.0 mA$mu$m  |
+    |-------------------------------------------------------------------------------------------------------------------------------|
+    |  pos & amplitude  |              79.615               |              84.195               |              84.865               |
+    ---------------------------------------------------------------------------------------------------------------------------------
+    Mean Absolute Error (MAE) for area is 0.729033887386322
+    -------------------------------------------------------------
+    |        |  MAE < 1.0 mm  |  MAE < 3.0 mm  |  MAE < 5.0 mm  |
+    |-----------------------------------------------------------|
+    |  area  |     75.955     |     98.310     |     99.745     |
+    -------------------------------------------------------------
+    No handles with labels found to put in legend.
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |                            |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 1.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 3.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 5.0 mm  |
+    |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    |  pos & amplitude & radius  |                      64.775                      |                      84.090                      |                      84.825                      |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------
+    |             |  MAE (mm)  |  MSE (mm^2)  |  RMSE (mm)  |
+    |-------------------------------------------------------|
+    |      x      |   3.619    |    47.210    |    6.871    |
+    |      y      |   3.955    |    65.432    |    8.089    |
+    |      z      |   3.545    |    43.981    |    6.632    |
+    |  Position   |   3.707    |    52.208    |    7.225    |
+    |  Amplitude  |   0.322    |    0.308     |    0.555    |
+    ---------------------------------------------------------
     """
-    # Try out new standarization with relu first layer !!
+
 
     # model = torch.load('trained_models/area_custom_new_standarization_tanh_32_0.001_0.35_0.1_0_1500_(0).pt')
+    """
+        new standarization: relu, tanh, sigmoid:
+        Mean Euclidean Distance (MED) is 8.201817512512207
+    -----------------------------------------------------------------------
+    |       |  MED < 3 mm  |  MED < 5 mm  |  MED < 10 mm  |  MED < 12 mm  |
+    |---------------------------------------------------------------------|
+    |  pos  |    25.930    |    53.355    |    79.120     |    82.480     |
+    -----------------------------------------------------------------------
+    No handles with labels found to put in legend.
+    Mean Absolute Error (MAE) for amplitude is 0.3309727907180786
+    ---------------------------------------------------------------------------------
+    |             |  MAE < 1.0 mA$mu$m  |  MAE < 2.0 mA$mu$m  |  MAE < 3.0 mA$mu$m  |
+    |-------------------------------------------------------------------------------|
+    |  amplitude  |       92.810        |       98.575        |       99.660        |
+    ---------------------------------------------------------------------------------
+    No handles with labels found to put in legend.
+    ---------------------------------------------------------------------------------------------------------------------------------
+    |                   |  MED < 10 mm & MAE < 1.0 mA$mu$m  |  MED < 10 mm & MAE < 2.0 mA$mu$m  |  MED < 10 mm & MAE < 3.0 mA$mu$m  |
+    |-------------------------------------------------------------------------------------------------------------------------------|
+    |  pos & amplitude  |              73.610               |              78.280               |              78.975               |
+    ---------------------------------------------------------------------------------------------------------------------------------
+    Mean Absolute Error (MAE) for area is 0.7804287672042847
+    -------------------------------------------------------------
+    |        |  MAE < 1.0 mm  |  MAE < 3.0 mm  |  MAE < 5.0 mm  |
+    |-----------------------------------------------------------|
+    |  area  |     73.335     |     98.060     |     99.770     |
+    -------------------------------------------------------------
+    No handles with labels found to put in legend.
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |                            |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 1.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 3.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 5.0 mm  |
+    |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    |  pos & amplitude & radius  |                      58.850                      |                      78.155                      |                      78.935                      |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------
+    |             |  MAE (mm)  |  MSE (mm^2)  |  RMSE (mm)  |
+    |-------------------------------------------------------|
+    |      x      |   4.108    |    52.611    |    7.253    |
+    |      y      |   4.607    |    75.124    |    8.667    |
+    |      z      |   3.655    |    40.717    |    6.381    |
+    |  Position   |   4.123    |    56.151    |    7.493    |
+    |  Amplitude  |   0.331    |    0.324     |    0.569    |
+    ---------------------------------------------------------
+    """
 
 
+
+
+    # model = torch.load('trained_models/area_today_new_area_relu_tanh_sigmoid_not_new_standarization_32_0.001_0.35_0.1_0_1500_(0).pt')
+    """
+    Pretrained model loaded
+    Mean Euclidean Distance (MED) is 7.6956353187561035
+    -----------------------------------------------------------------------
+    |       |  MED < 3 mm  |  MED < 5 mm  |  MED < 10 mm  |  MED < 12 mm  |
+    |---------------------------------------------------------------------|
+    |  pos  |    26.920    |    53.465    |    79.975     |    83.855     |
+    -----------------------------------------------------------------------
+    No handles with labels found to put in legend.
+    Mean Absolute Error (MAE) for amplitude is 0.3345828652381897
+    ---------------------------------------------------------------------------------
+    |             |  MAE < 1.0 mA$mu$m  |  MAE < 2.0 mA$mu$m  |  MAE < 3.0 mA$mu$m  |
+    |-------------------------------------------------------------------------------|
+    |  amplitude  |       92.440        |       98.435        |       99.615        |
+    ---------------------------------------------------------------------------------
+    No handles with labels found to put in legend.
+    ---------------------------------------------------------------------------------------------------------------------------------
+    |                   |  MED < 10 mm & MAE < 1.0 mA$mu$m  |  MED < 10 mm & MAE < 2.0 mA$mu$m  |  MED < 10 mm & MAE < 3.0 mA$mu$m  |
+    |-------------------------------------------------------------------------------------------------------------------------------|
+    |  pos & amplitude  |              74.380               |              79.095               |              79.825               |
+    ---------------------------------------------------------------------------------------------------------------------------------
+    Mean Absolute Error (MAE) for area is 0.7783097624778748
+    -------------------------------------------------------------
+    |        |  MAE < 1.0 mm  |  MAE < 3.0 mm  |  MAE < 5.0 mm  |
+    |-----------------------------------------------------------|
+    |  area  |     73.820     |     98.065     |     99.755     |
+    -------------------------------------------------------------
+    No handles with labels found to put in legend.
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    |                            |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 1.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 3.0 mm  |  MED < 10 mm & MAE < 3.0 mA$mu$m & MAE < 5.0 mm  |
+    |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+    |  pos & amplitude & radius  |                      59.735                      |                      79.015                      |                      79.790                      |
+    ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    ---------------------------------------------------------
+    |             |  MAE (mm)  |  MSE (mm^2)  |  RMSE (mm)  |
+    |-------------------------------------------------------|
+    |      x      |   3.728    |    41.160    |    6.416    |
+    |      y      |   4.294    |    64.913    |    8.057    |
+    |      z      |   3.596    |    40.111    |    6.333    |
+    |  Position   |   3.872    |    48.728    |    6.981    |
+    |  Amplitude  |   0.335    |    0.332     |    0.576    |
+    ---------------------------------------------------------
+    """
+
+    # THIS ONE
+    # model = torch.load('trained_models/area_last_run_old_std_area_32_0.001_0.35_0.1_0_800_(1).pt')
+    # model = torch.load('trained_models/area_last_run_old_std_area_32_0.01_0.35_0.1_0_800_(0).pt')
+
+    # model = torch.load('trained_models/area_seed_42_cnn_32_0.001_0.35_0.1_0_1500_(0).pt')
+
+
+    #CNN
+    # model = torch.load('trained_models/simple_today_new_cnn_32_0.001_0.35_0.1_0_500_(7).pt') # new standarization
+
+    # model = torch.load('trained_models/simple_today_new_cnn_32_0.001_0.35_0.5_0_600_(0).pt')    # new standarization
+
+    # model = torch.load('trained_models/simple_today_new_cnn_32_0.001_0.35_0.1_0_600_(0).pt')
+
+    # model = torch.load('trained_models/simple_today_new_cnn_32_0.001_1e-06_0_0_600_(0).pt')
+
+    # model = torch.load('trained_models/simple_last_run_old_std_cnn_32_0.001_0.35_0.1_0_600_(0).pt')
+    # model = torch.load('trained_models/simple_last_run_old_std_cnn_32_0.001_0.35_0.5_0_600_(0).pt')
+
+    # model = torch.load('trained_models/simple_last_run_old_std_2_dipoles_32_0.001_0.35_0.5_0_800_(5).pt')
+
+    # model = torch.load('trained_models/simple_last_run_old_std_area_32_0.001_0.35_0.5_0_800_(0).pt')
+    # model = torch.load('trained_models/simple_last_run_old_std_area_32_0.001_0.35_0.1_0_800_(0).pt')
 
 
     print('Pretrained model loaded')
-    validate_network(model, area.basic_parameters())
+    validate_network(model, amplitude.basic_parameters())
 
 if __name__ == '__main__':
     main()

@@ -1,23 +1,13 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Example with the New York head model
-
-# In[1]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
 import os
 import h5py
 import numpy as np
 import matplotlib.pyplot as plt
-from ECSbook_simcode.plotting_convention import mark_subplots, simplify_axes
 
-# This is the url the lead field is downloaded from:
-#nyhead_url = 'https://www.parralab.org/nyhead/sa_nyhead.mat'
+big_data_path = '/Users/Kamilla/Documents/DiLoc-data'
 
-nyhead_file = os.path.join("sa_nyhead.mat")
+nyhead_file = os.path.join(big_data_path, "sa_nyhead.mat")
 head_data = h5py.File(nyhead_file, 'r')["sa"]
+
 lead_field_normal = np.array(head_data["cortex75K"]["V_fem_normal"])
 #lead_field = np.array(head_data["cortex75K"]["V_fem"])
 cortex = np.array(head_data["cortex75K"]["vc"]) # Locations of every vertex in cortex
@@ -121,14 +111,14 @@ p_z *= 1e7 / np.max(np.abs(p_z))
 dipole_loc = np.array([-10., 0., 88.]) # x, y, z location in mm
 vertex_idx = np.argmin(np.sqrt(np.sum((dipole_loc[:, None] - cortex)**2, axis=0)))
 
-# Calculate EEG signal from lead field. 
+# Calculate EEG signal from lead field.
 eeg = np.zeros((num_elecs, num_tsteps))
 eeg[:, :] = lead_field_normal[vertex_idx, :][:, None] * p_z.T * 1e-6  # µV
 
 eeg = eeg[upper_idxs, :]
 
 # Find closest electrode
-top_elec_idx = np.argmin(np.sqrt(np.sum((cortex[:, vertex_idx, None] - 
+top_elec_idx = np.argmin(np.sqrt(np.sum((cortex[:, vertex_idx, None] -
                        elecs[:3, :])**2, axis=0)))
 max_time_idx = np.argmax(np.abs(eeg[top_elec_idx]))
 
@@ -139,30 +129,29 @@ max_time_idx = np.argmax(np.abs(eeg[top_elec_idx]))
 # The rest is just plotting
 
 fig = plt.figure(figsize=[6, 2.])
-fig.subplots_adjust(bottom=0.17, right=0.93, left=0.01, 
+fig.subplots_adjust(bottom=0.17, right=0.93, left=0.01,
                     top=0.9, wspace=.1, hspace=0.6)
 
 # Plot 3D head
 ax_head = fig.add_axes([-.02, 0, 0.25, 1], projection='3d', frame_on=False,
                           xticks=[], yticks=[], zticks=[],
                           xlim=[-70, 70], facecolor="none",
-                          ylim=[-70, 70], zlim=[-70, 70],
-                          computed_zorder=False,
+                          ylim=[-70, 70], zlim=[-70, 70]
                           )
 
-ax_geom = fig.add_axes([0.21, 0, 0.22, 1], aspect=1, #xlabel="x (mm)", 
-                      #ylabel="z (mm)", 
-                       frameon=False, 
+ax_geom = fig.add_axes([0.21, 0, 0.22, 1], aspect=1, #xlabel="x (mm)",
+                      #ylabel="z (mm)",
+                       frameon=False,
                       xticks=[], yticks=[])
 
 ax_p = fig.add_axes([0.5, 0.6, 0.17, 0.28], xlabel="time (ms)", ylabel="$P_z$ (nAµm)")
 
 ax_eeg1 = fig.add_axes([0.5, 0.16, 0.17, 0.28], xlabel="time (ms)", ylabel="EEG (µV)")
 
-ax_eeg2 = fig.add_axes([0.68, 0., 0.25, 1], xlim=[-110, 110], 
-                       ylim=[-120, 110], aspect=1, #xlabel="x (mm)", 
-                      #ylabel="y (mm)", 
-                       frameon=False, 
+ax_eeg2 = fig.add_axes([0.68, 0., 0.25, 1], xlim=[-110, 110],
+                       ylim=[-120, 110], aspect=1, #xlabel="x (mm)",
+                      #ylabel="y (mm)",
+                       frameon=False,
                       xticks=[], yticks=[])
 
 
@@ -170,9 +159,9 @@ ax_head.axis('off')
 ax_head.plot_trisurf(x_ctx, y_ctx, z_ctx, triangles=cortex_tri,
                               color="pink", zorder=0, rasterized=True)
 
-ax_head.plot_trisurf(x_h, y_h, z_h, triangles=head_tri, 
+ax_head.plot_trisurf(x_h, y_h, z_h, triangles=head_tri,
                      color="#c87137", zorder=0, alpha=0.2)
-all_patches = []                     
+all_patches = []
 for elec_idx in range(len(elecs[0, :])):
     elec_normal = elecs[3:, elec_idx]
     elec_xyz = elecs[:3, elec_idx]
@@ -200,13 +189,13 @@ cax = fig.add_axes([0.92, 0.2, 0.01, 0.6]) # This axis is just the colorbar
 vmax = np.floor(np.max(np.abs(eeg[:, max_time_idx])))
 
 
-cmap = plt.cm.get_cmap('PRGn') 
+cmap = plt.cm.get_cmap('PRGn')
 vmap = lambda v: cmap((v + vmax) / (2*vmax))
 levels = np.linspace(-vmax, vmax, 60)
 
-contourf_kwargs = dict(levels=levels, 
-                       cmap="PRGn", 
-                       vmax=vmax, 
+contourf_kwargs = dict(levels=levels,
+                       cmap="PRGn",
+                       vmax=vmax,
                        vmin=-vmax,
                       extend="both")
 scatter_params = dict(cmap="bwr", vmin=-vmax, vmax=vmax, s=25)
@@ -223,25 +212,33 @@ cbar.set_ticks([-vmax, -vmax/2, 0, vmax/2, vmax])
 
 # Plotting crossection of cortex around active region center
 threshold = 2  # threshold in mm for including points in plot
-xz_plane_idxs = np.where(np.abs(cortex[1, :] - 
+xz_plane_idxs = np.where(np.abs(cortex[1, :] -
                                 dipole_loc[1]) < threshold)[0]
 
-ax_geom.scatter(cortex[0, xz_plane_idxs], 
+ax_geom.scatter(cortex[0, xz_plane_idxs],
             cortex[2, xz_plane_idxs], s=1, c='0.9')
 
 ax_geom.plot([-30, -40], [-60, -60], c='k', lw=2)
 ax_geom.text(-35, -65, "20 mm", ha='center', va="top")
-ax_geom.arrow(cortex[0, vertex_idx], cortex[2, vertex_idx] - 4, 0, 4, 
+ax_geom.arrow(cortex[0, vertex_idx], cortex[2, vertex_idx] - 4, 0, 4,
           color='k', head_width=2)
-        
+
+fig.savefig(f'test1.pdf')
+
 ax_eeg2.plot(cortex[0, vertex_idx], cortex[1, vertex_idx], 'o', c='k', ms=2)
+fig.savefig(f'test2.pdf')
+
 ax_head.plot(cortex[0, vertex_idx], cortex[1, vertex_idx], cortex[2, vertex_idx], 'o', c='k', ms=2)
-    
-simplify_axes([ax_p, ax_eeg1])
-mark_subplots([ax_geom], "B", ypos=1.1, xpos=0.1)
-mark_subplots([ax_eeg2], "E", ypos=1.0, xpos=0.1)
-mark_subplots([ax_p, ax_eeg1], "CD", ypos=1.2, xpos=-0.1)
-plt.savefig("NYhead_example.pdf")
+fig.savefig(f'test3.pdf')
+
+
+# simplify_axes([ax_p, ax_eeg1])
+# mark_subplots([ax_geom], "B", ypos=1.1, xpos=0.1)
+# mark_subplots([ax_eeg2], "E", ypos=1.0, xpos=0.1)
+# mark_subplots([ax_p, ax_eeg1], "CD", ypos=1.2, xpos=-0.1)
+# plt.show()
+# input()
+# plt.savefig("NYhead_example.pdf")
 
 
 # In[ ]:

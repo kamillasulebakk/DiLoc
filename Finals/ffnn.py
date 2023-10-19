@@ -46,18 +46,16 @@ class FFNN(nn.Module):
 
     def forward(self, x: torch.Tensor):
         x = nn.functional.relu(self.first_layer(x))
-        # x = torch.tanh(self.first_layer(x))
 
         for layer in self.hidden_layers:
             # x = nn.functional.relu(layer(x))
-            # x = torch.tanh(layer(x))
-            if self.hl_activation_function == 'tanh':
-                x = torch.tanh(layer(x))
-            else:
-                x = nn.functional.relu(layer(x))
+            x = torch.tanh(layer(x))
+            # if self.hl_activation_function == 'tanh':
+            #     x = torch.tanh(layer(x))
+            # else:
+            #     x = nn.functional.relu(layer(x))
 
         x = self.final_layer(x)
-        # x = torch.sigmoid(x)
         if self.determine_area or self.determine_amplitude:
             x = torch.sigmoid(x)
         return x

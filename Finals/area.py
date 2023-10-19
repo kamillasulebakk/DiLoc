@@ -10,11 +10,12 @@ def basic_parameters():
         'hidden_layers': [512, 256, 128, 64, 32],
         'learning_rate': 0.001,
         'momentum': 0.35,
-        'N_epochs': 1500,
+        'N_epochs': 1000,
         'noise_pct': 10,
         'custom_loss': True,
         'hl_act_func': 'tanh',
-        'weights': 0.5
+        'weights': 0.5,
+        'interpolate': False
     }
 
 

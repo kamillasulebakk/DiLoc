@@ -1,10 +1,15 @@
+import torch
+import numpy as np
+
+seed = 42
+torch.manual_seed(seed) # Seed for PyTorch (to ensure reproducibility)
+np.random.seed(seed) # Seed for NumPy (used by DataLoader and other non-Torch components)
+
 import os
 import time
 import itertools
 
-import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-import numpy as np
 
 from plot import plot_MSE_NN, plot_MSE_targets
 from cnn import CNN, number_of_output_values
@@ -117,8 +122,8 @@ class CustomLoss:
         return result
 
     def _one_dipole(self, predicted, target):
-        euc_dist = torch.linalg.norm(predicted - target)
-        # euc_dist = torch.linalg.norm(predicted[:3] - target[:3])
+        # euc_dist = torch.linalg.norm(predicted - target)
+        euc_dist = torch.linalg.norm(predicted[:3] - target[:3])
         # absolute_error = (predicted[3:] - target[3:]).abs().sum()
         # return euc_dist + absolute_error
         # return 2*self._weight*euc_dist + (2 - 2*self._weight)*absolute_error
@@ -144,7 +149,7 @@ class Loss:
 def run_model(parameters):
     parameters['log_fname'] = generate_log_filename(parameters)
     logger = Logger(parameters)
-    net = CNN()
+    net = CNN(parameters)
     data_loader_train = torch.utils.data.DataLoader(
         EEGDataset('train', parameters),
         batch_size=parameters['batch_size'],
@@ -190,15 +195,19 @@ def run_model(parameters):
 
         # print target and predicted values
         if epoch % 100 == 0:
-            preds = []
-            targets = []
-            for i, (eeg, target) in enumerate(data_loader_val):
-                pred = net(eeg)
-                preds.append(pred[0])
-                targets.append(target[0])
-                if i == 2:
-                    break
-            logger.print_predictions(preds, targets)
+            # no need to keep track of gradients as they will not be used to
+            # update parameters
+            # thus more efficient to use no_grad
+            with torch.no_grad():
+                preds = []
+                targets = []
+                for i, (eeg, target) in enumerate(data_loader_val):
+                    pred = net(eeg.unsqueeze(1))
+                    preds.append(pred[0])
+                    targets.append(target[0])
+                    if i == 2:
+                        break
+                logger.print_predictions(preds, targets)
 
     plot_MSE_NN(
         train_loss,

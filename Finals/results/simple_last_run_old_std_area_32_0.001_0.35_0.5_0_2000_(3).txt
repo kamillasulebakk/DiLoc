@@ -1,0 +1,87 @@
+N_samples: 70000
+N_dipoles: 2
+determine_amplitude: False
+determine_area: False
+learning_rate: 0.001
+N_epochs: 2000
+noise_pct: 10
+weights: 0.5
+custom_loss: True
+interpolate: True
+l1_lambda: 0
+batch_size: 32
+weight_decay: 0.5
+momentum: 0.35
+log_fname: simple_last_run_old_std_area_32_0.001_0.35_0.5_0_2000_(3)
+------------------------------------------------------------
+Epoch    0/1999 | Train:   80.28293426 | Validation:   60.09820000 | Time:     115.1 s
+Predicted: [-24.964306  -58.928646   22.621048  -12.325698   -5.824784   10.1183405]
+Target:    [ -3.1290848  11.8975725  29.003035  -41.511765  -73.77317    30.01826  ]
+
+Predicted: [-19.965784   -59.021847    -0.4274552   -1.0853022   -3.6338665
+   0.39969367]
+Target:    [-16.919834 -47.923996 -10.261905 -29.399445 -40.577915  -3.491689]
+
+Predicted: [  6.9444733 -48.624477   28.623085  -24.432907   12.712623   -4.129083 ]
+Target:    [ 12.735633 -51.21289   44.124508 -17.274057   9.609895  15.768173]
+
+Epoch    1/1999 | Train:   53.66287988 | Validation:   48.36040625 | Time:     148.0 s
+Epoch    2/1999 | Train:   46.56093612 | Validation:   44.07421250 | Time:     181.4 s
+Epoch    3/1999 | Train:   42.10433030 | Validation:   40.61469375 | Time:     214.8 s
+Epoch    4/1999 | Train:   39.41992256 | Validation:   37.57783750 | Time:     247.9 s
+Epoch    5/1999 | Train:   37.69109986 | Validation:   35.81620937 | Time:     282.5 s
+Epoch    6/1999 | Train:   36.32678190 | Validation:   35.23853438 | Time:     315.8 s
+Epoch    7/1999 | Train:   35.26516756 | Validation:   35.56392187 | Time:     349.6 s
+Epoch    8/1999 | Train:   34.42815730 | Validation:   34.26449063 | Time:     385.8 s
+Epoch    9/1999 | Train:   33.62174936 | Validation:   33.41847500 | Time:     425.5 s
+Epoch   10/1999 | Train:   33.03189281 | Validation:   33.84277500 | Time:     467.3 s
+Epoch   11/1999 | Train:   32.38228843 | Validation:   31.85515313 | Time:     505.9 s
+Epoch   12/1999 | Train:   31.87274417 | Validation:   31.85945938 | Time:     544.8 s
+Epoch   13/1999 | Train:   31.42567887 | Validation:   31.52419062 | Time:     583.5 s
+Epoch   14/1999 | Train:   30.94100942 | Validation:   30.60718437 | Time:     621.2 s
+Epoch   15/1999 | Train:   30.60862430 | Validation:   29.85797500 | Time:     661.0 s
+Epoch   16/1999 | Train:   30.18617453 | Validation:   29.49582500 | Time:     697.0 s
+Epoch   17/1999 | Train:   29.92669582 | Validation:   30.73639688 | Time:     732.1 s
+Epoch   18/1999 | Train:   29.54656600 | Validation:   29.65458125 | Time:     766.6 s
+Epoch   19/1999 | Train:   29.24182608 | Validation:   29.03481875 | Time:     800.7 s
+Epoch   20/1999 | Train:   28.92684257 | Validation:   30.64501562 | Time:     833.4 s
+Epoch   21/1999 | Train:   28.68875785 | Validation:   28.29530000 | Time:     865.6 s
+Epoch   22/1999 | Train:   28.48037237 | Validation:   27.95490000 | Time:     900.1 s
+Epoch   23/1999 | Train:   28.19416216 | Validation:   27.68982500 | Time:     932.4 s
+Epoch   24/1999 | Train:   27.99879536 | Validation:   28.76968438 | Time:     965.8 s
+Epoch   25/1999 | Train:   27.77622911 | Validation:   28.38128125 | Time:     998.2 s
+Epoch   26/1999 | Train:   27.54854316 | Validation:   27.86335625 | Time:    1030.4 s
+Epoch   27/1999 | Train:   27.37041986 | Validation:   27.85397187 | Time:    1062.9 s
+Epoch   28/1999 | Train:   27.15666418 | Validation:   28.60090000 | Time:    1095.7 s
+Epoch   29/1999 | Train:   27.00726350 | Validation:   26.35711875 | Time:    1129.0 s
+Epoch   30/1999 | Train:   26.73743783 | Validation:   26.63568438 | Time:    1161.3 s
+Epoch   31/1999 | Train:   26.58611497 | Validation:   26.63669375 | Time:    1194.8 s
+Epoch   32/1999 | Train:   26.44746391 | Validation:   26.73133437 | Time:    1227.2 s
+Epoch   33/1999 | Train:   26.27793917 | Validation:   26.93921250 | Time:    1259.9 s
+Epoch   34/1999 | Train:   26.11288847 | Validation:   25.74687500 | Time:    1293.2 s
+Epoch   35/1999 | Train:   26.06002967 | Validation:   27.55881250 | Time:    1325.6 s
+Epoch   36/1999 | Train:   25.86329450 | Validation:   27.51385625 | Time:    1359.1 s
+Epoch   37/1999 | Train:   25.69270319 | Validation:   26.94825625 | Time:    1392.0 s
+Epoch   38/1999 | Train:   25.56619049 | Validation:   26.66822500 | Time:    1425.3 s
+Epoch   39/1999 | Train:   25.42206158 | Validation:   27.48154687 | Time:    1457.9 s
+Epoch   40/1999 | Train:   25.37258411 | Validation:   25.28510000 | Time:    1489.9 s
+Epoch   41/1999 | Train:   25.20078826 | Validation:   26.28010000 | Time:    1523.7 s
+Epoch   42/1999 | Train:   25.07091367 | Validation:   25.84291094 | Time:    1556.4 s
+Epoch   43/1999 | Train:   24.98471389 | Validation:   24.99300781 | Time:    1589.5 s
+Epoch   44/1999 | Train:   24.80657344 | Validation:   25.01880313 | Time:    1622.7 s
+Epoch   45/1999 | Train:   24.72412068 | Validation:   26.42934062 | Time:    1655.2 s
+Epoch   46/1999 | Train:   24.65382522 | Validation:   24.81245313 | Time:    1689.9 s
+Epoch   47/1999 | Train:   24.49057832 | Validation:   24.60182031 | Time:    1723.1 s
+Epoch   48/1999 | Train:   24.44937988 | Validation:   25.25201875 | Time:    1756.4 s
+Epoch   49/1999 | Train:   24.30362297 | Validation:   24.31585313 | Time:    1788.8 s
+Epoch   50/1999 | Train:   24.22337413 | Validation:   25.42497344 | Time:    1822.0 s
+Epoch   51/1999 | Train:   24.07731311 | Validation:   24.73294063 | Time:    1854.5 s
+Epoch   52/1999 | Train:   24.01377459 | Validation:   25.24712969 | Time:    1886.6 s
+Epoch   53/1999 | Train:   23.91641521 | Validation:   25.73679375 | Time:    1919.0 s
+Epoch   54/1999 | Train:   23.82359180 | Validation:   23.79058281 | Time:    1951.7 s
+Epoch   55/1999 | Train:   23.72021634 | Validation:   23.77850313 | Time:    1985.2 s
+Epoch   56/1999 | Train:   23.65702796 | Validation:   25.87256719 | Time:    2017.5 s
+Epoch   57/1999 | Train:   23.63570638 | Validation:   24.84700937 | Time:    2050.9 s
+Epoch   58/1999 | Train:   23.41256409 | Validation:   23.73644219 | Time:    2083.2 s
+Epoch   59/1999 | Train:   23.41885296 | Validation:   23.78198906 | Time:    2116.2 s
+Epoch   60/1999 | Train:   23.30792329 | Validation:   23.77721563 | Time:    2152.4 s

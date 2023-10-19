@@ -3,12 +3,14 @@ import torch
 import numpy as np
 import matplotlib.pyplot as plt
 
-from NN_simple_dipole import Net
+from ffnn import FFNN
 
 from produce_data import calculate_eeg
 from utils import numpy_to_torch, normalize, denormalize, MSE, MSE
 import produce_data
 import matplotlib as mpl
+
+from plot import set_ax_info
 
 import os
 import h5py
@@ -24,43 +26,44 @@ mpl.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
 
 import matplotlib.gridspec as gridspec
 
+
 def plot_MED_error(med, dipole_locs, name, numbr):
     fig = plt.figure(figsize=[10, 8])  # Increase the figure size
 
-    fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
+    fig.subplots_adjust(hspace=0.4, left=0.07, right=0.9, bottom=0.1, top=0.85)
 
-    cax = fig.add_axes([0.92, 0.55, 0.01, 0.3])  # This axis is just the colorbar
+    # cax = fig.add_axes([0.92, 0.55, 0.01, 0.3])  # This axis is just the colorbar
 
-    scatter_params = dict(cmap="hot", vmin=0, vmax=15, s=10)
+    scatter_params = dict(cmap="hot", vmin=0, vmax=15, s=12)
 
     if numbr == 0:
-        fig.suptitle(f'MED for dipole locations in y cross-section', fontsize=20)
+        fig.suptitle(f'ED for Dipole Locations in the X-Z Cross-Section', fontsize=30)
         ax = fig.add_subplot(111, aspect=1)
         img = ax.scatter(dipole_locs[0], dipole_locs[2], c=med, **scatter_params)
-        ax.set_xlabel("x [mm]", fontsize=16)
-        ax.set_ylabel("z [mm]", fontsize=16)
+        ax.set_xlabel("x [mm]", fontsize=25)
+        ax.set_ylabel("z [mm]", fontsize=25)
     elif numbr == 1:
-        fig.suptitle(f'MED for dipole locations in z cross-section', fontsize=20)
+        fig.suptitle(f'ED for Dipole Locations in the X-Y Cross-Section', fontsize=30)
         ax = fig.add_subplot(111, aspect=1)
         img = ax.scatter(dipole_locs[0], dipole_locs[1], c=med, **scatter_params)
-        ax.set_xlabel("x [mm]", fontsize=16)
-        ax.set_ylabel("y [mm]", fontsize=16)
+        ax.set_xlabel("x [mm]", fontsize=25)
+        ax.set_ylabel("y [mm]", fontsize=25)
     else:
-        fig.suptitle(f'MED for dipole locations in x cross-section', fontsize=20)
+        fig.suptitle(f'ED for Dipole Locations in the Y-Z Cross-Section', fontsize=30)
         ax = fig.add_subplot(111, aspect=1)
         img = ax.scatter(dipole_locs[1], dipole_locs[2], c=med, **scatter_params)
-        ax.set_xlabel("y [mm]", fontsize=16)
-        ax.set_ylabel("z [mm]", fontsize=16)
+        ax.set_xlabel("y [mm]", fontsize=25)
+        ax.set_ylabel("z [mm]", fontsize=25)
 
-    cbar = plt.colorbar(img, cax=cax)
-    cbar.ax.set_ylabel('[mm]', fontsize=16)
-    cbar.ax.tick_params(labelsize=16)
+    # cbar = plt.colorbar(img, cax=cax)
+    # cbar.ax.set_ylabel('[mm]', fontsize=25)
+    # cbar.ax.tick_params(labelsize=25)
 
-    ax.tick_params(axis='both', which='major', labelsize=15)
-    ax.xaxis.label.set_fontsize(16)  # Set x-label font size
-    ax.yaxis.label.set_fontsize(16)  # Set y-label font size
+    ax.tick_params(axis='both', which='major', labelsize=20)
+    ax.xaxis.label.set_fontsize(25)  # Set x-label font size
+    ax.yaxis.label.set_fontsize(25)  # Set y-label font size
 
-    plt.savefig(f"plots/MED_simple_dipole_error_{name}_{numbr}.pdf")
+    plt.savefig(f"plots/Simple/MED_simple_dipole_error_{name}_{numbr}.pdf")
 
 # x, y, z - coordinates
 model = torch.load('trained_models/simple_32_0.001_0.35_0.5_0.0_500_(0).pt')
@@ -151,8 +154,8 @@ for numbr, plane in enumerate(planes):
     plot_MED_error(error_locations, nyhead.cortex[:,plane], 'Euclidean Distance', numbr)
 
 
-print(np.mean(sulci_error))
-print(np.mean(gyri_error))
+# print(np.mean(sulci_error))
+# print(np.mean(gyri_error))
     # plot_MSE_error(error_x, nyhead.cortex[:,plane], 'x', numbr)
     # plot_MSE_error(error_y, nyhead.cortex[:,plane], 'y', numbr)
     # plot_MSE_error(error_z, nyhead.cortex[:,plane], 'z', numbr)

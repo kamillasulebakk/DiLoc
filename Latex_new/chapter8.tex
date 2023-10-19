@@ -3,12 +3,39 @@
 \usepackage{lipsum}
 \usepackage[subpreambles=true]{standalone}
 \usepackage[table,xcdraw]{xcolor}
+\usepackage{hyperref}
+\usepackage{xcolor}
 
 \begin{document}
 \chapter{Discussion}
-This will be a chapter of discussion.
-
 \rednote{ReLU in first layer}
 \rednote{Vanishing/exploding gradients}
+
+Hvorfor ikke overraskende at dette gikk!
+- De fleste cortexer har samme størrelse - så dette er ganke overførbart til mye cortexer. 
+
+\section{FFNN vs CNN}
+
+\section{Multiple dipoles: Previous work}
+We acknowledge that similar research has been conducted by other groups, including the developers of the ConvDip convolutional neural network. The ConvDip network was designed to produce inverse solutions for EEG data, specifically focusing on predicting the positions of varying numbers of sources from a single time point of EEG data.
+
+The researchers behind ConvDip explored the feasibility of utilizing CNNs to solve the EEG inverse problem for multiple sources using training data that adheres to biologically plausible constraints. Similar to DiLoc, ConvDip was trained to operate on single time instances of EEG data and predict the positions of sources based on potentials measured with scalp electrodes. However, it is worth noting that unlike our approach, the ConvDip group considered dipole clusters rather than single dipoles. This approach aligns more closely with the previous problem in which we focused on dipole populations.
+
+For generating the simulated data, the researchers created a source model consisting of 5124 dipoles distributed along the cortical surface (also referred to as the cortex). They selected 31 recording electrodes and computed the leadfield matrix using a head model with dipole orientations fixed orthogonally to the cortical surface, similar to our methodology. To enhance the realism of the training data, real noise from pre-existing EEG recordings conducted with the same set of electrodes was added. Additionally, the group created separate test data using an alternative head model to avoid potential overoptimistic results, a phenomenon they referred to as the "inverse crime." The training dataset consisted of 100,000 samples, while the test dataset comprised 1000 samples.
+
+In order to prepare the EEG input data for spatial convolutions, it was interpolated onto a 2D image of size 7 x 11. As expected with interpolation, this procedure does not introduce new information to the EEG data. The output of ConvDip is a vector of size 5,124, corresponding to the dipoles in the source model. For a comprehensive description of the ConvDip network, we refer readers to Hecker et. al (2021) \ref{hecker2021convdip}.
+
+Although the complexity of our original DiLoc network (FFNN) is significantly smaller compared to ConvDip, we still desired to investigate its performance in this more challenging task. We will now evaluate the ability of DiLoc to estimate the correct size of sources and to correctly localize sources with varying depth.
+
+\section{Extending DiLoc}
+The explaination to why the magnitude target loss and radius target loss tend to have the same shape on the loss curve, is that the magnitude of the signal is directly proportional to the radius of the population (as each dipole within a population hols the same magnitude, meaning that the larger the population, the larger the magnitude of the total signal). We do therefor have a corelation beetwen these two variables, and we can think of the setup like if we were to weightened the magnitude and radius twice as much as the target coordinates.
+
+Compared to the problem where the network were to only predict magnitude and not radius, we do see from the result section that when preedicting both magnitude and radius, the training takes a shorter time to fininsh, and moreover we get more precise predictions.
+
+\section{Multiple dipoles; thre .. }
+
+\section{Small Discussion and next chapter}
+\rednote{Performance of networks}
+\rednote{How we in next chapter will continue using Diloc and adde extentions.}
 
 \end{document}

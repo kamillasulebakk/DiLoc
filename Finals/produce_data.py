@@ -1,7 +1,6 @@
 import numpy as np
 from lfpykit.eegmegcalc import NYHeadModel
 import matplotlib.pyplot as plt
-from scipy import interpolate
 import utils
 import os
 import h5py
@@ -47,7 +46,9 @@ def return_simple_dipole(num_samples:int, num_dipoles: int = 1):
     # plotting the data without and with (different amount of) noise
     plot_dipoles(nyhead, "simple_dipole", eeg[0], dipole_locations[:,0], 0)
 
-    noise_pcts = [0.1, 0.5, 1, 10, 50]
+    # noise_pcts = [0.1, 0.5, 1, 10, 50]
+    noise_pcts = [10]
+
     for i, noise_pct in enumerate(noise_pcts):
         eeg_noise = eeg[0] + np.random.normal(0, np.std(eeg[0]) * noise_pct/100, eeg[0].shape) # add noice
 
@@ -200,9 +201,10 @@ def return_two_dipoles(num_samples: int, num_dipoles: int, create_plot: bool = T
 
         eeg[i, :] = eeg_i
 
-        # if i < 5 and create_plot == True:
-        #     print(dipole_amplitudes[0,i*num_dipoles])
-        #     plot_dipoles(nyhead, "dipoles_w_amplitudes", eeg[i], dipole_pos_list, i)
+
+        if i < 5 and create_plot == True:
+            print(dipole_amplitudes[0,i*num_dipoles])
+            plot_dipoles(nyhead, "dipoles_w_amplitudes", eeg[i], dipole_pos_list, i)
 
     target = dipole_locations
     # target = np.concatenate((dipole_locations, dipole_amplitudes), axis=0)
@@ -210,7 +212,7 @@ def return_two_dipoles(num_samples: int, num_dipoles: int, create_plot: bool = T
     return eeg, target
 
 
-def calculate_eeg(nyhead, A: int = 1.0):
+def calculate_eeg(nyhead, A: float = 1.0):
     """
     Calculates the eeg signal from the dipole population
 
@@ -219,15 +221,13 @@ def calculate_eeg(nyhead, A: int = 1.0):
             Combined eeg signal from the dipole population for a single patient
     """
     M = nyhead.get_transformation_matrix()
-    print(M)
-    print(np.shape(M))
-    input()
     # Dipole oriented in depth direction in the cortex
     p = np.array(([0.0], [0.0], [A])) * 1E7 # [nA* mu m] => statisk dipol som representerer et valgt tidspunkt
     # Rotates the direction of the dipole moment so that it is normal to the cerebral cortex
     p = nyhead.rotate_dipole_to_surface_normal(p)
     # Generates the EEG signal that belongs to the dipole moment
     eeg_i = M @ p * 1E3 # [mV] -> muV unit conversion (eeg_i between 10 og 100)
+
     return eeg_i.ravel()
 
 
@@ -247,52 +247,6 @@ def return_dipole_population_indices(nyhead, center, radius):
     # TODO: dist = np.linalg.norm(nyhead.cortex - center)
     pos_idx = np.where(dist < radius)[0]
     return pos_idx
-
-def load_electrode_positions():
-    x_pos = np.load('data/electrode_positions_x.npy')
-    y_pos = np.load('data/electrode_positions_y.npy')
-    return x_pos, y_pos
-
-
-def return_interpolated_eeg_data(eeg, grid_shape : int = 20):
-    nyhead = NYHeadModel()
-
-    num_samples = len(eeg)
-
-    eeg_matrix = np.zeros((num_samples, grid_shape, grid_shape))
-    x_pos, y_pos = load_electrode_positions()
-
-    x0 = np.min(x_pos)
-    x1 = np.max(x_pos)
-    y0 = np.min(y_pos)
-    y1 = np.max(y_pos)
-
-    for i in range(num_samples):
-        eeg_i = eeg[i,:]
-        x_grid, y_grid = np.meshgrid(np.linspace(x0, x1, grid_shape), np.linspace(y0, y1, grid_shape))
-
-        x_new = x_grid.flatten()
-        y_new = y_grid.flatten()
-
-        eeg_new = interpolate.griddata((x_pos, y_pos), eeg_i, (x_new, y_new), method='nearest')
-        eeg_matrix[i, :, :] = np.reshape(eeg_new, (grid_shape,grid_shape))
-
-        # if i < 5:
-        #     plot_interpolated_eeg_data(nyhead, eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i)
-
-    return eeg_matrix
-
-
-# def return_2d_eeg_data(eeg, num_samples, grid_shape : int = 20):
-#     x_pos, y_pos = load_electrode_positions()
-#
-#     x_indices = utils.indices_from_positions(x_pos, grid_shape - 1)
-#     y_indices = utils.indices_from_positions(y_pos, grid_shape - 1)
-#
-#     eeg_matrix = np.zeros((num_samples, grid_shape, grid_shape))
-#     eeg_matrix[:, x_indices, y_indices] = eeg
-#
-#     return eeg_matrix
 
 
 def prepare_and_save_data(num_samples, name, num_dipoles : int = 1):
@@ -337,7 +291,6 @@ def split_data_set(eeg_filename, target_list_filename, N_dipoles):
 
     if np.shape(target_list)[1] != 3:
         if np.shape(target_list)[1] == 4:
-            print('hello')
             target_list = np.reshape(target_list, (N_samples, 4*N_dipoles))
         else:
             target_list = np.reshape(target_list, (N_samples, 5*N_dipoles))
@@ -362,10 +315,11 @@ def split_data_set(eeg_filename, target_list_filename, N_dipoles):
 if __name__ == '__main__':
 
     num_samples = 70_000
-    name = 'dipoles_w_amplitudes'
+    # name = 'dipoles_w_amplitudes'
     num_dipoles = 2
-    prepare_and_save_data(num_samples, name, num_dipoles)
-    print('Finished')
+    # prepare_and_save_data(num_samples, name, num_dipoles)
+    return_two_dipoles(num_samples, num_dipoles, True)
+    # return_simple_dipole(num_samples, 1)
 
     # eeg_filename = 'amplitudes_constA_70000_2_eeg_complete.npy'
     # pos_list_filename = 'amplitudes_constA_70000_2_targets_complete.npy'

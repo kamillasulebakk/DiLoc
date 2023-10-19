@@ -1,3 +1,4 @@
+% !TEX root = main.tex
 \documentclass[a4paper, UKenglish, 11pt]{uiomaster}
 \usepackage{lipsum}
 \usepackage[subpreambles=true]{standalone}
@@ -7,52 +8,58 @@
 
 
 \chapter{DiLoc - A Neural Network Apporach for Source Localization}
-When having enough and suitable data for a problem to solve, one can start building tailorsuited neural networks to address the problem. We aim to build a neural network that maps measured EEG signals to the corresponding location of current dipoles.
-In this chapter, we will provide a comprehensive overview of the feed forward neural network that has been build to solve the EEG inverse problem, reffering to it as \emph{DiLoc}. We will be discussing its architecture and parameters, and moreover present an alternative approach using a convolutional neural network for the same purpose of source localization.
+Having obtained a suitable data set we can start building neural networks to address the problem. We aim to build a model that maps measured EEG signals to corresponding location of current dipoles. In this chapter, we will provide a comprehensive overview of the feed-forward neural network that has been built to solve the EEG inverse problem. We will be discussing its architecture and parameters, and present an alternative approach using a convolutional neural network.
 \rednote{Convolutional neural network is not included yet. Unsure if it should be in this chapter or chapter with CCN method and results.}
 
 
-\rednote{scaling}
 
-\section{Machine Learning and Neural Networks}
-Machine learning (ML) is a field concerned with constructing computer programs that learn from experience, where the utialization of data improves computer performance across various tasks. Within this broad scope, one application could lie in the identification of sources generating abnormal electrical brain signals, as we will be performing. By employing specific machine learning algorithms, EEG data can be processed and analyzed to accurately localize the sources responsible for the recorded signals. These algorithms should be able to learn from input data and uncover patterns that associate the signals with corresponding sources, effectively solving the EEG inverse problem.
+\section{Machine Learning}
+Machine learning (ML) is a field concerned with constructing computer programs that learn from experience. \rednote{Within this broad scope, one application could lie in the identification of sources generating abnormal electrical brain signals, as we will be performing. By employing specific machine learning algorithms, EEG data can be processed and analyzed to accurately localize the sources responsible for the recorded signals. These algorithms should be able to learn from input data and uncover patterns that associate the signals with corresponding sources, effectively solving the EEG inverse problem.}
+
 %In this chapter, we introduce the field of machine learning and provide an overview of relevant tequniqes for solving our specific EEG inverse problem and its wider implications.
 
-According to Mehta et. al. a definition of machine learning could be "...a subfield of artificial intelligence with the goal of developing algorithms capable of learning from data automatically" \cite{mehta2019high}. The typical ML problems are addressed using the same three elements. The first element is the dataset $\mathcal{D} = (\textbf{X}, \textbf{y})$ where $\textbf{X}$ commonly is refered to as the \emph{design matrix}, and consists of independent variables, and $\textbf{y}$ is a vector consisting of dependent variables. Next, we have the model itself, $f(\textbf{x}; \boldsymbol{\theta})$. The ML model can be seen as a function used to predict an output from a vector of input variables, i.e. $f : \textbf{x} \rightarrow y$ of the parameters $\boldsymbol{\theta}$. Finally, the third element, allows us to evaluate how well the model performs on the obervations $\textbf{y}$. This element is known as the cost funtion $\mathcal{C}(\textbf{y}, f(\textbf{X}); \boldsymbol{\theta})$.
+\rednote{The model it self? Do i mean activation function here or the whole network?}
+\rednote{quote}
+According to Mehta et. al. a definition of machine learning could be ''...a subfield of artificial intelligence with the goal of developing algorithms capable of learning from data automatically'' \cite{mehta2019high}. The typical ML problems are addressed using the same three elements.
+The first element is the dataset $\mathcal{D} = (X, Y)$. $X$, commonly is referred to as the \emph{design matrix}. and we aim to find a model that gives $Y$ as function of $X$. \rednote{fix}.
+\rednote{X sett av alle sett av inputverdier i datasettet. x er et sett av alle inputverdier i en sample (hele inputtsettet).}
+Next, we have the model $f(x; \boldsymbol{\theta})$ itself which is a function $f : \mathcal X \to \mathcal Y$ used to predict an output $y \in \mathcal Y$ from an input $x \in \mathcal X$ using the \emph{model parameters} $\boldsymbol{\theta}$. \rednote{$\mathbb{R}^{231}$ til $\mathbb{R}^{3}$}
+Thirdly we have the cost funtion $\mathcal{C}(y, f(x; \boldsymbol{\theta}))$ for $x \in X$ and $y \in Y$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$.
+Training the model is done by adjusting the model parameters in order to minimize the output of the cost function. The cost function gets high values when the output does not fit with the output wantet. Goal to find parameters that minimize the cost. \rednote{fix}
 
-\subsection{Neural Networks}
-In order to solve the inverse problem we will be building the DiLoc Neural Network. Neural networks are a distinct class of so-called \emph{nonlinear machine learning models} capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimics the way bilogical neurons trasmit signals, with interconnected \emph{nodes} that communicate through mathematical functions across layers. The layers in neural networks contain an optional number of nodes, where each connection is represented by a \emph{weight} variable. In the context of neural networks, these weight values can be understood as parameters representing the strenght of communication between nodes. Changing these weight values determines how strongly or weak a nodes's output influences another noded's input. During training, the neural network learns to adjust these weights so to capture the underlying patterns and relationships in the data. The network is able to do so by using past experiences known as \emph{training examples}. These patterns are further updated by the usage of appropriate non-linear functions, known as \emph{activation function}, and finally presented as the output \cite{nwankpa2018activation}. A neural network consits of many nodes stacked into \emph{layers}, with the output of one layer serving as the input for the next. Typically, the neural networks are built up of an input layer, an output layer and layers in between, called \emph{hidden layers}. In figure \ref{fig:NN_basic_architecture} we have provided the basic architecture of neural networks. Here nodes are depiced as circular shapes, while arrows indicate connections between the nodes.
+\section{Neural Networks}
+Neural networks are a distinct class of so-called \emph{nonlinear machine learning models} capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimic the way biological neurons transmit signals, with interconnected \emph{nodes} that communicate through mathematical functions. Each connection between nodes is represented by a \emph{weight} variable, which encodes the strength of the communication between the two nodes. During training, the neural network ''learns'' by adjusting these weights to capture the underlying patterns and relationships in the data.
+
+We will consider fully connected feed-forward \rednote{flere spesifikasjoner???} neural networks whose nodes are grouped into \emph{layers} with the output of one layer serving as the input for the next. \rednote{Hver node i et layer sender sine tall videre til hver node i det neste layer. Ingen tall går bakover... Antall noder i layer nummer l er $N_l$}. The activation of the $i$-th node in layer $l$, $a_i^{(l)}$ is the weigted sum
+\begin{equation}
+  z_i^{(l)} = \sum_{j=1}^{N_{l-1}} w_{ij}^{(l)} a_{j}^{(l-1)} + b_i^{(l)}
+\end{equation}
+fed through an \emph{activation function} which we will soon come back to. \rednote{fix}. \rednote{bias b}. The activation of the final layer is the outputs of the model. Typically, we call the first layer of neural networks the \emph{input layer}, the final layer of the model \emph{output layer} and the layers in between \emph{hidden layers}. In figure \ref{fig:NN_basic_architecture} we have illustrated the basic architecture of neural networks. Here nodes are depiced as circular shapes, while arrows indicate connections between the nodes. \rednote{maybe remove first figure? wrong notation}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\linewidth]{figures/basic_architecture.png}
+    \includegraphics[width=10cm]{figures/basic_architecture.png}
     \caption{$\textbf{(A)}$ The fundamental structure of neural networks comprises simplified nodes units that perform a linear operation to assign different weights to inputs, followed by a non-linear activation function. $\textbf{(B)}$ These nodes units are organized into layers, where the output of one layer serves as the input to the subsequent layer, forming a hierarchical arrangement. \rednote{Add proper citation.}}
     \label{fig:NN_basic_architecture}
 \end{figure}
 
-The behaviour of the human brain has inspired the following simple mathematical model for an artificial neuron, or node:
 
-\begin{equation}
-  a = f \left( \Sigma_{i=1}^n w_ix_i \right) ) = f(z),
-\label{eq:neuron}
-\end{equation}
 
-where $a$ is the output of the node, and is the value of the nodes activation function $f$ which has as input a weighted sum of signals $x_i, x_{i+1},...,x_n$ recieved by $n$ other nodes, multiplied with the weights $w_i, w_{i+1}, ..., w_{n}$ and added with biases $b_i, b_{i+1}, ..., b_{n}$. Biases, represented by $b_i$ for each node, provide an additional adjustment to the weighted sum, allowing the network to model biases in the data and play a crucial role in the overall flexibility of artificial neurons. The exact expression of $a$ varies depending on the type of non-linearity that exists in the activation function applied to the input of each node. However, in almost all cases $a$ can be decomposed into a linear operation that weights the relative importance of the various inputs, and a non-linear transformation $f(z)$. As seen in equation \ref{eq:neuron}, the linear tranformation commonly takes the form of a dot product with a set of node-specific weights followed by re-centering with a node-specific bias. A more convenient notation for the linear transformation $z^{i}$ then goes as follows:
+% where $a$ is the output of the node, and is the value of the nodes activation function $f$ which has as input a weighted sum of signals $x_i, x_{i+1},...,x_n$ recieved by $n$ other nodes, multiplied with the weights $w_i, w_{i+1}, ..., w_{n}$ and added with biases $b_i, b_{i+1}, ..., b_{n}$. Biases, represented by $b_i$ for each node, provide an additional adjustment to the weighted sum, allowing the network to model biases in the data and play a crucial role in the overall flexibility of artificial neurons. The exact expression of $a$ varies depending on the type of non-linearity that exists in the activation function applied to the input of each node. However, in almost all cases $a$ can be decomposed into a linear operation that weights the relative importance of the various inputs, and a non-linear transformation $f(z)$. As seen in equation \ref{eq:neuron}, the linear tranformation commonly takes the form of a dot product with a set of node-specific weights followed by re-centering with a node-specific bias. A more convenient notation for the linear transformation $z^{i}$ then goes as follows:
+%
+% \begin{equation}
+% z^{i} = \boldsymbol{w}^{(i)} \cdot \boldsymbol{x} + b^{(i)} = \mathbf{x}^T \cdot \mathbf{w}^{(i)} ,
+% \label{eq:linear_transformation}
+% \end{equation}
+%
+% where $\mathbf{x} = (1, \boldsymbol{x})$ and $\mathbf{w}^i = (b^{(i)}), \boldsymbol{w}^{(i)})$. The full input-output function can be expressed by incorporating this into the non-linear activation function $f_i$, as expressed below:
+% % TODO: f_i or a_i here?
+%
+% \begin{equation}
+% a_i(\mathbf{x}) = f_i(z^{(i)}) .
+% \label{eq:linear_transformation}
+% \end{equation}
 
-\begin{equation}
-z^{i} = \boldsymbol{w}^{(i)} \cdot \boldsymbol{x} + b^{(i)} = \mathbf{x}^T \cdot \mathbf{w}^{(i)} ,
-\label{eq:linear_transformation}
-\end{equation}
-
-where $\mathbf{x} = (1, \boldsymbol{x})$ and $\mathbf{w}^i = (b^{(i)}), \boldsymbol{w}^{(i)})$. The full input-output function can be expressed by incorporating this into the non-linear activation function $f_i$, as expressed below:
-% TODO: f_i or a_i here?
-
-\begin{equation}
-a_i(\mathbf{x}) = f_i(z^{(i)}) .
-\label{eq:linear_transformation}
-\end{equation}
-
-\rednote{Not sure if all this information is necessary.}
 
 \section{The creation of DiLoc}
 The development of DiLoc started with a deliberate and cautious approach, focusing on simplicity without compromising on accuracy in tackling the inverse problem. As a natural starting point, we adopted a fully connected, feed-forward neural network architecture, which eventually proved to be the most suitable framework for our purposes. The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes.

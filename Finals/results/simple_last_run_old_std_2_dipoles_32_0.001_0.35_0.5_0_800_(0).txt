@@ -1,0 +1,893 @@
+N_samples: 70000
+N_dipoles: 2
+determine_amplitude: False
+determine_area: False
+hidden_layers: [512, 256, 128, 64, 32]
+batch_size: 32
+learning_rate: 0.001
+momentum: 0.35
+N_epochs: 800
+noise_pct: 10
+custom_loss: True
+hl_act_func: tanh
+weights: 0.5
+interpolate: False
+weight_decay: 0.5
+l1_lambda: 0
+log_fname: simple_last_run_old_std_2_dipoles_32_0.001_0.35_0.5_0_800_(0)
+------------------------------------------------------------
+Epoch    0/ 799 | Train:  123.26453696 | Validation:  119.71219798 | Time:      34.5 s
+Predicted: [  6.822022   -1.4488097   7.8955793  -6.497255  -10.231371    1.1095468]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [  6.8393025  -1.609736    8.054632   -6.855322  -10.500114    0.9271049]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ 7.182641  -0.5847565  7.3989573 -5.8867636 -9.714815   2.0114937]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch    1/ 799 | Train:  117.76470303 | Validation:  115.59524760 | Time:      68.4 s
+Epoch    2/ 799 | Train:  114.47413184 | Validation:  112.71173622 | Time:     105.3 s
+Epoch    3/ 799 | Train:  110.71418173 | Validation:  107.60548123 | Time:     152.6 s
+Epoch    4/ 799 | Train:  106.09466779 | Validation:  104.17953774 | Time:     188.5 s
+Epoch    5/ 799 | Train:  103.11971971 | Validation:  101.59008087 | Time:     226.0 s
+Epoch    6/ 799 | Train:  100.67318103 | Validation:   99.35842028 | Time:     262.4 s
+Epoch    7/ 799 | Train:   98.37610780 | Validation:   97.34967802 | Time:     301.7 s
+Epoch    8/ 799 | Train:   96.18809202 | Validation:   94.92283596 | Time:     354.9 s
+Epoch    9/ 799 | Train:   94.03356769 | Validation:   92.81679937 | Time:     400.5 s
+Epoch   10/ 799 | Train:   91.88293926 | Validation:   90.74040910 | Time:     443.2 s
+Epoch   11/ 799 | Train:   89.74376276 | Validation:   88.64397589 | Time:     491.2 s
+Epoch   12/ 799 | Train:   87.64562808 | Validation:   86.67717901 | Time:     534.8 s
+Epoch   13/ 799 | Train:   85.64670916 | Validation:   84.87068191 | Time:     586.1 s
+Epoch   14/ 799 | Train:   83.75175710 | Validation:   82.84429288 | Time:     631.9 s
+Epoch   15/ 799 | Train:   81.97698271 | Validation:   81.19958067 | Time:     677.9 s
+Epoch   16/ 799 | Train:   80.31182020 | Validation:   79.66800619 | Time:     775.0 s
+Epoch   17/ 799 | Train:   78.79691672 | Validation:   78.18147838 | Time:     884.8 s
+Epoch   18/ 799 | Train:   77.31991668 | Validation:   76.81936402 | Time:     918.6 s
+Epoch   19/ 799 | Train:   75.93465233 | Validation:   75.73417532 | Time:     952.8 s
+Epoch   20/ 799 | Train:   74.60133568 | Validation:   74.00509809 | Time:     986.0 s
+Epoch   21/ 799 | Train:   73.26284948 | Validation:   72.74012205 | Time:    1016.7 s
+Epoch   22/ 799 | Train:   71.90845682 | Validation:   71.46299671 | Time:    1047.1 s
+Epoch   23/ 799 | Train:   70.50046991 | Validation:   70.08249925 | Time:    1077.3 s
+Epoch   24/ 799 | Train:   69.02796472 | Validation:   68.76515076 | Time:    1109.1 s
+Epoch   25/ 799 | Train:   67.50310886 | Validation:   67.23505516 | Time:    1139.9 s
+Epoch   26/ 799 | Train:   65.91910710 | Validation:   65.51367812 | Time:    1171.6 s
+Epoch   27/ 799 | Train:   64.30847422 | Validation:   64.04946461 | Time:    1202.0 s
+Epoch   28/ 799 | Train:   62.67523164 | Validation:   62.48670877 | Time:    1233.3 s
+Epoch   29/ 799 | Train:   61.04008298 | Validation:   60.76179363 | Time:    1268.8 s
+Epoch   30/ 799 | Train:   59.37858813 | Validation:   59.31456545 | Time:    1305.4 s
+Epoch   31/ 799 | Train:   57.77353602 | Validation:   57.37045727 | Time:    1338.0 s
+Epoch   32/ 799 | Train:   56.21930344 | Validation:   55.90750424 | Time:    1370.1 s
+Epoch   33/ 799 | Train:   54.72379821 | Validation:   55.02255142 | Time:    1404.7 s
+Epoch   34/ 799 | Train:   53.24735303 | Validation:   53.10606779 | Time:    1438.2 s
+Epoch   35/ 799 | Train:   51.84148692 | Validation:   51.88944876 | Time:    1471.5 s
+Epoch   36/ 799 | Train:   50.48633128 | Validation:   50.85095410 | Time:    1503.8 s
+Epoch   37/ 799 | Train:   49.08368494 | Validation:   49.25944426 | Time:    1535.7 s
+Epoch   38/ 799 | Train:   47.74902654 | Validation:   48.37927129 | Time:    1567.2 s
+Epoch   39/ 799 | Train:   46.38705207 | Validation:   46.79292819 | Time:    1599.6 s
+Epoch   40/ 799 | Train:   44.96040537 | Validation:   46.00076440 | Time:    1631.4 s
+Epoch   41/ 799 | Train:   43.54750933 | Validation:   43.75718538 | Time:    1663.6 s
+Epoch   42/ 799 | Train:   42.13131457 | Validation:   42.19184305 | Time:    1695.1 s
+Epoch   43/ 799 | Train:   40.67428412 | Validation:   40.94828587 | Time:    1725.4 s
+Epoch   44/ 799 | Train:   39.19741815 | Validation:   40.17091092 | Time:    1756.4 s
+Epoch   45/ 799 | Train:   37.91396889 | Validation:   38.31182296 | Time:    1786.8 s
+Epoch   46/ 799 | Train:   36.60396330 | Validation:   37.30258149 | Time:    1818.7 s
+Epoch   47/ 799 | Train:   35.44927701 | Validation:   36.08313261 | Time:    1850.6 s
+Epoch   48/ 799 | Train:   34.32837444 | Validation:   35.60199930 | Time:    1881.9 s
+Epoch   49/ 799 | Train:   33.23284781 | Validation:   34.30251285 | Time:    1912.3 s
+Epoch   50/ 799 | Train:   32.21932538 | Validation:   33.96794192 | Time:    1943.2 s
+Epoch   51/ 799 | Train:   31.26632055 | Validation:   33.43821448 | Time:    1974.3 s
+Epoch   52/ 799 | Train:   30.49469103 | Validation:   31.97424121 | Time:    2005.4 s
+Epoch   53/ 799 | Train:   29.73553736 | Validation:   31.60770892 | Time:    2036.0 s
+Epoch   54/ 799 | Train:   28.95617764 | Validation:   31.23886469 | Time:    2066.6 s
+Epoch   55/ 799 | Train:   28.28853156 | Validation:   29.93289487 | Time:    2097.8 s
+Epoch   56/ 799 | Train:   27.64529396 | Validation:   29.49898600 | Time:    2129.0 s
+Epoch   57/ 799 | Train:   27.21844729 | Validation:   29.73744509 | Time:    2160.9 s
+Epoch   58/ 799 | Train:   26.55375767 | Validation:   28.59690433 | Time:    2191.7 s
+Epoch   59/ 799 | Train:   26.15289097 | Validation:   28.39031300 | Time:    2222.6 s
+Epoch   60/ 799 | Train:   25.56118925 | Validation:   28.27271678 | Time:    2253.6 s
+Epoch   61/ 799 | Train:   25.20917215 | Validation:   28.18616152 | Time:    2284.7 s
+Epoch   62/ 799 | Train:   24.77808235 | Validation:   27.09608065 | Time:    2315.1 s
+Epoch   63/ 799 | Train:   24.31622132 | Validation:   27.32019394 | Time:    2346.3 s
+Epoch   64/ 799 | Train:   23.94602365 | Validation:   26.50133536 | Time:    2377.1 s
+Epoch   65/ 799 | Train:   23.56523899 | Validation:   25.92108564 | Time:    2408.3 s
+Epoch   66/ 799 | Train:   23.38853604 | Validation:   26.00875630 | Time:    2438.8 s
+Epoch   67/ 799 | Train:   22.87022237 | Validation:   25.64771834 | Time:    2469.5 s
+Epoch   68/ 799 | Train:   22.63752197 | Validation:   25.79497960 | Time:    2500.1 s
+Epoch   69/ 799 | Train:   22.36556996 | Validation:   25.49150422 | Time:    2531.0 s
+Epoch   70/ 799 | Train:   22.22487566 | Validation:   24.82871312 | Time:    2562.4 s
+Epoch   71/ 799 | Train:   21.88319529 | Validation:   24.87822453 | Time:    2592.7 s
+Epoch   72/ 799 | Train:   21.52004894 | Validation:   25.04624788 | Time:    2623.2 s
+Epoch   73/ 799 | Train:   21.29721693 | Validation:   24.86175557 | Time:    2653.7 s
+Epoch   74/ 799 | Train:   21.14261540 | Validation:   24.16401414 | Time:    2687.1 s
+Epoch   75/ 799 | Train:   20.79259666 | Validation:   24.16558662 | Time:    2718.0 s
+Epoch   76/ 799 | Train:   20.61907748 | Validation:   24.15545596 | Time:    2750.1 s
+Epoch   77/ 799 | Train:   20.45280734 | Validation:   23.97012748 | Time:    2780.8 s
+Epoch   78/ 799 | Train:   20.08005863 | Validation:   23.48689129 | Time:    2811.8 s
+Epoch   79/ 799 | Train:   19.96843021 | Validation:   23.43410387 | Time:    2842.4 s
+Epoch   80/ 799 | Train:   19.71319087 | Validation:   24.02988968 | Time:    2873.3 s
+Epoch   81/ 799 | Train:   19.51812643 | Validation:   23.75504349 | Time:    2903.8 s
+Epoch   82/ 799 | Train:   19.35685919 | Validation:   23.61120332 | Time:    2934.5 s
+Epoch   83/ 799 | Train:   19.20094368 | Validation:   23.34442236 | Time:    2965.0 s
+Epoch   84/ 799 | Train:   18.97079938 | Validation:   23.13797299 | Time:    2996.3 s
+Epoch   85/ 799 | Train:   18.85554594 | Validation:   23.07539499 | Time:    3026.8 s
+Epoch   86/ 799 | Train:   18.66767732 | Validation:   22.92480937 | Time:    3057.7 s
+Epoch   87/ 799 | Train:   18.55737167 | Validation:   22.47011656 | Time:    3088.2 s
+Epoch   88/ 799 | Train:   18.36400042 | Validation:   22.71115122 | Time:    3118.8 s
+Epoch   89/ 799 | Train:   18.21793431 | Validation:   22.73785381 | Time:    3149.4 s
+Epoch   90/ 799 | Train:   18.21500641 | Validation:   22.69386326 | Time:    3180.2 s
+Epoch   91/ 799 | Train:   17.91483184 | Validation:   22.18076390 | Time:    3210.4 s
+Epoch   92/ 799 | Train:   17.81854963 | Validation:   22.42273612 | Time:    3241.4 s
+Epoch   93/ 799 | Train:   17.61746271 | Validation:   22.04210295 | Time:    3271.7 s
+Epoch   94/ 799 | Train:   17.41477700 | Validation:   22.47290741 | Time:    3302.7 s
+Epoch   95/ 799 | Train:   17.34848660 | Validation:   22.14554213 | Time:    3333.4 s
+Epoch   96/ 799 | Train:   17.21231049 | Validation:   22.17896834 | Time:    3364.5 s
+Epoch   97/ 799 | Train:   17.00957628 | Validation:   21.87006883 | Time:    3395.4 s
+Epoch   98/ 799 | Train:   17.02097506 | Validation:   22.30292314 | Time:    3425.3 s
+Epoch   99/ 799 | Train:   16.89790478 | Validation:   21.87000955 | Time:    3456.4 s
+Epoch  100/ 799 | Train:   16.74179624 | Validation:   21.72949687 | Time:    3488.0 s
+Predicted: [ 45.76957    24.350893   -1.5742308  -4.1518445 -81.81018    43.213917 ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -4.2431097 -12.73266    48.698288    0.3454584 -40.921356  -21.223148 ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -2.093795   26.831919   -7.2034965  33.482376  -42.97266    49.45252  ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  101/ 799 | Train:   16.62404439 | Validation:   22.01529272 | Time:    3519.7 s
+Epoch  102/ 799 | Train:   16.54569562 | Validation:   21.41071785 | Time:    3549.7 s
+Epoch  103/ 799 | Train:   16.45708525 | Validation:   22.22347369 | Time:    3583.8 s
+Epoch  104/ 799 | Train:   16.32774823 | Validation:   21.53709689 | Time:    3616.2 s
+Epoch  105/ 799 | Train:   16.18814194 | Validation:   22.01794473 | Time:    3647.2 s
+Epoch  106/ 799 | Train:   16.12899300 | Validation:   21.20975346 | Time:    3677.0 s
+Epoch  107/ 799 | Train:   15.97764550 | Validation:   21.06735941 | Time:    3707.3 s
+Epoch  108/ 799 | Train:   15.91671286 | Validation:   21.26974497 | Time:    3737.8 s
+Epoch  109/ 799 | Train:   15.79586891 | Validation:   21.11060428 | Time:    3768.1 s
+Epoch  110/ 799 | Train:   15.66862737 | Validation:   21.20607965 | Time:    3798.6 s
+Epoch  111/ 799 | Train:   15.55536763 | Validation:   21.12846009 | Time:    3829.3 s
+Epoch  112/ 799 | Train:   15.54604354 | Validation:   21.03040604 | Time:    3860.0 s
+Epoch  113/ 799 | Train:   15.44336037 | Validation:   21.09893233 | Time:    3890.4 s
+Epoch  114/ 799 | Train:   15.30112150 | Validation:   20.89408509 | Time:    3920.7 s
+Epoch  115/ 799 | Train:   15.16434251 | Validation:   21.46367063 | Time:    3951.2 s
+Epoch  116/ 799 | Train:   15.15810411 | Validation:   20.94316749 | Time:    3982.6 s
+Epoch  117/ 799 | Train:   15.07883664 | Validation:   20.94027993 | Time:    4013.5 s
+Epoch  118/ 799 | Train:   14.96395140 | Validation:   20.94282741 | Time:    4045.2 s
+Epoch  119/ 799 | Train:   14.88743954 | Validation:   21.63049745 | Time:    4075.9 s
+Epoch  120/ 799 | Train:   14.89312894 | Validation:   20.74954448 | Time:    4106.8 s
+Epoch  121/ 799 | Train:   14.84527871 | Validation:   20.71530239 | Time:    4136.9 s
+Epoch  122/ 799 | Train:   14.65890178 | Validation:   20.67527269 | Time:    4167.6 s
+Epoch  123/ 799 | Train:   14.66339409 | Validation:   21.12459440 | Time:    4198.0 s
+Epoch  124/ 799 | Train:   14.52601545 | Validation:   20.96731012 | Time:    4228.7 s
+Epoch  125/ 799 | Train:   14.41676692 | Validation:   20.74712959 | Time:    4259.0 s
+Epoch  126/ 799 | Train:   14.30215087 | Validation:   20.79745064 | Time:    4289.7 s
+Epoch  127/ 799 | Train:   14.30364860 | Validation:   20.69055137 | Time:    4320.0 s
+Epoch  128/ 799 | Train:   14.17558321 | Validation:   20.69029865 | Time:    4350.4 s
+Epoch  129/ 799 | Train:   14.12758500 | Validation:   20.40061371 | Time:    4381.6 s
+Epoch  130/ 799 | Train:   14.15115933 | Validation:   20.96691856 | Time:    4412.5 s
+Epoch  131/ 799 | Train:   14.03597060 | Validation:   20.87634784 | Time:    4443.0 s
+Epoch  132/ 799 | Train:   14.03129756 | Validation:   20.33622298 | Time:    4473.5 s
+Epoch  133/ 799 | Train:   13.86928956 | Validation:   20.57157766 | Time:    4505.4 s
+Epoch  134/ 799 | Train:   13.80628637 | Validation:   20.31828137 | Time:    4536.2 s
+Epoch  135/ 799 | Train:   13.84038790 | Validation:   20.39372941 | Time:    4567.9 s
+Epoch  136/ 799 | Train:   13.72759835 | Validation:   20.48181035 | Time:    4599.7 s
+Epoch  137/ 799 | Train:   13.65880873 | Validation:   20.50146016 | Time:    4630.3 s
+Epoch  138/ 799 | Train:   13.59630788 | Validation:   20.43690876 | Time:    4660.7 s
+Epoch  139/ 799 | Train:   13.53257270 | Validation:   20.37020143 | Time:    4691.6 s
+Epoch  140/ 799 | Train:   13.45902597 | Validation:   20.60360611 | Time:    4722.4 s
+Epoch  141/ 799 | Train:   13.39093959 | Validation:   20.44057321 | Time:    4752.8 s
+Epoch  142/ 799 | Train:   13.35399509 | Validation:   20.40125799 | Time:    4783.5 s
+Epoch  143/ 799 | Train:   13.31097526 | Validation:   20.29466291 | Time:    4817.0 s
+Epoch  144/ 799 | Train:   13.25161606 | Validation:   20.45576141 | Time:    4847.9 s
+Epoch  145/ 799 | Train:   13.22039257 | Validation:   20.50829610 | Time:    4878.0 s
+Epoch  146/ 799 | Train:   13.12238707 | Validation:   20.38560023 | Time:    4909.2 s
+Epoch  147/ 799 | Train:   13.11273599 | Validation:   20.25212005 | Time:    4940.0 s
+Epoch  148/ 799 | Train:   13.10630654 | Validation:   20.13351606 | Time:    4970.1 s
+Epoch  149/ 799 | Train:   13.11439235 | Validation:   20.11970379 | Time:    5000.8 s
+Epoch  150/ 799 | Train:   12.95105374 | Validation:   20.09951577 | Time:    5031.4 s
+Epoch  151/ 799 | Train:   12.93073729 | Validation:   20.09576397 | Time:    5062.1 s
+Epoch  152/ 799 | Train:   12.88632473 | Validation:   20.28873022 | Time:    5092.6 s
+Epoch  153/ 799 | Train:   12.86403300 | Validation:   20.15308319 | Time:    5123.0 s
+Epoch  154/ 799 | Train:   12.80064452 | Validation:   20.22121637 | Time:    5154.3 s
+Epoch  155/ 799 | Train:   12.71090014 | Validation:   20.45759909 | Time:    5186.8 s
+Epoch  156/ 799 | Train:   12.69336676 | Validation:   20.35370907 | Time:    5217.0 s
+Epoch  157/ 799 | Train:   12.67715882 | Validation:   20.24669435 | Time:    5248.0 s
+Epoch  158/ 799 | Train:   12.61470745 | Validation:   20.41441974 | Time:    5278.5 s
+Epoch  159/ 799 | Train:   12.67111714 | Validation:   20.46699032 | Time:    5309.0 s
+Epoch  160/ 799 | Train:   12.54905924 | Validation:   19.90868049 | Time:    5339.7 s
+Epoch  161/ 799 | Train:   12.48461232 | Validation:   20.78204248 | Time:    5370.2 s
+Epoch  162/ 799 | Train:   12.45293007 | Validation:   20.37718869 | Time:    5400.8 s
+Epoch  163/ 799 | Train:   12.53005423 | Validation:   20.15414243 | Time:    5432.1 s
+Epoch  164/ 799 | Train:   12.39523031 | Validation:   19.90176031 | Time:    5462.9 s
+Epoch  165/ 799 | Train:   12.33664494 | Validation:   20.08977823 | Time:    5493.5 s
+Epoch  166/ 799 | Train:   12.28572500 | Validation:   20.26598224 | Time:    5523.6 s
+Epoch  167/ 799 | Train:   12.28247206 | Validation:   20.10601943 | Time:    5554.5 s
+Epoch  168/ 799 | Train:   12.24974232 | Validation:   20.04963153 | Time:    5586.9 s
+Epoch  169/ 799 | Train:   12.17073975 | Validation:   20.26546432 | Time:    5617.7 s
+Epoch  170/ 799 | Train:   12.17273283 | Validation:   20.24616863 | Time:    5647.8 s
+Epoch  171/ 799 | Train:   12.06481145 | Validation:   20.24358058 | Time:    5678.6 s
+Epoch  172/ 799 | Train:   12.13613689 | Validation:   20.14811458 | Time:    5709.6 s
+Epoch  173/ 799 | Train:   12.09034594 | Validation:   20.00428065 | Time:    5740.5 s
+Epoch  174/ 799 | Train:   12.06197997 | Validation:   19.99533247 | Time:    5770.9 s
+Epoch  175/ 799 | Train:   11.98340841 | Validation:   19.94105213 | Time:    5801.8 s
+Epoch  176/ 799 | Train:   11.93378066 | Validation:   20.21470179 | Time:    5832.3 s
+Epoch  177/ 799 | Train:   11.91695874 | Validation:   20.12886725 | Time:    5862.6 s
+Epoch  178/ 799 | Train:   11.87625133 | Validation:   20.21183762 | Time:    5896.5 s
+Epoch  179/ 799 | Train:   11.84389029 | Validation:   20.10375743 | Time:    5927.0 s
+Epoch  180/ 799 | Train:   11.79471792 | Validation:   19.93060478 | Time:    5957.7 s
+Epoch  181/ 799 | Train:   11.73524352 | Validation:   19.87677528 | Time:    5988.8 s
+Epoch  182/ 799 | Train:   11.72472853 | Validation:   19.91501098 | Time:    6018.9 s
+Epoch  183/ 799 | Train:   11.75393754 | Validation:   20.09416964 | Time:    6049.3 s
+Epoch  184/ 799 | Train:   11.67219101 | Validation:   20.25661130 | Time:    6079.7 s
+Epoch  185/ 799 | Train:   11.70326581 | Validation:   20.03690189 | Time:    6110.3 s
+Epoch  186/ 799 | Train:   11.67583709 | Validation:   20.07734812 | Time:    6140.6 s
+Epoch  187/ 799 | Train:   11.64696522 | Validation:   20.02768227 | Time:    6170.8 s
+Epoch  188/ 799 | Train:   11.56634581 | Validation:   19.92532261 | Time:    6204.0 s
+Epoch  189/ 799 | Train:   11.53268057 | Validation:   20.20897657 | Time:    6234.7 s
+Epoch  190/ 799 | Train:   11.53685669 | Validation:   20.02318946 | Time:    6265.2 s
+Epoch  191/ 799 | Train:   11.50556399 | Validation:   20.07902044 | Time:    6295.4 s
+Epoch  192/ 799 | Train:   11.42116073 | Validation:   19.95357584 | Time:    6326.7 s
+Epoch  193/ 799 | Train:   11.42613876 | Validation:   20.01057371 | Time:    6357.9 s
+Epoch  194/ 799 | Train:   11.37734977 | Validation:   20.27287122 | Time:    6387.8 s
+Epoch  195/ 799 | Train:   11.32475382 | Validation:   20.18473567 | Time:    6418.5 s
+Epoch  196/ 799 | Train:   11.28745450 | Validation:   19.99791271 | Time:    6449.5 s
+Epoch  197/ 799 | Train:   11.29669989 | Validation:   20.21326035 | Time:    6480.2 s
+Epoch  198/ 799 | Train:   11.24379028 | Validation:   20.02374794 | Time:    6511.0 s
+Epoch  199/ 799 | Train:   11.25759313 | Validation:   20.66883923 | Time:    6541.2 s
+Epoch  200/ 799 | Train:   11.20679567 | Validation:   20.08788438 | Time:    6572.2 s
+Predicted: [ 46.318584    24.469765     0.26225507  -3.9712086  -86.41783
+  44.12134   ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -4.0652494  -7.666672   52.886723   -1.7075572 -39.838604  -24.90841  ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -0.11921561  25.721031    -4.991195    35.49646    -44.590622
+  51.959015  ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  201/ 799 | Train:   11.19683647 | Validation:   20.09492000 | Time:    6604.7 s
+Epoch  202/ 799 | Train:   11.16325608 | Validation:   20.04340243 | Time:    6635.2 s
+Epoch  203/ 799 | Train:   11.23216704 | Validation:   20.33603422 | Time:    6665.8 s
+Epoch  204/ 799 | Train:   11.13284704 | Validation:   19.93736896 | Time:    6699.2 s
+Epoch  205/ 799 | Train:   11.13288856 | Validation:   19.97746106 | Time:    6731.1 s
+Epoch  206/ 799 | Train:   11.04192471 | Validation:   19.97833622 | Time:    6762.1 s
+Epoch  207/ 799 | Train:   11.00094081 | Validation:   19.97436757 | Time:    6793.0 s
+Epoch  208/ 799 | Train:   11.02487672 | Validation:   20.00972974 | Time:    6824.1 s
+Epoch  209/ 799 | Train:   10.98500425 | Validation:   19.92437257 | Time:    6854.8 s
+Epoch  210/ 799 | Train:   10.95794391 | Validation:   19.79437743 | Time:    6885.6 s
+Epoch  211/ 799 | Train:   10.94527533 | Validation:   19.89541577 | Time:    6915.8 s
+Epoch  212/ 799 | Train:   10.91299652 | Validation:   20.06971658 | Time:    6946.3 s
+Epoch  213/ 799 | Train:   10.85569489 | Validation:   20.24405014 | Time:    6977.1 s
+Epoch  214/ 799 | Train:   10.85737385 | Validation:   20.07597219 | Time:    7009.0 s
+Epoch  215/ 799 | Train:   10.85516570 | Validation:   20.04954885 | Time:    7039.1 s
+Epoch  216/ 799 | Train:   10.81729863 | Validation:   20.19944807 | Time:    7069.6 s
+Epoch  217/ 799 | Train:   10.76420599 | Validation:   20.04198439 | Time:    7100.7 s
+Epoch  218/ 799 | Train:   10.76821552 | Validation:   19.98090711 | Time:    7132.1 s
+Epoch  219/ 799 | Train:   10.72372041 | Validation:   19.96100614 | Time:    7162.4 s
+Epoch  220/ 799 | Train:   10.74494022 | Validation:   20.03213452 | Time:    7192.7 s
+Epoch  221/ 799 | Train:   10.70822845 | Validation:   20.01737064 | Time:    7223.1 s
+Epoch  222/ 799 | Train:   10.66563416 | Validation:   20.08174733 | Time:    7254.6 s
+Epoch  223/ 799 | Train:   10.65776195 | Validation:   20.00535081 | Time:    7285.2 s
+Epoch  224/ 799 | Train:   10.60309002 | Validation:   19.89311789 | Time:    7317.2 s
+Epoch  225/ 799 | Train:   10.61451325 | Validation:   19.98432976 | Time:    7348.8 s
+Epoch  226/ 799 | Train:   10.59380902 | Validation:   20.22005572 | Time:    7380.4 s
+Epoch  227/ 799 | Train:   10.57493050 | Validation:   19.94653710 | Time:    7410.7 s
+Epoch  228/ 799 | Train:   10.55761101 | Validation:   20.02684767 | Time:    7440.8 s
+Epoch  229/ 799 | Train:   10.52027563 | Validation:   20.36120020 | Time:    7471.1 s
+Epoch  230/ 799 | Train:   10.50079134 | Validation:   20.12541652 | Time:    7502.3 s
+Epoch  231/ 799 | Train:   10.48977845 | Validation:   20.06628145 | Time:    7534.5 s
+Epoch  232/ 799 | Train:   10.45704252 | Validation:   20.20030919 | Time:    7565.1 s
+Epoch  233/ 799 | Train:   10.47343958 | Validation:   19.92444901 | Time:    7595.4 s
+Epoch  234/ 799 | Train:   10.42558855 | Validation:   20.12412328 | Time:    7626.1 s
+Epoch  235/ 799 | Train:   10.40256750 | Validation:   19.97705078 | Time:    7656.6 s
+Epoch  236/ 799 | Train:   10.36595960 | Validation:   20.08489854 | Time:    7686.7 s
+Epoch  237/ 799 | Train:   10.36897406 | Validation:   20.00501385 | Time:    7717.3 s
+Epoch  238/ 799 | Train:   10.34553013 | Validation:   20.27938268 | Time:    7747.4 s
+Epoch  239/ 799 | Train:   10.32030276 | Validation:   19.94386014 | Time:    7778.1 s
+Epoch  240/ 799 | Train:   10.30563783 | Validation:   19.92884978 | Time:    7807.8 s
+Epoch  241/ 799 | Train:   10.31833979 | Validation:   20.02721427 | Time:    7838.2 s
+Epoch  242/ 799 | Train:   10.27044017 | Validation:   20.17873746 | Time:    7868.5 s
+Epoch  243/ 799 | Train:   10.25192159 | Validation:   20.09585913 | Time:    7899.2 s
+Epoch  244/ 799 | Train:   10.23241716 | Validation:   20.15930605 | Time:    7929.2 s
+Epoch  245/ 799 | Train:   10.18843106 | Validation:   20.24944620 | Time:    7960.0 s
+Epoch  246/ 799 | Train:   10.20216611 | Validation:   20.22045976 | Time:    7990.1 s
+Epoch  247/ 799 | Train:   10.16289104 | Validation:   19.96631795 | Time:    8022.1 s
+Epoch  248/ 799 | Train:   10.14607564 | Validation:   20.18109618 | Time:    8051.4 s
+Epoch  249/ 799 | Train:   10.14874600 | Validation:   20.04488755 | Time:    8081.2 s
+Epoch  250/ 799 | Train:   10.11017320 | Validation:   20.38662827 | Time:    8110.7 s
+Epoch  251/ 799 | Train:   10.11102594 | Validation:   19.91459134 | Time:    8141.8 s
+Epoch  252/ 799 | Train:   10.08461664 | Validation:   20.13826783 | Time:    8172.3 s
+Epoch  253/ 799 | Train:   10.03361499 | Validation:   20.03676149 | Time:    8202.3 s
+Epoch  254/ 799 | Train:   10.02254439 | Validation:   20.27373390 | Time:    8232.6 s
+Epoch  255/ 799 | Train:   10.02146882 | Validation:   20.33046189 | Time:    8262.5 s
+Epoch  256/ 799 | Train:    9.99024695 | Validation:   20.22363281 | Time:    8292.3 s
+Epoch  257/ 799 | Train:    9.98426449 | Validation:   20.15723280 | Time:    8322.5 s
+Epoch  258/ 799 | Train:    9.95593645 | Validation:   20.33571442 | Time:    8352.5 s
+Epoch  259/ 799 | Train:    9.97190680 | Validation:   20.25920402 | Time:    8383.3 s
+Epoch  260/ 799 | Train:    9.94280774 | Validation:   20.06168256 | Time:    8413.2 s
+Epoch  261/ 799 | Train:   10.00797814 | Validation:   20.14261557 | Time:    8443.4 s
+Epoch  262/ 799 | Train:    8.09062927 | Validation:   19.49227330 | Time:    8477.0 s
+Epoch  263/ 799 | Train:    7.80277989 | Validation:   19.50256621 | Time:    8513.4 s
+Epoch  264/ 799 | Train:    7.72737872 | Validation:   19.52209590 | Time:    8547.0 s
+Epoch  265/ 799 | Train:    7.69183706 | Validation:   19.54287671 | Time:    8581.2 s
+Epoch  266/ 799 | Train:    7.65728601 | Validation:   19.52316450 | Time:    8615.5 s
+Epoch  267/ 799 | Train:    7.63273545 | Validation:   19.61219705 | Time:    8650.4 s
+Epoch  268/ 799 | Train:    7.61054432 | Validation:   19.54701852 | Time:    8685.8 s
+Epoch  269/ 799 | Train:    7.59061501 | Validation:   19.54041034 | Time:    8719.6 s
+Epoch  270/ 799 | Train:    7.57448132 | Validation:   19.54662696 | Time:    8753.7 s
+Epoch  271/ 799 | Train:    7.56248365 | Validation:   19.55223985 | Time:    8787.2 s
+Epoch  272/ 799 | Train:    7.53963399 | Validation:   19.55183113 | Time:    8820.7 s
+Epoch  273/ 799 | Train:    7.53086204 | Validation:   19.55965455 | Time:    8855.5 s
+Epoch  274/ 799 | Train:    7.51776581 | Validation:   19.53088964 | Time:    8889.2 s
+Epoch  275/ 799 | Train:    7.50184150 | Validation:   19.55639882 | Time:    8923.5 s
+Epoch  276/ 799 | Train:    7.49480676 | Validation:   19.54910113 | Time:    8957.5 s
+Epoch  277/ 799 | Train:    7.47821073 | Validation:   19.58189241 | Time:    8992.3 s
+Epoch  278/ 799 | Train:    7.46925983 | Validation:   19.59551280 | Time:    9026.4 s
+Epoch  279/ 799 | Train:    7.46029473 | Validation:   19.56427372 | Time:    9060.6 s
+Epoch  280/ 799 | Train:    7.44894349 | Validation:   19.58363181 | Time:    9096.8 s
+Epoch  281/ 799 | Train:    7.43984727 | Validation:   19.57534819 | Time:    9131.6 s
+Epoch  282/ 799 | Train:    7.42730072 | Validation:   19.61537166 | Time:    9165.7 s
+Epoch  283/ 799 | Train:    7.41985100 | Validation:   19.60854976 | Time:    9200.1 s
+Epoch  284/ 799 | Train:    7.40985402 | Validation:   19.58696242 | Time:    9234.8 s
+Epoch  285/ 799 | Train:    7.40415414 | Validation:   19.60036442 | Time:    9268.7 s
+Epoch  286/ 799 | Train:    7.39198766 | Validation:   19.60286042 | Time:    9302.7 s
+Epoch  287/ 799 | Train:    7.38508517 | Validation:   19.61312057 | Time:    9336.5 s
+Epoch  288/ 799 | Train:    7.37714561 | Validation:   19.60751080 | Time:    9361.8 s
+Epoch  289/ 799 | Train:    7.36603922 | Validation:   19.61172281 | Time:    9392.7 s
+Epoch  290/ 799 | Train:    7.35438177 | Validation:   19.57092246 | Time:    9422.0 s
+Epoch  291/ 799 | Train:    7.35310265 | Validation:   19.61176961 | Time:    9450.6 s
+Epoch  292/ 799 | Train:    7.33801818 | Validation:   19.60910824 | Time:    9477.9 s
+Epoch  293/ 799 | Train:    7.33421723 | Validation:   19.62396728 | Time:    9505.7 s
+Epoch  294/ 799 | Train:    7.32151632 | Validation:   19.64856854 | Time:    9532.7 s
+Epoch  295/ 799 | Train:    7.32055959 | Validation:   19.63065813 | Time:    9558.9 s
+Epoch  296/ 799 | Train:    7.30764765 | Validation:   19.62278479 | Time:    9585.6 s
+Epoch  297/ 799 | Train:    7.30153332 | Validation:   19.62172555 | Time:    9612.0 s
+Epoch  298/ 799 | Train:    7.29552557 | Validation:   19.63838171 | Time:    9641.8 s
+Epoch  299/ 799 | Train:    7.28545330 | Validation:   19.62873621 | Time:    9668.5 s
+Epoch  300/ 799 | Train:    7.28027145 | Validation:   19.62334640 | Time:    9695.3 s
+Predicted: [ 45.920574   26.75278    -0.8907522  -4.9470706 -86.82881    43.081207 ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -5.7403717   -7.41891     55.652527    -0.67818826 -38.549683
+ -25.67049   ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -3.2340934  25.001818   -6.21582    39.717438  -44.059967   49.37117  ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  301/ 799 | Train:    7.26939242 | Validation:   19.63223998 | Time:    9721.1 s
+Epoch  302/ 799 | Train:    7.26447468 | Validation:   19.65721252 | Time:    9747.3 s
+Epoch  303/ 799 | Train:    7.25321037 | Validation:   19.64756078 | Time:    9773.1 s
+Epoch  304/ 799 | Train:    7.24634082 | Validation:   19.63787315 | Time:    9800.1 s
+Epoch  305/ 799 | Train:    7.23909364 | Validation:   19.64312881 | Time:    9827.3 s
+Epoch  306/ 799 | Train:    7.23359898 | Validation:   19.65721252 | Time:    9855.0 s
+Epoch  307/ 799 | Train:    7.22535176 | Validation:   19.65653548 | Time:    9881.7 s
+Epoch  308/ 799 | Train:    7.22180763 | Validation:   19.64015544 | Time:    9909.1 s
+Epoch  309/ 799 | Train:    7.21257643 | Validation:   19.69167769 | Time:    9937.9 s
+Epoch  310/ 799 | Train:    7.20595824 | Validation:   19.64274817 | Time:    9966.3 s
+Epoch  311/ 799 | Train:    7.19752022 | Validation:   19.67184224 | Time:    9993.2 s
+Epoch  312/ 799 | Train:    7.19416594 | Validation:   19.64953886 | Time:   10020.1 s
+Epoch  313/ 799 | Train:    7.18380585 | Validation:   19.66954747 | Time:   10047.6 s
+Epoch  314/ 799 | Train:    6.87642588 | Validation:   19.60927360 | Time:   10076.1 s
+Epoch  315/ 799 | Train:    6.83203969 | Validation:   19.60949200 | Time:   10105.2 s
+Epoch  316/ 799 | Train:    6.82323128 | Validation:   19.61585214 | Time:   10133.6 s
+Epoch  317/ 799 | Train:    6.81636822 | Validation:   19.61779278 | Time:   10162.2 s
+Epoch  318/ 799 | Train:    6.81284980 | Validation:   19.62017647 | Time:   10189.1 s
+Epoch  319/ 799 | Train:    6.80881500 | Validation:   19.63044753 | Time:   10215.7 s
+Epoch  320/ 799 | Train:    6.80615284 | Validation:   19.61710482 | Time:   10242.8 s
+Epoch  321/ 799 | Train:    6.80173922 | Validation:   19.63544423 | Time:   10269.8 s
+Epoch  322/ 799 | Train:    6.80069078 | Validation:   19.62270523 | Time:   10296.7 s
+Epoch  323/ 799 | Train:    6.79765438 | Validation:   19.61356361 | Time:   10324.9 s
+Epoch  324/ 799 | Train:    6.79344620 | Validation:   19.62833061 | Time:   10355.9 s
+Epoch  325/ 799 | Train:    6.79318990 | Validation:   19.62793437 | Time:   10383.2 s
+Epoch  326/ 799 | Train:    6.78944698 | Validation:   19.62860673 | Time:   10410.3 s
+Epoch  327/ 799 | Train:    6.78755225 | Validation:   19.62095803 | Time:   10437.9 s
+Epoch  328/ 799 | Train:    6.78618943 | Validation:   19.62249463 | Time:   10465.3 s
+Epoch  329/ 799 | Train:    6.78360099 | Validation:   19.62171619 | Time:   10492.5 s
+Epoch  330/ 799 | Train:    6.78184944 | Validation:   19.62057583 | Time:   10521.2 s
+Epoch  331/ 799 | Train:    6.77945261 | Validation:   19.62060391 | Time:   10549.5 s
+Epoch  332/ 799 | Train:    6.77635692 | Validation:   19.63168462 | Time:   10578.9 s
+Epoch  333/ 799 | Train:    6.77562001 | Validation:   19.63384990 | Time:   10608.4 s
+Epoch  334/ 799 | Train:    6.77353335 | Validation:   19.62521060 | Time:   10636.8 s
+Epoch  335/ 799 | Train:    6.77113760 | Validation:   19.63214170 | Time:   10670.1 s
+Epoch  336/ 799 | Train:    6.76965361 | Validation:   19.63096702 | Time:   10700.7 s
+Epoch  337/ 799 | Train:    6.76653182 | Validation:   19.63620239 | Time:   10728.3 s
+Epoch  338/ 799 | Train:    6.76581698 | Validation:   19.63762667 | Time:   10758.1 s
+Epoch  339/ 799 | Train:    6.76265945 | Validation:   19.63737707 | Time:   10786.4 s
+Epoch  340/ 799 | Train:    6.76205598 | Validation:   19.63072365 | Time:   10816.7 s
+Epoch  341/ 799 | Train:    6.75889120 | Validation:   19.64050956 | Time:   10844.3 s
+Epoch  342/ 799 | Train:    6.75738585 | Validation:   19.64006808 | Time:   10872.3 s
+Epoch  343/ 799 | Train:    6.75416977 | Validation:   19.63802135 | Time:   10902.4 s
+Epoch  344/ 799 | Train:    6.75334414 | Validation:   19.63674995 | Time:   10930.2 s
+Epoch  345/ 799 | Train:    6.75123495 | Validation:   19.63339282 | Time:   10959.5 s
+Epoch  346/ 799 | Train:    6.74952918 | Validation:   19.63371730 | Time:   10989.1 s
+Epoch  347/ 799 | Train:    6.74765259 | Validation:   19.64121156 | Time:   11021.1 s
+Epoch  348/ 799 | Train:    6.74535343 | Validation:   19.63771091 | Time:   11051.1 s
+Epoch  349/ 799 | Train:    6.74428590 | Validation:   19.64371849 | Time:   11080.8 s
+Epoch  350/ 799 | Train:    6.74225615 | Validation:   19.63687007 | Time:   11108.4 s
+Epoch  351/ 799 | Train:    6.74091144 | Validation:   19.63903848 | Time:   11137.2 s
+Epoch  352/ 799 | Train:    6.73902867 | Validation:   19.64284801 | Time:   11166.1 s
+Epoch  353/ 799 | Train:    6.73705358 | Validation:   19.64910206 | Time:   11197.9 s
+Epoch  354/ 799 | Train:    6.73542743 | Validation:   19.64297281 | Time:   11228.2 s
+Epoch  355/ 799 | Train:    6.73367277 | Validation:   19.65178371 | Time:   11256.6 s
+Epoch  356/ 799 | Train:    6.73118329 | Validation:   19.64243772 | Time:   11286.1 s
+Epoch  357/ 799 | Train:    6.73025964 | Validation:   19.65422355 | Time:   11315.6 s
+Epoch  358/ 799 | Train:    6.72787887 | Validation:   19.65024866 | Time:   11343.4 s
+Epoch  359/ 799 | Train:    6.72578228 | Validation:   19.64630965 | Time:   11375.5 s
+Epoch  360/ 799 | Train:    6.72375716 | Validation:   19.65043431 | Time:   11405.7 s
+Epoch  361/ 799 | Train:    6.72236249 | Validation:   19.65098811 | Time:   11433.6 s
+Epoch  362/ 799 | Train:    6.72033699 | Validation:   19.65179151 | Time:   11462.5 s
+Epoch  363/ 799 | Train:    6.71932618 | Validation:   19.64691806 | Time:   11489.5 s
+Epoch  364/ 799 | Train:    6.71740519 | Validation:   19.64728622 | Time:   11517.7 s
+Epoch  365/ 799 | Train:    6.65541702 | Validation:   19.64698358 | Time:   11547.4 s
+Epoch  366/ 799 | Train:    6.64801709 | Validation:   19.64832206 | Time:   11574.7 s
+Epoch  367/ 799 | Train:    6.64609826 | Validation:   19.64974010 | Time:   11602.0 s
+Epoch  368/ 799 | Train:    6.64511450 | Validation:   19.64615677 | Time:   11629.1 s
+Epoch  369/ 799 | Train:    6.64418029 | Validation:   19.64557957 | Time:   11655.0 s
+Epoch  370/ 799 | Train:    6.64345412 | Validation:   19.64792738 | Time:   11681.2 s
+Epoch  371/ 799 | Train:    6.64312876 | Validation:   19.64803502 | Time:   11711.1 s
+Epoch  372/ 799 | Train:    6.64236703 | Validation:   19.64901938 | Time:   11737.6 s
+Epoch  373/ 799 | Train:    6.64215953 | Validation:   19.64870270 | Time:   11763.3 s
+Epoch  374/ 799 | Train:    6.64175829 | Validation:   19.64817698 | Time:   11789.1 s
+Epoch  375/ 799 | Train:    6.64128672 | Validation:   19.64717390 | Time:   11814.4 s
+Epoch  376/ 799 | Train:    6.64068501 | Validation:   19.64766218 | Time:   11839.3 s
+Epoch  377/ 799 | Train:    6.63998444 | Validation:   19.64890862 | Time:   11865.0 s
+Epoch  378/ 799 | Train:    6.63961317 | Validation:   19.64940938 | Time:   11890.4 s
+Epoch  379/ 799 | Train:    6.63891368 | Validation:   19.64818166 | Time:   11917.8 s
+Epoch  380/ 799 | Train:    6.63904720 | Validation:   19.65054819 | Time:   11948.6 s
+Epoch  381/ 799 | Train:    6.63872176 | Validation:   19.64980562 | Time:   11979.5 s
+Epoch  382/ 799 | Train:    6.63809395 | Validation:   19.65177435 | Time:   12008.0 s
+Epoch  383/ 799 | Train:    6.63752357 | Validation:   19.65068391 | Time:   12035.1 s
+Epoch  384/ 799 | Train:    6.63699250 | Validation:   19.65332967 | Time:   12061.8 s
+Epoch  385/ 799 | Train:    6.63673786 | Validation:   19.65160743 | Time:   12088.1 s
+Epoch  386/ 799 | Train:    6.63629074 | Validation:   19.65075255 | Time:   12114.1 s
+Epoch  387/ 799 | Train:    6.63599382 | Validation:   19.65139371 | Time:   12141.0 s
+Epoch  388/ 799 | Train:    6.63530792 | Validation:   19.65171819 | Time:   12166.9 s
+Epoch  389/ 799 | Train:    6.63547223 | Validation:   19.65219243 | Time:   12194.1 s
+Epoch  390/ 799 | Train:    6.63486847 | Validation:   19.65046551 | Time:   12221.1 s
+Epoch  391/ 799 | Train:    6.63427321 | Validation:   19.65048423 | Time:   12247.3 s
+Epoch  392/ 799 | Train:    6.63386233 | Validation:   19.65083835 | Time:   12273.0 s
+Epoch  393/ 799 | Train:    6.63340450 | Validation:   19.65228759 | Time:   12299.4 s
+Epoch  394/ 799 | Train:    6.63274828 | Validation:   19.64916290 | Time:   12324.8 s
+Epoch  395/ 799 | Train:    6.63288443 | Validation:   19.65306135 | Time:   12350.6 s
+Epoch  396/ 799 | Train:    6.63247199 | Validation:   19.65341547 | Time:   12376.2 s
+Epoch  397/ 799 | Train:    6.63183273 | Validation:   19.65095847 | Time:   12402.3 s
+Epoch  398/ 799 | Train:    6.63162441 | Validation:   19.65209415 | Time:   12427.7 s
+Epoch  399/ 799 | Train:    6.63095276 | Validation:   19.65353403 | Time:   12453.3 s
+Epoch  400/ 799 | Train:    6.63053792 | Validation:   19.64832674 | Time:   12479.2 s
+Predicted: [ 46.224087   26.490652   -1.2628995  -5.038143  -86.773      43.90069  ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -5.2836313  -7.0612783  57.038086   -2.037523  -37.791748  -26.280949 ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -3.6162114  25.216543   -6.6082993  38.98884   -44.17772    50.441353 ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  401/ 799 | Train:    6.63008592 | Validation:   19.65352779 | Time:   12505.5 s
+Epoch  402/ 799 | Train:    6.62985767 | Validation:   19.65377739 | Time:   12531.4 s
+Epoch  403/ 799 | Train:    6.62920903 | Validation:   19.65127671 | Time:   12556.7 s
+Epoch  404/ 799 | Train:    6.62890390 | Validation:   19.65335307 | Time:   12582.9 s
+Epoch  405/ 799 | Train:    6.62894564 | Validation:   19.65325323 | Time:   12608.8 s
+Epoch  406/ 799 | Train:    6.62816336 | Validation:   19.65134223 | Time:   12634.6 s
+Epoch  407/ 799 | Train:    6.62787649 | Validation:   19.65488032 | Time:   12660.3 s
+Epoch  408/ 799 | Train:    6.62748307 | Validation:   19.65304731 | Time:   12686.1 s
+Epoch  409/ 799 | Train:    6.62720224 | Validation:   19.65345759 | Time:   12711.7 s
+Epoch  410/ 799 | Train:    6.62674911 | Validation:   19.65479764 | Time:   12738.1 s
+Epoch  411/ 799 | Train:    6.62623686 | Validation:   19.65287571 | Time:   12764.7 s
+Epoch  412/ 799 | Train:    6.62600905 | Validation:   19.65188511 | Time:   12790.6 s
+Epoch  413/ 799 | Train:    6.62561046 | Validation:   19.65459172 | Time:   12816.8 s
+Epoch  414/ 799 | Train:    6.62568313 | Validation:   19.65337335 | Time:   12842.5 s
+Epoch  415/ 799 | Train:    6.62472170 | Validation:   19.65587716 | Time:   12868.5 s
+Epoch  416/ 799 | Train:    6.61108393 | Validation:   19.65488032 | Time:   12894.5 s
+Epoch  417/ 799 | Train:    6.60966464 | Validation:   19.65460732 | Time:   12922.5 s
+Epoch  418/ 799 | Train:    6.60937018 | Validation:   19.65462604 | Time:   12949.1 s
+Epoch  419/ 799 | Train:    6.60911875 | Validation:   19.65464320 | Time:   12978.3 s
+Epoch  420/ 799 | Train:    6.60901071 | Validation:   19.65431716 | Time:   13010.3 s
+Epoch  421/ 799 | Train:    6.60883411 | Validation:   19.65537952 | Time:   13041.4 s
+Epoch  422/ 799 | Train:    6.60880430 | Validation:   19.65412059 | Time:   13081.6 s
+Epoch  423/ 799 | Train:    6.60868194 | Validation:   19.65522352 | Time:   13121.0 s
+Epoch  424/ 799 | Train:    6.60863378 | Validation:   19.65455272 | Time:   13160.1 s
+Epoch  425/ 799 | Train:    6.60850003 | Validation:   19.65446068 | Time:   13197.0 s
+Epoch  426/ 799 | Train:    6.60842901 | Validation:   19.65494272 | Time:   13232.5 s
+Epoch  427/ 799 | Train:    6.60832893 | Validation:   19.65474928 | Time:   13272.9 s
+Epoch  428/ 799 | Train:    6.60825403 | Validation:   19.65556984 | Time:   13311.3 s
+Epoch  429/ 799 | Train:    6.60796690 | Validation:   19.65532804 | Time:   13347.6 s
+Epoch  430/ 799 | Train:    6.60813231 | Validation:   19.65430936 | Time:   13384.2 s
+Epoch  431/ 799 | Train:    6.60787651 | Validation:   19.65483820 | Time:   13418.6 s
+Epoch  432/ 799 | Train:    6.60787914 | Validation:   19.65544036 | Time:   13458.3 s
+Epoch  433/ 799 | Train:    6.60777159 | Validation:   19.65634672 | Time:   13497.6 s
+Epoch  434/ 799 | Train:    6.60775499 | Validation:   19.65562756 | Time:   13530.1 s
+Epoch  435/ 799 | Train:    6.60763917 | Validation:   19.65608776 | Time:   13569.8 s
+Epoch  436/ 799 | Train:    6.60750071 | Validation:   19.65549964 | Time:   13604.9 s
+Epoch  437/ 799 | Train:    6.60742850 | Validation:   19.65576016 | Time:   13635.3 s
+Epoch  438/ 799 | Train:    6.60732466 | Validation:   19.65462448 | Time:   13665.8 s
+Epoch  439/ 799 | Train:    6.60731457 | Validation:   19.65584284 | Time:   13697.0 s
+Epoch  440/ 799 | Train:    6.60706083 | Validation:   19.65534364 | Time:   13731.2 s
+Epoch  441/ 799 | Train:    6.60712695 | Validation:   19.65684280 | Time:   13764.6 s
+Epoch  442/ 799 | Train:    6.60700665 | Validation:   19.65505972 | Time:   13794.6 s
+Epoch  443/ 799 | Train:    6.60683449 | Validation:   19.65577264 | Time:   13825.1 s
+Epoch  444/ 799 | Train:    6.60685242 | Validation:   19.65514864 | Time:   13854.7 s
+Epoch  445/ 799 | Train:    6.60680183 | Validation:   19.65620944 | Time:   13886.2 s
+Epoch  446/ 799 | Train:    6.60672374 | Validation:   19.65598792 | Time:   13916.3 s
+Epoch  447/ 799 | Train:    6.60656737 | Validation:   19.65554332 | Time:   13946.4 s
+Epoch  448/ 799 | Train:    6.60646106 | Validation:   19.65616108 | Time:   13976.6 s
+Epoch  449/ 799 | Train:    6.60647617 | Validation:   19.65644812 | Time:   14006.6 s
+Epoch  450/ 799 | Train:    6.60634669 | Validation:   19.65583816 | Time:   14036.3 s
+Epoch  451/ 799 | Train:    6.60627518 | Validation:   19.65593644 | Time:   14066.4 s
+Epoch  452/ 799 | Train:    6.60625948 | Validation:   19.65626560 | Time:   14096.4 s
+Epoch  453/ 799 | Train:    6.60609122 | Validation:   19.65594268 | Time:   14126.2 s
+Epoch  454/ 799 | Train:    6.60599554 | Validation:   19.65602848 | Time:   14157.0 s
+Epoch  455/ 799 | Train:    6.60587188 | Validation:   19.65614704 | Time:   14188.9 s
+Epoch  456/ 799 | Train:    6.60582104 | Validation:   19.65583504 | Time:   14218.4 s
+Epoch  457/ 799 | Train:    6.60581034 | Validation:   19.65637168 | Time:   14248.5 s
+Epoch  458/ 799 | Train:    6.60575955 | Validation:   19.65565096 | Time:   14278.6 s
+Epoch  459/ 799 | Train:    6.60563787 | Validation:   19.65591304 | Time:   14309.0 s
+Epoch  460/ 799 | Train:    6.60559847 | Validation:   19.65579136 | Time:   14338.7 s
+Epoch  461/ 799 | Train:    6.60555697 | Validation:   19.65592396 | Time:   14368.4 s
+Epoch  462/ 799 | Train:    6.60541593 | Validation:   19.65641848 | Time:   14399.0 s
+Epoch  463/ 799 | Train:    6.60526742 | Validation:   19.65724372 | Time:   14429.4 s
+Epoch  464/ 799 | Train:    6.60525530 | Validation:   19.65601444 | Time:   14459.3 s
+Epoch  465/ 799 | Train:    6.60514918 | Validation:   19.65648400 | Time:   14489.3 s
+Epoch  466/ 799 | Train:    6.60511184 | Validation:   19.65651832 | Time:   14519.3 s
+Epoch  467/ 799 | Train:    6.60187357 | Validation:   19.65620164 | Time:   14549.1 s
+Epoch  468/ 799 | Train:    6.60168790 | Validation:   19.65625468 | Time:   14580.0 s
+Epoch  469/ 799 | Train:    6.60167101 | Validation:   19.65623128 | Time:   14606.5 s
+Epoch  470/ 799 | Train:    6.60163423 | Validation:   19.65623284 | Time:   14632.8 s
+Epoch  471/ 799 | Train:    6.60161482 | Validation:   19.65647308 | Time:   14657.8 s
+Epoch  472/ 799 | Train:    6.60156626 | Validation:   19.65637948 | Time:   14683.3 s
+Epoch  473/ 799 | Train:    6.60156106 | Validation:   19.65644032 | Time:   14708.7 s
+Epoch  474/ 799 | Train:    6.60153638 | Validation:   19.65652768 | Time:   14734.3 s
+Epoch  475/ 799 | Train:    6.60151230 | Validation:   19.65665716 | Time:   14761.1 s
+Epoch  476/ 799 | Train:    6.60150759 | Validation:   19.65630616 | Time:   14787.9 s
+Epoch  477/ 799 | Train:    6.60148484 | Validation:   19.65649960 | Time:   14809.0 s
+Epoch  478/ 799 | Train:    6.60147711 | Validation:   19.65637480 | Time:   14829.8 s
+Epoch  479/ 799 | Train:    6.60145086 | Validation:   19.65635140 | Time:   14851.7 s
+Epoch  480/ 799 | Train:    6.60143413 | Validation:   19.65661972 | Time:   14874.0 s
+Epoch  481/ 799 | Train:    6.60140913 | Validation:   19.65665560 | Time:   14897.0 s
+Epoch  482/ 799 | Train:    6.60139632 | Validation:   19.65662908 | Time:   14917.9 s
+Epoch  483/ 799 | Train:    6.60137684 | Validation:   19.65650896 | Time:   14938.6 s
+Epoch  484/ 799 | Train:    6.60135390 | Validation:   19.65648400 | Time:   14959.5 s
+Epoch  485/ 799 | Train:    6.60133532 | Validation:   19.65635608 | Time:   14980.2 s
+Epoch  486/ 799 | Train:    6.60132766 | Validation:   19.65658540 | Time:   15001.1 s
+Epoch  487/ 799 | Train:    6.60128555 | Validation:   19.65682720 | Time:   15021.9 s
+Epoch  488/ 799 | Train:    6.60128608 | Validation:   19.65649492 | Time:   15042.4 s
+Epoch  489/ 799 | Train:    6.60126506 | Validation:   19.65660256 | Time:   15063.0 s
+Epoch  490/ 799 | Train:    6.60126462 | Validation:   19.65651676 | Time:   15084.1 s
+Epoch  491/ 799 | Train:    6.60120665 | Validation:   19.65640132 | Time:   15104.5 s
+Epoch  492/ 799 | Train:    6.60123183 | Validation:   19.65647776 | Time:   15125.2 s
+Epoch  493/ 799 | Train:    6.60119294 | Validation:   19.65647308 | Time:   15146.6 s
+Epoch  494/ 799 | Train:    6.60120551 | Validation:   19.65659320 | Time:   15167.1 s
+Epoch  495/ 799 | Train:    6.60116444 | Validation:   19.65635140 | Time:   15187.6 s
+Epoch  496/ 799 | Train:    6.60115353 | Validation:   19.65660412 | Time:   15208.5 s
+Epoch  497/ 799 | Train:    6.60112980 | Validation:   19.65663220 | Time:   15228.7 s
+Epoch  498/ 799 | Train:    6.60111588 | Validation:   19.65688804 | Time:   15249.1 s
+Epoch  499/ 799 | Train:    6.60109451 | Validation:   19.65673204 | Time:   15269.5 s
+Epoch  500/ 799 | Train:    6.60108383 | Validation:   19.65667588 | Time:   15290.0 s
+Predicted: [ 46.255028   26.393915   -1.3014224  -5.011839  -86.78128    43.869133 ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -5.293335   -7.0781546  57.060066   -1.9318726 -37.749386  -26.31381  ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -3.5901132  25.189413   -6.6720924  39.006306  -44.143845   50.420334 ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  501/ 799 | Train:    6.60106639 | Validation:   19.65664156 | Time:   15310.8 s
+Epoch  502/ 799 | Train:    6.60106313 | Validation:   19.65678820 | Time:   15332.4 s
+Epoch  503/ 799 | Train:    6.60099045 | Validation:   19.65668992 | Time:   15354.1 s
+Epoch  504/ 799 | Train:    6.60102528 | Validation:   19.65672580 | Time:   15375.6 s
+Epoch  505/ 799 | Train:    6.60099394 | Validation:   19.65672892 | Time:   15397.1 s
+Epoch  506/ 799 | Train:    6.60097817 | Validation:   19.65659632 | Time:   15417.8 s
+Epoch  507/ 799 | Train:    6.60096908 | Validation:   19.65646372 | Time:   15438.1 s
+Epoch  508/ 799 | Train:    6.60094721 | Validation:   19.65661348 | Time:   15459.1 s
+Epoch  509/ 799 | Train:    6.60092443 | Validation:   19.65689116 | Time:   15479.9 s
+Epoch  510/ 799 | Train:    6.60090448 | Validation:   19.65646528 | Time:   15500.9 s
+Epoch  511/ 799 | Train:    6.60090619 | Validation:   19.65672112 | Time:   15521.7 s
+Epoch  512/ 799 | Train:    6.60086924 | Validation:   19.65717196 | Time:   15542.2 s
+Epoch  513/ 799 | Train:    6.60088196 | Validation:   19.65664468 | Time:   15563.0 s
+Epoch  514/ 799 | Train:    6.60084078 | Validation:   19.65685996 | Time:   15584.2 s
+Epoch  515/ 799 | Train:    6.60083057 | Validation:   19.65662284 | Time:   15606.0 s
+Epoch  516/ 799 | Train:    6.60082330 | Validation:   19.65658540 | Time:   15628.0 s
+Epoch  517/ 799 | Train:    6.60080821 | Validation:   19.65677884 | Time:   15648.7 s
+Epoch  518/ 799 | Train:    6.60008011 | Validation:   19.65675388 | Time:   15669.4 s
+Epoch  519/ 799 | Train:    6.60006020 | Validation:   19.65672580 | Time:   15690.3 s
+Epoch  520/ 799 | Train:    6.60005260 | Validation:   19.65670552 | Time:   15711.0 s
+Epoch  521/ 799 | Train:    6.60004763 | Validation:   19.65671020 | Time:   15731.6 s
+Epoch  522/ 799 | Train:    6.60004392 | Validation:   19.65671020 | Time:   15753.0 s
+Epoch  523/ 799 | Train:    6.60004038 | Validation:   19.65672112 | Time:   15773.8 s
+Epoch  524/ 799 | Train:    6.60003742 | Validation:   19.65672268 | Time:   15794.6 s
+Epoch  525/ 799 | Train:    6.60003146 | Validation:   19.65674608 | Time:   15815.4 s
+Epoch  526/ 799 | Train:    6.60002953 | Validation:   19.65673984 | Time:   15836.2 s
+Epoch  527/ 799 | Train:    6.60002614 | Validation:   19.65670084 | Time:   15856.6 s
+Epoch  528/ 799 | Train:    6.60002136 | Validation:   19.65675076 | Time:   15877.5 s
+Epoch  529/ 799 | Train:    6.60001957 | Validation:   19.65671956 | Time:   15898.8 s
+Epoch  530/ 799 | Train:    6.60001817 | Validation:   19.65672580 | Time:   15919.7 s
+Epoch  531/ 799 | Train:    6.60001305 | Validation:   19.65672892 | Time:   15941.9 s
+Epoch  532/ 799 | Train:    6.60000938 | Validation:   19.65673828 | Time:   15963.1 s
+Epoch  533/ 799 | Train:    6.60000542 | Validation:   19.65677884 | Time:   15985.0 s
+Epoch  534/ 799 | Train:    6.60000277 | Validation:   19.65676636 | Time:   16005.5 s
+Epoch  535/ 799 | Train:    6.59999844 | Validation:   19.65677884 | Time:   16026.2 s
+Epoch  536/ 799 | Train:    6.59999654 | Validation:   19.65676792 | Time:   16047.1 s
+Epoch  537/ 799 | Train:    6.59999388 | Validation:   19.65678040 | Time:   16067.7 s
+Epoch  538/ 799 | Train:    6.59998975 | Validation:   19.65677260 | Time:   16088.5 s
+Epoch  539/ 799 | Train:    6.59998723 | Validation:   19.65675700 | Time:   16109.4 s
+Epoch  540/ 799 | Train:    6.59998202 | Validation:   19.65680224 | Time:   16130.1 s
+Epoch  541/ 799 | Train:    6.59998215 | Validation:   19.65676948 | Time:   16150.8 s
+Epoch  542/ 799 | Train:    6.59997848 | Validation:   19.65675700 | Time:   16171.5 s
+Epoch  543/ 799 | Train:    6.59997322 | Validation:   19.65674608 | Time:   16193.6 s
+Epoch  544/ 799 | Train:    6.59997102 | Validation:   19.65672892 | Time:   16214.2 s
+Epoch  545/ 799 | Train:    6.59996680 | Validation:   19.65677572 | Time:   16235.4 s
+Epoch  546/ 799 | Train:    6.59996217 | Validation:   19.65677728 | Time:   16256.1 s
+Epoch  547/ 799 | Train:    6.59996368 | Validation:   19.65678508 | Time:   16276.8 s
+Epoch  548/ 799 | Train:    6.59995521 | Validation:   19.65676324 | Time:   16297.7 s
+Epoch  549/ 799 | Train:    6.59995268 | Validation:   19.65677572 | Time:   16318.5 s
+Epoch  550/ 799 | Train:    6.59994916 | Validation:   19.65682876 | Time:   16339.2 s
+Epoch  551/ 799 | Train:    6.59994996 | Validation:   19.65676012 | Time:   16360.0 s
+Epoch  552/ 799 | Train:    6.59994515 | Validation:   19.65678976 | Time:   16380.6 s
+Epoch  553/ 799 | Train:    6.59994468 | Validation:   19.65678820 | Time:   16401.4 s
+Epoch  554/ 799 | Train:    6.59993882 | Validation:   19.65678976 | Time:   16422.7 s
+Epoch  555/ 799 | Train:    6.59993680 | Validation:   19.65676636 | Time:   16443.2 s
+Epoch  556/ 799 | Train:    6.59993361 | Validation:   19.65675856 | Time:   16464.1 s
+Epoch  557/ 799 | Train:    6.59993114 | Validation:   19.65679444 | Time:   16484.9 s
+Epoch  558/ 799 | Train:    6.59992646 | Validation:   19.65680068 | Time:   16505.9 s
+Epoch  559/ 799 | Train:    6.59992527 | Validation:   19.65679444 | Time:   16527.5 s
+Epoch  560/ 799 | Train:    6.59991979 | Validation:   19.65680068 | Time:   16550.0 s
+Epoch  561/ 799 | Train:    6.59991729 | Validation:   19.65681472 | Time:   16572.2 s
+Epoch  562/ 799 | Train:    6.59991423 | Validation:   19.65678664 | Time:   16594.9 s
+Epoch  563/ 799 | Train:    6.59991169 | Validation:   19.65678976 | Time:   16617.3 s
+Epoch  564/ 799 | Train:    6.59990790 | Validation:   19.65679132 | Time:   16640.7 s
+Epoch  565/ 799 | Train:    6.59990203 | Validation:   19.65681940 | Time:   16662.5 s
+Epoch  566/ 799 | Train:    6.59990423 | Validation:   19.65681472 | Time:   16685.2 s
+Epoch  567/ 799 | Train:    6.59989967 | Validation:   19.65681628 | Time:   16707.7 s
+Epoch  568/ 799 | Train:    6.59989347 | Validation:   19.65677416 | Time:   16729.7 s
+Epoch  569/ 799 | Train:    6.59973302 | Validation:   19.65677728 | Time:   16753.0 s
+Epoch  570/ 799 | Train:    6.59973170 | Validation:   19.65677884 | Time:   16773.9 s
+Epoch  571/ 799 | Train:    6.59973055 | Validation:   19.65678508 | Time:   16794.8 s
+Epoch  572/ 799 | Train:    6.59972964 | Validation:   19.65678352 | Time:   16815.4 s
+Epoch  573/ 799 | Train:    6.59972915 | Validation:   19.65678820 | Time:   16836.2 s
+Epoch  574/ 799 | Train:    6.59972867 | Validation:   19.65679132 | Time:   16856.9 s
+Epoch  575/ 799 | Train:    6.59972817 | Validation:   19.65679288 | Time:   16878.3 s
+Epoch  576/ 799 | Train:    6.59972756 | Validation:   19.65679912 | Time:   16899.0 s
+Epoch  577/ 799 | Train:    6.59972725 | Validation:   19.65679288 | Time:   16919.7 s
+Epoch  578/ 799 | Train:    6.59972684 | Validation:   19.65679756 | Time:   16940.8 s
+Epoch  579/ 799 | Train:    6.59972659 | Validation:   19.65679912 | Time:   16961.6 s
+Epoch  580/ 799 | Train:    6.59972612 | Validation:   19.65680380 | Time:   16982.4 s
+Epoch  581/ 799 | Train:    6.59972568 | Validation:   19.65680692 | Time:   17003.4 s
+Epoch  582/ 799 | Train:    6.59972566 | Validation:   19.65680692 | Time:   17024.2 s
+Epoch  583/ 799 | Train:    6.59972512 | Validation:   19.65680536 | Time:   17044.9 s
+Epoch  584/ 799 | Train:    6.59972460 | Validation:   19.65680224 | Time:   17065.7 s
+Epoch  585/ 799 | Train:    6.59972451 | Validation:   19.65680380 | Time:   17086.3 s
+Epoch  586/ 799 | Train:    6.59972448 | Validation:   19.65680536 | Time:   17107.2 s
+Epoch  587/ 799 | Train:    6.59972359 | Validation:   19.65680848 | Time:   17128.1 s
+Epoch  588/ 799 | Train:    6.59972347 | Validation:   19.65681004 | Time:   17151.7 s
+Epoch  589/ 799 | Train:    6.59972319 | Validation:   19.65681472 | Time:   17173.0 s
+Epoch  590/ 799 | Train:    6.59972309 | Validation:   19.65681472 | Time:   17194.2 s
+Epoch  591/ 799 | Train:    6.59972291 | Validation:   19.65681472 | Time:   17215.6 s
+Epoch  592/ 799 | Train:    6.59972248 | Validation:   19.65681472 | Time:   17236.7 s
+Epoch  593/ 799 | Train:    6.59972192 | Validation:   19.65681316 | Time:   17257.6 s
+Epoch  594/ 799 | Train:    6.59972173 | Validation:   19.65681472 | Time:   17278.5 s
+Epoch  595/ 799 | Train:    6.59972172 | Validation:   19.65681160 | Time:   17299.5 s
+Epoch  596/ 799 | Train:    6.59972124 | Validation:   19.65681316 | Time:   17320.3 s
+Epoch  597/ 799 | Train:    6.59972051 | Validation:   19.65681784 | Time:   17341.1 s
+Epoch  598/ 799 | Train:    6.59972054 | Validation:   19.65681940 | Time:   17361.8 s
+Epoch  599/ 799 | Train:    6.59972013 | Validation:   19.65681940 | Time:   17382.6 s
+Epoch  600/ 799 | Train:    6.59971963 | Validation:   19.65681628 | Time:   17403.9 s
+Predicted: [ 46.253597   26.394272   -1.3007187  -5.0105767 -86.78247    43.86505  ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -5.293311   -7.0781984  57.06234    -1.9326447 -37.753548  -26.3159   ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -3.5882962  25.18534    -6.670814   39.007133  -44.145943   50.415688 ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  601/ 799 | Train:    6.59971955 | Validation:   19.65681784 | Time:   17425.0 s
+Epoch  602/ 799 | Train:    6.59971901 | Validation:   19.65681628 | Time:   17445.8 s
+Epoch  603/ 799 | Train:    6.59971899 | Validation:   19.65681472 | Time:   17466.9 s
+Epoch  604/ 799 | Train:    6.59971866 | Validation:   19.65681472 | Time:   17487.6 s
+Epoch  605/ 799 | Train:    6.59971842 | Validation:   19.65681472 | Time:   17508.3 s
+Epoch  606/ 799 | Train:    6.59971803 | Validation:   19.65681004 | Time:   17528.9 s
+Epoch  607/ 799 | Train:    6.59971752 | Validation:   19.65681472 | Time:   17549.8 s
+Epoch  608/ 799 | Train:    6.59971742 | Validation:   19.65681472 | Time:   17570.5 s
+Epoch  609/ 799 | Train:    6.59971720 | Validation:   19.65681628 | Time:   17591.2 s
+Epoch  610/ 799 | Train:    6.59971668 | Validation:   19.65681316 | Time:   17612.0 s
+Epoch  611/ 799 | Train:    6.59971647 | Validation:   19.65681628 | Time:   17632.7 s
+Epoch  612/ 799 | Train:    6.59971621 | Validation:   19.65681316 | Time:   17653.3 s
+Epoch  613/ 799 | Train:    6.59971592 | Validation:   19.65681628 | Time:   17675.4 s
+Epoch  614/ 799 | Train:    6.59971580 | Validation:   19.65681316 | Time:   17697.0 s
+Epoch  615/ 799 | Train:    6.59971542 | Validation:   19.65681472 | Time:   17717.8 s
+Epoch  616/ 799 | Train:    6.59971502 | Validation:   19.65681628 | Time:   17739.0 s
+Epoch  617/ 799 | Train:    6.59971477 | Validation:   19.65681472 | Time:   17759.7 s
+Epoch  618/ 799 | Train:    6.59971436 | Validation:   19.65681628 | Time:   17780.5 s
+Epoch  619/ 799 | Train:    6.59971416 | Validation:   19.65681940 | Time:   17801.2 s
+Epoch  620/ 799 | Train:    6.59969426 | Validation:   19.65681940 | Time:   17821.8 s
+Epoch  621/ 799 | Train:    6.59969425 | Validation:   19.65681940 | Time:   17843.1 s
+Epoch  622/ 799 | Train:    6.59969425 | Validation:   19.65681940 | Time:   17863.6 s
+Epoch  623/ 799 | Train:    6.59969417 | Validation:   19.65681940 | Time:   17884.4 s
+Epoch  624/ 799 | Train:    6.59969421 | Validation:   19.65681940 | Time:   17905.0 s
+Epoch  625/ 799 | Train:    6.59969418 | Validation:   19.65681784 | Time:   17925.6 s
+Epoch  626/ 799 | Train:    6.59969415 | Validation:   19.65681940 | Time:   17946.8 s
+Epoch  627/ 799 | Train:    6.59969409 | Validation:   19.65681940 | Time:   17967.8 s
+Epoch  628/ 799 | Train:    6.59969407 | Validation:   19.65681784 | Time:   17988.3 s
+Epoch  629/ 799 | Train:    6.59969408 | Validation:   19.65681940 | Time:   18009.5 s
+Epoch  630/ 799 | Train:    6.59969406 | Validation:   19.65681940 | Time:   18030.1 s
+Epoch  631/ 799 | Train:    6.59969410 | Validation:   19.65681940 | Time:   18050.2 s
+Epoch  632/ 799 | Train:    6.59969408 | Validation:   19.65681784 | Time:   18070.7 s
+Epoch  633/ 799 | Train:    6.59969403 | Validation:   19.65681940 | Time:   18091.3 s
+Epoch  634/ 799 | Train:    6.59969397 | Validation:   19.65681940 | Time:   18111.8 s
+Epoch  635/ 799 | Train:    6.59969395 | Validation:   19.65681940 | Time:   18132.5 s
+Epoch  636/ 799 | Train:    6.59969396 | Validation:   19.65681628 | Time:   18152.9 s
+Epoch  637/ 799 | Train:    6.59969398 | Validation:   19.65681784 | Time:   18173.5 s
+Epoch  638/ 799 | Train:    6.59969394 | Validation:   19.65681628 | Time:   18194.1 s
+Epoch  639/ 799 | Train:    6.59969396 | Validation:   19.65681628 | Time:   18214.7 s
+Epoch  640/ 799 | Train:    6.59969404 | Validation:   19.65681784 | Time:   18235.2 s
+Epoch  641/ 799 | Train:    6.59969389 | Validation:   19.65681784 | Time:   18255.5 s
+Epoch  642/ 799 | Train:    6.59969392 | Validation:   19.65681784 | Time:   18275.7 s
+Epoch  643/ 799 | Train:    6.59969382 | Validation:   19.65681784 | Time:   18296.2 s
+Epoch  644/ 799 | Train:    6.59969387 | Validation:   19.65681784 | Time:   18316.8 s
+Epoch  645/ 799 | Train:    6.59969386 | Validation:   19.65681940 | Time:   18338.1 s
+Epoch  646/ 799 | Train:    6.59969390 | Validation:   19.65681940 | Time:   18359.2 s
+Epoch  647/ 799 | Train:    6.59969382 | Validation:   19.65681940 | Time:   18380.0 s
+Epoch  648/ 799 | Train:    6.59969382 | Validation:   19.65681940 | Time:   18400.7 s
+Epoch  649/ 799 | Train:    6.59969391 | Validation:   19.65681940 | Time:   18421.3 s
+Epoch  650/ 799 | Train:    6.59969376 | Validation:   19.65681784 | Time:   18442.1 s
+Epoch  651/ 799 | Train:    6.59969382 | Validation:   19.65681784 | Time:   18462.8 s
+Epoch  652/ 799 | Train:    6.59969374 | Validation:   19.65681940 | Time:   18483.6 s
+Epoch  653/ 799 | Train:    6.59969370 | Validation:   19.65681940 | Time:   18504.4 s
+Epoch  654/ 799 | Train:    6.59969375 | Validation:   19.65682096 | Time:   18524.9 s
+Epoch  655/ 799 | Train:    6.59969373 | Validation:   19.65681940 | Time:   18546.5 s
+Epoch  656/ 799 | Train:    6.59969364 | Validation:   19.65681940 | Time:   18567.5 s
+Epoch  657/ 799 | Train:    6.59969369 | Validation:   19.65681940 | Time:   18588.1 s
+Epoch  658/ 799 | Train:    6.59969367 | Validation:   19.65682096 | Time:   18609.5 s
+Epoch  659/ 799 | Train:    6.59969370 | Validation:   19.65681940 | Time:   18630.5 s
+Epoch  660/ 799 | Train:    6.59969368 | Validation:   19.65681940 | Time:   18651.1 s
+Epoch  661/ 799 | Train:    6.59969364 | Validation:   19.65682096 | Time:   18671.7 s
+Epoch  662/ 799 | Train:    6.59969363 | Validation:   19.65682096 | Time:   18692.5 s
+Epoch  663/ 799 | Train:    6.59969355 | Validation:   19.65682096 | Time:   18713.3 s
+Epoch  664/ 799 | Train:    6.59969359 | Validation:   19.65682096 | Time:   18733.8 s
+Epoch  665/ 799 | Train:    6.59969360 | Validation:   19.65682096 | Time:   18754.5 s
+Epoch  666/ 799 | Train:    6.59969361 | Validation:   19.65682252 | Time:   18775.1 s
+Epoch  667/ 799 | Train:    6.59969355 | Validation:   19.65682096 | Time:   18795.6 s
+Epoch  668/ 799 | Train:    6.59969349 | Validation:   19.65682096 | Time:   18816.5 s
+Epoch  669/ 799 | Train:    6.59969352 | Validation:   19.65681940 | Time:   18837.3 s
+Epoch  670/ 799 | Train:    6.59969349 | Validation:   19.65681940 | Time:   18858.0 s
+Epoch  671/ 799 | Train:    6.59969347 | Validation:   19.65682096 | Time:   18878.8 s
+Epoch  672/ 799 | Train:    6.59969349 | Validation:   19.65682096 | Time:   18899.5 s
+Epoch  673/ 799 | Train:    6.59969344 | Validation:   19.65682096 | Time:   18920.4 s
+Epoch  674/ 799 | Train:    6.59969336 | Validation:   19.65682096 | Time:   18941.2 s
+Epoch  675/ 799 | Train:    6.59969341 | Validation:   19.65681940 | Time:   18962.0 s
+Epoch  676/ 799 | Train:    6.59969339 | Validation:   19.65682096 | Time:   18983.2 s
+Epoch  677/ 799 | Train:    6.59969338 | Validation:   19.65682096 | Time:   19003.7 s
+Epoch  678/ 799 | Train:    6.59969332 | Validation:   19.65682096 | Time:   19024.5 s
+Epoch  679/ 799 | Train:    6.59969331 | Validation:   19.65682096 | Time:   19045.3 s
+Epoch  680/ 799 | Train:    6.59969335 | Validation:   19.65681940 | Time:   19065.9 s
+Epoch  681/ 799 | Train:    6.59969335 | Validation:   19.65682096 | Time:   19086.7 s
+Epoch  682/ 799 | Train:    6.59969322 | Validation:   19.65682252 | Time:   19107.8 s
+Epoch  683/ 799 | Train:    6.59969329 | Validation:   19.65682252 | Time:   19128.2 s
+Epoch  684/ 799 | Train:    6.59969328 | Validation:   19.65682096 | Time:   19148.8 s
+Epoch  685/ 799 | Train:    6.59969323 | Validation:   19.65681940 | Time:   19169.3 s
+Epoch  686/ 799 | Train:    6.59969326 | Validation:   19.65682096 | Time:   19190.2 s
+Epoch  687/ 799 | Train:    6.59969324 | Validation:   19.65681940 | Time:   19211.2 s
+Epoch  688/ 799 | Train:    6.59969318 | Validation:   19.65682096 | Time:   19232.4 s
+Epoch  689/ 799 | Train:    6.59969321 | Validation:   19.65682096 | Time:   19253.2 s
+Epoch  690/ 799 | Train:    6.59969324 | Validation:   19.65682252 | Time:   19275.6 s
+Epoch  691/ 799 | Train:    6.59969317 | Validation:   19.65682252 | Time:   19296.8 s
+Epoch  692/ 799 | Train:    6.59969314 | Validation:   19.65682252 | Time:   19317.8 s
+Epoch  693/ 799 | Train:    6.59969317 | Validation:   19.65682252 | Time:   19338.4 s
+Epoch  694/ 799 | Train:    6.59969316 | Validation:   19.65682096 | Time:   19359.3 s
+Epoch  695/ 799 | Train:    6.59969317 | Validation:   19.65682252 | Time:   19379.8 s
+Epoch  696/ 799 | Train:    6.59969315 | Validation:   19.65682096 | Time:   19401.2 s
+Epoch  697/ 799 | Train:    6.59969310 | Validation:   19.65682408 | Time:   19421.9 s
+Epoch  698/ 799 | Train:    6.59969314 | Validation:   19.65682252 | Time:   19442.8 s
+Epoch  699/ 799 | Train:    6.59969309 | Validation:   19.65682252 | Time:   19463.5 s
+Epoch  700/ 799 | Train:    6.59969306 | Validation:   19.65681940 | Time:   19484.1 s
+Predicted: [ 46.25355    26.394203   -1.3008674  -5.010775  -86.78247    43.865166 ]
+Target:    [ -4.5937796 -82.84929    39.887856   53.469887   27.627224   -7.9210963]
+
+Predicted: [ -5.293211   -7.07815    57.0623     -1.9326319 -37.75345   -26.315748 ]
+Target:    [ -8.674306   -9.120298   62.991592   -2.3628895 -33.65284   -20.0998   ]
+
+Predicted: [ -3.588361   25.18558    -6.6710773  39.006958  -44.145935   50.415718 ]
+Target:    [ 36.202377  -38.362175   48.63056    -3.4850736  24.108776   -8.676824 ]
+
+Epoch  701/ 799 | Train:    6.59969311 | Validation:   19.65682252 | Time:   19505.0 s
+Epoch  702/ 799 | Train:    6.59969312 | Validation:   19.65682252 | Time:   19525.8 s
+Epoch  703/ 799 | Train:    6.59969307 | Validation:   19.65682252 | Time:   19546.9 s
+Epoch  704/ 799 | Train:    6.59969306 | Validation:   19.65682408 | Time:   19568.9 s
+Epoch  705/ 799 | Train:    6.59969300 | Validation:   19.65682252 | Time:   19590.3 s
+Epoch  706/ 799 | Train:    6.59969305 | Validation:   19.65682096 | Time:   19610.9 s
+Epoch  707/ 799 | Train:    6.59969306 | Validation:   19.65682252 | Time:   19631.7 s
+Epoch  708/ 799 | Train:    6.59969306 | Validation:   19.65682096 | Time:   19652.3 s
+Epoch  709/ 799 | Train:    6.59969297 | Validation:   19.65682252 | Time:   19673.0 s
+Epoch  710/ 799 | Train:    6.59969299 | Validation:   19.65682408 | Time:   19693.5 s
+Epoch  711/ 799 | Train:    6.59969297 | Validation:   19.65682564 | Time:   19715.0 s
+Epoch  712/ 799 | Train:    6.59969305 | Validation:   19.65682252 | Time:   19735.6 s
+Epoch  713/ 799 | Train:    6.59969293 | Validation:   19.65682564 | Time:   19756.2 s
+Epoch  714/ 799 | Train:    6.59969287 | Validation:   19.65682564 | Time:   19777.0 s
+Epoch  715/ 799 | Train:    6.59969287 | Validation:   19.65682252 | Time:   19798.1 s
+Epoch  716/ 799 | Train:    6.59969287 | Validation:   19.65682252 | Time:   19818.9 s
+Epoch  717/ 799 | Train:    6.59969284 | Validation:   19.65682252 | Time:   19839.7 s
+Epoch  718/ 799 | Train:    6.59969281 | Validation:   19.65682252 | Time:   19860.5 s
+Epoch  719/ 799 | Train:    6.59969280 | Validation:   19.65682564 | Time:   19881.2 s
+Epoch  720/ 799 | Train:    6.59969275 | Validation:   19.65682252 | Time:   19902.0 s
+Epoch  721/ 799 | Train:    6.59969271 | Validation:   19.65682252 | Time:   19923.0 s
+Epoch  722/ 799 | Train:    6.59969272 | Validation:   19.65682564 | Time:   19943.8 s
+Epoch  723/ 799 | Train:    6.59969278 | Validation:   19.65682252 | Time:   19964.4 s
+Epoch  724/ 799 | Train:    6.59969272 | Validation:   19.65682408 | Time:   19985.0 s
+Epoch  725/ 799 | Train:    6.59969273 | Validation:   19.65682564 | Time:   20005.8 s
+Epoch  726/ 799 | Train:    6.59969275 | Validation:   19.65682564 | Time:   20027.3 s
+Epoch  727/ 799 | Train:    6.59969273 | Validation:   19.65682252 | Time:   20048.0 s
+Epoch  728/ 799 | Train:    6.59969267 | Validation:   19.65682252 | Time:   20068.7 s
+Epoch  729/ 799 | Train:    6.59969259 | Validation:   19.65682252 | Time:   20089.4 s
+Epoch  730/ 799 | Train:    6.59969268 | Validation:   19.65682252 | Time:   20110.0 s
+Epoch  731/ 799 | Train:    6.59969260 | Validation:   19.65682408 | Time:   20130.5 s
+Epoch  732/ 799 | Train:    6.59969262 | Validation:   19.65682564 | Time:   20151.7 s
+Epoch  733/ 799 | Train:    6.59969257 | Validation:   19.65682408 | Time:   20172.3 s
+Epoch  734/ 799 | Train:    6.59969257 | Validation:   19.65682564 | Time:   20193.1 s
+Epoch  735/ 799 | Train:    6.59969258 | Validation:   19.65682564 | Time:   20213.3 s
+Epoch  736/ 799 | Train:    6.59969258 | Validation:   19.65682408 | Time:   20233.5 s
+Epoch  737/ 799 | Train:    6.59969261 | Validation:   19.65682564 | Time:   20254.4 s
+Epoch  738/ 799 | Train:    6.59969258 | Validation:   19.65682564 | Time:   20275.7 s
+Epoch  739/ 799 | Train:    6.59969252 | Validation:   19.65682252 | Time:   20296.4 s
+Epoch  740/ 799 | Train:    6.59969250 | Validation:   19.65682564 | Time:   20318.5 s
+Epoch  741/ 799 | Train:    6.59969254 | Validation:   19.65682408 | Time:   20339.3 s
+Epoch  742/ 799 | Train:    6.59969252 | Validation:   19.65682252 | Time:   20360.4 s
+Epoch  743/ 799 | Train:    6.59969245 | Validation:   19.65682564 | Time:   20381.4 s
+Epoch  744/ 799 | Train:    6.59969249 | Validation:   19.65682564 | Time:   20402.8 s
+Epoch  745/ 799 | Train:    6.59969242 | Validation:   19.65682252 | Time:   20423.9 s
+Epoch  746/ 799 | Train:    6.59969242 | Validation:   19.65682408 | Time:   20444.7 s
+Epoch  747/ 799 | Train:    6.59969243 | Validation:   19.65682408 | Time:   20465.5 s
+Epoch  748/ 799 | Train:    6.59969243 | Validation:   19.65682564 | Time:   20486.1 s
+Epoch  749/ 799 | Train:    6.59969241 | Validation:   19.65682564 | Time:   20507.0 s
+Epoch  750/ 799 | Train:    6.59969239 | Validation:   19.65682408 | Time:   20527.8 s
+Epoch  751/ 799 | Train:    6.59969237 | Validation:   19.65682408 | Time:   20549.5 s
+Epoch  752/ 799 | Train:    6.59969235 | Validation:   19.65682564 | Time:   20570.2 s
+Epoch  753/ 799 | Train:    6.59969237 | Validation:   19.65682252 | Time:   20590.8 s
+Epoch  754/ 799 | Train:    6.59969230 | Validation:   19.65682252 | Time:   20611.5 s
+Epoch  755/ 799 | Train:    6.59969231 | Validation:   19.65682564 | Time:   20632.0 s
+Epoch  756/ 799 | Train:    6.59969231 | Validation:   19.65682252 | Time:   20654.3 s
+Epoch  757/ 799 | Train:    6.59969231 | Validation:   19.65682408 | Time:   20679.5 s
+Epoch  758/ 799 | Train:    6.59969237 | Validation:   19.65682408 | Time:   20702.1 s
+Epoch  759/ 799 | Train:    6.59969227 | Validation:   19.65682408 | Time:   20722.8 s
+Epoch  760/ 799 | Train:    6.59969220 | Validation:   19.65682096 | Time:   20743.5 s
+Epoch  761/ 799 | Train:    6.59969229 | Validation:   19.65682408 | Time:   20764.2 s
+Epoch  762/ 799 | Train:    6.59969218 | Validation:   19.65682408 | Time:   20784.9 s
+Epoch  763/ 799 | Train:    6.59969219 | Validation:   19.65682408 | Time:   20805.6 s
+Epoch  764/ 799 | Train:    6.59969223 | Validation:   19.65682408 | Time:   20826.3 s
+Epoch  765/ 799 | Train:    6.59969222 | Validation:   19.65682564 | Time:   20846.8 s
+Epoch  766/ 799 | Train:    6.59969220 | Validation:   19.65682408 | Time:   20867.3 s
+Epoch  767/ 799 | Train:    6.59969213 | Validation:   19.65682252 | Time:   20888.2 s
+Epoch  768/ 799 | Train:    6.59969215 | Validation:   19.65682252 | Time:   20908.9 s
+Epoch  769/ 799 | Train:    6.59969215 | Validation:   19.65682408 | Time:   20929.4 s
+Epoch  770/ 799 | Train:    6.59969210 | Validation:   19.65682408 | Time:   20950.0 s
+Epoch  771/ 799 | Train:    6.59969212 | Validation:   19.65682252 | Time:   20970.7 s
+Epoch  772/ 799 | Train:    6.59969213 | Validation:   19.65682252 | Time:   20991.7 s
+Epoch  773/ 799 | Train:    6.59969210 | Validation:   19.65682252 | Time:   21012.3 s
+Epoch  774/ 799 | Train:    6.59969215 | Validation:   19.65682252 | Time:   21032.9 s
+Epoch  775/ 799 | Train:    6.59969213 | Validation:   19.65682252 | Time:   21053.3 s
+Epoch  776/ 799 | Train:    6.59969210 | Validation:   19.65682252 | Time:   21074.0 s
+Epoch  777/ 799 | Train:    6.59969202 | Validation:   19.65682252 | Time:   21094.7 s
+Epoch  778/ 799 | Train:    6.59969195 | Validation:   19.65682408 | Time:   21115.1 s
+Epoch  779/ 799 | Train:    6.59969194 | Validation:   19.65682408 | Time:   21135.7 s
+Epoch  780/ 799 | Train:    6.59969198 | Validation:   19.65682408 | Time:   21156.6 s
+Epoch  781/ 799 | Train:    6.59969202 | Validation:   19.65682252 | Time:   21177.7 s
+Epoch  782/ 799 | Train:    6.59969198 | Validation:   19.65682252 | Time:   21198.3 s
+Epoch  783/ 799 | Train:    6.59969197 | Validation:   19.65682252 | Time:   21219.0 s
+Epoch  784/ 799 | Train:    6.59969187 | Validation:   19.65682408 | Time:   21239.6 s
+Epoch  785/ 799 | Train:    6.59969190 | Validation:   19.65682408 | Time:   21260.1 s
+Epoch  786/ 799 | Train:    6.59969195 | Validation:   19.65682252 | Time:   21280.6 s
+Epoch  787/ 799 | Train:    6.59969194 | Validation:   19.65682408 | Time:   21301.3 s
+Epoch  788/ 799 | Train:    6.59969182 | Validation:   19.65682408 | Time:   21321.9 s
+Epoch  789/ 799 | Train:    6.59969185 | Validation:   19.65682408 | Time:   21342.6 s
+Epoch  790/ 799 | Train:    6.59969187 | Validation:   19.65682564 | Time:   21363.2 s
+Epoch  791/ 799 | Train:    6.59969186 | Validation:   19.65682564 | Time:   21383.8 s
+Epoch  792/ 799 | Train:    6.59969184 | Validation:   19.65682408 | Time:   21404.4 s
+Epoch  793/ 799 | Train:    6.59969188 | Validation:   19.65682252 | Time:   21424.9 s
+Epoch  794/ 799 | Train:    6.59969178 | Validation:   19.65682408 | Time:   21445.9 s
+Epoch  795/ 799 | Train:    6.59969180 | Validation:   19.65682408 | Time:   21466.7 s
+Epoch  796/ 799 | Train:    6.59969179 | Validation:   19.65682408 | Time:   21487.4 s
+Epoch  797/ 799 | Train:    6.59969182 | Validation:   19.65682564 | Time:   21508.4 s
+Epoch  798/ 799 | Train:    6.59969179 | Validation:   19.65682408 | Time:   21528.8 s
+Epoch  799/ 799 | Train:    6.59969182 | Validation:   19.65682408 | Time:   21549.5 s

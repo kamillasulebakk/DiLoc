@@ -1,10 +1,15 @@
+import torch
+import numpy as np
+
+seed = 42
+torch.manual_seed(seed) # Seed for PyTorch (to ensure reproducibility)
+np.random.seed(seed) # Seed for NumPy (used by DataLoader and other non-Torch components)
+
 import os
 import time
 import itertools
 
-import torch
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-import numpy as np
 
 from plot import plot_MSE_NN, plot_MSE_targets
 from ffnn import FFNN, number_of_output_values
@@ -117,7 +122,7 @@ class CustomLoss:
         # euc_dist = torch.linalg.norm(predicted - target)
         euc_dist = torch.linalg.norm(predicted[:3] - target[:3])
         absolute_error = (predicted[3:] - target[3:]).abs().sum()
-        # return euc_dist + absolute_error
+        # # return euc_dist + absolute_error
         return 2*self._weight*euc_dist + (2 - 2*self._weight)*absolute_error
         # return euc_dist
 

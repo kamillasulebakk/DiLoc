@@ -3,11 +3,11 @@ from model_runner_cnn import run_model
 def basic_parameters():
     return {
         'N_samples': 70_000,
-        'N_dipoles': 1,
+        'N_dipoles': 2,
         'determine_amplitude': False,
         'determine_area': False,
         'learning_rate': 0.001,
-        'N_epochs': 500,
+        'N_epochs': 800,
         'noise_pct': 10,
         'weights': 0.5,
         'custom_loss': True,
