@@ -42,7 +42,8 @@ def plot_error_amplitude(predictions, targets):
 
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.9)
     # Plot the MSE against the amplitude
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(15, 8))
+    plt.subplots_adjust(left=0.25)
     ax.scatter(amplitude, mse_values, c=palette[3])
     ax.text(0.5, 0.9, f'Correlation coefficient: {correlation_mse:.2f}', transform=ax.transAxes,
          horizontalalignment='left', verticalalignment='top',
@@ -50,18 +51,20 @@ def plot_error_amplitude(predictions, targets):
 
     set_ax_info(
         ax,
-        xlabel=r'Magnitude [mA$\mu$m]',
+        xlabel=f'Magnitude [mAm]',
         ylabel=r'SE [mm$^2$]',
         title=f'SE Between Predicted and Target Position \nas Function of Magnitude'
     )
 
-    fig.tight_layout()
+    # fig.tight_layout()
     ax.set_yscale('log')
+    ax.margins(x=0.1)
     fig.savefig(f'plots/mse_amplitude.pdf')
     plt.close(fig)
 
     # Plot the MAE against the amplitude
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(15, 8))
+    plt.subplots_adjust(left=0.25)
     ax.scatter(amplitude, mae_values, c=palette[3])
     ax.text(0.5, 0.9, f'Correlation coefficient: {correlation_mae:.2f}', transform=ax.transAxes,
          horizontalalignment='left', verticalalignment='top',
@@ -69,12 +72,13 @@ def plot_error_amplitude(predictions, targets):
 
     set_ax_info(
         ax,
-        xlabel=r'Magnitude [mA$\mu$m]',
+        xlabel=f'Magnitude [mAm]',
         ylabel='AE [mm]',
         title=f'AE Between Predicted and Target Position \nas Function of Magnitude'
     )
-    fig.tight_layout()
+    # fig.tight_layout()
     ax.set_yscale('log')
+    ax.margins(x=0.1)
     fig.savefig(f'plots/mae_amplitude.pdf')
     plt.close(fig)
 
@@ -97,7 +101,8 @@ def plot_error_area(predictions, targets):
     correlation_mse = np.corrcoef(radius, mse_values)[0, 1]
 
     props = dict(boxstyle='round', facecolor='wheat', alpha=0.9)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(15, 8))
+    plt.subplots_adjust(left=0.25)
     # Plot the MSE against the radius
     ax.scatter(radius, mse_values, c=palette[3])
     ax.text(0.5, 0.9, f'Correlation coefficient: {correlation_mse:.2f}', transform=ax.transAxes,
@@ -110,13 +115,15 @@ def plot_error_area(predictions, targets):
         ylabel=r'SE [mm$^2$]',
         title=f'SE Between Predicted and Target Center \nas Function of Radius'
     )
-    fig.tight_layout()
+    # fig.tight_layout()
     ax.set_yscale('log')
+    ax.margins(x=0.1)
     fig.savefig(f'plots/mse_area.pdf')
     plt.close(fig)
 
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(15, 8))
+    plt.subplots_adjust(left=0.25)
     # Plot the MAE against the radius
     ax.scatter(radius, mae_values, c=palette[3])
     ax.text(0.5, 0.9, f'Correlation coefficient: {correlation_mae:.2f}', transform=ax.transAxes,
@@ -130,8 +137,9 @@ def plot_error_area(predictions, targets):
         ylabel='AE [mm]',
         title=f'AE Between Predicted and Target Center \nas Function of Radius'
     )
-    fig.tight_layout()
+    # fig.tight_layout()
     ax.set_yscale('log')
+    ax.margins(x=0.1)
     fig.savefig(f'plots/mae_area.pdf')
     plt.close(fig)
 

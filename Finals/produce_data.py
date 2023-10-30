@@ -152,10 +152,10 @@ def return_dipole_area_const_A(num_samples: int, radii_range: int = 15):
             nyhead.set_dipole_pos(nyhead.cortex[:, idx])
             eeg[i] += calculate_eeg(nyhead, A)
 
-        # if i < 6:
-        #     plot_active_region(eeg[i], dipole_centers[:, i], radii[i], pos_indices, i)
-        #     print(f'Finished producing figure {i}')
-        # print(i)
+        if i < 6:
+            plot_active_region(eeg[i], dipole_centers[:, i], radii[i], pos_indices, i)
+            print(f'Finished producing figure {i}')
+
 
     target = np.concatenate(
         (dipole_centers, dipole_amplitudes.reshape(1, -1), radii.reshape(1, -1)),
@@ -316,9 +316,10 @@ if __name__ == '__main__':
 
     num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
-    num_dipoles = 2
+    # num_dipoles = 2
     # prepare_and_save_data(num_samples, name, num_dipoles)
-    return_two_dipoles(num_samples, num_dipoles, True)
+    # return_two_dipoles(num_samples, num_dipoles, True)
+    return_dipole_area_const_A(num_samples)
     # return_simple_dipole(num_samples, 1)
 
     # eeg_filename = 'amplitudes_constA_70000_2_eeg_complete.npy'

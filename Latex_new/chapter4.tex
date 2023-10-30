@@ -7,41 +7,54 @@
 \begin{document}
 
 
-\chapter{DiLoc - A Neural Network Apporach for Source Localization}
-Having obtained a suitable data set we can start building neural networks to address the problem. We aim to build a model that maps measured EEG signals to corresponding location of current dipoles. In this chapter, we will provide a comprehensive overview of the feed-forward neural network that has been built to solve the EEG inverse problem. We will be discussing its architecture and parameters, and present an alternative approach using a convolutional neural network.
-\rednote{Convolutional neural network is not included yet. Unsure if it should be in this chapter or chapter with CCN method and results.}
+\chapter{A Feed-Forward Neural Network Approach to Source Localization}
+\chaptermark{FFNN Approach}
 
+Having obtained a suitable data set we can start building neural networks to address the EEG inverse problem. In this chapter, we provide a comprehensive overview of a feed-forward neural network built to map measured EEG signals to corresponding locations of current dipoles. We will be discussing its architecture and parameters.\rednote{Introduce what the sections will be about.}
+
+% \rednote{Convolutional neural network is not included yet. Unsure if it should be in this chapter or chapter with CCN method and results....and present an alternative approach using a convolutional neural network}
+
+%In this chapter, we introduce the field of machine learning and provide an overview of relevant tequniqes for solving our specific EEG inverse problem and its wider implications.
+%\rednote{quote: According to Mehta et. al. a definition of machine learning could be ''...a subfield of artificial intelligence with the goal of developing algorithms capable of learning from data automatically'' \cite{mehta2019high}.}
+
+% The aim is to find a model that gives $Y$ as function of $X$
+%
+% where $x$ is a set of all inputvalues within a sample
+%
+% \rednote{X sett av alle sett av inputverdier i datasettet. x er et sett av alle inputverdier i en sample (hele inputtsettet).}
+% \rednote{$\mathbb{R}^{231}$ til $\mathbb{R}^{3}$}
 
 
 \section{Machine Learning}
-Machine learning (ML) is a field concerned with constructing computer programs that learn from experience. \rednote{Within this broad scope, one application could lie in the identification of sources generating abnormal electrical brain signals, as we will be performing. By employing specific machine learning algorithms, EEG data can be processed and analyzed to accurately localize the sources responsible for the recorded signals. These algorithms should be able to learn from input data and uncover patterns that associate the signals with corresponding sources, effectively solving the EEG inverse problem.}
+The field of machine learning is conserned with constructing computer programs that learn from experience. Within this computational discipline we find a spectrum of \emph{tasks} and \emph{experiences} these algorithms aim to understand and accomplish. machine learning tasks involve predicting how a system processes a given sample. The algorithms accomplish these tasks by gaining experience with sets of features, thereby extracting valuable insights into the inherent structure of these datasets.
 
-%In this chapter, we introduce the field of machine learning and provide an overview of relevant tequniqes for solving our specific EEG inverse problem and its wider implications.
+For the purpose of solving the EEG inverse problem the model is concerned with the \emph{task} of localizing the origins of abnormal electrical brain signals within the human cortex. The machine learning algorithm will gain \emph{experience} through the analysis of corresponding EEG data associated with these abnormal sources.
 
-\rednote{The model it self? Do i mean activation function here or the whole network?}
-\rednote{quote}
-According to Mehta et. al. a definition of machine learning could be ''...a subfield of artificial intelligence with the goal of developing algorithms capable of learning from data automatically'' \cite{mehta2019high}. The typical ML problems are addressed using the same three elements.
-The first element is the dataset $\mathcal{D} = (X, Y)$. $X$, commonly is referred to as the \emph{design matrix}. and we aim to find a model that gives $Y$ as function of $X$. \rednote{fix}.
-\rednote{X sett av alle sett av inputverdier i datasettet. x er et sett av alle inputverdier i en sample (hele inputtsettet).}
-Next, we have the model $f(x; \boldsymbol{\theta})$ itself which is a function $f : \mathcal X \to \mathcal Y$ used to predict an output $y \in \mathcal Y$ from an input $x \in \mathcal X$ using the \emph{model parameters} $\boldsymbol{\theta}$. \rednote{$\mathbb{R}^{231}$ til $\mathbb{R}^{3}$}
-Thirdly we have the cost funtion $\mathcal{C}(y, f(x; \boldsymbol{\theta}))$ for $x \in X$ and $y \in Y$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$.
-Training the model is done by adjusting the model parameters in order to minimize the output of the cost function. The cost function gets high values when the output does not fit with the output wantet. Goal to find parameters that minimize the cost. \rednote{fix}
+\rednote{find cite.}
+Typically, machine learning problems are addressed using the same three elements. The first element is the dataset $\mathcal{D} = (\mathcal{X}, \mathcal{Y})$. $\mathcal{X}$, commonly is referred to as the \emph{design matrix} and $\mathcal{Y}$ is the \emph{target values} we aim the model to predict as function of $\mathcal{X}$. Next, we have the model $f(x; \boldsymbol{\theta})$ itself which is a function $f : \mathcal{X} \to \mathcal{Y}$ used to predict an output $y \in \mathcal{Y}$ from an input $x \in \mathcal{X}$ using the \emph{model parameters} $\boldsymbol{\theta}$.
+Thirdly we have the cost funtion $\mathcal{C}(y, f(x; \boldsymbol{\theta}))$ for $x \in \mathcal{X}$ and $y \in \mathcal{Y}$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$. Training a machine learning model involves the adjustment of the model parameters $\boldsymbol{\theta}$ to minimize the output of the cost function. The cost function yields high values when the model's output deviates from the desired target, and conversely, it produces smaller values when the predictions align closely with the intended outcomes.
+
 
 \section{Neural Networks}
 Neural networks are a distinct class of so-called \emph{nonlinear machine learning models} capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimic the way biological neurons transmit signals, with interconnected \emph{nodes} that communicate through mathematical functions. Each connection between nodes is represented by a \emph{weight} variable, which encodes the strength of the communication between the two nodes. During training, the neural network ''learns'' by adjusting these weights to capture the underlying patterns and relationships in the data.
 
-We will consider fully connected feed-forward \rednote{flere spesifikasjoner???} neural networks whose nodes are grouped into \emph{layers} with the output of one layer serving as the input for the next. \rednote{Hver node i et layer sender sine tall videre til hver node i det neste layer. Ingen tall går bakover... Antall noder i layer nummer l er $N_l$}. The activation of the $i$-th node in layer $l$, $a_i^{(l)}$ is the weigted sum
+\rednote{Change to to Feed Forward Neural Nets?}
+We will consider fully connected feed-forward neural networks whose nodes are grouped into \emph{layers} with the output of one layer serving as the input for the next. Typically, we call the first layer of neural networks the \emph{input layer}, the final layer of the model \emph{output layer} and the layers in between \emph{hidden layers}. What lays in the term ''fully connected feed-forward'' is that every node within each layer sends their outputs to every node the next layer. Generally speaking, the outputs is only sent forward, through all of the $N_l$ number of layers. \rednote{Is a the input of the node?} The activation of the $i$-th node in layer $l$, $a_i^{(l)}$ is the weigted sum
 \begin{equation}
   z_i^{(l)} = \sum_{j=1}^{N_{l-1}} w_{ij}^{(l)} a_{j}^{(l-1)} + b_i^{(l)}
+  \label{activation_node}
 \end{equation}
-fed through an \emph{activation function} which we will soon come back to. \rednote{fix}. \rednote{bias b}. The activation of the final layer is the outputs of the model. Typically, we call the first layer of neural networks the \emph{input layer}, the final layer of the model \emph{output layer} and the layers in between \emph{hidden layers}. In figure \ref{fig:NN_basic_architecture} we have illustrated the basic architecture of neural networks. Here nodes are depiced as circular shapes, while arrows indicate connections between the nodes. \rednote{maybe remove first figure? wrong notation}.
+fed through an \emph{activation function}. Activation functions serve as mathematical functions that introduce nonlinearity into the network's computations. They play a critical role in enabling the model to capture non-linear patterns within the data. The bias parameter $b$, is a non-zero influence applied to the input of each node, which is then added to the product of the inputs and weights. In cases of zero activation weights or inputs, the presence of this bias parameter ensures that the activation of a neuron remains non-zero. This is a fortunate detail in neural networks, that facilitates the activation function's ability to perform non-linear mappings between inputs and outputs between nodes.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=10cm]{figures/basic_architecture.png}
-    \caption{$\textbf{(A)}$ The fundamental structure of neural networks comprises simplified nodes units that perform a linear operation to assign different weights to inputs, followed by a non-linear activation function. $\textbf{(B)}$ These nodes units are organized into layers, where the output of one layer serves as the input to the subsequent layer, forming a hierarchical arrangement. \rednote{Add proper citation.}}
-    \label{fig:NN_basic_architecture}
-\end{figure}
+
+% In figure \ref{fig:NN_basic_architecture} we have illustrated the basic architecture of neural networks. Here nodes are depiced as circular shapes, while arrows indicate connections between the nodes. \rednote{maybe remove first figure? wrong notation}.
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=10cm]{figures/basic_architecture.png}
+%     \caption{$\textbf{(A)}$ The fundamental structure of neural networks comprises simplified nodes units that perform a linear operation to assign different weights to inputs, followed by a non-linear activation function. $\textbf{(B)}$ These nodes units are organized into layers, where the output of one layer serves as the input to the subsequent layer, forming a hierarchical arrangement. \rednote{Add proper citation.}}
+%     \label{fig:NN_basic_architecture}
+% \end{figure}
 
 
 
@@ -61,8 +74,12 @@ fed through an \emph{activation function} which we will soon come back to. \redn
 % \end{equation}
 
 
-\section{The creation of DiLoc}
-The development of DiLoc started with a deliberate and cautious approach, focusing on simplicity without compromising on accuracy in tackling the inverse problem. As a natural starting point, we adopted a fully connected, feed-forward neural network architecture, which eventually proved to be the most suitable framework for our purposes. The feedforward neural network (FFNN) was one of the first artificial neural network to be adopted and is yet today an important algorithm used in machine learning. The feed forward neural network is the simplest form of neural network, as information is only processed forward, from the input nodes, through the hidden nodes and to the output nodes.
+\section{Building a Feed-Forward Neural Network}
+%The development of DiLoc started with a deliberate and cautious approach, focusing on simplicity without compromising on accuracy in tackling the inverse problem.
+\rednote{Did not test other architectures?}
+The feed-forward neural network was one of the first artificial neural network to be adopted and is yet today a widly used algorithm within the domain of machine learning. As a natural starting point, we therefor adopted a fully connected, feed-forward neural network architecture for the purpose of solving the inverse problem. This approach eventually proved to be the most suitable framework among the ones tested. The fully connected feed-forward neural network is known as one of the simpler forms of neural networks, where information is processed in a unidirectional manner, flowing from the input nodes through the hidden layers and ultimately to the output nodes.
+
+
 
 \subsection{Architecture}
 
@@ -70,58 +87,57 @@ The development of DiLoc started with a deliberate and cautious approach, focusi
 % https://link.springer.com/chapter/10.1007/978-3-319-26227-7_6
 
 
-The determination of the optimal number of hidden layers and neurons was meticulously executed through an iterative trial-and-error procedure. Various network configurations, including small, medium, and large architectures, were systematically examined. Ultimately, we settled on the medium-sized network configuration. This selection, combined with considerations of additional network attributes, which will be elaborated upon later in this chapter, yielded the most promising results in terms of prediction accuracies.
+The optimal number of hidden layers and nodes was meticulously determinated through an iterative trial-and-error procedure. Various network configurations, including ''small'', ''medium'', and ''large'' architectures, were systematically examined. Ultimately, we settled on the medium-sized network configuration. This selection, combined with considerations of additional network attributes which will be elaborated upon later in this chapter, yielded the most promising results in terms of prediction accuracies.
 
-The input layer is designed with 231 neurons, corresponding to the number of features in our dataset, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 62, and 32 neurons, respectively. Finally, the output layer holds an x-, y- and z-coordinate representing the predicted position of the desired dipole source. Figure \ref{fig:FFNN_architecture} visualizes the construction of the fully connected neural network.
+The input layer is designed with 231 nodes, corresponding to the number of features in our dataset, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 64, and 32 nodes, respectively. Finally, the output layer holds an $x$-, $y$- and $z$-coordinate representing the predicted position of the desired dipole source. Figure \ref{fig:FFNN_architecture} visualizes the construction of the fully connected neural network.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/FFNN_architecture.pdf}
-    \caption{Architecture.}
+    \caption{\textbf{Architecture of the fully connected Feed-Forward Neural Network}. The input layer comprises 231 electrode recording input values, and the network outputs predicted $x$-, $y$-, and $z$-coordinates of the dipole generating the EEG signal. The FCNN consists of five hidden layers. \\
+    The vizualization has been made with Latex, with code adapteded from Neural Networks in TikZ with attribution to Izaak Neutelings and is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License \cite{neutelings2021}.}
     \label{fig:FFNN_architecture}
 \end{figure}
 
 \subsection{Activation Functions}
-Activation functions are fundamental components within the architecture of neural networks, serving to transform input signals into meaningful outputs. Essentially, these functions introduce nonlinearity into the network's computations, thereby enabling the network to capture and model complex, nonlinear relationships within data \cite{sharma2017activation}. This property is essential because many real-world phenomena and data patterns exhibit inherent nonlinearity. Without activation functions, neural networks would essentially be linear models, capable only of representing linear relationships between inputs and outputs. While linear transformations occur within individual nodes through the weighted sum of inputs, the introduction of non-linear activation functions allows neural networks to capture complex relationships and patterns. These functions are applied at every artificial neuron in the hidden layers and in the output layer \cite{choose_activation_function}. In the context of solving the EEG inverse problem, where the EEG data contains intricate, nonlinear patterns, activation functions empower DiLoc to effectively model and learn from the EEG data structures.
+Activation functions are fundamental components within the architecture of neural networks. Essentially, these functions introduce nonlinearity into the network's computations, thereby enabling the network to capture and model complex, nonlinear relationships within data \cite{sharma2017activation}. This property is essential because many real-world phenomena and data patterns exhibit inherent nonlinearity. Without activation functions, neural networks would essentially be linear regression models, limiting their ability to predict non-linear relationships between inputs and outputs. In neural networks, activation functions is typically applied at every node within the hidden layers and at every output node in the final layer \cite{choose_activation_function}.
+%In the context of solving the EEG inverse problem, where the EEG data contains intricate, nonlinear patterns, activation functions empower DiLoc to effectively model and learn from the EEG data structures.
 
-Drawing inspiration from the behavior of biological neurons, activation functions can be understood as decision-makers within the network, determining which information should be relayed to the next artificial neuron. This process is analogous to biophysics, where the axon of one cell takes the output signal from the preceding cell and converts it into a format suitable for input to the next cell. Some activation functions can also be directly associated with biological phenomena like action potentials and spikes within neurons. Similar to how real neurons respond to incoming electrical signals, activation functions decide whether a node in a neural network should be activated or not based on the strength of the input it receives. If the input exceeds a certain threshold, the artificial neuron "fires"; otherwise, it remains inactive \cite{analyticsvidhya_activationfunctions}.
+Drawing inspiration from the behavior of biological neurons, activation functions can be understood as decision-makers within the artificial neural network, determining which information should be relayed to the next node, or \cite{artificial neuron}. This process is analogous to biophysics, where the axon of one cell takes the output signal from the preceding cell and converts it into a format suitable for input to the next cell. Some activation functions can also be directly associated with biological phenomena like action potentials and spikes within neurons. Similar to how real neurons respond to incoming electrical signals, activation functions decide whether a node in a neural network should be activated or not based on the strength of the input it receives. If the input exceeds a certain threshold, the artificial neuron "fires"; otherwise, it remains inactive \cite{analyticsvidhya_activationfunctions}.
 
 
 \subsubsection{Rectified Linear Unit}
-Within the input layer of the DiLoc network, nodes utilize the \emph{Rectified Linear Units} (ReLU) activation function.  ReLU closely resembles the behavior  of biological neurons. Specifically, it echoes the concept of action potential: if a threshold is reached, the neuron fires, otherwise, the neuron remains inactive. For the ReLU function, this means positive input values remain unchanged, while negative input values are suppressed by setting them to zero.
+Within the input layer of the FCNN network, nodes utilize the \emph{Rectified Linear Units} (ReLU) activation function.  ReLU closely resembles the behavior  of biological neurons. Specifically, it echoes the concept of action potential: if a threshold is reached, the neuron fires, otherwise, the neuron remains inactive. For the ReLU function, this means positive input values remain unchanged, while negative input values are suppressed by setting them to zero.
 
 Mathematically, the ReLU function is defined as:
 
 \begin{equation}
-f(x) = \begin{cases}
+\text{ReLU}(x) = \begin{cases}
 x, & \text{if } x > 0 \\
-0, & \text{otherwise}
+0, & \text{otherwise.}
 \end{cases}
 \label{eq:ReLU}
 \end{equation}
 
-The widespread adoption of ReLU in neural networks is attributed to its computational speed, performance, and generalization capabilities \cite{wandb_activation_functions}. In contrast to the Hyperbolic Tangent activation functions, to which we will return shortly, ReLU offers a more straightforward mathematical representation. As seen in Figure \ref{fig:ReLU}, the ReLU function maintains the input value when positive and outputs zero for negative inputs. This behavior promotes computational efficiency, as at any instance, only a subset of neurons activate.
+In our network, the input nodes receive raw EEG input data. The nodes proceed to compute the product between their input and initialized weights, add their initialized bias, and then transform the result through the ReLU activation function. This activation function effectively maps the weighted sum onto a positive range, subsequently transmitting this transformed activation to the nodes in the next layer. The fundamental non-linear transformation introduced by the ReLU activation function is visually depicted in Figure \ref{fig:ReLU}. The widespread adoption of ReLU in neural networks can be attributed to its advantages in terms of computational speed, performance, and generalization capabilities \cite{wandb_activation_functions}.
+\rednote{Explain pros with ReLU in fist layer. Include the problem of dead neurons?}
+
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/ReLU.pdf}
-    \caption{ReLU tangent activation function.}
+    \caption{\textbf{Rectified Linear Unit (ReLU) Activation Function}: preserves positive input values ($x$) unchanged and enforces a transformation of negative input values to zero.}
     \label{fig:ReLU}
 \end{figure}
 
-By using ReLU in our first layer we introduces non-linearity into the model and enables it to capture complex relationships and patterns within the EEG data effectively.
-
-\rednote{Here I need to explain pros with ReLU in fist layer. Include the problem of dead neurons.}
-
 
 \subsubsection{Hyperbolic Tangent}
-For the hidden layers, we employed another actication function, known as the \emph{Hyperbolic Tangent} (tanh). This decision was driven by its ability to compress input values into a range between -1 and 1, which helps prevent activations from becoming extremely large and potentially unstable during training. By constraining the activations within this range, we aim for DiLoc to achieve a stable and effective learning process.
+For the hidden layers, we employed another actication function, known as the \emph{Hyperbolic Tangent} (tanh). This activation function compress input values into a range between -1 and 1, which helps prevent activations from becoming extremely large. \rednote{Can i find source for this?} By constraining the activations within this range, layers employing this function yield zero-centered outputs, which effectively centers the data and facilitates the learning process for subsequent layers.
 
-
-Tanh is continuous and differentiable at all points, that for reasons we will come back to is making it a suitable activation function for neural networks \rednote{Where do I come back to this?}. Its mathematical representation is as follows:
+Its mathematical representation is as follows:
 
 \begin{equation}
-  f(x) = \frac{{e^x - e^{-x}}}{{e^x + e^{-x}}}
+  \text{tanh}(x) = \frac{{e^x - e^{-x}}}{{e^x + e^{-x}}}.
 \label{eq:I}
 \end{equation}
 
@@ -130,16 +146,23 @@ As seen in Figure \ref{fig:Tanh}, the tanh function smoothly squashes input valu
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/Tanh.pdf}
-    \caption{Hyperbolig tangent activation function.}
+    \caption{\textbf{Hyperbolic tangent activation function}: maps the input value $x$ into a continuous range between -1 and 1.}
     \label{fig:Tanh}
 \end{figure}
 
+%aim for the network to achieve a stable and effective learning process.
+% Tanh is continuous and differentiable at all points, that for reasons we will come back to is making it a suitable activation function for neural networks \rednote{Where do I come back to this?}.
+
 
 \subsubsection{Linear Activation}
-\rednote{Last Layer Linear Avtivation?}
-DiLoc aims to provide direct and unconstrained predictions of the x-, y-, and z-positions for a desired dipole source. In our specific application, these target positions exhibit a range of values, with x ranging from -70 to 70 mm, y from -58 to 78 mm, and z from -69 to 59 mm. This wide range of potential values underscores the need for a regression approach that allows for unbounded and continuous predictions. When dealing with regression problems, linear activations, or rather, no activation function at all, are commonly utialized.
+The FFNN is designed to provide direct and unconstrained predictions of the $x$-, $y$-, and $z$-positions for a desired dipole source. In our specific application, the target positions encompass a range of coordinate values, spanning from -70 to 70 mm for $x$, -58 to 78 mm for $y$, and -69 to 59 mm for $z$.
 
-Therefore, in contrast to ReLU and tanh activations used in earlier layers, we adopted linear transformations without the use of an activation function for the nodes within the last layer of DiLoc. This decision aligns with the requirements of our specific task, ensuring that the output of the network is not constrained within a specific range.
+In the context of regression problems, such as the one we are addressing, it is it is common practice to use linear activations in the output layer. Linear activations in this context, are simply the absence of any activation function at all. Consequently, unlike the ReLU and tanh activations used in the earlier layers, the output nodes in our network do not utilize activation functions. Instead, the output weights and biases for each of the output neurons make the final adjustments to the input of the nodes in the final layer. These adjusted values are then considered as the predicted output values of the network.
+
+
+% The FFNN is designed to provide direct and unconstrained predictions of the $x$-, $y$-, and $z$-positions for a desired dipole source. In our specific application, the target positions encompass a range of coordinate values, spanning from -70 to 70 mm for $x$, -58 to 78 mm for $y$ and -69 to 59 mm for $z$. In the context of regression problems, like the one we are addressing, it is common practice to utilize linear activations in the output layer. By referring to linear activations in this context, we simply mean the absence of an activation function. Hence, in contrast to the ReLU and tanh activations utilized in the earlier layers, the output nodes in our network do not employ activation functions. Rather, output weights and biases for each of the output neurons makes the final adusjtments to the input of the nodes in the final layer, before these values are referred to as the predicted output values of the network. Linear activations is in line with the specific requirements of our task, ensuring that the network's output remains unbounded and does not impose any constraints within a predefined range.
+
+%The choice of linear activations aligns with the specific requirements of our task, ensuring that the network's output remains unbounded and does not impose any constraints within a predefined range.
 
 \rednote{Include info about exploding and vanishing gradient ?}
 
@@ -147,10 +170,14 @@ Therefore, in contrast to ReLU and tanh activations used in earlier layers, we a
 %
 % An important advantage of using the hyperbolic tangent function over the sigmoid function is that the tanh function is centered around zero. This makes the optimization process much easier as it ensures that the gradients calculated during backpropagation have both positive and negative values, resulting in more balanced weight updates. This, in turn, might lead to faster convergence and more efficient optimization.
 
-\subsection{Initialization}
-All inner parameters within a neural network are adjustable. \emph{Initialization} of the parameters of weights and biases is an important process used within neural networks. The choice of these initial values can significantly impact how quickly the model converges during training and how well the model generalizes to unseen data.
+\subsection{Initialization of Parameters}
+% 231*512 + 512*256 + 256*128 + 128*64 + 64*32 + 32*3 + (512 + 256 + 128 + 64 + 32 + 3) = 293443
+Neural networks train by fine-tuning their parameters $\theta$ to capture and adapt to intricate patterns within data. Weights and biases serve as inner parameters of neural networks, crucial for modeling and optimizing these patterns. The total number of parameters is equal to the sum of all connections between layers plus the total number of biases in every layer. In the architecture provided in Figure \ref{fig:FFNN_architecture}, our FFNN comprises just under 300,000 parameters.
+\rednote{Dette er så langt jeg har kommet. Må finne bedre kilder på initialization.}
 
-There are several techniques for initialization in neural networks. In DiLoc, we have utilized the Xavier initialization, as this initialization commonly is paired with the tanh activation function. For every layer $l$, the weights $W^{[l]}$ and biases $b^{[l]}$ are sampled as follows:
+\emph{Initialization} of weights and biases is an important process used within neural networks. The choice of these initial values can significantly impact how quickly the model converges during training and how well the model generalizes to unseen data.
+
+There are several techniques for initialization in neural networks. In the FCNN, we have utilized the Xavier initialization, as this initialization commonly is paired with the tanh activation function. For every layer $l$, the weights $W^{[l]}$ and biases $b^{[l]}$ are sampled as follows:
 
 \begin{align}
 W^{[l]} &\sim \mathcal{N}(\mu=0, \sigma^2 = \frac{1}{n^{[l-1]}}) \\
@@ -159,7 +186,7 @@ b^{[l]} &= 0
 
 In this approach, the weights of layer $l$ are drawn from a normal distribution with a mean ($\mu$) of 0 and a variance ($\sigma^2$) of $\frac{1}{n^{[l-1]}}$, where $n^{[l-1]}$ signifies the number of inputs to the neuron. Additionally, biases are initialized to zero. This practice aligns with the idea that biases represent the initial influence of each neuron before any data is processed, making zero initialization a reasonable starting point.
 
-The use of activation functions like tanh can introduce challenges related to vanishing and exploding gradient issues. Xavier initialization addresses these concerns by ensuring that the variance across layers is proportional to $\frac{1}{n^{[l-1]}}$, thereby contributing to the stability of the learning process. Essentially, Xavier initialization strikes a balance in parameter initialization, preserves variance, and mitigates the risk of gradients vanishing during training. This makes it a well-suited choice for DiLoc, where both stability and efficient training are paramount, particularly when dealing with intricate EEG data patterns.
+The use of activation functions like tanh can introduce challenges related to vanishing and exploding gradient issues. Xavier initialization addresses these concerns by ensuring that the variance across layers is proportional to $\frac{1}{n^{[l-1]}}$, thereby contributing to the stability of the learning process. Essentially, Xavier initialization strikes a balance in parameter initialization, preserves variance, and mitigates the risk of gradients vanishing during training. This makes it a well-suited choice for the FCNN, where both stability and efficient training are paramount, particularly when dealing with intricate EEG data patterns.
 
 
 

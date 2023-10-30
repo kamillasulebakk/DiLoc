@@ -6,8 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{csquotes}
-\usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
-\usepackage{hyperref}
+\usepackage[style=numeric, backend=biber]{biblatex}
+\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}    % Required for including images
 \usepackage{subcaption}  % Required for subfigures
 \newcommand{\rednote}[1]{\textcolor{red}{#1}}
@@ -15,24 +15,23 @@
 \bibliography{kilder.bib}
 
 \author{Kamilla Ida Julie Sulebakk}
-\title{Localization and identification of Neural Sources from simulated EEG Signals}
+\title{Localization and Identification of Neural Sources from Simulated EEG Signals}
 
 \begin{document}
 
 \uiomasterfp[program={Biological and Medical Physics}, color=blue,
-dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}]
+dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}, supervisors={Torbjørn Ness and Gaute Einevoll}]
 
 \frontmatter
-% \input{acknowledgements}
-% \tableofcontents
-% \input{introduction}
+\input{acknowledgements}
+\tableofcontents
 
 \mainmatter
 % motivation...
-% \input{chapter0}
+\input{chapter0}
 
 % neuroscience stuff
-% \input{chapter1}
+\input{chapter1}
 
 % eeg, head models etc
 \input{chapter2}
@@ -41,25 +40,25 @@ dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}]
 \input{chapter3}
 
 % method, DiLoc network
-% \input{chapter4}
+\input{chapter4}
 
 % results, simple dipole
-% \input{chapter5}
+\input{chapter5}
 
 % results extended network
-% \input{chapter6}
+\input{chapter6}
 
 % results extended network
-% \input{chapter_convolutional}
+\input{chapter_convolutional}
 
 % results two dipoles, both FFNN and CNN
-% \input{multiple_dipoles}
+\input{multiple_dipoles}
 
 % results extended network
-% \input{chapter7}
+\input{chapter7}
 
-% \input{chapter8}
+\input{chapter8}
 
 \backmatter
-% \printbibliography
+\printbibliography
 \end{document}

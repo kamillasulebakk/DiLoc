@@ -2,11 +2,11 @@ import numpy as np
 from lfpykit.eegmegcalc import NYHeadModel
 import matplotlib.pyplot as plt
 from scipy import interpolate
-import utils
 import os
 import h5py
 import seaborn as sns
 from matplotlib.widgets import Slider
+
 
 from plot import set_ax_info
 # from produce_data import calculate_eeg
@@ -64,7 +64,7 @@ def plot_simple_example(A):
 
     vmax = np.max(np.abs(eeg[:, time_idx]))
     v_range = vmax
-    cmap = lambda v: plt.cm.bwr((v + vmax) / (2*vmax))
+    cmap = lambda v: plt.cm.PRGn((v + vmax) / (2*vmax))
 
     threshold = 2
 
@@ -86,7 +86,7 @@ def plot_simple_example(A):
                  zorder=-nyhead.elecs[0, idx])
 
     img = ax3.imshow([[], []], origin="lower", vmin=-vmax,
-                     vmax=vmax, cmap=plt.cm.bwr)
+                     vmax=vmax, cmap=plt.cm.PRGn)
     plt.colorbar(img, ax=ax9, shrink=0.5).set_label(label='µV',size=20, weight='bold')
     img.figure.axes[0].tick_params(axis="both", labelsize=20)
     img.figure.axes[1].tick_params(axis="x", labelsize=20)
@@ -132,17 +132,17 @@ def plot_different_amplitudes(A1, A2):
     y_lim = [-130, 100]
 
     plt.close("all")
-    fig = plt.figure(figsize=[19, 10])
+    fig = plt.figure(figsize=[22, 10])
     gs = fig.add_gridspec(1, 2, wspace=0.3)
     ax1 = fig.add_subplot(gs[0, 0])
     ax2 = fig.add_subplot(gs[0, 1])
 
     axes = [ax1, ax2]
     eeg_data = [eeg1, eeg2]
-    titles = [f'Magnitude = {A1} nA$\mu$m', f'Magnitude = {A2} nA$\mu$m']
+    titles = [f'Magnitude = {A1} nAm', f'Magnitude = {A2} nAm']
 
     vmax = np.max(np.abs(np.concatenate((eeg1, eeg2), axis=0)))
-    cmap = lambda v: plt.cm.bwr((v + vmax) / (2 * vmax))
+    cmap = lambda v: plt.cm.PRGn((v + vmax) / (2 * vmax))
 
     for ax, eeg, title in zip(axes, eeg_data, titles):
         max_elec_idx = np.argmax(np.std(eeg, axis=1))
@@ -153,23 +153,24 @@ def plot_different_amplitudes(A1, A2):
             ax.plot(nyhead.elecs[0, idx], nyhead.elecs[1, idx], 'o', ms=10, c=c,
                     zorder=nyhead.elecs[2, idx])
 
-        ax.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=20, color='orange', zorder=1000)
-        ax.set_xlabel("x (mm)", fontsize=20)
-        ax.set_ylabel("y (mm)", fontsize=20)
+        ax.plot(nyhead.dipole_pos[0], nyhead.dipole_pos[1], '*', ms=25, color='orange', zorder=1000)
+        ax.set_xlabel("x (mm)", fontsize=30)
+        ax.set_ylabel("y (mm)", fontsize=30)
         ax.set_xlim(x_lim)
         ax.set_ylim(y_lim)
-        ax.set_title(title, fontsize=25)
+        ax.set_title(title, fontsize=35)
+        ax.set_aspect('equal')
 
     cbar_ax = fig.add_axes([0.92, 0.15, 0.02, 0.7])  # [left, bottom, width, height]
-    img = ax1.imshow([[]], origin="lower", vmin=-vmax, vmax=vmax, cmap=plt.cm.bwr)
-    cbar = plt.colorbar(img, cax=cbar_ax)
-    cbar.set_label(label='µV', size=20, weight='bold')
-    cbar.ax.tick_params(axis="both", labelsize=20)
+    img = ax1.imshow([[]], origin="lower", vmin=-vmax, vmax=vmax, cmap=plt.cm.PRGn)
+    cbar = plt.colorbar(img, cax=cbar_ax, pad=0.3)
+    cbar.set_label(label='µV', size=30, weight='bold')
+    cbar.ax.tick_params(axis="both", labelsize=30)
 
-    ax1.tick_params(axis='x', which='both', labelsize=20)
-    ax1.tick_params(axis='y', which='both', labelsize=20)
-    ax2.tick_params(axis='x', which='both', labelsize=20)
-    ax2.tick_params(axis='y', which='both', labelsize=20)
+    ax1.tick_params(axis='x', which='both', labelsize=30)
+    ax1.tick_params(axis='y', which='both', labelsize=30)
+    ax2.tick_params(axis='x', which='both', labelsize=30)
+    ax2.tick_params(axis='y', which='both', labelsize=30)
 
     plt.savefig("plots/dipole_w_amplitude_example.pdf")
 
@@ -361,7 +362,7 @@ def plot_and_find_neighbour_dipole():
 
 def plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i):
     nyhead = NYHeadModel()
-    fig = plt.figure(figsize=[17, 7])
+    fig = plt.figure(figsize=[20, 7])
 
     ax_elecs = fig.add_subplot(1, 3, 1, aspect=1)
 
@@ -370,7 +371,8 @@ def plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i):
 
     electrode_measures = np.zeros((2, 231))
     for idx in range(len(eeg_i)):
-        c = plt.cm.bwr((eeg_i[idx] + vmax) / (2 * vmax))  # Blue-White-Red colormap
+        # c = plt.cm.bwr((eeg_i[idx] + vmax) / (2 * vmax))  # Blue-White-Red colormap
+        c = plt.cm.PRGn((eeg_i[idx] + vmax) / (2 * vmax))  # Blue-White-Red colormap
         electrode_measures[0][idx] = nyhead.elecs[0, idx]
         electrode_measures[1][idx] = nyhead.elecs[1, idx]
 
@@ -383,11 +385,11 @@ def plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i):
 
     vmax = np.max(np.abs(eeg_i))
 
-    vmap = lambda v: plt.cm.bwr((v + vmax) / (2 * vmax))  # Blue-White-Red colormap
+    vmap = lambda v: plt.cm.bwr((v + vmax) / (2 * vmax))
     levels = np.linspace(-vmax, vmax, 60)
 
-    contourf_kwargs = dict(levels=levels, cmap="PRGn", vmax=vmax, vmin=-vmax, extend="both")  # Blue-White-Red colormap
-    scatter_params = dict(cmap="PRGn", vmin=-vmax, vmax=vmax, s=25)  # Blue-White-Red colormap
+    contourf_kwargs = dict(levels=levels, cmap="PRGn", vmax=vmax, vmin=-vmax, extend="both")
+    scatter_params = dict(cmap="PRGn", vmin=-vmax, vmax=vmax, s=25)
 
     # Plot 3D location EEG electrodes
     img = ax_eeg.tricontourf(x_pos, y_pos, eeg_i, **contourf_kwargs)
@@ -397,12 +399,14 @@ def plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i):
     ax_eeg_new.tricontour(x_new, y_new, eeg_new, **contourf_kwargs)
 
     cbar = plt.colorbar(img, cax=cax, cmap="PRGn")  # Specify the "bwr" colormap for the color bar
-    cbar.ax.tick_params(labelsize=23)
+    cbar.ax.tick_params(labelsize=30)
     cbar.set_ticks([-vmax, -vmax / 2, 0, vmax / 2, vmax])
+    cbar.set_ticklabels(["{:.2f}".format(-vmax), "{:.2f}".format(-vmax / 2), "{:.2f}".format(0), "{:.2f}".format(vmax / 2), "{:.2f}".format(vmax)])
+    cbar.set_label(label='µV',size=30, weight='bold')
 
-    ax_elecs.tick_params(axis='both', which='major', labelsize=23)
-    ax_eeg.tick_params(axis='both', which='major', labelsize=23)
-    ax_eeg_new.tick_params(axis='both', which='major', labelsize=23)
+    ax_elecs.tick_params(axis='both', which='major', labelsize=30)
+    ax_eeg.tick_params(axis='both', which='major', labelsize=30)
+    ax_eeg_new.tick_params(axis='both', which='major', labelsize=30)
 
     fig.savefig(f'plots/CNN/one_dipole_eeg_dipole_pos_{i}')
     plt.close(fig)
@@ -441,7 +445,7 @@ def plot_active_region(eeg, activity_center, activity_radius, active_idxs, numbr
     cax = fig.add_axes([0.9, 0.55, 0.01, 0.3]) # This axis is just the colorbar
 
     eegmax = np.max(np.abs(eeg))
-    scatter_params = dict(cmap="bwr", vmin=-eegmax, vmax=eegmax, s=50)
+    scatter_params = dict(cmap="PRGn", vmin=-eegmax, vmax=eegmax, s=50)
 
     # Plot 3D location EEG electrodes
     # Arrange point along different axes to avoid confusing overlapping points
@@ -455,6 +459,9 @@ def plot_active_region(eeg, activity_center, activity_radius, active_idxs, numbr
     # cbar = plt.colorbar(im, cax=cax, label="µV", size=23)
     cbar = plt.colorbar(im, cax=cax)
     cbar.ax.tick_params(labelsize=23)
+    cbar.set_label(label='µV',size=23, weight='bold')
+
+
 
     # Plotting crossection of cortex around active region center
     threshold = 2  # threshold in mm for including points in plot
@@ -495,7 +502,7 @@ def plot_active_region(eeg, activity_center, activity_radius, active_idxs, numbr
     ax5.tick_params(axis='both', which='major', labelsize=23)
     ax6.tick_params(axis='both', which='major', labelsize=23)
 
-    plt.savefig(f"plots/dipole_area/dipole_area_reduced_{numbr}.pdf")
+    plt.savefig(f"plots/dipole_area_reduced_{numbr}.pdf")
 
 
 def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
@@ -530,7 +537,7 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
 
     vmax = np.max(np.abs(eeg[:, time_idx]))
     v_range = vmax
-    cmap = lambda v: plt.cm.bwr((v + vmax) / (2*vmax))
+    cmap = lambda v: plt.cm.PRGn((v + vmax) / (2*vmax))
 
     fig = plt.figure(figsize=[25, 11])
     # fig.suptitle(f'EEG signals from simulated current dipole moment(s)', fontsize=20)
@@ -558,7 +565,7 @@ def plot_dipoles(nyhead, name, eeg, dipole_pos_list, numbr):
                  zorder=-nyhead.elecs[0, idx])
 
     img = ax3.imshow([[], []], origin="lower", vmin=-vmax,
-                     vmax=vmax, cmap=plt.cm.bwr)
+                     vmax=vmax, cmap=plt.cm.PRGn)
     cbar = plt.colorbar(img)
     cbar.ax.tick_params(labelsize=30)
     cbar.set_label(label='µV',size=30, weight='bold')
@@ -1141,9 +1148,12 @@ def plot_prediction_multiple_dipoles(prediction, target, name):
     plt.savefig(f"{name}_prediction.pdf")
 
 
-# plot_different_amplitudes(5, 10)
+if __name__ == '__main__':
+    plot_different_amplitudes(5, 10)
+    # plot_simple_example(1)
+
 # plot_and_find_neighbour_dipole()
-plot_simple_example(1)
+
 # plot_prediction()
 
 

@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import interpolate
-import utils
 
 def load_data_files(num_samples: int, name: str, shape: str = "1d", num_dipoles: int = 1):
     """

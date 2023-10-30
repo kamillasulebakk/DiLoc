@@ -34,20 +34,20 @@ def set_ax_info(ax, xlabel, ylabel, title=None, zlabel=None, legend=True):
             default: True
     """
     if zlabel == None:
-        ax.set_xlabel(xlabel, fontsize=20)
-        ax.set_ylabel(ylabel, fontsize=20)
-        ax.tick_params(axis='both', which='major', labelsize=15)
+        ax.set_xlabel(xlabel, fontsize=23)
+        ax.set_ylabel(ylabel, fontsize=23)
+        ax.tick_params(axis='both', which='major', labelsize=20)
         # ax.ticklabel_format(style='plain')
     else:
-        ax.set_xlabel(xlabel, fontsize=18)
-        ax.set_ylabel(ylabel, fontsize=18)
-        ax.set_zlabel(zlabel, fontsize=18)
+        ax.set_xlabel(xlabel, fontsize=20)
+        ax.set_ylabel(ylabel, fontsize=20)
+        ax.set_zlabel(zlabel, fontsize=20)
         ax.tick_params(axis='both', which='major', labelsize=12)
         ax.ticklabel_format(style='scientific', scilimits = (-2, 2))
     if title != None:
-        ax.set_title(title, fontsize=20)
+        ax.set_title(title, fontsize=23)
     if legend:
-        ax.legend(fontsize=15)
+        ax.legend(fontsize=20)
 
 
 def plot_MSE_targets_2_dipoles(
