@@ -127,7 +127,7 @@ Figure \ref{fig:NN_dipole_w_amplitude_architecture} presents a visualization of 
     \centering
     \includegraphics[width=\linewidth]{figures/NN_multiple_outputs.png}
     \caption{\textbf{Architecture of the Extended Feed-Forward Neural Network}. The input layer comprises 231 electrode recording input values, and the network outputs predicted $d$ target values depending on the specific problem to solve. The FFNN consists of five hidden layers. \\
-    The vizualization has been made with Latex, with code adapteded from Neural Networks in TikZ with attribution to Izaak Neutelings and is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License \cite{neutelings2021}.}
+    The visualization has been made with Latex, with code adapteded from Neural Networks in TikZ with attribution to Izaak Neutelings and is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License \cite{neutelings2021}.}
     \label{fig:NN_dipole_w_amplitude_architecture}
 \end{figure}
 
@@ -340,7 +340,7 @@ Gray filled circles represent points within the NY cortex where a dipole could h
 % How does the loss relate to size of population
 % Exammple run and how long time it takes to calculate
 
-In Figure \ref{fig:dipole_area_result}, we present the training and validation costumized loss for the FFNN as a function of epochs. We once again emphasize that the network's loss is unitless, meaning that the figure only provides a visual representation of the network's training progress rather than directly interpretable loss values. The network was trained for 1000 epochs. We see a clear trend of decreasing loss with an increasing number of epochs. However, after epoch 800, both training and validation loss appears to reach convergence, and beyond this point, there is no further improvement in loss. We can therefor conclude that overfitting has not taken place during training. At epoch 749, the learning rate is adjusted from 0.001 to 0.00004, resulting in a noticeable reduction and stabilization for both training and validation loss. On average, each epoch takes approximately 23 seconds to complete, resulting in a total training time of approximately 9.5 hours.
+In Figure \ref{fig:dipole_area_result}, we present the training and validation costumized loss for the FFNN as a function of epochs. We once again emphasize that the network's loss is unitless, meaning that the figure only provides a visual representation of the network's training progress rather than directly interpretable loss values. The network was trained for 1000 epochs. We see a clear trend of decreasing loss with an increasing number of epochs. However, after epoch 800, both training and validation loss appears to reach convergence, and beyond this point, there is no further improvement in loss. We can therefore conclude that overfitting has not taken place during training. At epoch 749, the learning rate is adjusted from 0.001 to 0.00004, resulting in a noticeable reduction and stabilization for both training and validation loss. On average, each epoch takes approximately 23 seconds to complete, resulting in a total training time of approximately 9.5 hours.
 
 
 \begin{figure}[!htb]
