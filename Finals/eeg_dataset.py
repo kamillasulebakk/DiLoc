@@ -95,8 +95,8 @@ def return_interpolated_eeg_data(eeg, grid_shape : int = 20):
         eeg_new = scipy.interpolate.griddata((x_pos, y_pos), eeg_i, (x_new, y_new), method='nearest')
         eeg_matrix[i, :, :] = np.reshape(eeg_new, (grid_shape,grid_shape))
 
-        if i < 5:
-            plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i)
+        # if i < 5:
+        #     plot_interpolated_eeg_data(eeg_i, x_pos, y_pos, eeg_new, x_new, y_new, i)
 
     return eeg_matrix
 

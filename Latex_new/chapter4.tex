@@ -8,7 +8,7 @@
 
 
 \chapter{A Feed-Forward Neural Network Approach to Source Localization}
-\chaptermark{FFNN Approach}
+\chaptermark{FCNN Approach}
 
 Having obtained a suitable data set we can start building neural networks to address the EEG inverse problem. In this chapter, we provide a comprehensive overview of a feed-forward neural network built to map measured EEG signals to corresponding locations of current dipoles. We will be discussing its architecture and parameters.\rednote{Introduce what the sections will be about.}
 
@@ -21,30 +21,39 @@ Having obtained a suitable data set we can start building neural networks to add
 %
 % where $x$ is a set of all inputvalues within a sample
 %
-% \rednote{X sett av alle sett av inputverdier i datasettet. x er et sett av alle inputverdier i en sample (hele inputtsettet).}
+% \rednote{X sett av alle sett av inputverdier i data settet. x er et sett av alle inputverdier i en sample (hele inputtsettet).}
 % \rednote{$\mathbb{R}^{231}$ til $\mathbb{R}^{3}$}
 
 
 \section{Machine Learning}
-The field of machine learning is conserned with constructing computer programs that learn from experience. Within this computational discipline we find a spectrum of \emph{tasks} and \emph{experiences} these algorithms aim to understand and accomplish. machine learning tasks involve predicting how a system processes a given sample. The algorithms accomplish these tasks by gaining experience with sets of features, thereby extracting valuable insights into the inherent structure of these datasets.
+\rednote{cite!!!!}
+The field of machine learning is conserned with constructing computer programs that learn from experience. Within this computational discipline we find a spectrum of tasks these algorithms aim to understand and accomplish. For the purpose of solving the EEG inverse problem the model is concerned with the task of localizing the origins of abnormal electrical brain signals within the human cortex. The machine learning algorithm will gain experience through the analysis of corresponding EEG data associated with these abnormal sources.
 
-For the purpose of solving the EEG inverse problem the model is concerned with the \emph{task} of localizing the origins of abnormal electrical brain signals within the human cortex. The machine learning algorithm will gain \emph{experience} through the analysis of corresponding EEG data associated with these abnormal sources.
+Typically, machine learning problems are addressed using the same three elements.
+The first element is the data set $\mathcal{D} = (X, Y)$. $X$ is commonly referred to as the \emph{design matrix} and $Y$ is the set of \emph{target values} we want the model to predict as function of the elements in $X$.
+Next, we have the model $f(x; \boldsymbol{\theta})$ itself which is a function $f : \mathcal{X} \to \mathcal{Y}$ used to predict an output $y \in \mathcal{Y}$ from an input $x \in \mathcal{X}$ using the \emph{model parameters} $\boldsymbol{\theta}$.
+Thirdly we have the cost funtion $\mathcal{C}(y, f(x; \boldsymbol{\theta}))$ for $x \in \mathcal{X}$ and $y \in \mathcal{Y}$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$. Training a machine learning model involves the adjustment of the model parameters $\boldsymbol{\theta}$ to minimize the cost function. The cost function yields high values when the model's output deviates from the desired target, and conversely, it produces smaller values when the predictions align closely with the intended outcomes. The output of the cost function is commonly reffered to as the model's \emph{cost} or \emph{loss}. We will be using these terms interchangeably.
 
-\rednote{find cite.}
-Typically, machine learning problems are addressed using the same three elements. The first element is the dataset $\mathcal{D} = (\mathcal{X}, \mathcal{Y})$. $\mathcal{X}$, commonly is referred to as the \emph{design matrix} and $\mathcal{Y}$ is the \emph{target values} we aim the model to predict as function of $\mathcal{X}$. Next, we have the model $f(x; \boldsymbol{\theta})$ itself which is a function $f : \mathcal{X} \to \mathcal{Y}$ used to predict an output $y \in \mathcal{Y}$ from an input $x \in \mathcal{X}$ using the \emph{model parameters} $\boldsymbol{\theta}$.
-Thirdly we have the cost funtion $\mathcal{C}(y, f(x; \boldsymbol{\theta}))$ for $x \in \mathcal{X}$ and $y \in \mathcal{Y}$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$. Training a machine learning model involves the adjustment of the model parameters $\boldsymbol{\theta}$ to minimize the output of the cost function. The cost function yields high values when the model's output deviates from the desired target, and conversely, it produces smaller values when the predictions align closely with the intended outcomes.
+
+
 
 
 \section{Neural Networks}
-Neural networks are a distinct class of so-called \emph{nonlinear machine learning models} capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimic the way biological neurons transmit signals, with interconnected \emph{nodes} that communicate through mathematical functions. Each connection between nodes is represented by a \emph{weight} variable, which encodes the strength of the communication between the two nodes. During training, the neural network ''learns'' by adjusting these weights to capture the underlying patterns and relationships in the data.
+
+Neural networks are a distinct class of so-called \emph{nonlinear machine learning models} capable of learning tasks by observing examples, without requiring explicit task-specific rules \cite{Hjorth-Jensen2022}. The models mimic the way biological neurons transmit signals, with interconnected \emph{nodes} that communicate through mathematical functions. Each connection between nodes is represented by a \emph{weight} variable, which encodes the strength of the communication between the two nodes. During training, the neural network ``learns'' by adjusting these weights to capture the underlying patterns and relationships in the data.
 
 \rednote{Change to to Feed Forward Neural Nets?}
-We will consider fully connected feed-forward neural networks whose nodes are grouped into \emph{layers} with the output of one layer serving as the input for the next. Typically, we call the first layer of neural networks the \emph{input layer}, the final layer of the model \emph{output layer} and the layers in between \emph{hidden layers}. What lays in the term ''fully connected feed-forward'' is that every node within each layer sends their outputs to every node the next layer. Generally speaking, the outputs is only sent forward, through all of the $N_l$ number of layers. \rednote{Is a the input of the node?} The activation of the $i$-th node in layer $l$, $a_i^{(l)}$ is the weigted sum
+We will consider fully connected feed-forward neural networks whose nodes are grouped into \emph{layers} with the output of one layer serving as the input for the next. Typically, we call the first layer of neural networks the \emph{input layer}, the final layer of the model \emph{output layer} and the layers in between \emph{hidden layers}. What lies in the term ``fully connected feed-forward'' is that every node within each layer sends their outputs to every node the next layer. Generally speaking, the outputs is only sent forward, through all of the layers. \rednote{Is a the input of the node?} The activation $a_i^{(l)}$ of the $i$-th node in layer $l$ is the weighted sum
 \begin{equation}
   z_i^{(l)} = \sum_{j=1}^{N_{l-1}} w_{ij}^{(l)} a_{j}^{(l-1)} + b_i^{(l)}
   \label{activation_node}
 \end{equation}
-fed through an \emph{activation function}. Activation functions serve as mathematical functions that introduce nonlinearity into the network's computations. They play a critical role in enabling the model to capture non-linear patterns within the data. The bias parameter $b$, is a non-zero influence applied to the input of each node, which is then added to the product of the inputs and weights. In cases of zero activation weights or inputs, the presence of this bias parameter ensures that the activation of a neuron remains non-zero. This is a fortunate detail in neural networks, that facilitates the activation function's ability to perform non-linear mappings between inputs and outputs between nodes.
+fed through an \emph{activation function} \(\text{act}\):
+\begin{equation}
+  a_i^{(l)} = \text{act} \left( z_i^{(l)} \right)
+\end{equation}
+$N_{l}$ is the number of nodes in layer \(l\).
+Activation functions introduce nonlinearity into the network's computations. They play a critical role in enabling the model to capture non-linear patterns within the data. The bias parameter $b$, is a non-zero influence applied to the input of each node, which is then added to the product of the inputs and weights. In cases of zero activation weights or inputs, the presence of this bias parameter ensures that the activation of a neuron remains non-zero. This is a fortunate detail in neural networks, that facilitates the activation function's ability to perform non-linear mappings between inputs and outputs between nodes.
 
 
 % In figure \ref{fig:NN_basic_architecture} we have illustrated the basic architecture of neural networks. Here nodes are depiced as circular shapes, while arrows indicate connections between the nodes. \rednote{maybe remove first figure? wrong notation}.
@@ -89,7 +98,7 @@ The feed-forward neural network was one of the first artificial neural network t
 
 The optimal number of hidden layers and nodes was meticulously determinated through an iterative trial-and-error procedure. Various network configurations, including ''small'', ''medium'', and ''large'' architectures, were systematically examined. Ultimately, we settled on the medium-sized network configuration. This selection, combined with considerations of additional network attributes which will be elaborated upon later in this chapter, yielded the most promising results in terms of prediction accuracies.
 
-The input layer is designed with 231 nodes, corresponding to the number of features in our dataset, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 64, and 32 nodes, respectively. Finally, the output layer holds an $x$-, $y$- and $z$-coordinate representing the predicted position of the desired dipole source. Figure \ref{fig:FFNN_architecture} visualizes the construction of the fully connected neural network.
+The input layer is designed with 231 nodes, corresponding to the number of features in our data set, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 64, and 32 nodes, respectively. Finally, the output layer holds an $x$-, $y$- and $z$-coordinate representing the predicted position of the desired dipole source. Figure \ref{fig:FFNN_architecture} visualizes the construction of the fully connected neural network.
 
 \begin{figure}[!htb]
     \centering
@@ -216,10 +225,10 @@ The use of activation functions like tanh can introduce challenges related to va
 % % Training and test data
 %
 % "Machine Learning is a subfield of artificial intelligence with the goal of developing algorithms capable of learning from
-% data automatically" \cite{mehta2019high}. The typical machine learning (ML) problems are addressed using the same three elements. The first element is the dataset $\mathcal{D} = (\textbf{X}, \textbf{y})$ where $\textbf{X}$ commonly is refered to as the design matrix, and consists of independent variables, and $\textbf{y}$ is a vector consisting of dependent variables. Next, we have the model itself, $f(\textbf{x}; \boldsymbol{\theta})$. The ML model can be seen as a function used to predict an output from a vector of input variables, i.e. $f : \textbf{x} \rightarrow y$ of the parameters $\boldsymbol{\theta}$. Finally, the third element, allows us to evaluate how well the model performs on the obervations $\textbf{y}$. This element is known as the cost funtion $\mathcal{C}(\textbf{y}, f(\textbf{X}); \boldsymbol{\theta})$.
+% data automatically" \cite{mehta2019high}. The typical machine learning (ML) problems are addressed using the same three elements. The first element is the data set $\mathcal{D} = (\textbf{X}, \textbf{y})$ where $\textbf{X}$ commonly is refered to as the design matrix, and consists of independent variables, and $\textbf{y}$ is a vector consisting of dependent variables. Next, we have the model itself, $f(\textbf{x}; \boldsymbol{\theta})$. The ML model can be seen as a function used to predict an output from a vector of input variables, i.e. $f : \textbf{x} \rightarrow y$ of the parameters $\boldsymbol{\theta}$. Finally, the third element, allows us to evaluate how well the model performs on the obervations $\textbf{y}$. This element is known as the cost funtion $\mathcal{C}(\textbf{y}, f(\textbf{X}); \boldsymbol{\theta})$.
 %
 % \subsection{Fitting a Machine Learning Model}
-% The first step in "fitting" a machine learning model, is to randomly split the dataset $\mathcal{D}$ into train and test sets. This is done in order to make a model compatible with multiple data sets. The size of each set commonly depend on the size of the data set avaible, however a rule of thumb is that the majority of the data are partitioned into the trainng set (e.g., 80$\%$) with the remainder going into the test set \cite{mehta2019high}.
+% The first step in "fitting" a machine learning model, is to randomly split the data set $\mathcal{D}$ into train and test sets. This is done in order to make a model compatible with multiple data sets. The size of each set commonly depend on the size of the data set avaible, however a rule of thumb is that the majority of the data are partitioned into the trainng set (e.g., 80$\%$) with the remainder going into the test set \cite{mehta2019high}.
 %
 % When using the expression "fitting a model" one commonly refer to finding the value of $\boldsymbol{\theta}$ that minimizes a chosen cost function, employing data from the training set. One commonly used cost funtion is the squared error, in which can be written as follows:
 %
@@ -267,17 +276,17 @@ The use of activation functions like tanh can introduce challenges related to va
 % However, it is important to note that the error function in gradient descent is computed based on the training set, so that each step requires that the entire training set, reffered to as the \emph{batch}, is processed in order to evaluate the new gradient. In that sense, gradient descent is generally considered a suboptimal algorithm. This perception aligns with the algorithms sensitivity to the initial condition, $\textbf{w}_0$, and the choice of the learning rate $\eta$. The sensitivity to initial conditions can be explained by the fact that we to a large extent most often deal with high-dimensional, non-convex cost functions with numerous local minima - where the risk of getting stuck in local minimums if the initial guess is not accurate. Additionally, guessing on a too large learning rate may result in overshooting the global minimum, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum point, thereby increasing computational time. Stochastic gradient descent, however, is a version of gradient descent that has provided useful in practise for training machine learning algorithms on large data sets \cite{bishop2006pattern}.
 %
 % \subsubsection{Stochastic Gradient Descent}
-% The method of Stochastic Gradient Descent (SGD) allows us to compute the gradient by randomly selecting subsets of the data at each iteration, rather than using the entire dataset \cite{bishop2006pattern}. The update can be written as:
+% The method of Stochastic Gradient Descent (SGD) allows us to compute the gradient by randomly selecting subsets of the data at each iteration, rather than using the entire data set \cite{bishop2006pattern}. The update can be written as:
 %
 % \begin{equation}
 % \textbf{w}_{\tau+1} = \textbf{w}_{\tau} - \eta\nabla F_n(\textbf{w}_\tau)
 % \end{equation}
 %
-% These smaller subsets taken from the entire dataset are commonly reffered to as mini-batches. In other words, SGD is just like regular GD, except it only looks at one mini-batch for each step. Introducing fluctuation by only taking the gradient on a subset of the data, is beneficial as it enables the algorithm to jump to a new and potentially better local minima, rather that getting stuck in a local minimum point.
+% These smaller subsets taken from the entire data set are commonly reffered to as mini-batches. In other words, SGD is just like regular GD, except it only looks at one mini-batch for each step. Introducing fluctuation by only taking the gradient on a subset of the data, is beneficial as it enables the algorithm to jump to a new and potentially better local minima, rather that getting stuck in a local minimum point.
 %
 % \subsubsection{Stochastic Gradient Descent with Momentum}
 % % TODO: explain why. some more figrues
-% Splitting the dataset into mini-batches, as done with SGD, naturally reduces the calculation time. However, adding \emph{momentum}, to the algorithm, not only leads to faster converging, due to stronger acceleration of the gradient vectors in the relevant directions, but also improves the algorithms sensitivity to initial guess of the learning rate $\eta$. The momentum can be understood as a memory of the direction of the movement in parameter space, which is done by adding a fraction $\gamma$ of the weight vector of the past time step to the current weight vector:
+% Splitting the data set into mini-batches, as done with SGD, naturally reduces the calculation time. However, adding \emph{momentum}, to the algorithm, not only leads to faster converging, due to stronger acceleration of the gradient vectors in the relevant directions, but also improves the algorithms sensitivity to initial guess of the learning rate $\eta$. The momentum can be understood as a memory of the direction of the movement in parameter space, which is done by adding a fraction $\gamma$ of the weight vector of the past time step to the current weight vector:
 %
 % \begin{equation}
 % \textbf{v}_{\tau} = \gamma\textbf{v}_{\tau-1} - \eta\nabla F_n(\textbf{w}_{\tau})
@@ -600,7 +609,7 @@ The use of activation functions like tanh can introduce challenges related to va
 %
 %
 % \subsection{Training, testing and evaluation}
-% % In order to make an ANN that generalizes well to new data we split our data into training and testing sets. Randomly selecting 80 percent of the rows in the full dataset, we put this into a separate one and call it our training set. The remaining 20 percent is put into the test set. In practice, the training data set consists of pairs of an input vector with EEG signals and the corresponding output vector, where the answer key is the x-, y- and z coordinate of the dipole source. The neural network is then feed with the training data and produces an estimation of the localization of the dipole.
+% % In order to make an ANN that generalizes well to new data we split our data into training and testing sets. Randomly selecting 80 percent of the rows in the full data set, we put this into a separate one and call it our training set. The remaining 20 percent is put into the test set. In practice, the training data set consists of pairs of an input vector with EEG signals and the corresponding output vector, where the answer key is the x-, y- and z coordinate of the dipole source. The neural network is then feed with the training data and produces an estimation of the localization of the dipole.
 %
 % The estimation is found by the network through optimizing the parameters $\beta$ minimizing the cost function, or said in other words, through finding parameters for the function that produces the smallest outcomes, meaning the smallest errors. The result provided by the network is then compared with the target, for each input vector in the training data. Adjustment of parameters...
 %

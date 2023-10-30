@@ -17,7 +17,7 @@ import simple_cnn
 # sns.set_palette(palette)
 
 def validate_network(model, parameters):
-    name = 'amplitude'
+    name = 'simple_cnn'
     data = EEGDataset('test', parameters)
 
     if name == 'simple':
@@ -27,6 +27,8 @@ def validate_network(model, parameters):
     elif name == 'simple_cnn':
         eeg = data.eeg
         predictions = model(eeg.unsqueeze(1)).detach().numpy()
+        print(predictions)
+        input()
         targets = (data.target).detach().numpy()
     else:
         predictions =  data.denormalize(model(data.eeg)).detach().numpy()
@@ -77,9 +79,13 @@ def main():
     # model = torch.load('trained_models/simple_last_run_old_std_area_32_0.001_0.35_0.1_0_800_(0).pt')
     # model = torch.load('trained_models/simple_last_run_old_std_cnn_32_0.001_0.35_0.5_0_600_(0).pt')
 
-    # model = torch.load('trained_models/simple_seed_42_cnn_32_0.001_0.35_0.5_0_800_(1).pt')
+    model = torch.load('trained_models/simple_seed_42_cnn_32_0.001_0.35_0.5_0_800_(1).pt')
     # model = torch.load('trained_models/simple_seed_42_cnn_32_0.001_0.35_0.1_0_800_(1).pt')
 
+    # model = torch.load('trained_models/simple_last_run_old_std_2_dipoles_32_0.001_0.35_0.5_0_800_(5).pt')
+
+    # model = torch.load('trained_models/simple_last_run_old_std_area_32_0.001_0.35_0.5_0_800_(0).pt')
+    # model = torch.load('trained_models/simple_last_run_old_std_area_32_0.001_0.35_0.1_0_800_(0).pt')
 
 
 
@@ -94,7 +100,7 @@ def main():
 
 
     print('Pretrained model loaded')
-    validate_network(model, amplitude.basic_parameters())
+    validate_network(model, simple_cnn.basic_parameters())
 
 if __name__ == '__main__':
     main()

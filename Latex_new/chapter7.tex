@@ -176,7 +176,7 @@ When evaluating the network's performance on the test data set, which still comp
 Here, $\tilde{y}_{i,j}' \in \mathcal{\tilde{Y}}'$ is the normalized target value for the $i$'th sample and the $j$'th dimension of the target vector , where $i \in \{0, N-1\}$ and $j \in \{0, d-1\}$. In the equation min($\{\tilde{\mathbf{y}}_j\}$) and max($\{\tilde{\mathbf{y}}_j\}$) denotes the minimum and maximum values for the specific target dimension across all samples.
 
 %
-% To comprehensively gauge the network's predictive abilities on this test dataset, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
+% To comprehensively gauge the network's predictive abilities on this test data set, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
 
 
 \section{Predicting Single Current Dipole Sources with Varying Magnitudes} \label{sec:result_magnitude}
@@ -277,7 +277,7 @@ The Mean Euclidean Distance of the FFNN's predictions on the unseen test data is
 \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}90.930 $\%$}       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.505 $\%$}        & 99.925 $\%$        \\ \hline
 \end{tabular}
 \caption{\textbf{ED between targets and predictions of test samples; Predicting Location and Magnitude with the FFNN} \newline
-Performance of the FFNN on the test dataset comprising 20,000 samples, presented as the percentage of samples falling within ED thresholds of 5 mm, 10 mm and 15 mm respectively.}
+Performance of the FFNN on the test data set comprising 20,000 samples, presented as the percentage of samples falling within ED thresholds of 5 mm, 10 mm and 15 mm respectively.}
 \label{table:MED_magnitude}
 \end{table}
 
@@ -322,7 +322,7 @@ Gray filled circles represent points within the NY cortex where a dipole could h
 \end{figure}
 
 % \rednote{Place somewhere else if needed?}
-% As for the dataset, the number of target values is now 5: x, y, z-coordinates of the center of the dipole population, total magnitude, and radius. The number of features within the dataset is not modified and still holds 231 values, representing the EEG signal measured at every recording electrode.
+% As for the data set, the number of target values is now 5: x, y, z-coordinates of the center of the dipole population, total magnitude, and radius. The number of features within the data set is not modified and still holds 231 values, representing the EEG signal measured at every recording electrode.
 
 % \begin{figure}[!htb]
 % \centering
