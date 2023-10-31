@@ -6,7 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{csquotes}
-\usepackage[style=numeric, backend=biber]{biblatex}
+\usepackage[style=numeric, sorting=none, backend=biber]{biblatex}
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}    % Required for including images
 \usepackage{subcaption}  % Required for subfigures
@@ -23,12 +23,13 @@
 dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences}, supervisors={Torbjørn Ness and Gaute Einevoll}]
 
 \frontmatter
+\input{abstract}
 \input{acknowledgements}
 \tableofcontents
 
 \mainmatter
 % motivation...
-\input{chapter0}
+\input{chapter0}*
 
 % neuroscience stuff
 \input{chapter1}

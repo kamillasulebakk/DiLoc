@@ -6,12 +6,11 @@
 
 \begin{document}
 
-\chapter{Introduction to Neuroscience} \label{chap:intro_neuro}
+\chapter{Basic Concepts within Neuroscience} \label{chap:intro_neuro}
 
-% Source for the first sentence ?
-Neuroscience is a multidisciplinary field focused on understanding the complexities of the human brain and nervous system. At its core, neuronal communication forms the foundation for brain function, where billions of neurons interact through electrical signals. Electroencephalography (EEG) plays a pivotal role in recording and analyzing the electrical communication in the brain. Most importantly EEG serves as a non-invasive tool to detect abnormal brain activity and identify neurological disorders such as epilepsy. By exploring electrical brain activity, neuroscience aim to advance our comprehension of the human brain and improve diagnostic and therapeutic approaches for various neurological conditions.
+Neuroscience is a multidisciplinary field focused on understanding the complexities of the human brain and nervous system. At its core, neuronal communication forms the foundation for brain function, where billions of neurons interact through electrical signals. Electroencephalography (EEG) plays a pivotal role in recording and analyzing the electrical communication in the brain. Most importantly EEG serves as a non-invasive tool to detect abnormal brain activity and identify neurological disorders such as epilepsy.
 
-In this introductory chapter, we will delve into the foundational aspects of neuronal communication, which will be usefull in chapter 2, where we will explore the principles of EEG recordings. By familiarizing ourselves with the fundamental concepts of neurons, we hope to gain a deeper understanding of the applications of EEG in the dynamic field of neuroscience. The chapter is based on the books "Neuronal Dynamics" by Gerstner, Kistler, Naud, and Paninski \cite{gerstner2014neuronal} and "Principles of Computational Modelling in Neuroscience" by Sterratt, Graham, Gillies, and Willshaw \cite{sterratt2011principles}.
+In this introductory chapter, we will explore some of the aspects of neuronal communication, which will serve as a foundation for Chapter 2, where we will delve into the principles of EEG recordings. By familiarizing ourselves with some of the basic concepts within neuroscience, we aim to gain deeper insights into the applications of EEG within this dynamic field. The chapter is based on the books ``Neuronal Dynamics" by Gerstner, Kistler, Naud, and Paninski \cite{gerstner2014neuronal} and ``Principles of Computational Modelling in Neuroscience" by Sterratt, Graham, Gillies, and Willshaw \cite{sterratt2011principles}.
 
 % Exitatory and inhibatory !!
 
@@ -19,27 +18,20 @@ In this introductory chapter, we will delve into the foundational aspects of neu
 % Final section: abnormal electrical signals, recordings, eeg --- will introduce in next chapter
 
 \section{The Neuron}
+Neurons are the fundamental units of the central nervous system, forming intricate networks with numerous interconnections. Similar to other cells, neurons have a voltage difference across their cell membrane known as the membrane potential. This potential is a result of the selective permeability of the cell membrane to different ions, particularly sodium Na$^+$, calcium Ca2$^+$, and chloride Cl$^-$. At rest, the neuron maintains a relatively higher concentration of sodium ions outside the cell and a higher concentration of potassium ions inside the cell. This difference in ion concentrations, along with the presence of ion channels that regulate the flow of ions in and out of the cell, contributes to the resting membrane potential. Typically, the membrane potential of a neuron is around $-$65 mV, indicating that the interior of the cell is negatively charged compared to the external environment \cite{sterratt2011principles}.
 
-Neurons are the fundamental units of the central nervous system, forming intricate networks with numerous interconnections. Similar to other cells, neurons have a voltage difference across their cell membrane known as the membrane potential. This membrane potential is a result of the selective permeability of the cell membrane to different ions, particularly sodium (Na+), calcium (Ca2+), and chloride (Cl-). At rest, the neuron maintains a relatively higher concentration of sodium ions outside the cell and a higher concentration of potassium ions inside the cell. This difference in ion concentrations, along with the presence of ion channels that regulate the flow of ions in and out of the cell, contributes to the resting membrane potential. Typically, the membrane potential of a neuron hovers around -65 mV, indicating that the interior of the cell is negatively charged compared to the external environment \cite{sterratt2011principles}.
-
-A neuron consists of three distinct parts: the \emph{dendrites}, the \emph{soma}, and the \emph{axon}. Dendrites, with their branching structure, play an important role in collecting signals from other neurons. These signals are transmitted to the soma, which acts as the central processing unit, performing essential nonlinear processing. If the total input received by the soma reaches a specific threshold, an \emph{action potential} is initiated. This signal generates an electrical current that travels along the axon. When the electrical current reaches the \emph{synaptic cleft}, chemical messengers known as \emph{neurotransmitters} are realised. These messengers play the key role in transmitting the signal to the next neuron. If \emph{receptors} on the receiving neuron accept the neurotransmitters, a new electrical signal is generated. This transmission of signals between neurons the synapses is called \emph{synaptic input} \cite{gerstner2014neuronal}.
-
-In Figure \ref{fig:neuron}, we have provided a basic illustration of a single neuron with dendrites, soma, and axon.
+A neuron consists of three distinct parts: the \emph{dendrites}, the \emph{soma}, and the \emph{axon}. Dendrites, with their branching structure, play an important role in collecting signals from other neurons. These signals are transmitted to the soma, which acts as the central processing unit, performing essential nonlinear transformations of signals. If the total input received by the soma reaches a specific threshold, an \emph{action potential} is initiated. This signal generates an electrical current that travels along the axon. When the electrical current reaches the \emph{synaptic cleft}, chemical messengers known as \emph{neurotransmitters} are released. These messengers play the key role in transmitting the signal to the next neuron. If \emph{receptors} on the receiving neuron accept the neurotransmitters, a new electrical signal is generated \cite{gerstner2014neuronal}. A basic illustration of a single neuron is presented in Figure \ref{fig:neuron}.
 
 \begin{figure}
     \centering
     \includegraphics[width=1.0\linewidth]{figures/Neuron_wikimedia.png}
     \caption{Illustation of single neuron with dendrites, soma and axon. The figure has been adapted from Wikimedia Commons with attribution to Quasar Jarosz at English Wikipedia and is licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license \cite{wikimedia-neuron}. The figure has been edited to remove some of the original details.}
-    \label{fig:action_potential}
+    \label{fig:neuron}
 \end{figure}
 
 
 % \subsection{Some title leadning to EEG abnormal shape }
-\section{Spike Trains and Action Potentials}
-\rednote{Fix illustation so that it does not contain depolarization, repolarization and refractory period?}
-
-When the electrical signals transmitted towards the soma reach the so-called threshold value, usually around -55 mV, the neuron fires. This initiation of an action potential, when observed in intracellular recordings, can be seen as a spike with an amplitude of about 100 mV and a duration of 1-2 ms \cite{gerstner2014neuronal}. In Figure \ref{fig:action_potential}, we have provided an illustration of the typical intracellular action potential.
-
+When the electrical signals transmitted towards the soma reach a specific threshold value, typically around -55 mV, the neuron initiates an action potential -- and we say that the neuron \emph{fires}. This initiation of an action potential, when observed in intracellular recordings, can be seen as a spike with an amplitude of about 100 mV and a duration of 1-2 ms \cite{gerstner2014neuronal}. In Figure \ref{fig:action_potential}, we have provided an illustration of the typical intracellular action potential.
 
 \begin{figure}
     \centering
@@ -48,9 +40,10 @@ When the electrical signals transmitted towards the soma reach the so-called thr
     \label{fig:action_potential}
 \end{figure}
 
-The action potential is characterised by a swift and steep rise in the electrical potential, resulting in a rapid upward, positive spike, followed by a quick decline in the potential back to the resting state. This form of the action potentials remains relatively constant throughout the propagation along the axon. When collecting information out of these spikes, it is therefore not the shape of the spikes that is studied. Instead, the information lies in the number and timing of chains of action potentials emmitted by the neuron, also reffered to as \emph{spike trains}.
+The action potential is characterized by a rapid increase in electrical potential, marked by a sharp, positive spike, followed by a quick return to the resting state. This waveform retains a consistent shape as it propagates along the axon. \rednote{Is this right formulation?} Therefore, when investigating spike patterns, the emphasis is not typically on the waveform's shape, but rather, in the analysis of the number and timing of action potentials emitted by the neuron, which are commonly referred to as \emph{spike trains}.
 
-Spike trains observed during epileptic seizures exhibit distinguishable characteristics compared to spike trains in regular neural activity. Epileptic seizures result from bilateral synchronous firing of neurons and manifest as specific EEG patterns known as \emph{spike-and-wave discharges}. These discharges exhibit repetitive and rhythmic patterns, typically occurring at a frequency of around 2.5 Hz, setting them apart from the irregular and asynchronous firing of action potentials seen in typical spike trains\cite{gerstner2014neuronal}. During epileptic events, the initiation of spike-and-wave discharges involves complex mechanisms, including the interplay of voltage-gated sodium and calcium channels and the role of inhibitory postsynaptic potentials \cite{wiki:electroencephalography}. \rednote{Wikipedia citation. See if I can use Torbjørn book instead.}
+
+Spike trains observed during epileptic seizures, which can be seen in EEG recordings, exhibit distinguishable characteristics compared to spike trains in regular neural activity. Epileptic seizures result from bilateral synchronous firing of neurons and manifest as specific EEG patterns known as \emph{spike-and-wave discharges}. These discharges exhibit repetitive and rhythmic patterns, typically occurring at a frequency of around 2.5 Hz, setting them apart from the irregular and asynchronous firing of action potentials seen in typical spike trains\cite{gerstner2014neuronal}. During epileptic events, the initiation of spike-and-wave discharges involves complex mechanisms, including the interplay of voltage-gated sodium and calcium channels and the role of inhibitory postsynaptic potentials \cite{wiki:electroencephalography}. \rednote{Hvis sant: Vet du om en kilde til dette Torbjørn?.}
 %This stark contrast in the rhythmicity and temporal dynamics of epileptic spike trains highlights the distinct nature of epileptic activity when compared to the more variable and less periodic patterns observed in "normal" neuronal firing \cite{gerstner2014neuronal}.
 
 % Need to be rewritten somehow.
@@ -59,17 +52,16 @@ Spike trains observed during epileptic seizures exhibit distinguishable characte
 % spike-and-vale / epileptiform activity  ... can be measured on eeg recordings... blabla .... spike trains looks like for epilepsy ... can be picked up on eeg recordings
 % MAYBE NOT INCLUDE anything about eeg here, if anything, include how one can pick up on abnormal activity  ??
 
-\section{Anatomy of the Cortex}
-\rednote{Fill in from sources, paper etc. https://www.cell.com/current-biology/pdf/S0960-9822(11)01198-5.pdf, https://www.ncbi.nlm.nih.gov/books/NBK2510/}
-% Taken from the book and need to be rewritten !
-Neurons in the brain are part of a vast network, interwoven with billions of other neurons and glial cells, creating the complex brain tissue. The brain is divided into various regions, and one essential area is the cortex, a thin but expansive sheet of neurons that folds over other brain structures. Different cortical areas have specific roles; some are specialized in processing sensory information, while others handle working memory or control motor functions \cite{gerstner2014neuronal}.
+\section{The Cerebral Cortex}
+The brain is typically divided into various regions, with the \emph{cortex} characterized as a thin and folded sheet of neurons. Different cortical areas have specific roles. \cite{gerstner2014neuronal} Within the oldest part of the cortex, we find the hippocampus, which plays a major role in learning and memory functions. Within this component, the development of some common epilepsy syndromes tends to arise, making this part of the brain a topic of particular interest \cite{bromfield2006introduction}.
 
-The human cerebral cortex is typically divided into six layers. The oldest part of the cortex, known as the archipallium, has a more straightforward structure with three distinct neuronal layers. Within the archipallium, the hippocampus plays a major role in learning and memory functions. It is a crucial cortical structure implicated in the development of some common epilepsy syndromes \cite{bromfield2006introduction}.
+The cerebral cortex is a folded structure with varying thickness, typically ranging from 2 to 5 mm and covering an approximate surface area of 1600 to 4000 cm$^2$ \cite{nunez2006electric}. Within the cortex, billions of neurons exist, forming strong interconnections -- where single presynaptic neurons can connect to more than 10,000 postsynaptic neurons. While many axonal branches end close to the neuron itself, some axons extend several centimeters to reach neurons in other brain regions \cite{gerstner2014neuronal}.
 
-Neurons communicate through synapses, where \emph{presynaptic neurons} sends, and \emph{postsynaptic cells} receives the electrical signals. In the animal brain, a single presynaptic neuron can connect to over 10,000 postsynaptic neurons. While many axonal branches end close to the neuron itself, some axons extend several centimeters to reach neurons in other brain regions \cite{gerstner2014neuronal}.
+There are typically two primary classes of neurons in the cerebral cortex. \emph{Pyramidal neurons} send information to distant areas of the brain, playing a crucial role in long-distance communication. On the other hand, \emph{interneurons} are considered local-circuit neurons, exerting their influence on nearby neurons. Most pyramidal neurons form excitatory synapses, stimulating post-synaptic neurons, while most interneurons form inhibitory synapses, suppressing the activity of pyramidal cells or other inhibitory neurons \cite{bromfield2006introduction}. Within EEG recordings, pyramidal cells within the cortex are recognized as the primary source of the electrical potentials measured.
 
-Within the cortex, there are two primary classes of neurons. \emph{Pyramidal neurons} send information to distant areas of the brain, and play a crucial role in long-distance communication. On the other hand, \emph{interneurons} are considered local-circuit neurons, exerting their influence on nearby neurons. Most pyramidal neurons form excitatory synapses, meaning they stimulate post-synaptic neurons, while most interneurons form inhibitory synapses, meaning they suppress the activity of pyramidal cells or other inhibitory neurons \cite{bromfield2006introduction}.
 
+
+% \rednote{Fill in from sources, paper etc. https://www.cell.com/current-biology/pdf/S0960-9822(11)01198-5.pdf, https://www.ncbi.nlm.nih.gov/books/NBK2510/}
 
 % \section{Head Models and Multicompartmental Modeling }
 % % Something more about volume conducters

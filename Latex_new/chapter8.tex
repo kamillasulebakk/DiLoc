@@ -7,13 +7,8 @@
 \usepackage{xcolor}
 
 \begin{document}
-\chapter{Discussion}
-In this chapter, we will delve into the key findings derived from the fully connected neural network (FCNN) and the convolutional neural network (CNN) concerning the localization and identification of current dipole moments. In Section \ref{sec:results}, we will present an overview of the main results of this thesis, and emphasize the most noteworthy and pivotal findings. Subsequently, sections \ref{sec:architecture} and \ref{sec:data_set} will delve into the architectural aspects of the networks and the data set employed for training and result acquisition. Section \ref{sec:convdip} is dedicated to contextualizing our results within existing research. Finally, in Section \ref{sec:outlook}, we embark on a discussion of future prospects following our approaches.
-
-\rednote{Can there be a chance that i have in fact overfitted the network? Since the data poins are very close. Also I could have tried to use different headmodel (detailed) and tested the network on these}
-\rednote{Noise vs no noise}
-\rednote{say something about time?}
-
+\chapter{Discussion and Final Remarks}
+In this chapter, we will delve into the key findings derived from the fully connected neural network (FCNN) and the convolutional neural network (CNN) concerning the localization and identification of current dipole moments. In Section \ref{sec:results}, we will present an overview of the main results of this thesis, emphasizing the most noteworthy and pivotal findings. Subsequently, sections \ref{sec:architecture} and \ref{sec:data_set} will delve into the architectural aspects of the networks and the data set employed for training and result acquisition before discussing computational time and head-specific modeling in Section \ref{sec:time}. Section \ref{sec:convdip} is dedicated to contextualizing our results within existing research. Finally, Section \ref{sec:outlook} and Section \ref{sec:Conclusion} provide some final remarks on the work done in this thesis, along with a discussion of future prospects following our approaches.
 
 \section{Summary of Main Results} \label{sec:results}
 Throughout the various approaches to the EEG inverse problem in this thesis, we have systematically evaluated the neural networks' performance using MED, MSE, and MAE. In Table \ref{table:sum_main_results}, we present a summary of the main results throughout this thesis.
@@ -131,18 +126,12 @@ Nevertheless, it is essential to acknowledge that our networks have not been tes
 
 In future studies, there are valuable insights to be gained by exposing the networks to actual patient recordings, which would provide an opportunity to assess their performance in genuine clinical contexts. Nonetheless, as justed oulined it is highly likely that our network approaches may not perform optimally with real experimental data. In the event that these approaches is applied within an authentic clinical setting, such as for a patients requiring brain surgery, it may be plausible to construct patient-specific head models that can be integrated into our framework, subsequently training the networks with data extracted from the patients head models. Nonetheless, it is crucial to underscore that the effectiveness of such an approach would necessitate empirical testing within a real-world healthcare environment, and the degree of success in practice remains uncertain.
 
-\section{Computation Speed} \label{sec:convdip}
-The computational speed of the training of the presented neural networks requiered
+\section{Computation Speed} \label{sec:time}
+The time required for training the neural networks ranged from approximately 1.5 to 9.5 hours, depending on the number of training epochs and network complexity. All training processes were conducted on a personal laptop without the utilization of GPU acceleration. It is worth noting that running these training processes on high-performance GPUs or employing parallelization techniques holds the potential to significantly enhance the efficiency of the training procedure, which could be an area of interest for future studies. Nonetheless, for the objectives of our current work, the training times were found to be satisfactory and aligned with our research goals.
 
-% While high-performance hardware resources, such as powerful graphics cards, are becoming more readily available, it's important to note that training the neural network architecture presented in this study demands a substantial amount of processing power and time. For instance, the ConvDip version discussed here required approximately 10.5 hours of training for 500 epochs and 100,000 data samples when using an NVIDIA RTX 2070 GPU.
-%
-% Future research will need to focus on enhancing the ConvDip architecture to reduce training time, a particularly valuable goal when dealing with individualized models. One approach to achieve this is to narrow the solution space by decreasing the number of voxels, as most of the trainable parameters are concentrated in the final fully connected layers. A straightforward method would be to reduce the neural network's parameter count by designing a convolutional neural network (CNN) with a volumetric output that corresponds to a volumetric brain source model. This would eliminate the computationally intensive fully connected layers and significantly reduce the network's weight count.
-%
-% Another potential strategy involves partitioning the cortical surface into parcels, essentially grouping neighboring dipole positions. This segmentation would reduce the size of the output layer by a substantial margin, leading to a dramatic reduction in the number of trainable parameters. The feasibility and effectiveness of such dimension reduction approaches will be explored in forthcoming developments.
+Training neural networks for challenging tasks inevitably demands a significant amount of computational resources. For patient-specific head model construction, followed by training the networks using data extracted from these individualized models, one can anticipate a substantial requirement for processing power and time. The computational speed necessary for training is inherently influenced by the number of parameters $\boldsymbol{\theta}$ to be adjusted, as well as the complexity of the problem and its solution space. In the context of solving the EEG inverse problem, reducing the spatial resolution of the neural positions of interest could potentially accelerate training. However, such a reduction would likely lead to a decrease in model accuracy.
 
- % the training of the presented neural network architecture requires a considerable amount of processing power and processing time. The version of ConvDip shown in this work required ≈ 10.5 h of training for 500 epochs and 100,000 samples of data using a NVIDIA RTX 2070 GPU. Improving the architecture of ConvDip to shorten training time is an important task for future research, especially when individualized models are required. Limiting the solution space to fewer voxels may be one way to decrease the computation time since most trainable parameters are located at the final fully connected layers. The easiest way would be to reduce the number of parameters of the neural network, e.g., by targeting a CNN with volumetric output of the ANN corresponding to a volumetric source model of the brain. This could spare the computationally expensive fully connected layers and reduce the number of weights in the network. Another possibility is to segment the cortical surface into parcels, i.e., clusters of neighboring dipole positions. This would reduce the size of the output layer by one to two orders of magnitude and thereby reduce the number of trainable parameters dramatically. The feasibility of such a dimension reduction is to be investigated in future developments.
-
-
+Once a network is fully trained, it generally exhibits efficient execution times for individual samples. It is worth noting that we did not precisely measure the time taken for our network to predict a single sample. Nevertheless, the rapid execution observed for a batch of 20,000 samples suggests that the time required for processing a single sample would be considerably shorter. An important point to note is that even though head-specific models would require time to develop, once fully trained, they are likely to require very short time for outputting predictions -- potentially making neural networks invaluable tools in clinical applications of EEG.
 
 \section{Contextualizing: Existing Research on \\ ConvDip} \label{sec:convdip}
 \rednote{Depth!}
@@ -162,6 +151,17 @@ ConvDip was tested on real EEG data from human subjects. While the results were 
 
 ConvDip represents one of the numerous neural network-based approaches for addressing the EEG inverse problem. Although our approach diverges from ConvDip in terms of methodology and architectural design, several overlapping research aspects have been explored.
 
+In this work, we have focused on training the neural network for localizing no more than two dipoles simultaneously. Nevertheless, it is worth noting that the code framework allows for simulating and training the neural network to handle an arbitrary number of dipoles, which could be a subject of interest for future studies.
+
+\section{Conclusion} \label{sec:Conclusion}
+This thesis is centered on addressing the EEG inverse problem, which involves the localization of neural populations responsible for specific EEG signals. To analyze EEG measurements, neural sources are often approximated as current dipoles. The New York Head Model, accessible through the LFPy 2.0 Python module, was utilized to simulate realistic EEG data. This data served as the foundation for training various neural network models aimed at localizing and identifying neural sources with varying characteristics and extents.
+
+A fully connected feed-forward neural network (FCNN) was developed to tackle source localization by recognizing patterns in electrical potentials resulting from single current dipoles as well as pairs of dipoles with fixed strengths. Upon evaluation, the FCNN successfully predicted the localization of single current dipoles, although the positional error increased when tasked with simultaneous localization of two current dipoles. Expanding the FCNN's capabilities to handle current dipoles with varying strengths resulted in a reduction in localization accuracy, although the network excelled in identifying dipole strengths. The FCNN was further tasked with predicting spherical regions of active correlated current dipoles with varying radii and strengths, which showed an enhanced precision in dipole stregth. All FCNN approaches provided positional errors smaller than 10 mm.
+
+Besides the FCNN approach, a convolutional neural network (CNN) was employed to explore whether incorporating spatial information in EEG recordings as images could enhance a neural network's ability to analyze EEG data and improve source localization. The CNN architecture, as implemented in this work, exhibited a somewhat elevated mean positional error compared to the FCNN. While both network types achieved accuracy within an acceptable range, the CNN's performance was less consistent when tasked with localizing two current dipoles simultaneously, in contrast to the FCNN.
+
+Overall, this study provides insights into the strengths and limitations of neural network approaches in EEG source localization, emphasizing the need for further investigation and fine-tuning of methods to determine the most suitable approach for tackling the EEG inverse problem.
+
 
 \section{Outlook} \label{sec:outlook}
 We have employed simulated EEG data using the software LFPy 2.0 to train neural networks in localizing current dipoles. Building on this foundation, an exciting opportunity presents itself: identifying the specific type of neural activity responsible for a localized current dipole. To the best of our knowledge, neural networks have not yet been harnessed to discern the neural origin of EEG signals while also localizing these neural sources.
@@ -169,6 +169,13 @@ We have employed simulated EEG data using the software LFPy 2.0 to train neural 
 LFPy stands out as a versatile tool. Beyond facilitating the simulation of distinct point dipoles, it enables the simulation of various types of neural activity, resulting in specific dipoles. For instance, the type of synaptic input, whether it is excitatory or inhibitory, to a population of neurons, and the synaptic input's location (apical or basal) result in different current dipoles \cite{LFPy}.  Furthermore, there is speculation that dendritic calcium spikes can be detected from EEG signals, potentially leading to exciting new possibilities for studying learning mechanisms in the human brain \cite{suzuki2017dendritic}.
 
 To decode different types of neural activity from EEG signals, we must first comprehend how diverse neural activities are mirrored in these signals. This understanding can be gained through simulations with LFPy, which provides a platform for simulating varying neural activities and their resulting EEG signals. This, in turn, opens the door to a more comprehensive exploration of the relationship between EEG signals and the underlying neural activity, through neural networks.
+
+
+
+
+\section{Data Availability Statement}
+All source codes to reproduce the simulation of EEG data and results of the neural network aproahces are available at the GitHub repository (github.com/kamillasulebakk/DiLoc). \rednote{Add href}
+
 
 % - [ ] Koden er skrevet slik at nettverket også kan trene på flere dipoler. Hadde vært interessant å studert.
 % - [ ] Finne én eller flere, ikke vite hvor mange output?

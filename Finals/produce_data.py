@@ -187,7 +187,7 @@ def return_two_dipoles(num_samples: int, num_dipoles: int, create_plot: bool = T
     for i in range(num_samples):
         eeg_i = np.zeros((1,231))
         dipole_pos_list = []
-        A_tot = 10 #np.random.uniform(1, 10) # Amplitude. Each sample has its own amplitude value
+        A_tot = 2 #np.random.uniform(1, 10) # Amplitude. Each sample has its own amplitude value
         for j in range(num_dipoles):
             nyhead.set_dipole_pos(dipole_locations[:,j+(num_dipoles)*i])
             dipole_pos_list.append(nyhead.dipole_pos)
@@ -316,10 +316,10 @@ if __name__ == '__main__':
 
     num_samples = 70_000
     # name = 'dipoles_w_amplitudes'
-    # num_dipoles = 2
+    num_dipoles = 2
     # prepare_and_save_data(num_samples, name, num_dipoles)
-    # return_two_dipoles(num_samples, num_dipoles, True)
-    return_dipole_area_const_A(num_samples)
+    return_two_dipoles(num_samples, num_dipoles, True)
+    # return_dipole_area_const_A(num_samples)
     # return_simple_dipole(num_samples, 1)
 
     # eeg_filename = 'amplitudes_constA_70000_2_eeg_complete.npy'
