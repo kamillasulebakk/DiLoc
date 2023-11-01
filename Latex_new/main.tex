@@ -10,7 +10,28 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}    % Required for including images
 \usepackage{subcaption}  % Required for subfigures
-\newcommand{\rednote}[1]{\textcolor{red}{#1}}
+
+
+% % % % % % % % % % % % % % % % % %
+%         Notes and todos         %
+% % % % % % % % % % % % % % % % % %
+
+\usepackage{comment}
+
+% notes
+\newif\ifshownotes
+% \shownotestrue
+
+\ifshownotes
+  \newenvironment{note}{\color{blue} \textbf{Note:}}{}
+\else
+  \excludecomment{note}
+\fi
+
+% rednotes
+% \newcommand{\rednote}[1]{\textcolor{red}{#1}}   % show
+\newcommand{\rednote}[1]{}   % hide
+
 
 \bibliography{kilder.bib}
 
@@ -29,7 +50,7 @@ dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences},
 
 \mainmatter
 % motivation...
-\input{chapter0}*
+\input{chapter0}
 
 % neuroscience stuff
 \input{chapter1}
@@ -52,7 +73,7 @@ dept={Department of Physics}, fac={Faculty of Mathematics and Natural Sciences},
 % results extended network
 \input{chapter_convolutional}
 
-% results two dipoles, both FFNN and CNN
+% results two dipoles, both FCNN and CNN
 \input{multiple_dipoles}
 
 % results extended network

@@ -12,190 +12,214 @@
 % Training and testing, lr ?
 
 \begin{document}
-\chapter{Training the Fully Connected Feed-Forward Neural Network}
-This chapter will explore the training process of the fully connected feed-forward neural network (FCNN), outlining the decisions made during its training. Carefully choosing and adjusting elements of the training process ensures FCNN's ability to make accurate predictions, establishing it as a valuable tool for solving the inverse EEG problem. Subsequent chapters will delve into the results and outcomes of this training, providing insights into the model's effectiveness.
+\chapter{Training the Fully Connected Feed-Forward Neural Network} \label{chap:training_FCNN}
+\chaptermark{Training the FCNN}
 
-\section{Training Methodology Overview}
-Having constructed the fully connected feed-forward neural network architecture, we now embark on the phase of training the model to effectively localize equivalent current dipoles from EEG signals. This chapter delves into the process of training FCNN and addresses various crucial aspects that influence the performance of the network. Training a neural network requires careful consideration and tuning of several key factors to achieve optimal results. In the process of training FCNN, we will explore the following essential elements:
+This chapter will explore the training process of the fully connected feed-forward neural network (FCNN), outlining the decisions made. Carefully choosing and adjusting elements of the training process ensures the FCNN's ability to make accurate predictions, establishing it as a valuable tool for solving the inverse EEG problem. Subsequent chapters will delve into the results and outcomes of this training, providing insights into the model's effectiveness.
+
+\section{Overview of Training Methods}
+Having constructed the fully connected feed-forward neural network architecture, we now embark on the phase of training the model to effectively localize current dipoles from EEG signals. This chapter delves into the process of training the FCNN and addresses various aspects that influence the performance of the network. Training a neural network requires careful consideration and tuning of several key factors to achieve optimal results. In the process of training FCNN, we will explore the following essential elements:
 
 \begin{description}
-   \item [Data Preparation:] We begin by preparing the data, which serves as the essential foundation for our machine learning model. This involves tasks such as data segmentation and standardization, ensuring the data set is well-structured and representative.
+   \item [Data Preparation:] We begin by preparing the data set, involving data segmentation and standardization.
 
-   \item [Cost Function:] Moving forward, we explore the significance of the cost function in guiding the network towards convergence. Understanding how to choose the appropriate cost function tailored to the problem is essential.
+   \item [Cost Function:] Moving forward, we explore the significance of the cost function in guiding the network towards convergence. Understanding how to choose the appropriate cost function tailored to the problem is important.
 
-   \item[Back Propagation:] The backpropagation algorithm plays an essential role in propagating error gradients through the network, refining the model's weights and biases. We explain the algortihm.
+   \item[Backpropagation:] The backpropagation algorithm is used to calculate the gradients of the cost function with respect to the trainable parameters of the model.
 
-   \item[Optimization Algorithm:] The choice of optimization algorithm plays an important role in training efficiency and convergence speed. We delve into the tequniqe of gradient decent and its implications in the context of the FCNN.
+   \item[Optimization Algorithm:] The gradients calculated during backpropagation are used to update the values of the parameters of the model in order to minimize the cost. The choice of optimization algorithm plays an important role in training efficiency and convergence speed. We delve into the technique of gradient descent and its implications in the context of the FCNN.
 
    \item[Regularization Techniques:] Overfitting is a common challenge in neural network training. We examine regularization techniques like dropout and weight decay to mitigate this issue.
 
-   \item[Learning Rate Scheduling:] Finally we present the method of adaptive learning rates. We discuss how learning rates significantly influence training dynamics, and how the method for scheduling learning rates during training ensure steady convergence.
+   \item[Learning Rate Scheduling:] Finally we present the method of adaptive learning rates. We discuss how learning rates significantly influence training dynamics, and how methods for scheduling learning rates during training ensure steady convergence.
 
 \end{description}
 
+
+
+
+
 \section{Data Preparation}
+
 \subsection{Data Segmentation}
-\rednote{Standardization assumes that your observations fit a Gaussian distribution (bell curve) with a well behaved mean and standard deviation. You can still standardize your data if this expectation is not met, but you may not get reliable results.}
 
-The first step in prepering to \emph{fit} a machine learning model, is to perform a data splkit, segregating the data set $\mathcal{D}$ into distinct sets for training, validation, and testing. This partitioning is done in order to make a model robust and compatible with multiple data sets. The size of each set commonly dependent on the size of the data set avaible, however a general guideline is that the majority of the data are allocated into the trainng set with the remainder going into the test set \cite{mehta2019high}.
+The first step in preparing to \emph{fit} a machine learning model, is to perform a split of the data set $\mathcal{D}$ into distinct sets for training, validation, and testing. As the name suggests, training data is used for training the model, while validation and test data are used for evaluating the model's performance on unseen samples. This allows us to check for and avoid \emph{overfitting}, a phenomenon where the network becomes excessively attuned to the training data and consequently performs poorly on new data.
+The size of each set commonly depends on the size of the data set available, however a general guideline is that the majority of the data are allocated into the training set with the remainder going into the validation and test sets \cite{mehta2019high}.
 
-In the case of the FCNN's input data, we deal with 70 000 samples of EEG signals. Out of these, 50 000 samples are designated for the train and validation data. To ensure a representative and unbiased allocation, 80 percent of these 50 000 samples are randomly assigned to the training set. This training set serves as the core data that the network utilizes during the training process. The remaining 20 percent of the 50 000 samples form the validation set. This will play the role in preventing \emph{overfitting}, the phenomenon where the network becomes excessively attuned to the training data and consequently performs poorly on new data. By independently evaluating the model's performance on the validation set throughout training, we have fine-tuned the network's parameters to achieve better generalization to unseen data.
-Upon completion of the training process, the test set comes into play. Comprising 20 000 samples, this set serves as the ultimate benchmark for evaluating the model's capacity to generalize and make accurate predictions on new instances of data. By adhering to this train-validation-test data partitioning, we ensure a robust evaluation of the FCNN's performance and its capacity to effectively handle real-world scenarios with previously unseen data.
+The data set of simulated EEG signals contains 70,000 samples. 20,000 of these are randomly selected for the test set. Of the remaining 50,000 samples, 80 percent are randomly assigned to the training set with the rest making up the validation set.
+Upon completion of the training process, the test set serves as the ultimate benchmark for evaluating the model's capacity to generalize and make accurate predictions on new instances of data. By adhering to this train-validation-test data partitioning, we ensure a robust evaluation of the FCNN's performance and its capacity to effectively handle real-world scenarios with previously unseen data.
+
+
 
 \subsection{Data Scaling}
-\rednote{Need some modification. Scaling is not done correctly in code. Scaling shoyld be done featurewise. Fix in code and write more detailed here.}
-Having addressed the data segmentation, we proceed to the task of \emph{data scaling}, which is a highly recommended procedure within machine learning. \emph{Data standarizartion} is one out of two types of data scaling that involves centering the data around the mean $\mu$ and scaling it to achieve unit variance $\sigma$:
 
+Having addressed the data segmentation, we proceed to the task of \emph{data scaling}, which is a highly recommended procedure within machine learning. \emph{Data standardization} involves centering the EEG data of the design matrix \(X\) around the mean and scaling it to achieve unit standard deviation. To achieve this we calculate the mean \(\mu\) and the standard deviation $\sigma$ of all the elements in \(X\). We then subtract \(\mu\) from \(X\) element-wise and divide by \(\sigma\),
 \begin{equation}
-\mathcal{D}' = \frac{\mathcal{D} - \mu}{\sigma}
+  X' = \frac{X - \mu}{\sigma},
 \end{equation}
+to produce a scaled design matrix with zero mean and unit standard deviation.
 
-After standarization, the mean of the data set $\mathcal{D}'$  is 0 and the standard deviation is 1. By standarising the EEG inputs, we ensure that the distribution of the data becomes more uniform in all directions within the feature space, contributiong to more effective EEG signal analysis.
+
+
 
 
 \section{Cost Function}
-In the field of machine learning, \emph{cost functions} play a crucial role in evaluating how well models make predictions. These mathematical functions evaluate how well models make predictions by measuring the discrepancy between predicted outcomes and actual target values. This evaluation results in a quantifiable metric known as \emph{loss}. Higher loss values indicate poorer model performance, while lower values reflect more accurate predictions. When using the expression \emph{fitting a model} one commonly refer to the prosess of finding optimal parameters $\boldsymbol{\theta}$ that minimize a chosen cost function. This iterative process utilizes training data to fine-tune the model's internal representations, improving its predictive accuracy.
 
-\rednote{this need to be rewritten...}
-Selecting the appropriate cost function is important when addressing machine learning challenges. In our regression task, where the objective is to predict $x$, $y$, and $z$ coordinates of single current dipoles, we employ the commonly used Mean Squared Error (MSE) cost function, well known for its continuous measure of model performance during training. However, given that our aim is to minimize the Euclidean distance between predicted dipole localizations (${x_i, y_i, z_i}$) and true values ($\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$), we aptly refer to MSE as the Mean Euclidean Distance (MED). In essence, when predicting Euclidean coordinates, MSE and MED are conceptually equivalent, as they both aim to minimize the squared differences between predicted and true values, but MED explicitly emphasizes the Euclidean nature of the coordinates, providing a more accurate reflection of our optimization goal:
-
+In the field of machine learning, \emph{cost functions} are used to evaluate how well models make predictions.
+Selecting an appropriate cost function is important. In our regression task, where the objective is to predict $x$, $y$, and $z$ coordinates of single current dipoles, we use Euclidean distance to quantify the error of a single sample. For a batch of \(N\) samples we use mean Euclidean distance, defined by
 \begin{equation}
-\text{MED}(\boldsymbol{\theta}) = \sqrt{\frac{1}{N-1} \sum_{i=1}^{N} \left((x_i - \tilde{x}_i)^2 + (y_i - \tilde{y}_i)^2 + (z_i - \tilde{z}_i)^2\right)}
-\label{eq:MED}
+  \text{MED}(\boldsymbol{\theta})
+    = \frac{1}{N} \sum_{i=1}^{N}
+        \sqrt{(x_i - \tilde{x}_i)^2 + (y_i - \tilde{y}_i)^2 + (z_i - \tilde{z}_i)^2}.
+  \label{eq:MED}
 \end{equation}
-%
-% \begin{equation}
-% \text{MSE}(\boldsymbol{\theta}) = \frac{1}{N-1}
-% \sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 ,
-% \label{eq:MSE}
-% %MSE(\textbf{y},\mathbf{\tilde{y}}) =
-% \end{equation}
+Here $\boldsymbol{\theta}$ are the model parameters,
+\(x_i, y_i, z_i\)
+denote the predicted values, and $\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$ are the corresponding true values.
 
-Here $\boldsymbol{\theta} = \theta_0, \theta_1, ..., \theta_n$ represents the model parametes, $x_i, y_i \text{and} z_i$ denote for the predicted values and $\tilde{x}_i, \tilde{y}_i, \tilde{z}_i$ are the corresponding true values.
+\begin{note}
+  Due to the squaring step in the function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
 
-Due to the squaring step in the function, which penalizes larger errors more severely, the trained model is less likely to generate outlier predictions with substantial errors. However, in situations where the model produces a single, highly inaccurate prediction, the squaring effect can significantly amplify the error. Nevertheless, in many practical scenarios, the primary focus is not on these individual outliers, but rather on achieving a well-balanced model that delivers satisfactory performance across the majority of predictions \cite{builtin-ml-loss-functions}.
-
-In our simulation-driven context, devised to accommodate a spectrum of diverse EEG variations, it is noteworthy that the presence of apparent outliers is not rooted in sampling errors, but rather random fluctuations and indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a data set. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the data set. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It is crucial to underscore that these data points do not emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the data set's representational fidelity within authentic real-world contexts.
-
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[b]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.45\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/data_visualization_max.pdf}
-    \end{subfigure}
-    \caption{\textbf{Visualization of data set.} The panels visualize the maximum and minimum EEG measures for each sample within the data set. \rednote{The plots need modification. Remove threshold etc...}}
-    \label{fig:outliers}
-\end{figure}
+  In our simulation-driven context, devised to accommodate a spectrum of diverse EEG variations, it is noteworthy that the presence of apparent outliers is not rooted in sampling errors, but rather random fluctuations and indicative of distinct scenarios. As delineated in statistical literature \cite{barnett1994outliers}, an outlier is characterized as an observation that seemingly deviates from the prevailing distribution of a data set. This departure can be attributed to human or instrumental anomalies in the data acquisition process \cite{zhang2015outlier}. Figure \ref{fig:outliers} vividly depicts the distribution of minimum and maximum EEG observations across individual samples within the data set. While the majority of data points exhibit values within the range of -1.5 to 3 $\mu$V, a subset extends beyond these bounds. It is crucial to underscore that these data points do not emerge as stochastic errors stemming from the acquisition process. Instead, they intentionally embody distinctive EEG signals that enrich the data set's representational fidelity within authentic real-world contexts.
+\end{note}
 
 
 
 
-\section{Back propagation algorithm}
-The back propagation algorithm is a fundamental tequniqe used in nenural networks in order to adjust the weights for the purpose of minimizing the cost function. To explain the implementation details of this technique, we follow the guidance provided in the book 'A high-bias, low-variance introduction to machine learning for physicists' (Pankaj Mehta, et al., 2019) as it offers a comprehensive treatment of the topic. The back propogation tequniqe leverages the chain rule from calculus to compute gradients for weight adjustments and can be summarized using four equations.
 
-Before introducing the equations, Mehta et al. establish some useful notation. They start by concidering a total of $L$ layers within the neural network, with each layer identified by an idec $l$ ranging from 1 to $L$. For each layer, they further assign weights denoted as $\mathbf{w}^l_{ik}$, which represent the connections between the $k$-th neuron in the previous layer, $l-1$, and the $i$-th neuron in the current layer, $l$. Additionally, they assign a bias value $b^l_i$ to each neuron in the current layer.
+\section{Backpropagation Algorithm}
 
-The first eqation setting up the algorithm is the definition of the error $\delta_i^l$ of the $i$-th neuron in the $l$-th layer:
+The backpropagation algorithm is a fundamental technique used in neural networks in order to adjust the weights for the purpose of minimizing the cost function. To explain the implementation details of this technique, we follow the guidance provided in the book \textit{A high-bias, low-variance introduction to machine learning for physicists} (Pankaj Mehta, et al., 2019) as it offers a comprehensive treatment of the topic. The backpropagation technique leverages the chain rule from calculus to compute gradients for weight adjustments and can be summarized using four equations.
 
+Before introducing the equations, Mehta et al. establish some useful notation. We let $L$ denote the total number of layers within the neural network, with each layer identified by an index $l$ ranging from 1 to $L$ inclusive. Like in Chapter \ref{chap:fcnn-approach} the weights of layer \(l\) are denoted $w^{(l)}_{ik}$. They represent the strength of the connection between the $k$-th neuron in the previous layer, $l-1$, and the $i$-th neuron in the current layer, $l$. The bias of node \(i\) in layer \(l\) is denoted $b^{(l)}_i$.
+
+The first of the four equations is the shorthand
 \begin{equation}
-    \delta_i^l = \frac{\partial C}{\partial(z_i^l)},
-\label{eq:I}
+  \delta_i^{(l)} = \frac{\partial C}{\partial z_i^{(l)}},
+  \label{eq:I}
 \end{equation}
-where $(z)$ denotes the weighted input. This equation can be thought of as the change to the cost function by increasing $z_i^L$ infinitesimally. The cost function quantifies the discrepancy between the network's output and the target data. If the error $\delta_i^L$ is large, it indicates that the cost function has not yet reached its minimum.
-
-The error $\delta^l_i$ can also be interpreted as the partial derivative of the cost function with respect to the bias $b^l_i$. This gives us the analogously defined error:
-
+where
 \begin{equation}
-    \delta_i^l = \frac{\partial C}{\partial(z_i^l)} = \frac{\partial C}{\partial(b_i^l)}\frac{\partial C}{\partial(z_i^l)} = \frac{\partial C}{\partial(b_i^l)}
-\label{eq:II}
+  z_i^{(l)} = \sum_{j = 1}^{N_{l - 1}} w_{i j}^{(l)} a_j^{(l - 1)} + b_i^{(l)}
+  \label{eq:z_i}
 \end{equation}
-where it in the last line has been used that the derivative of the activation function with respect to its input evaluates to 1, $\partial b^l_i / \partial z_i^l = 1$, meaning that the rate of change of the activation function does not depend on the specific value of the weighted input $z_i^l$.
+is the value of the \(i\)-th neuron in layer \(l\) pre-activation.
+The quantity \(\delta_i^{(l)}\) can be thought of as the change to the cost function caused by an infinitesimal increase in $a_i^{(l)}$.
 
-By applying the chain rule, we can express the error $\delta_i^l$ in Equation \ref{eq:I} in terms of the equations for layer $l+1$. This forms the basis of the third equation used in the backpropagation algorithm:
+The partial derivative of the cost function with respect to the bias $b_i^{(l)}$ is \(\delta_i^{(l)}\):
+\begin{equation}
+  \frac{\partial C}{\partial b_i^{(l)}}
+    = \frac{\partial C}{\partial z_i^{(l)}} \frac{\partial z_i^{(l)}}{\partial b_i^{(l)}}
+    = \delta_i^{(l)}.
+  \label{eq:II}
+\end{equation}
+When applying the chain rule here, we have used the fact that the \(i\)-th node in the \(l\)-th layer is the only one whose activation is influenced by \(b_i^{(l)}\).
 
+By applying the chain rule, we can express the error $\delta_i^{(l)}$ in Equation \ref{eq:I} in terms of the equations for layer $l+1$, giving us the third equation used in the backpropagation algorithm:
 \begin{align}
-\delta_i^l = \frac{\partial C}{\partial z^l_{i}}
-&= \sum_j \frac{\partial C}{\partial z_j^{l+1}}\frac{\partial z_j^{l+1}}{\partial z_i^l} \nonumber \\
-&= \sum_j \delta_j^{l+1} \frac{\partial z_j^{l+1}}{\partial z_i^l} \nonumber \\
-&= \sum_j \delta_j^{l+1}w_{ij}^{l+1}f'(z_i^l) \label{eq:III}
+  \delta_i^{(l)} = \frac{\partial C}{\partial z_i^{(l)}}
+    &= \sum_{j = 1}^{N_{l + 1}} \frac{\partial C}{\partial z_j^{(l+1)}} \frac{\partial z_j^{(l+1)}}{\partial z_i^l} \nonumber \\
+    &= \sum_{j = 1}^{N_{l + 1}} \delta_j^{(l+1)}
+      \frac{\partial z_j^{(l+1)}}{\partial a_i^{(l)}}
+      \frac{\partial a_i^{(l)}}{\partial z_i^{(l)}} \nonumber \\
+    &= \sum_{j = 1}^{N_{l + 1}} \delta_j^{(l+1)} w_{ji}^{(l+1)}
+      \left. \frac{\partial \text{ act}^{(l)}(z)}{\partial z} \right|_{z_i^{(l)}}. \label{eq:III}
 \end{align}
+The last factor in the last line is the derivative of the activation function in the \(l\)-th layer evaluated at \(z_i^{(l)}\).
 
-Finally the last equation of the four back propagation equations is the derivative of the cost function in terms of the weights:
-
+Finally the last of the four backpropagation equations is the derivative of the cost function with respect to the weights:
 \begin{equation}
-    \frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}
+  \frac{\partial C}{\partial w_{ij}^{(l)}}
+    = \sum_{k = 1}^{N_l} \frac{\partial C}{\partial z_k^{(l)}} \frac{z_k^{(l)}}{\partial w_{ij}^{(l)}}
+    = \delta_i^{(l)} a_j^{(l-1)}.
 \label{eq:IV}
 \end{equation}
 
-With these four equations in hand we can now calculate the gradient of the cost function, starting from the output layer, and calculating the error of each layer backwards. We then have a way of adjusting all the weights and biases to better fit the target data. The back propagation algorithm then goes as follows:
+With these four equations in hand we can calculate the gradient of the cost function with respect to all the weights and biases of the network starting from the output layer and working our way backwards. The backpropagation algorithm can be performed with the four following steps:
+1) Do a forward pass calculating \(z_i^{(l)}\) and \(a_i^{(l)}\) for all layers.
+2) Calculate the cost of the prediction.
+3) Propagate the error backwards and calculate $\delta_j^{(l)}$ for all layers, using equation \ref{eq:III}.
+4) Use equation \ref{eq:II} and \ref{eq:IV} in order to calculate
+$\frac{\partial C}{\partial b^{(l)}_{i}}$
+and
+$\frac{\partial C}{\partial w^{(l)}_{ij}}$.
 
-\begin{enumerate}
-  \item \textbf{Activation at input layer:} calculate the activations $a_i^1$ of all the neurons in the input layer.
-  \item \textbf{Feed forward:} starting with the first layer, utilize the feed-forward algorithm through \ref{eq:FFNN} to compute $z^{l}$ and $a^{l}$ for each subsequent layer.
-  \item \textbf{Error at top layer:} calculate the error of the top layer using equation \ref{eq:I}. This requires to know the expression for the derivative of both the cost function $C(\boldsymbol{W}) = C(\boldsymbol{a}^L)$ and the activation function $f(z)$.
-  \item \textbf{"Backpropagate" the error:} use equation \ref{eq:III} to propagate the error backwards and calculate $\delta_j^l$ for all layers.
-  \item \textbf{Calculate gradient:} use equation \ref{eq:II} and \ref{eq:IV} to calculate $\frac{\partial C}{\partial z^l_{i}}$ and $\frac{\partial C}{\partial w^l_{ij}} = \delta_i^l a_j^{l-1}$. \newline
-  \item \textbf{Update weights and biases:} \\[2pt] $w^l_{jk}=w^l_{jk}-\eta\delta^l_ja^{l-1}_k$ \\[2pt] $b_j^l = b_j^l - \eta \delta_j^l$
-\end{enumerate}
+This description makes clear the incredible utility and computational efficiency of the backpropagation algorithm. Derivatives can be calculated using so-called “forward” and “backward” passes through the neural network. This offers computational efficiency which is essential when having to calculate the gradient with respect to all parameters of the neural network at each step of \emph{gradient descent}, an optimization algorithm that we will be delving into in the next section.
 
-This description makes clear the incredible utility and computational efficiency of the backpropagation algorithm. We can calculate all the derivatives using a single “forward” and “backward” pass of the neural network. This computational efficiency is crucial since we must calculate the gradient with respect to all parameters of the neural net at each step of \emph{gradient descent}, an optimalization algorithm that we will be delving into in the next section.
-\rednote{Check with cite.}
+\rednote{Autograd in PyTorch \dots}
+
+
+
+
 
 \section{Optimization Algorithm}
+
+\subsection{Gradient Descent}
+
 \rednote{Doublecheck citing.}
-In order to minimize the cost function and find the optimal values for the model parameters, $\boldsymbol{\theta}$, an optimization alorithm is typically employed. One widely used optimization algorithm is \emph{gradient descent}, which iteratively updates the parameters based on the negative gradient of the cost function \cite{mehta2019high}.
+In order to minimize the cost function and find the optimal values for the model parameters, $\boldsymbol{\theta}$, an optimization algorithm is employed. One widely used optimization algorithm is \emph{gradient descent}, which iteratively updates the parameters based on the gradient of the cost function with respect to the parameters \cite{mehta2019high}.
 
-Gradient Descent is an iterative optimization algorithm used to locate a local minima of a differentiable function. The core concept of the algorithm is based on the observation that a function $F(\textbf{x})$ will decrease most rapidly if we repeatedly move in the direction of the negative gradient of the function at a given point $\textbf{w}$, $-\nabla F(\textbf{a})$. This means that if
-
+Gradient descent is an iterative optimization algorithm used to locate a local minima of a differentiable function. The core concept of the algorithm is based on the observation that a function $F(\textbf{x})$ will decrease most rapidly if we repeatedly move in the opposite direction of the gradient of the function, i.e. in the direction of
+$- \nabla F(\textbf{x})$. This means that the sequence
+\(\{\textbf x_0, \textbf x_1, \dots \}\)
+given by
 \begin{equation}
-\textbf{w}_{n+1} = \textbf{w}_n - \eta\nabla F(\textbf{w}_n)
+  \label{eq:gradient-descent-general-sequence}
+  \textbf{x}_{n+1} = \textbf{x}_n - \eta \nabla F(\textbf{x}_n)
 \end{equation}
+for a sufficiently small \emph{learning rate} $\eta$ will consist of points at which the function \(F\) has smaller and smaller values.
+The process begins with an arbitrary initial point $\textbf x_0$, and eventually converges to a local minimum of \(F\).
 
-for a sufficiently small \emph{learning rate} $\eta$, we are always moving towars a minimum, since $F(\textbf(w)_n) \ge F(\textbf(w)_{n+1})$ \cite{wiki-gradient-descent}. After each update, the gradient is recalculated for the updated weight vector $\textbf{w}$, and the process is repeated \cite{bishop2006pattern}. Based on this observation, the iterative process begins with an initial guess $x_0$ for a local minimum of the function $F$. It then generates a sequence $\textbf{x}_0, \textbf{x}_1, \textbf{x}_2, ..., \textbf{x}_n$ such that each element in the sequence is upated according to the rule:
+In the neural network weights and biases are updated as follows to find a minimum of the cost function \(C\):
+\begin{align}
+  w_{ij}^{(l)} &\to w_{ij}^{(l)} - \eta \frac{\partial C}{\partial w_{ij}^{(l)}} \\
+  b_i^{(l)} &\to b_i^{(l)} - \eta \frac{\partial C}{\partial b_i^{(l)}}.
+\end{align}
 
-\begin{equation}
-\textbf{x}_{n+1} = \textbf{x}_{n} - \eta_n\nabla F(\textbf{x}_n), n \ge 0,
-\end{equation}
+It is important to note that the error function in gradient descent is computed based on the entire training set, meaning that all samples are processed in order to evaluate the gradient in every step, which is often inefficient. Another potential issue with gradient descent is its sensitivity to the initial values of the model parameters, and the choice of the learning rate $\eta$. The sensitivity to initial conditions can be explained by the fact that we often deal with high-dimensional, non-convex cost functions with numerous local minima where we risk getting stuck in a suboptimal region of the parameter space. Choosing a too large learning rate may result in overshooting minima, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum. Stochastic Gradient Descent, described in the next subsection, is a popular alternative which attempts to mitigate some of these issues \cite{bishop2006pattern}.
 
-where $\eta_n \ge 0$. This process the forms a strictly decreasing process:
 
-\begin{equation}
-F(\textbf{x}_0) \ge F(\textbf{x}_1) \ge F(\textbf{x}_2) \ge ... \ge F(\textbf{x}_n).
-\end{equation}
 
-Hence, with this iterative process, it is hoped that the sequence $(\textbf{x}_n)$ converges to the desired local minimum \cite{wiki-gradient-descent}.
+\subsection{Stochastic Gradient Descent}
 
-However, it is important to note that the error function in gradient descent is computed based on the training set, so that each step requires that the entire training set, reffered to as the \emph{batch}, is processed in order to evaluate the new gradient. In that sense, gradient descent is generally considered a suboptimal algorithm. This perception aligns with the algorithms sensitivity to the initial condition, $\textbf{w}_0$, and the choice of the learning rate $\eta$. The sensitivity to initial conditions can be explained by the fact that we to a large extent most often deal with high-dimensional, non-convex cost functions with numerous local minima - where the risk of getting stuck in local minimums if the initial guess is not accurate. Additionally, guessing on a too large learning rate may result in overshooting the global minimum, leading to unpredictable behavior, while a too small learning rate increases the number of iterations required to reach a minimum point, thereby increasing computational time. Stochastic gradient descent, however, is a version of gradient descent that has provided useful in practise for training machine learning algorithms on large data sets, and is the optimalization algorithm we have choosen when training the FCNN \cite{bishop2006pattern}.
+The Stochastic Gradient Descent (SGD) method is a powerful optimization technique that diverges from traditional gradient descent by randomly selecting subsets of the data, called \emph{mini-batches}, during each iteration, as opposed to considering the entire data set \cite{bishop2006pattern}. This is also the main property that distinguishes it from traditional gradient descent. SGD restricts its focus to smaller portions of the data, meaning that only a subset of the data are processed when evaluating the gradient in each step.
+This is efficient, as there is less computation required for each step in the gradient descent.
 
-\subsubsection{Stochastic Gradient Descent}
-The Stochastic Gradient Descent (SGD) method, as applied in the context of training the FCNN, is a powerful optimization technique that diverges from traditional gradient descent by randomly selecting subsets of the data during each iteration, as opposed to considering the entire data set \cite{bishop2006pattern}. This approach is particularly beneficial when dealing with extensive data sets. The update step in SGD can be expressed as:
+The random sampling of smaller subsets from the data introduces stochasticity to the model. This is a potential downside which could mean that the gradient calculated in one step does not point in the direction which minimizes the cost on the entire data set, which is what we ultimately want to do. However, this can potentially have a positive effect as well by allowing the model to escape a suboptimal local minima thanks to the small randomness introduced, which might allow the model to find superior solutions compared to gradient descent.
 
-\begin{equation}
-\textbf{w}{\tau+1} = \textbf{w}{\tau} - \eta\nabla F_n(\textbf{w}_\tau)
-\end{equation}
 
-Here, $\textbf{w}{\tau}$ represents the weight vector at iteration $\tau$, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}{\tau})$ is the gradient of the cost function $F_n$ computed on a mini-batch, which refers to a randomly selected subset of the complete data set.
 
-In essence, SGD mirrors regular gradient descent but restricts its focus to a single mini-batch at each iteration. The introduction of this stochastic element, achieved by sampling from subsets of the data, offers a valuable advantage: it allows the algorithm to explore and potentially escape from local minima, promoting the discovery of superior solutions.
+\subsection{Momentum}
 
-Furthermore, the incorporation of \emph{momentum} into the SGD algorithm enhances convergence speed. Momentum introduces a form of memory into the optimization process by accumulating information about previous movements in parameter space. Specifically, momentum is realized through the following equations:
+Furthermore, an incorporation of \emph{momentum} into the SGD algorithm may enhance convergence speed even further. Momentum introduces a form of memory into the optimization process by accumulating information about previous movements in parameter space. Returning to our general description of gradient descent as a sequence of points which minimizes a function
+\(F(\textbf x)\),
+we update the procedure described by Equation
+\eqref{eq:gradient-descent-general-sequence}
+to
+\begin{align}
+  \textbf{v}_t &= \gamma \textbf{v}_{t-1} + \eta \nabla F(\textbf{x}_t), \\
+  \textbf{x}_t &= \textbf{x}_{t-1} - \textbf{v}_{t}.
+\end{align}
+In these equations, $\textbf{v}_t$ represents the momentum vector at iteration $t$, $\gamma$ is the momentum coefficient, $\eta$ is the learning rate, and $\nabla F(\textbf{x}_t)$ signifies the gradient of $F_n$ \cite{Hjorth-Jensen2022}.
 
-\begin{equation}
-\textbf{v}{\tau} = \gamma\textbf{v}{\tau-1} - \eta\nabla F_n(\textbf{w}_{\tau})
-\end{equation}
+In our FCNN, these equations are used to update the weights and biases based on the gradients calculated during backpropagation using a separate momentum for each parameter.
 
-\begin{equation}
-\textbf{w}{\tau} = \textbf{w}{\tau-1} + \textbf{v}_{\tau}
-\end{equation}
+During the training of the FCNN, we observed that a learning rate of 0.001 yielded the most favorable results. Moreover, a mini-batch size of 32 was employed. The momentum coefficient $\gamma$ was set to 0.35, a value that struck an optimal balance between convergence speed and sensitivity to the initial learning rate parameter.
 
-In these equations, $\textbf{v}{\tau}$ represents the momentum vector at iteration $\tau$, $\gamma$ is the momentum coefficient, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}{\tau})$ signifies the gradient of the cost function $F_n$ computed on the mini-batch.
 
-During the training of the FCNN, we observed that a learning rate of 0.001 yielded the most favorable results. Moreover, a mini-batch size of 32 was employed. The momentum coefficient was set to 0.35, a value that struck an optimal balance between convergence speed and sensitivity to the initial learning rate parameter.
+
+
+
+% This approach is particularly beneficial when dealing with extensive data sets. The update step in SGD can be expressed as:
+%
+% \begin{equation}
+% \textbf{w}{\tau+1} = \textbf{w}{\tau} - \eta\nabla F_n(\textbf{w}_\tau)
+% \end{equation}
+%
+% Here, $\textbf{w}{\tau}$ represents the weight vector at iteration $\tau$, $\eta$ is the learning rate, and $\nabla F_n(\textbf{w}{\tau})$ is the gradient of the cost function $F_n$ computed on a mini-batch, which refers to a randomly selected subset of the complete data set.
+%
+% In essence, SGD mirrors regular gradient descent but restricts its focus to a single mini-batch at each iteration.
+
 
 
 % The method of Stochastic Gradient Descent (SGD) allows us to compute the gradient by randomly selecting subsets of the data at each iteration, rather than using the entire data set \cite{bishop2006pattern}. The update can be written as:
@@ -221,32 +245,35 @@ During the training of the FCNN, we observed that a learning rate of 0.001 yield
 % A learning rate of 0.001 proved the best when training DiLoc. Moreover a mini-batch size of 32 were utialized. The momentum hold a value of 0.35.
 
 
-\rednote{Add information about the value we are using!!}
+
+
+
 \section{Regularization Techniques}
 % weight decay L2 pentalty
 % dropout
-Regularization techniques in machine learning help prevent overfitting and improve model interpretability. One common regularization technique is called the L2-norm penalty. In this technique, we add an extra term to our cost function that depends on the size of the model's weights. This added term ensures that the weights do not become excessively large while fitting the training data. By doing this, regularization reduces the risk of the model fitting the training data too closely, which can lead to overfitting. \cite{Hjorth-Jensen2022}.
+Regularization techniques in machine learning help prevent overfitting. One common regularization technique is called the L2-norm penalty. In this technique, we add an extra term to our cost function that depends on the size of the model's weights. This added term ensures that the weights do not become excessively large while fitting the training data. By doing this, regularization reduces the risk of the model fitting the training data too closely, which can lead to overfitting. \cite{Hjorth-Jensen2022}.
 
-We can measure the size of the weights using the L2-norm, which results in our cost function taking this form:
-
+We can measure the size of the weights using the L2-norm, which modifies our cost function from
+\(C(\boldsymbol \theta)\)
+to
 \begin{equation}
-C(\theta) = \frac{1}{N-1}
-\sum_{i=0}^{N}(y_i-\tilde{y}_i)^2 + \lambda\sum_{i,j = 1}^{M, K}w^2_{ij}.
-\label{eq:L2}
-%MSE(\textbf{y},\mathbf{\tilde{y}}) =
+  C'(\boldsymbol \theta)
+    = C(\boldsymbol \theta) + \lambda\sum_{i,j,l} \left( w_{ij}^{(l)} \right)^2.
+  \label{eq:L2}
 \end{equation}
+The tuning parameter $\lambda$ controls how much we penalize the flexibility of our model. Here, flexibility means how much the model can adjust its coefficients to fit the data precisely. Choosing a large value for $\lambda$ restricts the parameters to smaller values, giving a less flexible model which will try to find simpler patterns in the data, which in turn reduces the chances of overfitting \cite{gupta2017regularization}.
 
-Here, $M$ represents nodes in a specific layer, $K$ is the number of input features considered for each node and $\lambda$ is the tuning parameter that controls how much we penalize the flexibility of our FCNN model. Here, flexibility means how much the model can adjust its coefficients to fit the data precisely. When $\lambda = 0$, the L2-norm has no effect, and the estimates produced will be equal to when the cost function is simply MSE. On the other hand, as $\lambda$ approaches larger values, the impact of the shrinkage pentalty grows, and the coefficients estimates will approach smaller values. With smaller coefficients the model becomes less flexible, and the model will try to find simples pattern in the data, which in turn reduces the chances of overfitting \cite{gupta2017regularization}.
+
+
 
 
 \section{Learning Rate Scheduling}
-The learning rate plays a critical role in the iterative Stochastic Gradient Descent procedure used to update model parameters during training, influencing the size of steps taken to minimize the cost function. To simplify the process of selecting an appropriate learning rate—neither too high nor too small—we employ a \emph{learning rate scheduler}. This scheduler dynamically adjusts the learning rate during gradient descent optimization, enhancing both performance and training efficiency.
 
-Various methods can be used to make the learning rate adaptive, but a common approach involves starting with a higher learning rate at the beginning of training. This allows for larger steps during the initial phases, speeding up progress. As training progresses and the model performance approaches convergence, smaller steps are taken to fine-tune the parameters near the minimum, preventing overshooting. This strategy balances rapid initial convergence with meticulous fine-tuning later on \cite{pytorch_learning_rate_schedule}.
+The learning rate \(\eta\) plays a critical role in the iterative Stochastic Gradient Descent procedure used to update model parameters during training, influencing the size of the steps taken to minimize the cost function. To simplify the process of selecting an appropriate learning rate we employ a \emph{learning rate scheduler}. This scheduler dynamically adjusts the learning rate during the optimization, enhancing both performance and training efficiency.
 
-For our model we have used the build-in PyTorch scheduler, ReduceLROnPlateau. This learning rate scheduler adjusts the learning rate when the FCNN's loss stops improving after a specified number of epochs. In other words, the learning rate remains unchanged as long as it enhances model performance but is reduced when results starts converging.
+Various methods can be used to make the learning rate adaptive. A common approach involves starting with a higher learning rate at the beginning of training. This allows for larger steps during the initial phases, speeding up process. As training progresses and the model approaches convergence, smaller steps are taken to fine-tune the parameters near the minimum, preventing overshooting. This strategy balances rapid initial convergence with meticulous fine-tuning later on \cite{pytorch_learning_rate_schedule}.
 
-The scheduler offers several tunable arguments. We have set the \emph{factor} to 0.2 in the FCNN, indicating the reduction factor for the learning rate when the loss plateaus. After the first update, the new learning rate becomes $\eta_{\text{new}} = 0.001 \cdot 0.2$, and this pattern continues for subsequent updates. The \emph{patience} argument, set to 50, determines the number of epochs with no improvements before reducing the learning rate. The remaining arguments retain their default values and can be explored in greater detail, along with additional information about the scheduler, at https://hasty.ai/docs/mp-wiki/scheduler/reducelronplateau.
+We have used the PyTorch's built-in \texttt{ReduceLROnPlateau} \footnote{\url{https://pytorch.org/docs/stable/generated/torch.optim.lr_scheduler.ReduceLROnPlateau.html}}. This learning rate scheduler adjusts the learning rate when the change in the loss has been under a specific threshold for a certain number of epochs. In other words, the learning rate remains unchanged as long as it enhances model performance but is reduced when results starts converging.
 
 
 
@@ -386,7 +413,7 @@ The scheduler offers several tunable arguments. We have set the \emph{factor} to
 
 
 % \section{Metrics of success}
-% In the realm of DiLoc, our neural network tailored for EEG source localization, assessing network performance through standard loss plots becomes less informative due to the normalization of target values. As a result, we turn to a separate, unseen test data set comprising 20 000 samples to evaluate the network's accuracy. Before comparison, the predictions outputted by DiLoc are denormalized to facilitate a meaningful evaluation against true target values.
+% In the realm of DiLoc, our neural network tailored for EEG source localization, assessing network performance through standard loss plots becomes less informative due to the normalization of target values. As a result, we turn to a separate, unseen test data set comprising 20,000 samples to evaluate the network's accuracy. Before comparison, the predictions outputted by DiLoc are denormalized to facilitate a meaningful evaluation against true target values.
 %
 % To comprehensively gauge the network's predictive abilities on this test data set, we employ a diverse set of error metrics. While the primary focus is on minimizing the mean Euclidean distance of dipole positions and the absolute error for amplitude and radius, a range of other metrics are also explored for a comprehensive assessment. These metrics include mean absolute error (MAE), normalized mean absolute error considering the value range (NMAE), mean squared error (MSE), and root mean squared error (RMSE).
 %

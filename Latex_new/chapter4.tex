@@ -7,19 +7,19 @@
 \begin{document}
 
 
-\chapter{A Fully Connected Feed-Forward Neural Network Approach to Source Localization}
+\chapter{A Fully Connected Feed-Forward Neural Network Approach to Source Localization} \label{chap:fcnn-approach}
 \chaptermark{FCNN Approach}
 
 Having obtained a suitable data set we can start building neural networks to address the EEG inverse problem. In this chapter, we provide a comprehensive overview of a feed-forward neural network built to map measured EEG signals to corresponding locations of current dipoles. We will be discussing its architecture and parameters.\rednote{Introduce what the sections will be about.}
 
 \section{Machine Learning}
 \rednote{cite!!!!}
-The field of machine learning is conserned with constructing computer programs that learn from experience. Within this computational discipline we find a spectrum of tasks these algorithms aim to understand and accomplish. For the purpose of solving the EEG inverse problem the model is concerned with the task of localizing the origins of abnormal electrical brain signals within the human cortex. The machine learning algorithm will gain experience through the analysis of corresponding EEG data associated with these abnormal sources.
+The field of machine learning is concerned with constructing computer programs that learn from experience. Within this computational discipline we find a spectrum of tasks these algorithms aim to understand and accomplish. For the purpose of solving the EEG inverse problem the model is concerned with the task of localizing the origins of abnormal electrical brain signals within the human cortex. The machine learning algorithm will gain experience through the analysis of corresponding EEG data associated with these abnormal sources.
 
 Typically, machine learning problems are addressed using the same three elements.
 The first element is the data set $\mathcal{D} = (X, Y)$. $X$ is commonly referred to as the \emph{design matrix} and $Y$ is the set of \emph{target values} we want the model to predict as function of the elements in $X$.
 Next, we have the model $f(x; \boldsymbol{\theta})$ itself which is a function $f : \mathcal{X} \to \mathcal{Y}$ used to predict an output $y \in \mathcal{Y}$ from an input $x \in \mathcal{X}$ using the \emph{model parameters} $\boldsymbol{\theta}$.
-Thirdly we have the cost funtion $\mathcal{C}(y, f(x; \boldsymbol{\theta}))$ for $x \in \mathcal{X}$ and $y \in \mathcal{Y}$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$. Training a machine learning model involves the adjustment of the model parameters $\boldsymbol{\theta}$ to minimize the cost function. The cost function yields high values when the model's output deviates from the desired target, and conversely, it produces smaller values when the predictions align closely with the intended outcomes. The output of the cost function is commonly reffered to as the model's \emph{cost} or \emph{loss}. We will be using these terms interchangeably.
+Thirdly we have the cost function $C(y, f(x; \boldsymbol{\theta}))$ for $x \in \mathcal{X}$ and $y \in \mathcal{Y}$, which allows us to evaluate how well the model performs on the samples in $\mathcal{D}$. Training a machine learning model involves the adjustment of the model parameters $\boldsymbol{\theta}$ to minimize the cost function. The cost function yields high values when the model's output deviates from the desired target, and conversely, it produces smaller values when the predictions align closely with the intended outcomes. The output of the cost function is commonly referred to as the model's \emph{cost} or \emph{loss}. We will be using these terms interchangeably.
 
 
 
@@ -37,7 +37,7 @@ The activation $a_i^{(l)}$ of the $i$-th node in layer $l$ is the weighted sum
 \end{equation}
 fed through an \emph{activation function} \(\text{act}\):
 \begin{equation}
-  a_i^{(l)} = \text{act} \left( z_i^{(l)} \right)
+  a_i^{(l)} = \text{act} \left( z_i^{(l)} \right).
 \end{equation}
 $N_{l}$ is the number of nodes in layer \(l\).
 Activation functions introduce nonlinearity into the network's computations. They play a critical role in enabling the model to capture nonlinear patterns within the data. The \emph{bias} \(b_i^{(l)}\) and the weights \(w_{ij}^{(l)}\) are the trainable parameters \(\boldsymbol \theta\) of the model.
@@ -85,21 +85,21 @@ The feed-forward neural network was one of the first artificial neural network t
 In our initial testing phase, we tried different network configurations through an
 iterative trial-and-error procedure. Different network architectures with various numbers of hidden layers and nodes were systematically examined. Ultimately, we settled on a model with roughly 300,000 trainable parameters which, after tweaking additional network attributes which will be elaborated upon later in this chapter, yielded promising results in terms of prediction accuracies.
 
-The input layer is designed with 231 nodes, corresponding to the number of features in our data set, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 64, and 32 nodes, respectively. Finally, the output layer holds an $x$-, $y$- and $z$-coordinate representing the predicted position of the dipole source. Figure \ref{fig:FFNN_architecture} visualizes the structure of the fully connected neural network.
+The input layer is designed with 231 nodes, corresponding to the number of features in our data set, i.e. the number of recording electrodes for each sample. Subsequently, the network consists of five hidden layers, comprising 512, 256, 128, 64, and 32 nodes, respectively. Finally, the output layer holds an $x$-, $y$- and $z$-coordinate representing the predicted position of the dipole source. Figure \ref{fig:FCNN_architecture} visualizes the structure of the fully connected neural network.
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/FFNN_architecture.pdf}
     \caption{\textbf{Architecture of the fully connected Feed-Forward Neural Network}. The input layer comprises 231 electrode recording input values, and the network outputs predicted $x$-, $y$-, and $z$-coordinates of the dipole generating the EEG signal. The FCNN consists of five hidden layers. \\
-    The visualization has been made with Latex, with code adapteded from Neural Networks in TikZ with attribution to Izaak Neutelings and is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License \cite{neutelings2021}.}
-    \label{fig:FFNN_architecture}
+    The visualization has been made with Latex, with code adapted from Neural Networks in TikZ with attribution to Izaak Neutelings and is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License \cite{neutelings2021}.}
+    \label{fig:FCNN_architecture}
 \end{figure}
 
 
 
 \subsection{Activation Functions}
 
-Activation functions are fundamental components within the architecture of neural networks. Essentially, these functions introduce nonlinearity into the network's computations, thereby enabling the network to capture and model complex relationships within data \cite{sharma2017activation}. This property is essential because many real-world phenomena and data patterns exhibit inherent nonlinearity. Without activation functions, neural networks would essentially be linear regression models, limiting their ability to predict other relationships between inputs and outputs. In neural networks, activation functions are typically applied at every node within the hidden layers and sometimes at the output nodes in the final layer \cite{choose_activation_function}.
+Activation functions are fundamental components within the architecture of neural networks. Essentially, these functions introduce nonlinearity into the network's computations, thereby enabling the network to capture and model complex relationships within data \cite{sharma2017activation}. This property is essential because many real-world phenomena and data patterns exhibit inherent nonlinearity. Without activation functions, neural networks would essentially be linear regression models, limiting their ability to predict other relationships between inputs and outputs. In neural networks, activation functions are typically applied at every node within the hidden layers and sometimes at the output nodes in the final layer.
 %In the context of solving the EEG inverse problem, where the EEG data contains intricate, nonlinear patterns, activation functions empower DiLoc to effectively model and learn from the EEG data structures.
 
 Drawing inspiration from the behavior of biological neurons, activation functions can be understood as decision-makers within the artificial neural network, determining which information should be relayed to the next node. This process is analogous to the process in biophysics where the axon of one cell takes the output signal from the preceding cell and converts it into a format suitable for input to the next cell. Some activation functions can also be directly associated with biological phenomena like action potentials and spikes within neurons. Similar to how real neurons respond to incoming electrical signals, activation functions decide whether a node in a neural network should be activated or not based on the strength of the input it receives. If the input exceeds a certain threshold, the artificial neuron ``fires''; otherwise, it remains inactive \cite{analyticsvidhya_activationfunctions}.
@@ -117,7 +117,7 @@ defined as
 \end{equation}
 and visually depicted in Figure \ref{fig:ReLU}.
 ReLU closely resembles the behavior  of biological neurons. Specifically, it echoes the concept of the action potential: if a threshold is reached, the neuron fires; otherwise, the neuron remains inactive. Positive input values remain unchanged, while negative input values are suppressed by setting them to zero.
-The widespread adoption of ReLU in neural networks can be attributed to its advantages in terms of computational speed, performance, and generalization capabilities \cite{wandb_activation_functions}.
+The widespread adoption of ReLU in neural networks can be attributed to its advantages in terms of computational speed, performance, and generalization capabilities.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{figures/ReLU.pdf}
@@ -130,7 +130,6 @@ The widespread adoption of ReLU in neural networks can be attributed to its adva
 For the hidden layers, we employed another activation function known as the \emph{Hyperbolic Tangent} (tanh) defined by
 \begin{equation}
   \tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}},
-  \label{eq:I}
 \end{equation}
 which is visualized in Figure \ref{fig:Tanh}.
 This activation function smoothly compresses input values into the range between \(-1\) and 1, thereby preventing activations from becoming large, which could potentially cause problems during training.
@@ -157,7 +156,7 @@ In the context of regression problems like ours, it is common practice to use li
 
 % 231*512 + 512*256 + 256*128 + 128*64 + 64*32 + 32*3 + (512 + 256 + 128 + 64 + 32 + 3) = 293443
 
-Neural networks train by fine-tuning their parameters \(\boldsymbol \theta\) to capture and adapt to intricate patterns within data. Weights and biases serve as the inner parameters of neural networks. The total number of parameters is equal to the sum of all connections between layers plus the total number of biases in every layer. In the architecture provided in Figure \ref{fig:FFNN_architecture}, our FCNN comprises just under 300,000 parameters.
+Neural networks train by fine-tuning their parameters \(\boldsymbol \theta\) to capture and adapt to intricate patterns within data. Weights and biases serve as the inner parameters of neural networks. The total number of parameters is equal to the sum of all connections between layers plus the total number of biases in every layer. In the architecture provided in Figure \ref{fig:FCNN_architecture}, our FCNN comprises just under 300,000 parameters.
 
 The \emph{initialization} of weights and biases can significantly impact how quickly the model converges during training, and there exist several procedures commonly employed. In the FCNN we have used Xavier initialization, as this procedure is commonly paired with the tanh activation function, which is the one applied in our hidden layers. For every layer $l$, the weights $w^{(l)}$ are sampled from a normal distribution with mean \(\mu\) and variance \(\sigma^2\):
 \begin{equation}
