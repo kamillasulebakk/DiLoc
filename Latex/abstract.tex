@@ -1,0 +1,17 @@
+% !TEX root = main.tex
+\documentclass[a4paper, UKenglish, 11pt]{uiomaster}
+\usepackage{lipsum}
+\usepackage[subpreambles=true]{standalone}
+
+\begin{document}
+\chapter{Abstract}
+Electroencephalography (EEG) is a widely used method for recording electric potentials originating from neural activity at the surface of the human head, serving as an invaluable tool in both neuroscience research and clinical applications. In this thesis, we address the EEG inverse problem, which is concerned with localizing specific brain activity using EEG recordings.
+
+Given the inherent complexity of the inverse problem, different neural source configurations can give rise to identical EEG patterns on the scalp. To tackle this challenge, we have utilized various neural network models, each trained to localize and identify neural sources with diverse characteristics and spatial extents. Using the New York Head Model, made accessible through the LFPy 2.0 Python module, we have generated biophysically realistic EEG data, represented as single time points, which has served as the data for training and evaluation of the neural network approaches.
+
+A fully connected feed-forward neural network (FCNN) is employed for the purpose of recognizing patterns in electrical potentials stemming from both single current dipoles and pairs of dipoles with fixed strengths. The FCNN was extended to localize and identify current dipoles with variable strengths. Further expansion of the FCNN led us to consider spherical regions of active correlated current dipoles characterized by diverse radii and strengths, resulting in enhanced precision in estimating current magnitudes. All FCNN models demonstrated positional errors under 10 mm when evaluated with unseen test data, in line with expected outcomes when approaching the EEG inverse problem using data from biologically detailed head models, as supported by prior studies \cite{akalin2013effects, biasiucci2019electroencephalography}.
+
+In parallel with the various FCNN approaches, we trained a convolutional neural network (CNN) using interpolated EEG data with image-like characteristics. While both the FCNN and CNN models achieved promising accuracies when predicting the positions of single current sources, the CNN exhibited somewhat less impressive performance when tasked with localizing two current dipoles simultaneously, in comparison to the FCNN.
+
+
+\end{document}

@@ -1,7 +1,0 @@
-Samples: 10000, Batch size: 32, Epochs: 500, Noise: 10 %
-Learning rate: 0.1, Momentum: 0.0001, Weight decay: 1e-05 %
- 
-
-Eeg Data: data/new/multiple_dipoles_eeg_10000_1.npy
-Target Data: data/new/multiple_dipoles_locations_10000_1.npy
---------------------------------------------------------------

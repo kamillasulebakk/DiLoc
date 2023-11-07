@@ -141,8 +141,6 @@ class EEGDataset(torch.utils.data.Dataset):
             parameters['interpolate']
         )
 
-        # BIG RED NOTE IS THIS WRONG ???
-        # eeg = (eeg - np.mean(eeg, axis = 0))/np.std(eeg, axis = 0)
         eeg = (eeg - np.mean(eeg))/np.std(eeg)
 
 

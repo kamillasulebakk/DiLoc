@@ -1,0 +1,14 @@
+dipole_amplitude_validate_gyri_and_sulci_dipoles.py
+
+MAE x-coordinates:3.1245875151233764
+MAE y-coordinates:0.9921417249742138
+MAE z-coordinates:2.903666458185189
+MAE location:2.3401318994275933
+
+dipole_amplitude_validate_model_normalization.py
+
+MAE x-coordinates:1.7605000377807452
+MAE y-coordinates:1.8853215726185448
+MAE z-coordinates:1.7930073808516673
+MAE amplitude:0.5397627721481937
+
