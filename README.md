@@ -12,7 +12,12 @@ In this work we have utilized the New York Head Model implemented in the Python 
 * LaTeX
 
 ## Data 
-All data used in the thesis can be found under Finals/data. To produce new data 
+All data used in the thesis can be found under Finals/data. To produce new data run:
+```
+python produce_data.py
+
+```
+Here you can adjust the characteristics of the dataset. 
 
 ## How to train the networks:
 ```
