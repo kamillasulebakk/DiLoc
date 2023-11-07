@@ -1,34 +1,11 @@
 # DiLoc
 Master's thesis. Machine learning tools for localization and identification of dipoles from EEG signals.
 
-### Data 
-
+## Data 
 All data used in the thesis can be found under Finals/data. To produce new data 
-```
-pip install .
-```
-from within the project directory.
 
-
-### Usage
-
-The package can be imported in Python scripts, or run through the `instapy` script which is created during installation. Run `instapy -h` to see the available options which can be passed to the script:
-```
-usage: instapy [-h] [-o OUT] [-i {python,numba,numpy,cython}] [-fi {gray,sepia}] [-fa FACTOR] [-sc {upscale,downscale}] file
-
-positional arguments:
-  file                  The filename to apply filter to
-
-options:
-  -h, --help            show this help message and exit
-  -o OUT, --out OUT     The output filename
-  -i {python,numba,numpy,cython}, --implementation {python,numba,numpy,cython}
-                        The implementation
-  -fi {gray,sepia}, --filter {gray,sepia}
-                        Select filter
 
 In this work we have utilized the New York Head Model implemented in the Python module LFPy 2.0, to simulate EEG data. Neural Networks has been build using Pytorch. 
-
 ## The project is created with:
 * Python version: 3.7.6
   * Pytorch 1.13.0
