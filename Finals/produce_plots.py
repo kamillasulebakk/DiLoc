@@ -802,10 +802,9 @@ def plot_normalized_population(eeg, activity_center, activity_radius, active_idx
 
 
 
-def plot_prediction(name, taget, pred):
+def plot_prediction(name, target, pred):
     nyhead = NYHeadModel()
 
-    # target = [66.5, -26.5, 41.9]
     vertex_idx = nyhead.return_closest_idx(target)
 
     nyhead_file = os.path.join(big_data_path, "sa_nyhead.mat")
@@ -813,9 +812,6 @@ def plot_prediction(name, taget, pred):
     cortex = np.array(head_data["cortex75K"]["vc"]) # Locations of every vertex in cortex
     elecs = np.array(head_data["locs_3D"]) # 3D locations of electrodes
     num_elecs = elecs.shape[1]
-
-    # fig = plt.figure(figsize=[12, 8])
-    # # fig.subplots_adjust(hspace=0.6, left=0.07, right=0.9, bottom=0.1, top=0.95)
 
     fig = plt.figure(figsize=[16, 8])  # Increase the figure width
     fig.subplots_adjust(hspace=0.6, wspace=-0.3, left=0.25, right=0.75, bottom=0.1, top=0.90)   # Adjust right margin
@@ -902,10 +898,9 @@ def plot_prediction(name, taget, pred):
     ax5.scatter(cortex[0, vertex_idx], cortex[1, vertex_idx], s=20, c='orange')
     ax6.scatter(cortex[1, vertex_idx], cortex[2, vertex_idx], s=20, c='orange')
 
-    # pred = [66.4, -27.3, 41.5]
-    ax4.scatter(66.4, 41.5, s=20, c='red')
-    ax5.scatter(66.4, -27.3, s=20, c='red')
-    ax6.scatter(-27.3, 41.5, s=20, c='red')
+    ax4.scatter(pred[0], pred[2], s=20, c='red')
+    ax5.scatter(pred[0], pred[1], s=20, c='red')
+    ax6.scatter(pred[1], pred[2], s=20, c='red')
 
 
     ax1.set_xlim(-80, 80)
@@ -941,11 +936,11 @@ def plot_prediction(name, taget, pred):
     ax_legend.axis('off')  # Turn off the axis for the legend
 
     # Add text captions next to the dots
-    ax_legend.text(0.5, 0.8, r'$\tilde{r}$ = [66.5, -26.5, 41.9]', fontsize=15, verticalalignment='center')
-    ax_legend.text(0.5, 0.6, 'r = [66.4, -27.3, 41.5]', fontsize=15, verticalalignment='center')
+    ax_legend.text(0.5, 0.8, r'$\tilde{r}$' + f'= [{target[0]}, {target[1]}, {target[2]}]', fontsize=15, verticalalignment='center')
+    ax_legend.text(0.5, 0.6, f'r = [{pred[0]}, {pred[1]}, {pred[2]}]', fontsize=15, verticalalignment='center')
 
     # ax4.legend(fontsize=15, loc='upper right')
-    fig.suptitle('Example of FFNN Prediction for Location of Current Dipole', fontsize=20)
+    fig.suptitle('Example of CNN Prediction for Location of Current Dipole', fontsize=20)
     # fig.subplots_adjust(hspace=0.6, wspace=0.1, left=0.07, right=0.9, bottom=0.1, top=0.95)
 
     plt.savefig(f"{name}_prediction.pdf")
@@ -1149,7 +1144,7 @@ def plot_prediction_multiple_dipoles(prediction, target, name):
 
 
 if __name__ == '__main__':
-    plot_different_amplitudes(5, 10)
+    # plot_different_amplitudes(5, 10)
     # plot_simple_example(1)
 
 # plot_and_find_neighbour_dipole()
@@ -1168,10 +1163,12 @@ if __name__ == '__main__':
 # plot_prediction_multiple_dipoles(predicted, target, name)
 
 
-# name = 'FFNN_single_dipole'
-# pred = [66.9, -26.1, 41.7]
-# target = [66.5, -26.4, 41.9]
-# plot_prediction(name, target, pred)
+    # name = 'FFNN_single_dipole'
+    # pred = [66.9, -26.1, 41.7]
+    name = 'CNN_single_dipole'
+    pred = [66.4, -27.3, 41.5]
+    target = [66.5, -26.4, 41.9]
+    plot_prediction(name, target, pred)
 
 # predicted = [-20.73835182  33.49762726  37.12372208 -37.32195282  11.24985504
 #     62.58279037]

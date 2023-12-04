@@ -1,0 +1,861 @@
+\documentclass[aspectratio=169, 9pt]{beamer}
+\usetheme{metropolis} % Choose a professional theme
+\usepackage{graphicx} % Required package for including images
+\usepackage{enumitem} % Required package for customizing itemize environment
+\usepackage{listings}
+\usepackage{colortbl}
+
+\setbeamerfont{title}{size=\small}
+\setbeamerfont{author}{size=\small}
+\setbeamerfont{date}{size=\small}
+\AtBeginDocument{\small}
+
+
+\title{Localization and Identification of Neural Sources from Simulated EEG Data}
+\author{Kamilla Ida Julie Sulebakk}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% \begin{frame}{Agenda}
+%     \begin{itemize}
+%         \item[$\bullet$]
+%         \item[$\bullet$]
+%         \item[$\bullet$]
+%     \end{itemize}
+% \end{frame}
+
+
+% https://blricrex.hypotheses.org/ressources/eeg
+% \begin{frame}{Electroencelography and The Inverse Problem}
+%     \begin{itemize}
+%         \item[$\bullet$] Non-invasive technique used to record the electrical activity of the brain
+%         \item[$\bullet$] The activity is recorded scalp electrodes
+%         \item[$\bullet$] EEG inverse problem
+%         \begin{itemize}
+%           \item[\tiny$\blacksquare$] Localize neural populations that are generating specific EEG signal components
+%           \item[\tiny$\blacksquare$] Localization of the seizure onset zone in EEG recordings from patients with epilepsy
+%           \item[\tiny$\blacksquare$] Difficult to link to the exact neural activity
+%           \item[$\bullet$] Technically challenging because the number of EEG electrodes is far lower that the number of neural populations
+%           \item[$\bullet$] To obtain uniqe solution constraints on the number of neural populations and their locations must be introduced
+%         \end{itemize}
+%     \end{itemize}
+% \end{frame}
+
+
+
+\begin{frame}{Electroencelography and The Inverse Problem}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] Non-invasive technique
+        \item[$\bullet$] Record electric potentials stemming from neural activity 
+        \item[$\bullet$] Electrodes simultaneously capture electrical signals 
+        \item[$\bullet$] Amplifier to enhance the voltage between recording electrodes and reference electrode
+        \item[$\bullet$] EEG inverse problem
+        \begin{itemize}
+          \item[\tiny$\blacksquare$] Localize neural populations that are generating specific EEG signal components
+          \item[\tiny$\blacksquare$] Localization of the seizure onset zone in EEG recordings from patients with epilepsy
+          
+          \item[\tiny$\blacksquare$] Difficult to link to the exact neural activity
+          \item[$\bullet$] Technically challenging because the number of EEG electrodes is far lower that the number of neural populations
+          \item[$\bullet$] To obtain uniqe solution constraints on the number of neural populations and their locations must be introduced
+        \end{itemize}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=1\textwidth]{figures/new_eeg_wiki.jpg}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}{What EEG is actually measuring:}
+    \begin{itemize}
+        \item[$\bullet$] Goal of EEG: measure the activity of the brain
+        \item[$\bullet$] Action potentials are the building blocks for electrical signaling in the brain - however, they are not what EEG actually records.
+        \item[$\bullet$] Longer, slower, postsynaptic signals are better able to be picked up by the sensors
+
+        \item[$\bullet$] An action potential is the rapid change in voltage within a neuron
+        \item[$\bullet$] When enough positively changed ions flow into the neuron this changes the permeability of the cell, letting more ions cross the membrane causing an upward spike in voltage
+
+        \item[$\bullet$] When the axon of the presynaptic neuron releases neurotransmitters into the synapse the neurotransmitters bind to the postsynaptic receptors on the next cells dendrites
+        \item[$\bullet$] This binding triggers an increase in the permeability of the cell membrane which changes the net charge at the reception site. These changes are postsynaptic potentials.
+        \item[$\bullet$] Unlike action potentials postsynaptic potentials can be depolarizing and exitatory, or hyperpolatizing and inhibatory
+        \item[$\bullet$] Postsynaptic potentials can vary in amplitude depending on the strength of the signal.
+        \item[$\bullet$] Postsynaptic potentials last far longer than action potentials, but are also smaller in amplitude and weaken as they travel.
+        \item[$\bullet$] The slower timing and lager span of postsynaptic potentials are reasons why they are better for EEG recordings.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Current Dipole Approximation I}
+  \begin{itemize}
+    \item[$\bullet$] Extracellular potentials depend on the spatiotemporal distributions of currents over the somatodendric membranes
+    \item[$\bullet$] Membrane currents are commonly referred to as sinks and sources
+    \item[$\bullet$] If we have several point-currents $I_1$, $I_2$, $I_3$..., in locations \textbf{r}$\mathbf{_1}$, \textbf{r}$\mathbf{_2}$,    \textbf{r}$\mathbf{_3}$ ..., the potential in a point	 	\textbf{r} is given by:
+     \begin{equation}
+       \phi(\textbf{r}) = \frac{1}{4\pi\sigma} \sum_{n=1}^N \frac{I_n}{|\textbf{r}-\textbf{r}_n|}
+      \end{equation}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Current Dipole Approximation II}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] If the distance from the center of a volume containing a set of current sources to the measurement point is larger than the maximal distance from volume center to any source, the extracellular potential can be written as following through the use of multipole expansion:
+          \begin{equation}
+            \phi(R) = \frac{C_\text{monopole}}{R} + \frac{C_\text{dipole}}{R^2} + \frac{C_\text{quadrupole}}{R^3} + \frac{C_\text{octopole}}{R^4} + \ldots
+          \end{equation}
+        \item[$\bullet$] Net sum of currents over neuronal membrane is always zero, thus $C_\text{monopole} = 0$.
+        \item[$\bullet$] Quadrupole, octupole and higher-order contributions decay rapidly with distance $R$.
+        \item[$\bullet$] For large distances, such as in EEG, the potential can be approximated by the dipole contribution:
+          \begin{equation}
+            \phi(R) \approx \frac{C_\text{dipole}}{R^2} = \frac{1}{4\pi\sigma}\frac{|\textbf{p}| \text{cos} \theta}{\lvert\textbf{r}-\textbf{r}_p\rvert^2}.
+          \end{equation}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=0.7\textwidth]{figures/dipole_pattern.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Pyramidal Neurons}
+    \begin{itemize}
+      \item[$\bullet$] EEG signals are believed to originate from large numbers of synaptic inputs to populations of geometrically aligned pyramidal neurons.
+
+      \item[$\bullet$] Pyramidal neurons are the most frequent type of neuron in the cerebral cortex.
+
+      \item[$\bullet$] Usually form excitatory synapses, stimulating post-synaptic neurons.
+
+      \item[$\bullet$] Typically have a clear axis of orientation: the apical dendrites align in the direction perpendicular to the layers of the cerebral cortex
+
+      \item[$\bullet$] A single dipole generated by the postsynaptic potentials of a single neuron is generally too weak for an electrode on the scalp to detect
+
+      \item[$\bullet$] EEG signals primarily reflect the summation of "synchronous" activity from thousands of pyramidal neurons with similar spatial orientation
+      \begin{itemize}
+        \item[\tiny$\blacksquare$] When neurons fire at different times, the dipoles do not sum together as easily, and the overall signal is weak
+        \item[\tiny$\blacksquare$] When the neurons are in opposite alignment, the positive and negative charges of the respective dipoles neutralize each other
+      \end{itemize}
+
+      \item[$\bullet$] The strongest EEG signal is generated when neurons are aligned in the same orientation
+
+      \item[$\bullet$] When modeling or analyzing EEG signals, it is common to represent membrane current sources in the form of current dipoles. These are easily computed and compact representations of the neural sources, which still tend to give accurate predictions of EEG signals, due to the large distance between the neurons and the EEG electrodes.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{The New York Head Model}
+    \begin{itemize}
+        \item[$\bullet$] Highly detailed computer model designed for simulating electrical brain activity
+        \item[$\bullet$] Based on MRI data from 152 adult heads
+        \item[$\bullet$] Scalp, skull, cerebrospinal fluid, gray matter, white matter and cavities
+        \item[$\bullet$] Precise information about tissue geometry and electrical properties
+        \item[$\bullet$] Lead field $L$ links the sensitivity of EEG measurements from various scalp locations to potential neural current source locations
+        \item[$\bullet$] $L$ is computed for 74,382 discrete points in cortex with 231 electrode positions on the scalp
+        \item[$\bullet$] The forward modelling of the EEG signal $\phi$ can be described through:
+          \begin{equation}
+            \phi = L\textbf{p}
+          \end{equation}
+        \item[$\bullet$] The NYHM is integrated into LFPy - a tool for calculating EEG signals from biophysically detailed neural simulations
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Calculating EEG signals}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item[$\bullet$] To sample a single data point we position a current dipole moment at one of the possible locations, and calculate its corresponding EEG signal
+                \item[$\bullet$] Dipole magnitude is set to 1 nAm
+                \item[$\bullet$] One sample holds the signal measured at each of the recording electrodes
+                {\scriptsize
+                \begin{verbatim}
+    def calculate_eeg(nyhead, A: float = 1.0):
+        """
+        Calculates the eeg signal from the dipole population
+
+        returns:
+            eeg_i : array of length (231)
+        """
+        L = nyhead.get_transformation_matrix()
+
+        # Static dipole without temporal axis
+        p = np.array(([0.0], [0.0], [A])) * 1E7  # [nA* mu m]
+
+        # Rotates the direction of the dipole moment
+        # so that it is normal to the cerebral cortex
+        p = nyhead.rotate_dipole_to_surface_normal(p)
+
+        # Generates the EEG signal originating from the dipole moment
+        eeg_i = L @ p * 1E3 # [mV]
+
+        return eeg_i.ravel()
+                \end{verbatim}
+                }
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+          \includegraphics[width=1.0\textwidth]{figures/simple_example.pdf}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+\begin{frame}{Interpetation of the Data}
+    \begin{itemize}
+        \item[$\bullet$] A widely recognized method for EEG investigation involves the practice of averaging EEG responses to specific stimuli across multiple trials
+        \item[$\bullet$] These temporally aligned segments of EEG signals are commonly referred to as event-related potentials (ERPs)
+        \item[$\bullet$] This technique facilitates the identification of the specific time step within the EEG time series where the averaged signal attains its maximum magnitude, resulting in a "static" EEG signal characterized by reduced noise.
+        \item[$\bullet$] We sample the EEG data to obtain what we may consider an ERP, representing a static snapshot of the electrode recordings of a current dipole source
+        \item[$\bullet$] Time-locked, one-dimensional EEG signals capturing the instantaneously dipole activity within the brain
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Final Data Set}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] To align with real-world EEG samples, controlled noise is intentionally introduced to the data.
+        \item[$\bullet$] Normally distributed noise with mean of 0 and standard deviation equal to 10$\%$ of the standard deviation observed in the simulated EEG recordings.
+        \item[$\bullet$] 70,000 samples, where each sample holds 231 values representing the EEG measurements recorded at each electrode
+        \item[$\bullet$] Target values for the EEG samples are the x-, y- and z-coordinates of the different dipole sources.
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=1.0\textwidth]{figures/simple_example.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Building a FCNN}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] Architecture is determined by trial-and-error
+        \item[$\bullet$] Every \emph{node} within each \emph{layer} sends their outputs to every node the next layer
+        \item[$\bullet$] The activation $a_i^{(l)}$ of the $i$-th neuron in layer $l$ is the weighted sum:
+          \begin{equation}
+           z_i^{(l)} = \sum_{j=1}^{N_{l-1}}w_{ij}^{(l)}a_j^{(l-1)} + b_i^{(l)}
+          \end{equation}
+        fed through an \emph{activation function} act:
+        \begin{equation}
+          a_i^{(l)} = \text{act} \left( z_i^{(l)} \right),
+        \end{equation}
+          where $N_{l}$ is the number of nodes in layer \(l\).
+
+      \item[$\bullet$] The \emph{bias} \(b_i^{(l)}\) and the weights \(w_{ij}^{(l)}\) are trainable parameters \(\boldsymbol \theta\) of the model.
+      \item[$\bullet$] Activation functions introduce nonlinearity into the network's computations.
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=1.0\textwidth]{figures/FFNN_architecture.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Training the Network}
+    \begin{itemize}
+      \item[$\bullet$] Data segmentation: \emph{Training Set}, \emph{Validation Set}, \emph{Test Set}
+      \item[$\bullet$] Centering the EEG data around the mean and scaling it to achieve unit standard deviation
+      \item[$\bullet$] To evaluate how well the model make predictions, Loss Function:
+      \begin{equation}
+        \text{MED}(\boldsymbol{\theta})
+          = \frac{1}{N} \sum_{i=1}^{N}
+              \sqrt{(x_i - \tilde{x}_i)^2 + (y_i - \tilde{y}_i)^2 + (z_i - \tilde{z}_i)^2}.
+      \end{equation}
+      \item[$\bullet$] Backpropagation for calculating the gradients of the loss function with respect to each parameter in the network.
+      \item[$\bullet$] Gradient Descent (with momentum) uses the gradients to iteratively update the parameters. It adjusts the parameters in the direction opposite to the gradient of the loss function -- a process that continues until a minimum of the loss function is reached.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Objectives}
+    \begin{itemize}
+      \item[$\bullet$] Source localization using spherical head models typically yields localization errors in the range of 10-30 mm (Akalin and Makeig 2013, Biasiucci et al. 2019).
+      \item[$\bullet$] Modern subject-specific head models is expected to result in mean Euclidean errors less than 10 mm.
+      \item[$\bullet$] Primary objective is to ascertain whether a simple fully connected feed-forward neural network can effectively discern patterns and approximate dipole positions based on the simulated EEG data, collected using LFPy and the integrated NY Head Model.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Localizing Single Current Dipole Sources I}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] Training time of 1.5 hours, 500 epochs
+        \item[$\bullet$] Training loss = 0.317 mm
+        \item[$\bullet$] Validation loss = 1.781 mm.
+        \item[$\bullet$] Test loss = 1.33 mm
+    \end{itemize}
+    \begin{table}[]
+      \centering
+    \begin{tabular}{|ccc|}
+    \hline
+    \rowcolor[HTML]{CBCEFB}
+    \multicolumn{3}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Euclidean Distance for Test Samples}}                                                             \\ \hline
+    \rowcolor[HTML]{EFEFEF}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}ED \textless 5 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}ED \textless 10 mm} & ED \textless 15 mm \\ \hline
+    \rowcolor[HTML]{FFFFFF}
+    \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}99.735 $\%$}       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.995 $\%$}        & 100$\%$        \\ \hline
+    \end{tabular}
+    \end{table}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=1.0\textwidth]{figures/FFNN_single_dipole_prediction.pdf}
+      \item[$\bullet$] Euclidean distance = 0.54 mm
+    \end{column}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Localizing Single Current Dipole Sources II}
+  \begin{columns}
+    \begin{column}{0.3\textwidth}
+      \begin{itemize}
+        \includegraphics[width=1.0\textwidth]{figures/MED_simple_dipole_error_Euclidean Distance_0.pdf}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \begin{itemize}
+        \includegraphics[width=1.0\textwidth]{figures/MED_simple_dipole_error_Euclidean Distance_1.pdf}
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \begin{itemize}
+        \includegraphics[width=1.0\textwidth]{figures/MED_simple_dipole_error_Euclidean Distance_2.pdf}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Convolutional Neural Network Approach I}
+    \begin{itemize}
+      \item[$\bullet$] Can spatial structures in EEG recordings enhance a neural network’s ability to analyze EEG data and yield more accurate predictions for localizing the sources generating the neural signals?
+      \item[$\bullet$] Convolutional Neural Networks are well-known for their effectiveness in processing image data.
+      \item[$\bullet$] Interpolate the original data set to create a input data resembling the structure of an image
+      \includegraphics[width=0.8\textwidth]{figures/one_dipole_eeg_dipole_pos_0.png}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Convolutional Neural Network Approach II}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] Training time of 4 hours, 600 epochs
+        \item[$\bullet$] Training loss = 1.460 mm
+        \item[$\bullet$] Validation loss = 2.280 mm.
+        \item[$\bullet$] Test loss = 1.80 mm
+        \item[$\bullet$] Dipole located at $\tilde{x} = 66.5$ mm, $\tilde{y} = −26.5$ mm and $\tilde{z} = 41.9$ mm
+        \item[$\bullet$] Predicted $x = 66.4$ mm, $y = −27.3$ mm and $z = 41.5$ mm.
+        \item[$\bullet$] Euclidean distance = 0.99 mm.
+    \end{itemize}
+    \end{column}
+
+    \begin{column}{0.5\textwidth}
+      \begin{table}[]
+        \begin{tabular}{|ccc|}
+        \hline
+        \rowcolor[HTML]{CBCEFB}
+        \multicolumn{3}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Euclidean Distance for Test Samples}}                                                             \\ \hline
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}ED \textless 5 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}ED \textless 10 mm} & ED \textless 15 mm \\ \hline
+        \rowcolor[HTML]{FFFFFF}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}98.030 $\%$}       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.815 $\%$}        & 99.993$\%$        \\ \hline
+        \end{tabular}
+      \end{table}
+    \end{column}
+
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Localizing Two Current Dipole Sources}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] EEG data is modified to represent the electrical signals originating from two distinct dipoles, with positions $r_1$ and $r_2$, localized within the New York Head cortex.
+        \item[$\bullet$] The contibutions from the current dipole sources add up due to the linearity assumption.
+        \item[$\bullet$] Six target values: $x_1, y_1, z_1, x_2, y_2, z_2$
+        \item[$\bullet$] Customized cost function, checking for all possible permutations of target and prediction mappings (designed to accommodate an arbitrary number of dipoles)
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+    \includegraphics[width=7cm]{figures/dipoles_w_amplitudes_eeg_field_2_20.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Localizing Two Current Dipole Sources (FCNN)}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] Training time of 6 hours (NB: potential to be completed in half the time)
+        \item[$\bullet$] Validation loss: 9.36 mm
+        \item[$\bullet$] Test loss: 8.71 mm
+        \includegraphics[width=6cm]{figures/new_histogram_2_dipoles_position_amplitude.pdf}
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{table}[]
+        \begin{tabular}{|ccc|}
+        \hline
+        \rowcolor[HTML]{CBCEFB}
+        \multicolumn{3}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Euclidean Distance for Test Samples FCNN}}                                                             \\ \hline
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}ED \textless 5 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}ED \textless 10 mm} & ED \textless 15 mm \\ \hline
+        \rowcolor[HTML]{FFFFFF}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}18.995 $\%$}       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}73.055 $\%$}        & 90.850 $\%$        \\ \hline
+        \end{tabular}
+      \end{table}
+      \includegraphics[width=7cm]{figures/two_dipoles_prediction.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Localizing Two Current Dipole Sources (CNN)}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+        \item[$\bullet$] Training time of approximately 9 hours (NB: potential to be completed in half the time)
+        \item[$\bullet$] Validation loss: 9.83 mm
+        \item[$\bullet$] Test loss: 11.80 mm
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{table}[]
+        \begin{tabular}{|ccc|}
+        \hline
+        \rowcolor[HTML]{CBCEFB}
+        \multicolumn{3}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Euclidean Distance for Test Samples}}                                                             \\ \hline
+        \rowcolor[HTML]{EFEFEF}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}ED \textless 5 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}ED \textless 10 mm} & ED \textless 15 mm \\ \hline
+        \rowcolor[HTML]{FFFFFF}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}7.545 $\%$}       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}50.460 $\%$}        & 78.870 $\%$        \\ \hline
+        \end{tabular}
+      \end{table}
+      \includegraphics[width=7cm]{figures/new_histogram_2_dipoles_position_simple_cnn.pdf}
+
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Extending the FCNN}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+          \item[$\bullet$] Minor adjustments in data design and network architecture enhanced the FCNN’s ability to identify various attributes of current dipoles
+          \begin{itemize}
+            \item[\tiny$\blacksquare$] Predicting both location of the source and its corresponding magnitude.
+            \item[\tiny$\blacksquare$] Estimate the center and radius of a population of dipoles, while also determining the magnitude of the signal strength of the entire dipole population.
+          \end{itemize}
+          \item[$\bullet$] Predicting target values that vary in range and units can result in a biased optimization process
+          \item[$\bullet$] Normalizartion of the target data can address this issue
+          \item[$\bullet$] With output ranging between 0 and 1, the Sigmoid activation function was utilized in the output layer, constraining the network from generating outputs beyond the intended normalized target range.
+          \item[$\bullet$] Customized cost function combining the mean Euclidean distance for the position and mean absolute error for the magnitude and radius.
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{table}
+      \centering
+      \begin{tabular}{|lc|}
+      \hline
+      \rowcolor[HTML]{CBCEFB}
+      \multicolumn{2}{|c|}{\cellcolor[HTML]{CBCEFB}{\color[HTML]{000000} \textbf{Extended FCNN}}}    \\ \hline
+      \rowcolor[HTML]{EFEFEF}
+      \multicolumn{1}{|l|}{\cellcolor[HTML]{EFEFEF}\textbf{Hyperparameters}} & \multicolumn{1}{l|}{\cellcolor[HTML]{EFEFEF}\textbf{Value}} \\ \hline
+      \multicolumn{1}{|l|}{Hidden layers}                                    & 5                                                           \\ \hline
+      \multicolumn{1}{|l|}{Optimizer}                                        & SGD                                                         \\ \hline
+      \multicolumn{1}{|l|}{Learning rate (initial)}                          & 0.001                                                       \\ \hline
+      \multicolumn{1}{|l|}{Momentum}                                         & 0.35                                                        \\ \hline
+      \multicolumn{1}{|l|}{Weight decay}                                     & 0.1                                                         \\ \hline
+      \multicolumn{1}{|l|}{Mini-batch size}                                   & 32                                                          \\ \hline
+      \multicolumn{1}{|l|}{Dropout}                                          & 0.5                                                         \\ \hline
+      \multicolumn{1}{|l|}{Act.func in first layer}                           & ReLU                                                        \\ \hline
+      \multicolumn{1}{|l|}{Act.func in hidden layers}                         & Tanh                                                        \\ \hline
+      \multicolumn{1}{|l|}{Act.func in last layer}                           & Sigmoid                                                        \\ \hline
+      \end{tabular}
+      \caption{Hyperparameters for the Extended FCNN.}
+      \end{table}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+
+\begin{frame}{Predicting Single Current Dipole Sources with Varying Magnitudes}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{itemize}
+          \item[$\bullet$] Magnitude varying in strength from 1 to 10 nAm.
+          \item[$\bullet$] 1500 training epochs gave a training time of $\sim$ 8.5 hours.
+
+          \item[$\bullet$] Magnitude error = 0.539 nAm (6$\%$ of the magnitude range)
+          \item[$\bullet$] Positional error = 2.82 mm
+          \begin{table}[]
+          \begin{tabular}{|ccc|}
+          \hline
+          \rowcolor[HTML]{CBCEFB}
+          \multicolumn{3}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Euclidean Distance for Test Samples}}                                                             \\ \hline
+          \rowcolor[HTML]{EFEFEF}
+          \multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}ED \textless 5 mm} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}ED \textless 10 mm} & ED \textless 15 mm \\ \hline
+          \rowcolor[HTML]{FFFFFF}
+          \multicolumn{1}{|c|}{\cellcolor[HTML]{FFFFFF}90.930 $\%$}       & \multicolumn{1}{c|}{\cellcolor[HTML]{FFFFFF}99.505 $\%$}        & 99.925 $\%$        \\ \hline
+          \end{tabular}
+          \end{table}
+    \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \vskip 0.5cm
+      \includegraphics[width=5cm]{figures/mae_amplitude0.pdf}
+      \includegraphics[width=5cm]{figures/mse_amplitude0.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Predicting Region of Active Correlated Current Dipoles with Magnitudes I}
+      \begin{itemize}
+          \item[$\bullet$] EEG activity arising from brain regions smaller than the typical 6-10 cm$^2$ criterion for spontaneous EEG could be detectable in ERPs (Nunez et al., 2019).
+          \item[$\bullet$] Maintain the maximum magnitude strength at 10 nAm.
+          \item[$\bullet$] Maintained the maximum magnitude strength at 10 nAm. Consequently, the dipole strength for a distinct dipole was set to 10/899 nAm.
+          \item[$\bullet$] Strength of dipole population directly proportional to the radius of the dipole population.
+          \item[$\bullet$] 1000 training epochs gave a training time of $\sim$ 9.5 hours.
+          \item[$\bullet$] Radius error = 0.76 mm (6$\%$ of the magnitude range)
+          \item[$\bullet$] Magnitude error = 0.33 nAm (6$\%$ of the magnitude range)
+          \item[$\bullet$] Positional error = 7.85 mm
+
+      \hspace*{10cm}
+      \begin{table}[]
+        \hspace*{-0.5cm}
+        \begin{tabular}{|ccc|l|ccc|l|ccc|}
+        \cline{1-3} \cline{5-7} \cline{9-11}
+        \multicolumn{3}{|c|}{\cellcolor[HTML]{CBCEFB}\textbf{Euclidean Distance: Position}}                                                                                                                                                                                                                             & \textbf{}             & \multicolumn{3}{c|}{\cellcolor[HTML]{CBCEFB}\textbf{Absolute Error: Magnitude}}                                                                                                                                                                                                                             & \textbf{}             & \multicolumn{3}{c|}{\cellcolor[HTML]{CBCEFB}\textbf{Absolute Error: Radius}}                                                                                                                                                                                                                                   \\ \cline{1-3} \cline{5-7} \cline{9-11}
+        \multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}ED \\ \textless 5 mm\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}ED \\ \textless 10 mm\end{tabular}} & \cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}ED \\ \textless 15 mm\end{tabular} &                       & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}AE \\ \textless 1 nAm\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}AE\\ \textless 2 nAm\end{tabular}} & \cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}AE \\ \textless 3 nAm\end{tabular} &                       & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}AE \\ \textless 1 mm\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}AE \\ \textless 3 mm\end{tabular}} & \cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}AE \\ \textless 5 mm\end{tabular} \\ \cline{1-3} \cline{5-7} \cline{9-11}
+        \multicolumn{1}{|c|}{56.045$\%$}                                                                           & \multicolumn{1}{c|}{79.680$\%$}                                                                            & 86.435$\%$                                                                            & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{92.900$\%$}                                                                           & \multicolumn{1}{c|}{98.565$\%$}                                                                          & 99.685$\%$                                                                           & \multicolumn{1}{c|}{} & \multicolumn{1}{c|}{74.210$\%$}                                                                           & \multicolumn{1}{c|}{98.220$\%$}                                                                            & 99.770$\%$                                                                            \\ \cline{1-3} \cline{5-7} \cline{9-11}
+      \end{tabular}
+\end{table}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Predicting Single Current Dipole Sources with Varying Magnitudes II}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=7cm]{figures/mae_area.pdf}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \includegraphics[width=7cm]{figures/mse_area.pdf}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+   \begin{table}[]
+\hspace*{-0.5cm} % Adjust the value as needed to move the figures left
+\begin{tabular}{c|cccccc|}
+\cline{2-7}
+\multicolumn{1}{l|}{}                                                                                               & \multicolumn{6}{c|}{\cellcolor[HTML]{CBCEFB}\textbf{Summary of Main Results}}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \\ \cline{2-7}
+\multicolumn{1}{l|}{}                                                                                               & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Singe Dipole:\\ FCNN\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Single Dipoles:\\ CNN\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Two Dipoles:\\ FCNN\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Two Dipoles:\\ CNN\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Dipole with \\ Magnitude:\\ FCNN\end{tabular}} & \cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Dipole \\ Population:\\ FCNN\end{tabular} \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}$d$}                                                                   & \multicolumn{1}{c|}{3}                                                                                    & \multicolumn{1}{c|}{3}                                                                                     & \multicolumn{1}{c|}{6}                                                                                   & \multicolumn{1}{c|}{6}                                                                                  & \multicolumn{1}{c|}{4}                                                                                                & 5                                                                                            \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}\begin{tabular}[c]{@{}c@{}}Coordinate with\\ highest MAE\end{tabular}} & \multicolumn{1}{c|}{z}                                                                                    & \multicolumn{1}{c|}{z}                                                                                     & \multicolumn{1}{c|}{z}                                                                                   & \multicolumn{1}{c|}{z}                                                                                  & \multicolumn{1}{c|}{y}                                                                                                & z                                                                                            \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}MED($x, y, z$) {[}mm{]}}                                               & \multicolumn{1}{c|}{1.3}                                                                                  & \multicolumn{1}{c|}{1.8}                                                                                   & \multicolumn{1}{c|}{8.71}                                                                                & \multicolumn{1}{c|}{11.78}                                                                              & \multicolumn{1}{c|}{2.815}                                                                                            & 7.85                                                                                         \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}MSE($x, y, z$) {[}mm$^2${]}}                                           & \multicolumn{1}{c|}{0.782}                                                                                & \multicolumn{1}{c|}{1.643}                                                                                 & \multicolumn{1}{c|}{38.978}                                                                              & \multicolumn{1}{c|}{69.306}                                                                             & \multicolumn{1}{c|}{3.720}                                                                                            & 50.359                                                                                       \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}MAE($x, y, z$) {[}mm{]}}                                               & \multicolumn{1}{c|}{0.662}                                                                                & \multicolumn{1}{c|}{0.898}                                                                                 & \multicolumn{1}{c|}{4.340}                                                                               & \multicolumn{1}{c|}{5.731}                                                                              & \multicolumn{1}{c|}{1.405}                                                                                            & 3.961                                                                                        \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}MAE$_A$ {[}nAm{]}}                                                 & \multicolumn{1}{c|}{-}                                                                                    & \multicolumn{1}{c|}{-}                                                                                     & \multicolumn{1}{c|}{-}                                                                                   & \multicolumn{1}{c|}{-}                                                                                  & \multicolumn{1}{c|}{0.539}                                                                                            & 0.33                                                                                         \\ \hline
+\multicolumn{1}{|c|}{\cellcolor[HTML]{EFEFEF}MAE$_R$ {[}mm{]}}                                                      & \multicolumn{1}{c|}{-}                                                                                    & \multicolumn{1}{c|}{-}                                                                                     & \multicolumn{1}{c|}{-}                                                                                   & \multicolumn{1}{c|}{-}                                                                                  & \multicolumn{1}{c|}{-}                                                                                                & 0.76                                                                                         \\ \hline
+\end{tabular}
+\caption{Summary of main results of the thesis.}
+\label{table:sum_main_results}
+\end{table}
+\end{frame}
+
+
+\begin{frame}{Positional Errors}
+    \begin{itemize}
+      \item[$\bullet$] A slightly higher MAE was observed in the $z$-coordinate.
+      \item[$\bullet$] Recording electrodes are situated along both the right-left and front-back directions, whereas electrodes along the z-axis are primarily placed on top of the head.
+      \item[$\bullet$] In most of our approaches we successfully achived localization errors smaller than the 10 mm threshold.
+      \item[$\bullet$] In clinical contexts, there exists a considerable difference between errors below this value.
+      \item[$\bullet$] Essential to recognize that minimizing the error beyond a certain point not necessarily result in substantial clinical advantages.
+      \item[$\bullet$] An error of 1.3 mm, as observed in the case of the FCNN predicting dipole position alone, is significantly more accurate than the 8.71 mm error observed when predicting the position of two current dipoles.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Predicting Dipole Strength and Population Radius}
+    \begin{itemize}
+      \item[$\bullet$] Inherent correlation between the prediction of radius and strength.
+      \item[$\bullet$] When predicting both magnitude and radius, the optimizartion process indirectly give more importance to reducing errors according to these values.
+      \item[$\bullet$] This correlation lead to improvent in MAE$_{\text{A}}$ in comparison to when only predicting magnitude.
+      \item[$\bullet$] MAE$_{\text{r}}$ answer to 5.4$\%$ of the target range - making the model able to distinguish between small, medium and large neural populations.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Data}
+    \begin{itemize}
+      \item[$\bullet$] Self-simulated data provides high degree of control.
+      \item[$\bullet$] The extent to which our networks faithfully capture the complexity, noise, and variability present in clinical EEG data will not align with the performance demonstrated on simulated validation and test data.
+      \item[$\bullet$] Can expect suboptimal performance if directly applied to EEG recordings from real patients.
+      \item[$\bullet$] Plausible to construct patient-specific head models that can be integrated into our framework, subsequently training the networks with data extracted from the patients head models.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Computational Speed}
+    \begin{itemize}
+      \item[$\bullet$] 1 - 9 hours, depending on the number of network complexity.
+      \item[$\bullet$] Reducing the spatial resolution of the neural positions of interest could potentially accelerate training -- but would likely lead to a decrease in model accuracy.
+      \item[$\bullet$] The networks exhibit efficient execution times for individual samples once trained.
+      \item[$\bullet$] Head-specific models would require time to develop -- but once fully trained, likely to require very short time for outputting predictions.
+      \item[$\bullet$] Neural networks are potentially invaluable tools in clinical applications of EEG.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Conclusion}
+    \begin{itemize}
+    \end{itemize}
+\end{frame}
+
+
+%
+% \begin{frame}{Simulating EEG Data}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{itemize}[leftmargin=1em,labelindent=\dimexpr1em-\labelsep]
+%                 \item[$\bullet$] \footnotesize Substantial amount of data is necessary to:
+%                 \begin{itemize}
+%                     \item[\tiny$\blacksquare$] \scriptsize Capture complicated relationships
+%                     \item[\tiny$\blacksquare$] \scriptsize Make accurate predictions
+%                     \item[\tiny$\blacksquare$] \scriptsize Generalize well to unseen examples
+%                 \end{itemize}
+%                 \item[$\bullet$] \footnotesize True EEG data for training a NN doesn't exist
+%                 \item[$\bullet$] \footnotesize Solution: Simulate realistic data using LFPy
+%                 \item[$\bullet$] \footnotesize New York Head Model
+%                 \begin{itemize}
+%                     \item[\tiny$\blacksquare$] \scriptsize Volume conductor, computer model of the human head
+%                     \item[\tiny$\blacksquare$] \scriptsize Simulates electrical activity in the brain
+%                     \item[\tiny$\blacksquare$] \scriptsize Based on the anatomical and electrical characteristicsof MRI data
+%                     \item[\tiny$\blacksquare$] \scriptsize Provides detailed information on geometry and electrical properties
+%                     \item[\tiny$\blacksquare$] \scriptsize Generates predictions of EEG signals at 231 electrodes for 75K cortical locations
+%                     \item[\tiny$\blacksquare$] \scriptsize Utilizes the "Lead Field Matrix"
+%                 \end{itemize}
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \includegraphics[width=\textwidth]{figures/cortex.png}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
+%
+%
+%
+%
+%
+%
+% \begin{frame}[fragile]{Code snippet}
+% \begin{lstlisting}[language=Python, frame=single, basicstyle=\fontsize{6}{6}\selectfont]
+% def calculate_eeg(nyhead: NYHeadModel, A: int = 1.0):
+%     """
+%     Calculates the eeg signal from the dipole population
+%
+%     returns:
+%         eeg_i : array of length (231)
+%             Combined eeg signal from the dipole population for a single patient
+%     """
+%     M = nyhead.get_transformation_matrix()
+%
+%     # Dipole oriented in depth direction in the cortex
+%     p = np.array(([0.0], [0.0], [A])) * 1E7 # [nA* mu m]
+%
+%     # Rotates the direction of the dipole moment so that it is normal to the cerebral cortex
+%     p = nyhead.rotate_dipole_to_surface_normal(p)
+%
+%     # Generates the EEG signal that belongs to the dipole moment
+%     eeg_i = M @ p * 1E3 # [mV] -> muV unit conversion (eeg_i between 10 og 100)
+%
+%     return eeg_i
+% \end{lstlisting}
+% \end{frame}
+%
+%
+%
+%
+%
+% % \begin{frame}[fragile]{Code snippet (2)}
+% % \begin{lstlisting}[language=Python, frame=single, basicstyle=\fontsize{6}{6}\selectfont]
+% % def return_simple_dipole(num_samples:int, num_dipoles: int = 1):
+% %     """
+% %     Produce eeg data from single dipole moment for num_samples
+% %
+% %     input:
+% %         num_samples : int
+% %             The number of samples/patients
+% %
+% %         num_dipoles : int
+% %             The number of desired diples
+% %
+% %     returns:
+% %         eeg : numpy array of floats, size (num_samples, 231)
+% %             Electrical signals from single dipole in the cortex
+% %
+% %         dipole_locations : numpy array of floats, size (3, num_samples)
+% %             Position of single dipole for each sample
+% %     """
+% %     nyhead = NYHeadModel()
+% %
+% %     rng = np.random.default_rng(seed=36)
+% %     dipole_locations = rng.choice(nyhead.cortex, size=num_samples, axis=1) # [mm]
+% %
+% %     eeg = np.zeros((num_samples, 231))
+% %
+% %     for i in range(num_samples):
+% %         nyhead.set_dipole_pos(dipole_locations[:,i])
+% %         eeg_i = calculate_eeg(nyhead)
+% %         eeg[i, :] = eeg_i.T
+% %
+% %     return eeg, dipole_locations
+% % \end{lstlisting}
+% % \end{frame}
+%
+%
+%
+%
+%
+% \begin{frame}{The Feed Forward Neural Network}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{itemize}
+%                 \item[$\bullet$] "Learns from experience"
+%                 \begin{itemize}
+%                     \item[\tiny$\blacksquare$] Processing and analyzing data
+%                     \item[\tiny$\blacksquare$] Uncover patterns linking input features to their corresponding output values
+%                 \end{itemize}
+%                 \item[$\bullet$] FFNN: Information is only processed forward
+%                 \begin{itemize}
+%                     \item[\tiny$\blacksquare$] Neurons
+%                     \item[\tiny$\blacksquare$] Linear transformation that weights the importance
+%                     \item[\tiny$\blacksquare$] Non-linear activation functions
+%                 \end{itemize}
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \includegraphics[width=\textwidth]{figures/basic_architecture.png}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
+%
+%
+%
+%
+% \begin{frame}[fragile]{The FFNN}
+% \begin{lstlisting}[language=Python, frame=single, basicstyle=\fontsize{6}{6}\selectfont]
+% import torch
+% import torch.nn as nn
+% import torch.nn.functional as F
+%
+% class Net(nn.Module):
+%     def __init__(self, N_dipoles: int, determine_area: bool = False, determine_amplitude: bool = False):
+%         super().__init__()
+%         self.determine_area = determine_area
+%         self.determine_amplitude = determine_amplitude
+%         self.fc1 = nn.Linear(231, 180)
+%         self.fc2 = nn.Linear(180, 120)
+%         self.fc3 = nn.Linear(120, 84)
+%         self.fc4 = nn.Linear(84, 16)
+%         if determine_amplitude:
+%             self.fc5 = nn.Linear(16, 5*N_dipoles)
+%         elif determine_area:
+%             self.fc5 = nn.Linear(16, 4*N_dipoles)
+%         else:
+%             self.fc5 = nn.Linear(16, 3*N_dipoles)
+%
+%     def forward(self, x: torch.Tensor):
+%         x = F.relu(self.fc1(x))
+%         x = torch.tanh(self.fc2(x))
+%         x = torch.tanh(self.fc3(x))
+%         x = torch.tanh(self.fc4(x))
+%         x = self.fc5(x)
+%
+%         return x
+% \end{lstlisting}
+% \end{frame}
+%
+% \begin{frame}{Results (1) - Predicting coordinates}
+%   \begin{columns}
+%     \begin{column}{0.5\textwidth}
+%         \includegraphics[width=\textwidth]{figures/MSE_simple_dipole_lr0.001_l1_penalty_300_50000_TanH_30_300_N_dipoles_1.png}
+%     \end{column}
+%     \begin{column}{0.5\textwidth}
+%         \includegraphics[width=0.7\textwidth]{figures/simple_dipole_error_position.pdf}
+%     \end{column}
+%   \end{columns}
+% \end{frame}
+%
+% \begin{frame} \frametitle{Results (2)}
+%   \begin{table}
+%     \begin{tabular}{l|lll|}
+%       \cline{2-4}
+%       \rowcolor[HTML]{CBCEFB}
+%                                             & \multicolumn{3}{c|}{\cellcolor[HTML]{CBCEFB}\textbf{MAE for different models}}                                \\ \hline
+%       \rowcolor[HTML]{EFEFEF}
+%       \multicolumn{1}{|l|}{\textbf{Predictions}} & \cellcolor[HTML]{EFEFEF}\textbf{Location} & \cellcolor[HTML]{EFEFEF}\textbf{+ Amplitude} & \textbf{+ Radius} \\ \hline
+%       \multicolumn{1}{|l|}{x-coordinate [mm]} & 0.891                                     & 1.707                                       & 5.964             \\ \hline
+%       \multicolumn{1}{|l|}{y-coordinate [mm]} & 0.903                                     & 1.923                                       & 6.295             \\ \hline
+%       \multicolumn{1}{|l|}{z-coordinate [mm]} & 0.896                                     & 1.861                                       & 5.409             \\ \hline
+%       \multicolumn{1}{|l|}{Amplitude [nA]}   & -                                         & 0.619                                       & 339.9             \\ \hline
+%       \multicolumn{1}{|l|}{Radius [mm]}      & -                                         & -                                           & 2.094             \\ \hline
+%     \end{tabular}
+%   \end{table}
+% \end{frame}
+%
+%
+%
+%
+% \begin{frame}{Results (3) - Predicting coordinates for multiple dipole populations}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{itemize}
+%               \item[$\bullet$] Typical example of overfitting
+%               \item[$\bullet$] NN are overly specialized to the specific training data and fail to generalize effectively
+%               \item[$\bullet$] Solution: Change architecture of NN (?)
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \includegraphics[width=\textwidth]{figures/MSE_10000_11may_MSE_area_w_amplitude_1000_SGD_lr1.5_wd0.1_mom0.35_bs64_TanH_64_1000_N_dipoles_2.png}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
+%
+% \begin{frame}{Summary}
+%     \begin{columns}
+%         \begin{column}{0.5\textwidth}
+%             \begin{itemize}
+%               \item[$\bullet$] Stronger fundation in managing, producing and analyzing large quantities of data
+%               \item[$\bullet$] Required proficiency in creative thinking and patience
+%               \item[$\bullet$] Further developed my programming skills
+%               \item[$\bullet$] Given the opportunity to developed and defeated bugs
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \includegraphics[width=0.7\textwidth]{figures/bugs.png}
+%         \end{column}
+%     \end{columns}
+% \end{frame}
+
+
+\end{document}

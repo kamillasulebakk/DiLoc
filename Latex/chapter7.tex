@@ -55,7 +55,7 @@ In the context of predicting the position of a single dipole source, the FCNN di
 \label{eq:Sigmoid}
 \end{equation}
 
-In Figure \ref{fig:sigmoid} we have provided a visualization of Sigmoid's transformation characteristics. The mapping of input values aligns with our desired output range, with normalized target values for the extended problems. This choice of activation in the output layer aligns with our desired output range, considering the normalized target values for the extended problem domains. The final layer activation aims to facilitate the training process, constraining the network from generating outputs beyond the intended normalized target range.
+In Figure \ref{fig:sigmoid} we have provided a visualization of Sigmoid's transformation characteristics. The mapping of input values aligns with our desired output range, with normalized target values. The final layer activation aims to facilitate the training process, constraining the network from generating outputs beyond the intended normalized target range.
 
 \begin{figure}
     \centering
@@ -258,7 +258,7 @@ When examining the correlation coefficients for each of the figures, we find tha
   \label{fig:magnitude_errors}
 \end{figure}
 
-The Mean Euclidean Distance of the FCNN's predictions on the unseen test data is measured at 2.815 mm. Table \ref{table:MED_magnitude} presents the percentages of predictions of test samples falling within various MED threshold values. Notably, the network achieves an accuracy smaller than 12 mm for 99.8$\%$ of the test data. Furthermore, 64.3$\%$ of the samples exhibit a MED smaller than 3 mm, an achievement that, while robust, falls slightly short of the FCNN's performance in the previous, less complex problem.
+The Mean Euclidean Distance of the FCNN's predictions on the unseen test data is measured at 2.815 mm. Table \ref{table:MED_magnitude} presents the percentages of predictions of test samples falling within various MED threshold values. Notably, the network achieves an accuracy smaller than 15 mm for 99.925$\%$ of the test data. Furthermore, 90.930$\%$ of the samples exhibit a MED smaller than 5 mm, an achievement that, while robust, falls slightly short of the FCNN's performance in the previous, less complex problem.
 
 \begin{table}[]
   \centering
